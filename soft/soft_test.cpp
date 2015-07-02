@@ -237,19 +237,7 @@ int main(int argc, const char ** argv)
     for_back(128, false);
     
 //    std::cout << std::setprecision(20) << std::numeric_limits<float>::epsilon << std::endl;
-    
-//    SOFTFourierCoefficients A(4);
-//    SOFTFourierCoefficients B(4);
-//    SOFTFourierCoefficients C(4);
-//    
-//    rand_coef(A, -1, 1);
-//    rand_coef(B, -1, 1);
-//    rand_coef(C, -1, 1);
-//    
-//    std::cout << "A = " << A << std::endl;
-//    std::cout << "B = " << B << std::endl;
-//    std::cout << "C = " << C << std::endl;
-    
+   
     return 0;
 }
 

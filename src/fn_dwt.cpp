@@ -85,7 +85,7 @@ namespace uzlmath
          *              d-Function values on each entry and \f$w\f$ is diagonal matrix containing
          *              the quadrature weights on the diagonal.
          *
-         * @param[in]   B The given bandwidth.
+         * @param[in]   bandwidth The given bandwidth.
          * @param[in]   M The order \f$M\f$ of \f$d^J_{MM'}\f$.
          * @param[in]   Mp The order \f$M'\f$ of \f$d^J_{MM'}\f$.
          * @param[in]   weights A vector containing the quadrature weights.

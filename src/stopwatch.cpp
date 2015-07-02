@@ -47,11 +47,11 @@ namespace uzlmath
     
     /*!
      * @brief           Stops the time in seconds from the stopwatch::tic() or the last
-     *                  stopwatch::toc()/stopwatch::toc_X() time     
+     *                  toc_<X>() time
      * @details         Stops the time and calculates the difference from toc or last tic 
      *                  command in seconds.
      *
-     * @return          The seconds elapsed from stopwatch::tic() or stopwatch::toc()/stopwatch::toc_X()
+     * @return          The seconds elapsed from stopwatch::tic() or other toc_<X>() functions
      */
     double stopwatch::toc()
     {
@@ -71,11 +71,11 @@ namespace uzlmath
     
     /*!
      * @brief           Stops the time in microseconds from the stopwatch::tic() or the 
-     *                  last stopwatch::toc()/stopwatch::toc_X() time
+     *                  last toc_<X>() time
      * @details         Stops the time and calculates the difference from toc or last tic
      *                  command in microseconds.
      *
-     * @return          The microseconds elapsed from stopwatch::tic() or stopwatch::toc()/stopwatch::toc_X()
+     * @return          The microseconds elapsed from stopwatch::tic() or other toc_<X>() functions
      */
     double stopwatch::toc_micros()
     {
@@ -95,11 +95,11 @@ namespace uzlmath
     
     /*!
      * @brief           Stops the time in milliseconds from the stopwatch::tic() or the
-     *                  last stopwatch::toc()/stopwatch::toc_X() time
+     *                  last toc_<X>() time
      * @details         Stops the time and calculates the difference from toc or last tic
      *                  command in milliseconds.
      *
-     * @return          The milliseconds elapsed from stopwatch::tic() or stopwatch::toc()/stopwatch::toc_X()
+     * @return          The milliseconds elapsed from stopwatch::tic() or other toc_<X>()
      */
     double stopwatch::toc_millis()
     {
@@ -119,11 +119,11 @@ namespace uzlmath
     
     /*!
      * @brief           Stops the time in seconds from the stopwatch::tic() or the last
-     *                  stopwatch::toc()/stopwatch::toc_X() time
+     *                  toc_<X>() time
      * @details         Stops the time and calculates the difference from toc or last tic
      *                  command in seconds.
      *
-     * @return          The seconds elapsed from stopwatch::tic() or stopwatch::toc()/stopwatch::toc_X()
+     * @return          The seconds elapsed from stopwatch::tic() or other toc_<X>() functions
      */
     double stopwatch::toc_seconds()
     {
@@ -143,11 +143,11 @@ namespace uzlmath
     
     /*!
      * @brief           Stops the time in minutes from the stopwatch::tic() or the last
-     *                  stopwatch::toc()/stopwatch::toc_X() time
+     *                  toc_<X>() time
      * @details         Stops the time and calculates the difference from toc or last tic
      *                  command in minutes.
      *
-     * @return          The minutes elapsed from stopwatch::tic() or stopwatch::toc()/stopwatch::toc_X()
+     * @return          The minutes elapsed from stopwatch::tic() or other toc_<X>() functions
      */
     double stopwatch::toc_minutes()
     {
@@ -167,11 +167,11 @@ namespace uzlmath
     
     /*!
      * @brief           Stops the time in hours from the stopwatch::tic() or the last
-     *                  stopwatch::toc()/stopwatch::toc_X() time
+     *                  toc_<X>() time
      * @details         Stops the time and calculates the difference from toc or last tic
      *                  command in minutes.
      *
-     * @return          The minutes elapsed from stopwatch::tic() or stopwatch::toc()/stopwatch::toc_X()
+     * @return          The minutes elapsed from stopwatch::tic() or other toc_<X>() functions
      */
     double stopwatch::toc_hours()
     {

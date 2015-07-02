@@ -33,7 +33,7 @@ vector< eT >::vector()
  *                  contents!
  *
  * @param[in]       s The size of the created vector
- * @param[in]       t Type of the created vector where \f$t\f$ can be
+ * @param[in]       type Type of the created vector where \f$t\f$ can be
  *                  either vec_type::ROW or vec_type::COLUMN
  */
 template< typename eT >
@@ -58,8 +58,9 @@ vector< eT >::vector(const size_t& s, const vec_type& type)
  * @details         Constructs a vector of type \f$t\f$ and size \f$s\f$
  *                  and fills the vector with an given element.
  *
- * @param[in]       s The size of the created vector
- * @param[in]       t Type of the created vector where \f$t\f$ can be
+ * @param[in]       s The size of the created vector.
+ * @param[in]       initial The initial value for the vector elements
+ * @param[in]       type Type of the created vector where \f$t\f$ can be
  *                  either vec_type::ROW or vec_type::COLUMN
  */
 template< typename eT >
@@ -114,7 +115,7 @@ vector< eT >::vector(const vector< eT >& vec)
  *                  vector.
  *
  * @param[in]       vec The vector that is supposed to be copied.
- * @param[in]       t The new type of the new vector which can either be
+ * @param[in]       type The new type of the new vector which can either be
  *                  vec_type::ROW or vec_type::COlUMN.
  */
 template< typename eT >
@@ -897,7 +898,7 @@ vector< eT > vector< eT >::operator-()
  * @brief           Multiplication operator for a vector and a matrix.
  * @details         Multiplies the current vector with the given matrix.
  *
- * @param[in]       M The given matrix.
+ * @param[in]       mat The given matrix.
  *
  * @return          A vector of type vec_type::ROW containing the product
  *                  of the vector and the matrix.
@@ -1715,8 +1716,9 @@ vec_type vector< eT >::vecType() const
  * @brief           Outstream operator overload.
  * @details         The out-steam operator is used to print the vector
  *                  in a nice form over the std::cout stream.
+ *
  * @param[in,out]   o The stream object
- * @param[in]       A The vector that should be printed
+ * @param[in]       v The vector that should be printed
  *
  * @return          The reference to the given out-stream.
  */

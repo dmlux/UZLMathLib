@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_fn_orthopoly_hpp
-#define uzlmath_fn_orthopoly_hpp
+#ifndef uzlmath_fn_orthopoly_cpp
+#define uzlmath_fn_orthopoly_cpp
 
 #include <uzlmath>
 

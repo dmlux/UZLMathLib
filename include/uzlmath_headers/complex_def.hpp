@@ -760,7 +760,9 @@ const complex< eT >& complex< eT >::operator/=(const T& rhs)
  *                  by casting the non-complex to a complex number and performing the
  *                  multiplication of two complex numbers.
  *
- * @param[in]       rhs The non-complex value on the right handside of the multiplication
+ * @param[in]       lhs The non-complex value on the left handside of the multiplication
+ *                  operator.
+ * @param[in]       rhs The complex value on the right handside of the multiplication
  *                  operator.
  *
  * @return          A new complex number containing the result of the multiplication.
@@ -779,7 +781,9 @@ complex< eT > operator*(const T& lhs, complex< eT > rhs)
  *                  by casting the non-complex to a complex number and performing the
  *                  division of two complex numbers.
  *
- * @param[in]       rhs The non-complex value on the right handside of the division
+ * @param[in]       lhs The non-complex value on the left handside of the division
+ *                  operator.
+ * @param[in]       rhs The complex value on the right handside of the division
  *                  operator.
  *
  * @return          A new complex number containing the result of the division.
@@ -798,7 +802,9 @@ complex< eT > operator/(const T& lhs, complex< eT > rhs)
  *                  by casting the non-complex to a complex number and performing the
  *                  addition of two complex numbers.
  *
- * @param[in]       rhs The non-complex value on the right handside of the addition
+ * @param[in]       lhs The non-complex value on the left handside of the addition
+ *                  operator.
+ * @param[in]       rhs The complex value on the right handside of the addition
  *                  operator.
  *
  * @return          A new complex number containing the result of the addition.
@@ -817,7 +823,9 @@ complex< eT > operator+(const T& lhs, complex< eT > rhs)
  *                  by casting the non-complex to a complex number and performing the
  *                  subtraction of two complex numbers.
  *
- * @param[in]       rhs The non-complex value on the right handside of the subtraction
+ * @param[in]       lhs The non-complex value on the left handside of the subtraction
+ *                  operator.
+ * @param[in]       rhs The complex value on the right handside of the subtraction
  *                  operator.
  *
  * @return          A new complex number containing the result of the subtraction.

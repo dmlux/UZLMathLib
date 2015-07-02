@@ -1,16 +1,29 @@
+//
+//  wrapper.cpp
+//  UZLMathLib
+//
+//  Created by Denis-Michael Lux on 02.07.15.
+//
+//  This software may be modified and distributed under the terms
+//  of the BSD license. See the LICENSE file for details.
+//
 
-/** CBLAS/LAPACK FROM OpenBLAS  **/
-/** for linear Algebra puproses **/
+#ifndef uzlmath_wrapper_cpp
+#define uzlmath_wrapper_cpp
+
+/*- CBLAS/LAPACK FROM OpenBLAS  -*/
+/*- for linear Algebra puproses -*/
 #include <cblas.h>
 #include <lapacke.h>
 
-/** FFTW **/
-/** for Fourier Analysis purposes **/
+/*- FFTW3 -*/
+/*- for Fourier Analysis purposes -*/
 #include <fftw3.h>
 
-// including function wrapper
+/*- including function wrapper    -*/
 #include <uzlmath>
 
+/*- include OpenMP headers if compiler supports OpenMP -*/
 #if _OPENMP
     #include <omp.h>
 #endif
@@ -41,7 +54,10 @@ namespace uzlmath
          * @defgroup        libwrapper Library wrapper functions
          * @{
          */
-
+        
+        /*!
+         * @brief           A wrapper function for the BLAS CGEMM function.
+         */
         void uzl_blas_cgemm(enum UZLBLAS_TRANSPOSE TransA, enum UZLBLAS_TRANSPOSE TransB, int M, int N, int K, float *alpha, float *A, int lda, float *B, int ldb, float *beta, float *C, int ldc)
         {
             // translate transposition
@@ -84,6 +100,9 @@ namespace uzlmath
             cblas_cgemm(CblasColMajor, ta, tb, M, N, K, alpha, A, lda, B, ldb, beta, C, ldc);
         }
         
+        /*!
+         * @brief           A wrapper function for the BLAS ZGEMM function.
+         */
         void uzl_blas_zgemm(enum UZLBLAS_TRANSPOSE TransA, enum UZLBLAS_TRANSPOSE TransB, int M, int N, int K, double *alpha, double *A, int lda, double *B, int ldb, double *beta, double *C, int ldc)
         {
             // translate transposition
@@ -126,6 +145,9 @@ namespace uzlmath
             cblas_zgemm(CblasColMajor, ta, tb, M, N, K, alpha, A, lda, B, ldb, beta, C, ldc);
         }
         
+        /*!
+         * @brief           A wrapper function for the BLAS SGEMM function.
+         */
         void uzl_blas_sgemm(enum UZLBLAS_TRANSPOSE TransA, enum UZLBLAS_TRANSPOSE TransB, int M, int N, int K, float alpha, float *A, int lda, float *B, int ldb, float beta, float *C, int ldc)
         {
             // translate transposition
@@ -168,6 +190,9 @@ namespace uzlmath
             cblas_sgemm(CblasColMajor, ta, tb, M, N, K, alpha, A, lda, B, ldb, beta, C, ldc);
         }
         
+        /*!
+         * @brief           A wrapper function for the BLAS DGEMM function.
+         */
         void uzl_blas_dgemm(enum UZLBLAS_TRANSPOSE TransA, enum UZLBLAS_TRANSPOSE TransB, int M, int N, int K, double alpha, double *A, int lda, double *B, int ldb, double beta, double *C, int ldc)
         {
             // translate transposition
@@ -213,11 +238,17 @@ namespace uzlmath
         
         
         
+        /*!
+         * @brief           A wrapper function for the LAPACK DGETRF function.
+         */
         void uzl_lapack_dgetrf( int* m, int* n, double* a, int* lda, int* ipiv, int *info )
         {
             LAPACK_dgetrf( m, n, a, lda, ipiv, info );
         }
         
+        /*!
+         * @brief           A wrapper function for the LAPACK ZGETRF function.
+         */
         void uzl_lapack_zgetrf( int* m, int* n, uzlmath_complex_double* a, int* lda, int* ipiv, int *info )
         {
             LAPACK_zgetrf( m, n, a, lda, ipiv, info );
@@ -427,3 +458,5 @@ namespace uzlmath
          */
     }
 }
+
+#endif

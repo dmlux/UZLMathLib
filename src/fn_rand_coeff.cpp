@@ -21,6 +21,8 @@ namespace uzlmath
      *                  in the given range.
      *
      * @param[in, out]  fc The fourier coefficients container
+     * @param[in]       min The minimum value of the random number range
+     * @param[in]       max The maximum value of the random number range
      *
      * @author          Denis-Michael Lux <denis.lux@icloud.com>
      * @date            18.06.15

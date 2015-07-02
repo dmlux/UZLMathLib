@@ -34,7 +34,8 @@ namespace uzlmath
      *                  the rotation group". This container is memory manager
      *                  for \f$\hat{f}^l_{M,M'}\f$.
      *
-     * @param[in]       max_l The maximum l value
+     * @param[in]       bandlimit The bandlimit of the function which coefficients
+     *                  are supposed to be stored in this coefficient container.
      */
     SOFTFourierCoefficients::SOFTFourierCoefficients(int bandlimit)
         : max_l(bandlimit- 1)
@@ -159,7 +160,7 @@ namespace uzlmath
      *                  a nice form over the std::cout stream.
      * 
      * @param[in,out]   o The stream object
-     * @param[in]       A The SOFTFourierCoefficients manager
+     * @param[in]       fc The SOFTFourierCoefficients manager
      *
      * @return          The reference to the given out-stream.
      */
