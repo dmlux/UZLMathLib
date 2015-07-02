@@ -120,7 +120,7 @@ void for_back_file(const char* fileName, unsigned int bandwidth, bool show_coefs
     
     // perform forward SOFT transform
     sw = stopwatch::tic();
-    spharmonics::SOFT(sample, coef);
+    FourierTransforms::SOFT(sample, coef);
     time = sw.toc();
     
     // print Fourier coefficients
@@ -151,12 +151,12 @@ void for_back_file(const char* fileName, unsigned int bandwidth, bool show_coefs
     grid3D< complex< double > > grid_rec(2 * bandwidth);
     
     sw = stopwatch::tic();
-    spharmonics::inverseSOFT(coef, grid_rec);
+    FourierTransforms::ISOFT(coef, grid_rec);
     double time2 = sw.toc();
     
     printf("Bandbreite:   %d\n", bandwidth);
-    printf("SOFT:        %.6fs\n", time);
-    printf("inverseSOFT: %.6fs\n", time2);
+    printf("SOFT:         %.6fs\n", time);
+    printf("ISOFT:        %.6fs\n", time2);
     
     std::cout << "sample = " << sample << std::endl;
     std::cout << "reconstructed sample = " << grid_rec << std::endl;
@@ -172,15 +172,14 @@ void for_back(unsigned int bandwidth, bool show_coefs)
     SOFTFourierCoefficients rec_coef(bandwidth);
     
     rand_coef(coef, -1, 1);
-//    std::this_thread::sleep_for(std::chrono::milliseconds(4000));
     
     stopwatch sw = stopwatch::tic();
-    spharmonics::inverseSOFT(coef, sample);
+    FourierTransforms::ISOFT(coef, sample);
     double time2 = sw.toc();
     
     // perform forward SOFT transform
     sw = stopwatch::tic();
-    spharmonics::SOFT(sample, rec_coef);
+    FourierTransforms::SOFT(sample, rec_coef);
     double time = sw.toc();
     
     // print Fourier coefficients
@@ -227,7 +226,7 @@ void for_back(unsigned int bandwidth, bool show_coefs)
     
     printf("Bandbreite:     %d\n", bandwidth);
     printf("SOFT:           %.6fs\n", time);
-    printf("inverseSOFT:    %.6fs\n", time2);
+    printf("ISOFT:          %.6fs\n", time2);
     printf("Correct result: %s\n", (equal ? "Yes" : "No"));
 }
 

@@ -22,6 +22,7 @@
 #define LOOP_R 10   // SOFT runs per bandwidth
 
 using namespace uzlmath;
+using namespace FourierTransforms;
 
 // Main method
 int main(int argc, const char** argv)
@@ -78,7 +79,7 @@ int main(int argc, const char** argv)
         rand_coef(coef, -1, 1);
         
         // create sample
-        spharmonics::inverseSOFT(coef, sample);
+        ISOFT(coef, sample);
         
         // min and max exec tiems
         double min, max;
@@ -88,7 +89,7 @@ int main(int argc, const char** argv)
             // perform forward SOFT transform
             // and stop time
             stopwatch sw = stopwatch::tic();
-            spharmonics::SOFT(sample, rec_coef);
+            SOFT(sample, rec_coef);
             double time  = sw.toc();
             
             // add to sum of time for current bandwidth

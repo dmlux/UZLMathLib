@@ -1,5 +1,5 @@
 //
-//  fn_spharmonics.cpp
+//  fn_fourier_transforms.cpp
 //  uzlmath
 //
 //  Created by Denis-Michael Lux on 18.06.15.
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_fn_spharmonics_cpp
-#define uzlmath_fn_spharmonics_cpp
+#ifndef uzlmath_fn_fourier_transforms_cpp
+#define uzlmath_fn_fourier_transforms_cpp
 
 #include <uzlmath>
 
@@ -20,7 +20,7 @@
 
 namespace uzlmath
 {
-    namespace spharmonics
+    namespace FourierTransforms
     {
         /*!
          * @brief           The SOFT (<b>S0</b>(3) <b>F</b>ourier <b>T</b>ransform)
@@ -343,7 +343,7 @@ namespace uzlmath
          * @author          Denis-Michael Lux <denis.lux@icloud.com>
          * @date            23.05.2015
          */
-        auto inverseSOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis) -> void
+        auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis) -> void
         {
             /*****************************************************************
              ** Check parameters                                            **

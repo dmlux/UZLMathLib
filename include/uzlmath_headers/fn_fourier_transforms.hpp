@@ -1,5 +1,5 @@
 //
-//  fn_fft.hpp
+//  fn_fourier_transforms.hpp
 //  uzlmath
 //
 //  Created by Denis-Michael Lux on 21.04.15.
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_fn_fft_hpp
-#define uzlmath_fn_fft_hpp
+#ifndef uzlmath_fn_fourier_transforms_hpp
+#define uzlmath_fn_fourier_transforms_hpp
 
 /*!
  * @brief       The fft namespace encapsulates a collection of fourier transforms for different
@@ -20,7 +20,7 @@
  * @author      Denis-Michael Lux <denis.lux@icloud.com>
  * @date        21.04.15
  */
-namespace fft
+namespace FourierTransforms
 {
     /*!
      * @brief           Performing the FFT on a complex vector.
@@ -54,7 +54,7 @@ namespace fft
      */
     template< typename eT >
     inline
-    auto FFT(vector< eT >& vec, eT scale = eT(1, 0)) -> typename uzl_void_cx_num_only< eT >::result
+    auto DFT(vector< eT >& vec, eT scale = eT(1, 0)) -> typename uzl_void_cx_num_only< eT >::result
     {
         if (vec.n_elements() == 0)
         {
@@ -146,7 +146,7 @@ namespace fft
      */
     template< typename eT >
     inline
-    auto FFT(vector< eT >& vec, complex< double > scale = complex< double >(1, 0)) -> typename uzl_vec_cx_dbl_real_num_only< eT >::result
+    auto DFT(vector< eT >& vec, complex< double > scale = complex< double >(1, 0)) -> typename uzl_vec_cx_dbl_real_num_only< eT >::result
     {
         if (vec.n_elements() == 0)
         {
@@ -215,7 +215,7 @@ namespace fft
      */
     template< typename eT >
     inline
-    auto FFT2(matrix< complex< eT > >& mat, complex< eT > scale = complex< eT >(1, 0)) -> typename uzl_void_real_num_only< eT >::result
+    auto DFT2(matrix< complex< eT > >& mat, complex< eT > scale = complex< eT >(1, 0)) -> typename uzl_void_real_num_only< eT >::result
     {
         // make fft array
         double fftInOut[mat.n_rows() * mat.n_cols() * 2];
@@ -270,7 +270,7 @@ namespace fft
      */
     template< typename eT >
     inline
-    auto IFFT2(matrix< complex< eT > >& mat, complex< eT > scale = complex< eT >(1,0)) -> typename uzl_void_real_num_only< eT >::result
+    auto IDFT2(matrix< complex< eT > >& mat, complex< eT > scale = complex< eT >(1,0)) -> typename uzl_void_real_num_only< eT >::result
     {
         // make fft array
         double fftInOut[mat.n_rows() * mat.n_cols() * 2];
@@ -292,6 +292,12 @@ namespace fft
             mat.memptr()[i] = scale * complex< eT >(1.0 / (mat.n_rows() * mat.n_cols()), 0) * comp;
         }
     }
+    
+    // Forward fast Fourier transform on SO(3)
+    auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc) -> void;
+    
+    // Inverse fast Fourier transform on SO(3)
+    auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis) -> void;
 }
 
 #endif

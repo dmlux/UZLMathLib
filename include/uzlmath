@@ -111,11 +111,10 @@ namespace uzlmath
     #include "uzlmath_headers/fn_matrix_inv.hpp"
     #include "uzlmath_headers/fn_wigner.hpp"
     #include "uzlmath_headers/fn_dwt.hpp"
-    #include "uzlmath_headers/fn_fft.hpp"
+    #include "uzlmath_headers/fn_fourier_transforms.hpp"
     #include "uzlmath_headers/fn_rand_coeff.hpp"
     #include "uzlmath_headers/fn_rand_matrix.hpp"
     #include "uzlmath_headers/fn_rand_vector.hpp"
-    #include "uzlmath_headers/fn_spharmonics.hpp"
     #include "uzlmath_headers/fn_obj2file_grid3D.hpp"
     #include "uzlmath_headers/fn_obj2file_soft_coeff.hpp"
 }
