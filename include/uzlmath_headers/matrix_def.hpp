@@ -1,5 +1,5 @@
 //
-//  matrix_tpl_def.hpp
+//  matrix_def.hpp
 //  uzlmath
 //
 //  Created by Denis-Michael Lux on 13.01.15.
