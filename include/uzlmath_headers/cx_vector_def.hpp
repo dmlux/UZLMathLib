@@ -27,14 +27,13 @@ vector< complex< eT > >::vector(const size_t& s, const vec_type& type)
     , type(type)
     , inj(0)
 {
-    if (s == 0)
+    if (s <= 0)
     {
-        mem = nullptr;
+        printf("** uzlmath error: try to initialize complex vector with zero or negative size. **");
+        exit(EXIT_FAILURE);
     }
-    else
-    {
-        mem = new complex< eT >[s];
-    }
+    
+    mem = new complex< eT >[s];
 }
 
 template< typename eT >
@@ -44,17 +43,14 @@ vector< complex< eT > >::vector(const size_t& s, const eT& initial, const vec_ty
     , type(type)
     , inj(0)
 {
-    if (s == 0)
+    if (s <= 0)
     {
-        mem = nullptr;
+        printf("** uzlmath error: try to initialize complex vector with zero or negative size. **");
+        exit(EXIT_FAILURE);
     }
-    else
-    {
-        mem = new complex< eT >[s];
-        
-        // fill with intial values
-        std::fill(mem, mem + size, complex< eT >(initial, 0));
-    }
+    
+    mem = new complex< eT >[s];
+    std::fill(mem, mem + size, complex< eT >(initial, 0));
 }
 
 template< typename eT >
@@ -64,17 +60,14 @@ vector< complex< eT > >::vector(const size_t& s, const complex< eT >& initial, c
     , type(type)
     , inj(0)
 {
-    if (s == 0)
+    if (s <= 0)
     {
-        mem = nullptr;
+        printf("** uzlmath error: try to initialize complex vector with zero or negative size. **");
+        exit(EXIT_FAILURE);
     }
-    else
-    {
-        mem = new complex< eT >[s];
-        
-        // fill with initial values
-        std::fill(mem, mem + size, initial);
-    }
+    
+    mem = new complex< eT >[s];
+    std::fill(mem, mem + size, initial);
 }
 
 template< typename eT >

@@ -54,14 +54,14 @@ matrix< complex< eT > >::matrix(const size_t& m, const size_t& n)
     , r_inj(0)
     , c_inj(0)
 {
-    if (m == 0 || n == 0)
+    if (m <= 0 || n <= 0)
     {
-        mem = nullptr;
+        printf("** uzlmath error: Try to initialize complex matrix with zero or negative rows or columns. **");
+        exit(EXIT_FAILURE);
     }
-    else
-    {
-        mem = new complex< eT >[m * n];
-    }
+    
+    size_t cap = m * n;
+    mem = new complex< eT >[cap];
 }
 
 /*!
@@ -79,14 +79,14 @@ matrix< complex< eT > >::matrix(const size_t& mn)
     , r_inj(0)
     , c_inj(0)
 {
-    if (mn == 0)
+    if (mn <= 0)
     {
-        mem;
+        printf("** uzlmath error: Try to initialize complex matrix with zero or negative rows or columns. **");
+        exit(EXIT_FAILURE);
     }
-    else
-    {
-        mem = new complex< eT >[mn * mn];
-    }
+    
+    size_t cap = mn * mn;
+    mem = new complex< eT >[cap];
 }
 
 /*!
@@ -106,20 +106,18 @@ matrix< complex< eT > >::matrix(const size_t& m, const size_t& n, const complex<
     , r_inj(0)
     , c_inj(0)
 {
-    if (m == 0 || n == 0)
+    if (m <= 0 || n <= 0)
     {
-        mem = nullptr;
+        printf("** uzlmath error: Try to initialize complex matrix with zero or negative rows or columns. **");
+        exit(EXIT_FAILURE);
     }
-    else
+    
+    size_t cap = m * n;
+    mem = new complex< eT >[cap];
+    
+    for (int i = 0; i < cap; ++i)
     {
-        size_t cap = m * n;
-        mem = new complex< eT >[cap];
-        
-        // fill with initial values
-        for (int i = 0; i < cap; ++i)
-        {
-            mem[i] = initial;
-        }
+        mem[i] = initial;
     }
 }
 

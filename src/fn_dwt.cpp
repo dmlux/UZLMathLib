@@ -57,33 +57,26 @@ namespace uzlmath
          * @author      Denis-Michael Lux <denis.lux@icloud.com>
          * @date        03.05.15
          */
-        auto quadrature_weights(const unsigned int& bandwidth) -> vector< double >
+        auto quadrature_weights(const int& bandwidth) -> vector< double >
         {
-            if (bandwidth == 0)
+            vector< double > w(2 * bandwidth);
+            
+            unsigned int i, k;
+            for (i = 0; i < bandwidth; ++i)
             {
-                return vector< double >();
-            }
-            else
-            {
-                vector< double > w(2 * bandwidth);
-                
-                unsigned int i, k;
-                for (i = 0; i < bandwidth; ++i)
+                double wi = 2.0 / bandwidth * sin(M_PI * (2.0 * i + 1.0)/(4.0 * bandwidth));
+                double sum = 0;
+                for (k = 0; k < bandwidth; ++k)
                 {
-                    double wi = 2.0 / bandwidth * sin(M_PI * (2.0 * i + 1.0)/(4.0 * bandwidth));
-                    double sum = 0;
-                    for (k = 0; k < bandwidth; ++k)
-                    {
-                        sum += 1.0 / (2.0 * k + 1.0) * sin((2.0 * i + 1.0) * (2.0 * k + 1.0) * M_PI / (4.0 * bandwidth));
-                    }
-                    
-                    wi                     *= sum;
-                    w[i]                    = wi;
-                    w[2 * bandwidth - 1 -i] = wi;
+                    sum += 1.0 / (2.0 * k + 1.0) * sin((2.0 * i + 1.0) * (2.0 * k + 1.0) * M_PI / (4.0 * bandwidth));
                 }
                 
-                return w;
+                wi                     *= sum;
+                w[i]                    = wi;
+                w[2 * bandwidth - 1 -i] = wi;
             }
+            
+            return w;
         }
         
         /*!
@@ -106,7 +99,7 @@ namespace uzlmath
          * @author      Denis-Michael Lux <denis.lux@icloud.com>
          * @date        03.05.15
          */
-        auto weighted_wigner_d_matrix(const unsigned int& bandwidth, const int& M, const int& Mp, const vector< double >& weights) -> matrix< double >
+        auto weighted_wigner_d_matrix(const int& bandwidth, const int& M, const int& Mp, const vector< double >& weights) -> matrix< double >
         {
             // Definition of used indices and the matrix that will be returned
             unsigned int i, j;
@@ -238,7 +231,7 @@ namespace uzlmath
          * @see         wigner::wigner_d
          * @see         wigner::wigner_d_l2normalized
          */
-        auto wigner_d_matrix(const unsigned int& bandwidth, const int& M, const int& Mp) -> matrix< double >
+        auto wigner_d_matrix(const int& bandwidth, const int& M, const int& Mp) -> matrix< double >
         {
             // Definition of used indices and the matrix that will be returned
             unsigned int i, j;

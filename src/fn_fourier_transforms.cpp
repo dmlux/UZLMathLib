@@ -106,12 +106,9 @@ namespace uzlmath
             /*****************************************************************
              ** M = 0, M' = 0                                               **
              *****************************************************************/
-            vector< double > weights;
-            matrix< double > dw;
-            vector< complex< double > > s(2 * bandwidth, vec_type::COLUMN), sh;
-            
-            weights = DWT::quadrature_weights(bandwidth);
-            dw      = DWT::weighted_wigner_d_matrix(bandwidth, 0, 0, weights) * -1;
+            vector< double > weights = DWT::quadrature_weights(bandwidth);
+            matrix< double >      dw = DWT::weighted_wigner_d_matrix(bandwidth, 0, 0, weights) * -1;
+            vector< complex< double > > s(2 * bandwidth, vec_type::COLUMN);
             
             // defining norm factor
             double norm              = M_PI / (2 * bandwidth * bandwidth);
@@ -121,7 +118,7 @@ namespace uzlmath
             
             // DWT for M = 0, M' = 0
             for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(0, 0, i);                               }
-            sh = dw * s;
+            vector< complex< double > > sh = dw * s;
             for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, 0, 0) = norm * sh[sh.n_elements()-i]; }
             
             /*****************************************************************
@@ -378,10 +375,9 @@ namespace uzlmath
             /*****************************************************************
              ** M = 0, M' = 0                                               **
              *****************************************************************/
-            matrix< double > d;
-            vector< complex< double > > sh(bandwidth, vec_type::COLUMN), s;
+            matrix< double >            d = DWT::wigner_d_matrix(bandwidth, 0, 0) * -1;
+            vector< complex< double > > sh(d.n_rows(), vec_type::COLUMN);
             
-            d = DWT::wigner_d_matrix(bandwidth, 0, 0) * -1;
             d.transpose();
             
             // defining norm factor
@@ -392,7 +388,7 @@ namespace uzlmath
             
             // inverse DWT for M = 0, M' = 0
             for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth - i, 0, 0); }
-            s = d * sh;
+            vector< complex< double > > s = d * sh;
             for (i = 0; i < 2 * bandwidth; ++i) { synthesis(0, 0, i) = s[i];                                  }
             
             /*****************************************************************

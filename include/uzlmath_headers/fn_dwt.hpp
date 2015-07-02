@@ -38,13 +38,13 @@ namespace DWT
     // For more information/implementation details see fn_dwt.cpp file!
     
     // Quadrature weights for the discrete Wigner transform
-    auto quadrature_weights(const unsigned int& bandwidth) -> vector< double >;
+    auto quadrature_weights(const int& bandwidth) -> vector< double >;
     
     // Weighted Wigner-d (L^2 normalized Wigner-d entries) matrix for the discrete Wigner transform
-    auto weighted_wigner_d_matrix(const unsigned int& bandwidth, const int& M, const int& Mp, const vector< double >& weights) -> matrix< double >;
+    auto weighted_wigner_d_matrix(const int& bandwidth, const int& M, const int& Mp, const vector< double >& weights) -> matrix< double >;
     
     // Wigner-d (L^2 normalized Wigner-d entries) matrix for the discrete Wigner transform
-    auto wigner_d_matrix(const unsigned int& bandwidth, const int& M, const int& Mp) -> matrix< double >;
+    auto wigner_d_matrix(const int& bandwidth, const int& M, const int& Mp) -> matrix< double >;
     
 }
 

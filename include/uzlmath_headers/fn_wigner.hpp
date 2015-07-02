@@ -23,16 +23,16 @@
 namespace wigner
 {
     // Wigner-d function
-    auto wigner_d(const unsigned int& J, const int& M, const int& Mp, const double& beta) -> const double;
+    auto wigner_d(const int& J, const int& M, const int& Mp, const double& beta) -> const double;
     
     // L^2 normalized Wiger-d function
-    auto wigner_d_l2normalized(const unsigned int& J, const int& M, const int& Mp, const double& beta) -> const double;
+    auto wigner_d_l2normalized(const int& J, const int& M, const int& Mp, const double& beta) -> const double;
     
     // Wigner-D function
-    auto wigner_D(const unsigned int& J, const int& M, const int& Mp, const double& alpha, const double& beta, const double& gamma) -> const complex< double >;
+    auto wigner_D(const int& J, const int& M, const int& Mp, const double& alpha, const double& beta, const double& gamma) -> const complex< double >;
     
     // L^2 normalized Wigner-D function
-    auto wigner_D_l2normalized(const unsigned int& J, const int& M, const int& Mp, const double& alpha, const double& beta, const double& gamma) -> const complex< double >;
+    auto wigner_D_l2normalized(const int& J, const int& M, const int& Mp, const double& alpha, const double& beta, const double& gamma) -> const complex< double >;
 }
 
 #endif

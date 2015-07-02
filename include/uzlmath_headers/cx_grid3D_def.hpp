@@ -24,12 +24,8 @@ grid3D< complex< eT > >::grid3D(const size_t& rows, const size_t& cols, const si
     : rows(rows)
     , cols(cols)
     , lays(lays)
-    , mem(nullptr)
 {
-    if (rows != 0 && cols != 0 && lays != 0)
-    {
-        mem = new complex< eT >[rows * cols * lays];
-    }
+    mem = new complex< eT >[rows * cols * lays];
 }
 
 template< typename eT >
@@ -38,12 +34,8 @@ grid3D< complex< eT > >::grid3D(const size_t& rcl)
     : rows(rcl)
     , cols(rcl)
     , lays(rcl)
-    , mem(nullptr)
 {
-    if (rows != 0 && cols != 0 && lays != 0)
-    {
-        mem = new complex< eT >[rows * cols * lays];
-    }
+    mem = new complex< eT >[rows * cols * lays];
 }
 
 template< typename eT >
@@ -53,17 +45,9 @@ grid3D< complex< eT > >::grid3D(const size_t& rows, const size_t& cols, const si
     , cols(cols)
     , lays(lays)
 {
-    if (rows == 0 || cols == 0 || lays == 0)
-    {
-        mem = nullptr;
-    }
-    else
-    {
-        mem = new complex< eT >[rows * cols * lays];
-        
-        // fill with initial values
-        std::fill(mem, mem + rows * cols * lays, initial);
-    }
+    mem = new complex< eT >[rows * cols * lays];
+    
+    std::fill(mem, mem + rows * cols * lays, initial);
 }
 
 template< typename eT >
@@ -73,18 +57,10 @@ grid3D< complex< eT > >::grid3D(const size_t& rows, const size_t& cols, const si
     , cols(cols)
     , lays(lays)
 {
-    if (rows == 0 || cols == 0 || lays == 0)
-    {
-        mem = nullptr;
-    }
-    else
-    {
-        mem = new complex< eT >[rows * cols * lays];
-        complex< eT > init(initial, 0);
-        
-        // fill with initial values
-        std::fill(mem, mem + rows * cols * lays, init);
-    }
+    mem = new complex< eT >[rows * cols * lays];
+    complex< eT > init(initial, 0);
+    
+    std::fill(mem, mem + rows * cols * lays, init);
 }
 
 template< typename eT >
@@ -94,17 +70,9 @@ grid3D< complex< eT > >::grid3D(const size_t& rcl, const complex< eT >& initial)
     , cols(rcl)
     , lays(rcl)
 {
-    if (rows == 0 || cols == 0 || lays == 0)
-    {
-        mem = nullptr;
-    }
-    else
-    {
-        mem = new complex< eT >[rows * cols * lays];
-        
-        // fill with initial values
-        std::fill(mem, mem + rows * cols * lays, initial);
-    }
+    mem = new complex< eT >[rows * cols * lays];
+    
+    std::fill(mem, mem + rows * cols * lays, initial);
 }
 
 template< typename eT >
@@ -114,18 +82,10 @@ grid3D< complex< eT > >::grid3D(const size_t& rcl, const eT& initial)
     , cols(rcl)
     , lays(rcl)
 {
-    if (rows == 0 || cols == 0 || lays == 0)
-    {
-        mem = nullptr;
-    }
-    else
-    {
-        mem = new complex< eT >[rows * cols * lays];
-        complex< eT > init(initial, 0);
+    mem = new complex< eT >[rows * cols * lays];
+    complex< eT > init(initial, 0);
     
-        // fill with initial values
-        std::fill(mem, mem + rows * cols * lays, init);
-    }
+    std::fill(mem, mem + rows * cols * lays, init);
 }
 
 template< typename eT >

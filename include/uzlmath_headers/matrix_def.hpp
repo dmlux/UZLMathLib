@@ -55,14 +55,14 @@ matrix< eT >::matrix(const size_t& m, const size_t& n)
     , r_inj(0)
     , c_inj(0)
 {
-    if (m == 0 || n == 0)
+    if (m <= 0 || n <= 0)
     {
-        mem = nullptr;
+        printf("** uzlmath error: Try to initialize matrix with zero or negative rows or columns. **");
+        exit(EXIT_FAILURE);
     }
-    else
-    {
-        mem = new eT[m * n];
-    }
+    
+    size_t cap = m * n;
+    mem = new eT[cap];
 }
 
 /*!
@@ -81,14 +81,15 @@ matrix< eT >::matrix(const size_t& mn)
     , r_inj(0)
     , c_inj(0)
 {
-    if (mn == 0)
+    if (mn <= 0)
     {
-        mem = nullptr;
+        printf("** uzlmath error: Try to initialize matrix with zero or negative rows or columns. **");
+        exit(EXIT_FAILURE);
     }
-    else
-    {
-        mem = new eT[mn * mn];
-    }
+    
+    
+    size_t cap = mn * mn;
+    mem = new eT[cap];
 }
 
 /*!
@@ -108,25 +109,23 @@ matrix< eT >::matrix(const size_t& m, const size_t& n, const eT& initial)
     , r_inj(0)
     , c_inj(0)
 {
-    if (m == 0 || n == 0)
+    if (m <= 0 || n <= 0)
     {
-        mem = nullptr;
+        printf("** uzlmath error: Try to initialize matrix with zero or negative rows or columns. **");
+        exit(EXIT_FAILURE);
+    }
+    
+    size_t cap = m * n;
+    mem = new eT[cap];
+    
+    if (initial == 0 || initial == -1)
+    {
+        // fastest possible assembler routine
+        memset(mem, initial, cap * sizeof(eT));
     }
     else
     {
-        size_t cap = m * n;
-        mem = new eT[cap];
-        
-        // fill with initial values
-        if (initial == 0 || initial == -1)
-        {
-            // fastest possible assembler routine
-            memset(mem, initial, cap * sizeof(eT));
-        }
-        else
-        {
-            std::fill(mem, mem + cap, initial);
-        }
+        std::fill(mem, mem + cap, initial);
     }
 }
 
