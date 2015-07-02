@@ -216,7 +216,7 @@ constexpr size_t grid3D< complex< eT > >::n_lays() const
 
 template< typename eT >
 inline
-void grid3D< complex< eT > >::layer_wise_fft2(const complex< double >& scale)
+void grid3D< complex< eT > >::layer_wise_DFT2(const complex< double >& scale)
 {
     // declare variables
     size_t i;
@@ -246,7 +246,7 @@ void grid3D< complex< eT > >::layer_wise_fft2(const complex< double >& scale)
     }
     
     // perform layerwise FFT2
-    uzl_fftw_layer_wise_fft2_cube(cols, rows, lays, data);
+    uzl_fftw_layer_wise_DFT2_grid3D(cols, rows, lays, data);
     
     // skip if scale is default
     if (scale.re != 1 || scale.im != 0)
@@ -277,7 +277,7 @@ void grid3D< complex< eT > >::layer_wise_fft2(const complex< double >& scale)
 
 template< typename eT >
 inline
-void grid3D< complex< eT > >::layer_wise_ifft2(const complex< double >& scale)
+void grid3D< complex< eT > >::layer_wise_IDFT2(const complex< double >& scale)
 {
     // declare variables
     size_t i;
@@ -307,7 +307,7 @@ void grid3D< complex< eT > >::layer_wise_ifft2(const complex< double >& scale)
     }
     
     // perform layerwise FFT2
-    uzl_fftw_layer_wise_ifft2_cube(cols, rows, lays, data);
+    uzl_fftw_layer_wise_IDFT2_grid3D(cols, rows, lays, data);
     
     // skip if scale is default
     if (scale.re != 1 || scale.im != 0)

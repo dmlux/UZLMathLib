@@ -21,7 +21,7 @@
 namespace uzlmath
 {
     
-    namespace dwt
+    namespace DWT
     {
         
         

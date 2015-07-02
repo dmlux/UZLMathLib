@@ -88,7 +88,7 @@ namespace FourierTransforms
         }
         
         // call fftw function
-        uzl_fftw_fft(vec.n_elements(), inOut);
+        uzl_fftw_DFT(vec.n_elements(), inOut);
         
         // copy transformed values into given vector
         if (is_double< eT >::value == false)
@@ -167,7 +167,7 @@ namespace FourierTransforms
         }
         
         // call fftw function
-        uzl_fftw_fft(vec.n_elements(), inOut);
+        uzl_fftw_DFT(vec.n_elements(), inOut);
         
         // scale values
         if (scale.re != 1 || scale.im != 0)
@@ -228,7 +228,7 @@ namespace FourierTransforms
             fftInOut[i * 2 + 1] = mat.memptr()[i].im;
         }
         
-        uzl_fftw_fft2(mat.n_cols(), mat.n_rows(), fftInOut);
+        uzl_fftw_DFT2(mat.n_cols(), mat.n_rows(), fftInOut);
         
         // translate back into complex matrix
         for (i = 0; i < mat.n_rows() * mat.n_cols(); ++i)
@@ -283,7 +283,7 @@ namespace FourierTransforms
             fftInOut[i * 2 + 1] = mat.memptr()[i].im;
         }
         
-        uzl_fftw_ifft2(mat.n_cols(), mat.n_rows(), fftInOut);
+        uzl_fftw_IDFT2(mat.n_cols(), mat.n_rows(), fftInOut);
         
         // translate back into complex matrix
         for (i = 0; i < mat.n_rows() * mat.n_cols(); ++i)

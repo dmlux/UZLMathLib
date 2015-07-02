@@ -57,8 +57,8 @@ namespace uzlmath
          * @param[out]      fc A Fourier coefficent managment container with capacaty for
          *                  all Fourier coefficients of \f$f\f$.
          *
-         * @sa              dwt::quadrature_weights
-         * @sa              dwt::wigner_d_matrix
+         * @sa              DWT::quadrature_weights
+         * @sa              DWT::wigner_d_matrix
          * @sa              SOFTFourierCoefficients
          * @sa              complex
          * @sa              matrix
@@ -101,13 +101,13 @@ namespace uzlmath
             /*****************************************************************
              ** FFT2 transform layers of sample grid for fixed k            **
              *****************************************************************/
-            sample.layer_wise_fft2();
+            sample.layer_wise_DFT2();
             
             /*****************************************************************
              ** M = 0, M' = 0                                               **
              *****************************************************************/
-            vector< double > weights = dwt::quadrature_weights(bandwidth);
-            matrix< double >      dw = dwt::weighted_wigner_d_matrix(bandwidth, 0, 0, weights) * -1;
+            vector< double > weights = DWT::quadrature_weights(bandwidth);
+            matrix< double >      dw = DWT::weighted_wigner_d_matrix(bandwidth, 0, 0, weights) * -1;
             vector< complex< double > > s(2 * bandwidth, vec_type::COLUMN);
             
             // defining norm factor
@@ -127,7 +127,7 @@ namespace uzlmath
             #pragma omp parallel for default(shared) private(i, j, M, dw, sh) firstprivate(s) schedule(dynamic)
             for (M = 1; M < bandwidth; ++M)
             {
-                dw = dwt::weighted_wigner_d_matrix(bandwidth, M, 0, weights) * -1;
+                dw = DWT::weighted_wigner_d_matrix(bandwidth, M, 0, weights) * -1;
                 
                 /*****************************************************************
                  ** Make use of symmetries                                      **
@@ -164,7 +164,7 @@ namespace uzlmath
                 for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, 0, -M) = norm * sh[sh.n_elements()-i];  }
                 
                 // get new wigner matrix
-                dw = dwt::weighted_wigner_d_matrix(bandwidth, M, M, weights) * -1;
+                dw = DWT::weighted_wigner_d_matrix(bandwidth, M, M, weights) * -1;
                 
                 // case M, M
                 for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, M, i);                                 }
@@ -222,7 +222,7 @@ namespace uzlmath
                 Mp = j > i ? bandwidth - j : j    ;
                 
                 // get new wigner d-matrix
-                dw = dwt::weighted_wigner_d_matrix(bandwidth, M, Mp, weights);
+                dw = DWT::weighted_wigner_d_matrix(bandwidth, M, Mp, weights);
                 
                 // case M, Mp
                 for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(Mp, M, i);                                          }
@@ -331,7 +331,7 @@ namespace uzlmath
          *                  of the SOFT.
          * @param[out]      synthesis The synthesized sample for the given Fourier coefficients.
          *
-         * @sa              dwt::wigner_d_matrix
+         * @sa              DWT::wigner_d_matrix
          * @sa              SOFTFourierCoefficients
          * @sa              spharmonics::SOFT
          * @sa              complex
@@ -375,7 +375,7 @@ namespace uzlmath
             /*****************************************************************
              ** M = 0, M' = 0                                               **
              *****************************************************************/
-            matrix< double >            d = dwt::wigner_d_matrix(bandwidth, 0, 0) * -1;
+            matrix< double >            d = DWT::wigner_d_matrix(bandwidth, 0, 0) * -1;
             vector< complex< double > > sh(d.n_rows(), vec_type::COLUMN);
             
             d.transpose();
@@ -397,7 +397,7 @@ namespace uzlmath
             #pragma omp parallel for private(i, j, M, d, s, sh) schedule(dynamic)
             for (M = 1; M < bandwidth; ++M)
             {
-                d  = dwt::wigner_d_matrix(bandwidth, M, 0) * -1;
+                d  = DWT::wigner_d_matrix(bandwidth, M, 0) * -1;
                 sh = vector< complex< double > >(d.n_rows(), vec_type::COLUMN);
                 d.transpose();
                 
@@ -439,7 +439,7 @@ namespace uzlmath
                 for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, 0, i) = s[i];              }
                 
                 // get new wigner matrix
-                d = dwt::wigner_d_matrix(bandwidth, M, M) * -1;
+                d = DWT::wigner_d_matrix(bandwidth, M, M) * -1;
                 d.transpose();
                 
                 // case f_{M,M}
@@ -500,7 +500,7 @@ namespace uzlmath
                 Mp = j > i ? bandwidth - j : j    ;
                 
                 // get new wigner d-matrix
-                d  = dwt::wigner_d_matrix(bandwidth, M, Mp);
+                d  = DWT::wigner_d_matrix(bandwidth, M, Mp);
                 d.transpose();
                 sh = vector< complex< double > >(d.n_cols(), vec_type::COLUMN);
                 
@@ -587,7 +587,7 @@ namespace uzlmath
             /*****************************************************************
              ** IFFT2 transform layers of input sample grid for fixed k     **
              *****************************************************************/
-            synthesis.layer_wise_ifft2(complex< double > (1.0 /(4 * bandwidth * bandwidth), 0));
+            synthesis.layer_wise_IDFT2(complex< double > (1.0 /(4 * bandwidth * bandwidth), 0));
         }
     }
 }

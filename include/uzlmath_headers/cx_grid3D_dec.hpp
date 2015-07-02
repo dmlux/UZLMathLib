@@ -63,8 +63,8 @@ public:
     inline constexpr size_t               n_cols() const;
     inline constexpr size_t               n_lays() const;
     
-    inline       void                     layer_wise_fft2(const complex< double >& scale = complex< eT >(1, 0));
-    inline       void                     layer_wise_ifft2(const complex< double >& scale = complex< eT >(1, 0));
+    inline       void                     layer_wise_DFT2(const complex< double >& scale = complex< eT >(1, 0));
+    inline       void                     layer_wise_IDFT2(const complex< double >& scale = complex< eT >(1, 0));
     
     inline       complex< eT >*           memptr();
     inline const complex< eT >*           memptr() const;

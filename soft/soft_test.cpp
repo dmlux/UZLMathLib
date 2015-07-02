@@ -233,8 +233,8 @@ void for_back(unsigned int bandwidth, bool show_coefs)
 int main(int argc, const char ** argv)
 {
     //createGridSOFT(10);
-//    for_back_file("/Users/dlux/Desktop/soft_files/test_series/grid_3_test.dat", 3, true);
-    for_back(128, false);
+    for_back_file("/Users/dlux/Desktop/soft_files/test_series/grid_3_test.dat", 3, true);
+//    for_back(128, false);
     
 //    std::cout << std::setprecision(20) << std::numeric_limits<float>::epsilon << std::endl;
     

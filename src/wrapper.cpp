@@ -225,7 +225,7 @@ namespace uzlmath
         
         
         
-        void uzl_fftw_layer_wise_fft2_cube(int cols, int rows, int lays, double* arr)
+        void uzl_fftw_layer_wise_DFT2_grid3D(int cols, int rows, int lays, double* arr)
         {
             #if _OPENMP
             
@@ -289,7 +289,7 @@ namespace uzlmath
             #endif
         }
         
-        void uzl_fftw_layer_wise_ifft2_cube(int cols, int rows, int lays, double*  arr)
+        void uzl_fftw_layer_wise_IDFT2_grid3D(int cols, int rows, int lays, double*  arr)
         {
             #if _OPENMP
             
@@ -353,7 +353,7 @@ namespace uzlmath
             #endif
         }
         
-        void uzl_fftw_fft2(size_t cols, size_t rows, double* arr)
+        void uzl_fftw_DFT2(size_t cols, size_t rows, double* arr)
         {
             // allocate storage for the FFT
             //fftw_complex  inFFT2[cols * rows];
@@ -374,7 +374,7 @@ namespace uzlmath
             fftw_cleanup();
         }
         
-        void uzl_fftw_ifft2(size_t cols, size_t rows, double* arr)
+        void uzl_fftw_IDFT2(size_t cols, size_t rows, double* arr)
         {
             // allocate storage for the FFT
             fftw_complex outFFT2[cols * rows];
@@ -396,7 +396,7 @@ namespace uzlmath
             fftw_cleanup();
         }
         
-        void uzl_fftw_fft(size_t size, double* arr)
+        void uzl_fftw_DFT(size_t size, double* arr)
         {
             // create FFT plan
             fftw_plan p = fftw_plan_dft_1d(size, (fftw_complex*)arr, (fftw_complex*)arr, FFTW_FORWARD, FFTW_ESTIMATE);
@@ -409,7 +409,7 @@ namespace uzlmath
             fftw_cleanup();
         }
         
-        void uzl_fftw_ifft(size_t size, double* arr)
+        void uzl_fftw_IDFT(size_t size, double* arr)
         {
             // create IFFT plan
             fftw_plan p = fftw_plan_dft_1d(size, (fftw_complex*)arr, (fftw_complex*)arr, FFTW_BACKWARD, FFTW_ESTIMATE);

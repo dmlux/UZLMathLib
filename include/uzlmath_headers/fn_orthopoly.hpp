@@ -20,7 +20,7 @@
  * @author  Denis-Michael Lux <denis.lux@icloud.com>
  * @date    12.01.15
  */
-namespace orthopoly
+namespace orthoPoly
 {
     // Legendre polynome for x of degree n
     auto legendre(const int& n, const double& x) -> const double;

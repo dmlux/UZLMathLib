@@ -32,7 +32,7 @@
  * @author      Denis-Michael Lux <denis.lux@icloud.com>
  * @date        03.05.15
  */
-namespace dwt
+namespace DWT
 {
     
     // For more information/implementation details see fn_dwt.cpp file!

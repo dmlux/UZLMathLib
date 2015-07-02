@@ -37,14 +37,14 @@ extern "C"
     
     /*- FFTW FUNCTIONS -*/
     
-    void uzl_fftw_fft2(size_t cols, size_t rows, double* arr);
-    void uzl_fftw_layer_wise_fft2_cube(int cols, int rows, int lays, double* arr);
+    void uzl_fftw_DFT2(size_t cols, size_t rows, double* arr);
+    void uzl_fftw_layer_wise_DFT2_grid3D(int cols, int rows, int lays, double* arr);
     
-    void uzl_fftw_ifft2(size_t cols, size_t rows, double* arr);
-    void uzl_fftw_layer_wise_ifft2_cube(int cols, int rows, int lays, double* arr);
+    void uzl_fftw_IDFT2(size_t cols, size_t rows, double* arr);
+    void uzl_fftw_layer_wise_IDFT2_grid3D(int cols, int rows, int lays, double* arr);
     
-    void uzl_fftw_fft(size_t size, double* arr);
-    void uzl_fftw_ifft(size_t size, double* arr);
+    void uzl_fftw_DFT(size_t size, double* arr);
+    void uzl_fftw_IDFT(size_t size, double* arr);
 }
 
 #endif

@@ -24,7 +24,7 @@
  */
 namespace uzlmath
 {
-    namespace orthopoly
+    namespace orthoPoly
     {
         /*!
          * @brief       Computes the value of the Legendre polynomial \f$P_n(x) = \frac{(2n-1)x}{n}P_{n-1}(x)-(1-\frac{1}{n})P_{n-2}(x)\f$

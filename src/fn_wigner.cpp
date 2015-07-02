@@ -80,7 +80,7 @@ namespace uzlmath
             // undefined values
             if (M == 0 && Mp == 0)
             {
-                return orthopoly::legendre(J, cos(beta));
+                return orthoPoly::legendre(J, cos(beta));
             }
             
             // memorization
