@@ -29,8 +29,17 @@ namespace uzlmath
      */
     auto rand_coef(SOFTFourierCoefficients& fc, const double& min, const double& max) -> void
     {
+        // create timeval object
+        struct timeval tv;
+        
+        // get current time in microseconds
+        gettimeofday(&tv, NULL);
+        
+        // create seed
+        unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
+        
         // seed the random number generator
-        srand(uzlmath_seed);
+        srand(seed);
         
         // drop first seed
         rand();
@@ -49,9 +58,6 @@ namespace uzlmath
                 }
             }
         }
-        
-        // set new seed
-        uzlmath_seed = static_cast< unsigned int >(std::rand());
     }
 }
 

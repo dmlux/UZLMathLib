@@ -1855,7 +1855,7 @@ std::ostream& operator<<(std::ostream& o, const matrix<S>& A)
         for (j = 0; j < A.n_cols(); ++j)
         {
             S r = A(i, j);
-            if (UZL_ABS(r) >= 10)
+            if (std::abs(r) >= 10)
             {
                 width   = 11;
                 format  = std::fixed;
@@ -1866,7 +1866,7 @@ std::ostream& operator<<(std::ostream& o, const matrix<S>& A)
                 }
             }
             
-            if (UZL_ABS(r) >= 100)
+            if (std::abs(r) >= 100)
             {
                 width   = 12;
                 format  = std::fixed;
@@ -1877,7 +1877,7 @@ std::ostream& operator<<(std::ostream& o, const matrix<S>& A)
                 }
             }
             
-            if (UZL_ABS(r) >= 1000)
+            if (std::abs(r) >= 1000)
             {
                 width   = 14;
                 format  = std::scientific;

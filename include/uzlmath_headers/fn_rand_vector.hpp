@@ -27,8 +27,17 @@ template< typename eT >
 inline
 auto randi(vector< eT >& vec, const int& min, const int& max) -> typename uzl_void_real_num_only< eT >::result
 {
+    // create timeval object
+    struct timeval tv;
+    
+    // get current time in microseconds
+    gettimeofday(&tv, NULL);
+    
+    // create seed
+    unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
+    
     // seed the random number generator
-    srand(uzlmath_seed);
+    srand(seed);
     
     // drop first seed
     rand();
@@ -39,17 +48,23 @@ auto randi(vector< eT >& vec, const int& min, const int& max) -> typename uzl_vo
     {
         vec[i] = rand() % (abs(max) + abs(min) + 1) + min;
     }
-    
-    // set new seed
-    uzlmath_seed = static_cast< unsigned int >(rand());
 }
 
 template< typename eT >
 inline
 auto randi(vector< complex< eT > >& vec, const int& min, const int& max) -> typename uzl_void_real_num_only< eT >::result
 {
+    // create timeval object
+    struct timeval tv;
+    
+    // get current time in microseconds
+    gettimeofday(&tv, NULL);
+    
+    // create seed
+    unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
+    
     // seed the random number generator
-    srand(uzlmath_seed);
+    srand(seed);
     
     // drop first seed
     rand();
@@ -61,9 +76,6 @@ auto randi(vector< complex< eT > >& vec, const int& min, const int& max) -> type
         vec[i].re = rand() % (abs(max) + abs(min) + 1) + min;
         vec[i].im = rand() % (abs(max) + abs(min) + 1) + min;
     }
-    
-    // set new seed
-    uzlmath_seed = static_cast< unsigned int >(rand());
 }
 
 
@@ -86,8 +98,17 @@ auto randi(vector< complex< eT > >& vec, const int& min, const int& max) -> type
 template< typename eT >
 auto randf(vector< eT >& vec, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
 {
+    // create timeval object
+    struct timeval tv;
+    
+    // get current time in microseconds
+    gettimeofday(&tv, NULL);
+    
+    // create seed
+    unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
+    
     // seed the random number generator
-    srand(uzlmath_seed);
+    srand(seed);
     
     // drop first seed
     rand();
@@ -98,16 +119,22 @@ auto randf(vector< eT >& vec, const double& min, const double& max) -> typename 
     {
         vec[i] = min + (static_cast< eT >(rand()) / RAND_MAX) * (max - min);
     }
-    
-    // set new seed
-    uzlmath_seed = static_cast< unsigned int >(rand());
 }
 
 template< typename eT >
 auto randf(vector< complex< eT > >& vec, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
 {
+    // create timeval object
+    struct timeval tv;
+    
+    // get current time in microseconds
+    gettimeofday(&tv, NULL);
+    
+    // create seed
+    unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
+    
     // seed the random number generator
-    srand(uzlmath_seed);
+    srand(seed);
     
     // drop first seed
     rand();
@@ -119,9 +146,6 @@ auto randf(vector< complex< eT > >& vec, const double& min, const double& max) -
         vec[i].re = min + (static_cast< eT >(rand()) / RAND_MAX) * (max - min);
         vec[i].im = min + (static_cast< eT >(rand()) / RAND_MAX) * (max - min);
     }
-    
-    // set new seed
-    uzlmath_seed = static_cast< unsigned int >(rand());
 }
 
 #endif

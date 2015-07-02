@@ -238,17 +238,17 @@ int main(int argc, const char ** argv)
     
 //    std::cout << std::setprecision(20) << std::numeric_limits<float>::epsilon << std::endl;
     
-//    matrix< double > A(4, 5), B(4, 5);
+//    SOFTFourierCoefficients A(4);
+//    SOFTFourierCoefficients B(4);
+//    SOFTFourierCoefficients C(4);
 //    
-//    for (int i = 0; i < 4; ++i)
-//    {
-//        for (int j = 0; j < 5; ++j)
-//        {
-//            A(i, j) = B(i, j) = i + j;
-//        }
-//    }
+//    rand_coef(A, -1, 1);
+//    rand_coef(B, -1, 1);
+//    rand_coef(C, -1, 1);
 //    
-//    std::cout << "A = " << A << std::endl << "B = " << B << std::endl;
+//    std::cout << "A = " << A << std::endl;
+//    std::cout << "B = " << B << std::endl;
+//    std::cout << "C = " << C << std::endl;
     
     return 0;
 }

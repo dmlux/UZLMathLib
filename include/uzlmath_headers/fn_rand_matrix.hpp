@@ -32,8 +32,17 @@ template< typename eT >
 inline
 auto randi(matrix< eT >& mat, const int& min, const int& max) -> typename uzl_void_real_num_only< eT >::result
 {
+    // create timeval object
+    struct timeval tv;
+    
+    // get current time in microseconds
+    gettimeofday(&tv, NULL);
+    
+    // create seed
+    unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
+    
     // seed the random number generator
-    srand(uzlmath_seed);
+    srand(seed);
     
     // drop first seed
     rand();
@@ -47,9 +56,6 @@ auto randi(matrix< eT >& mat, const int& min, const int& max) -> typename uzl_vo
             mat(i, j) = rand() % (abs(max) + abs(min) + 1) + min;
         }
     }
-    
-    // set new seed
-    uzlmath_seed = static_cast< unsigned int >(rand());
 }
 
 /*!
@@ -75,8 +81,17 @@ template< typename eT >
 inline
 auto randi(matrix< complex< eT > >& mat, const int& min, const int& max) -> typename uzl_void_real_num_only< eT >::result
 {
+    // create timeval object
+    struct timeval tv;
+    
+    // get current time in microseconds
+    gettimeofday(&tv, NULL);
+    
+    // create seed
+    unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
+    
     // seed the random number generator
-    srand(uzlmath_seed);
+    srand(seed);
     
     // drop first seed
     rand();
@@ -91,9 +106,6 @@ auto randi(matrix< complex< eT > >& mat, const int& min, const int& max) -> type
             mat(i, j).im = rand() % (abs(max) + abs(min) + 1) + min;
         }
     }
-    
-    // set new seed
-    uzlmath_seed = static_cast< unsigned int >(rand());
 }
 
 /*!
@@ -121,8 +133,17 @@ template< typename eT >
 inline
 auto randf(matrix< eT >& mat, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
 {
+    // create timeval object
+    struct timeval tv;
+    
+    // get current time in microseconds
+    gettimeofday(&tv, NULL);
+    
+    // create seed
+    unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
+    
     // seed the random number generator
-    srand(uzlmath_seed);
+    srand(seed);
     
     // drop first seed
     rand();
@@ -136,9 +157,6 @@ auto randf(matrix< eT >& mat, const double& min, const double& max) -> typename 
             mat(i, j) = min + (static_cast< eT >(rand()) / RAND_MAX) * (max - min);
         }
     }
-    
-    // set new seed
-    uzlmath_seed = static_cast< unsigned int >(rand());
 }
 
 /*!
@@ -166,8 +184,17 @@ template< typename eT >
 inline
 auto randf(matrix< complex< eT > >& mat, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
 {
+    // create timeval object
+    struct timeval tv;
+    
+    // get current time in microseconds
+    gettimeofday(&tv, NULL);
+    
+    // create seed
+    unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
+    
     // seed the random number generator
-    srand(uzlmath_seed);
+    srand(seed);
     
     // drop first seed
     rand();
@@ -182,9 +209,6 @@ auto randf(matrix< complex< eT > >& mat, const double& min, const double& max) -
             mat(i, j).im = min + (static_cast< eT >(rand()) / RAND_MAX) * (max - min);
         }
     }
-    
-    // set new seed
-    uzlmath_seed = static_cast< unsigned int >(rand());
 }
 
 #endif

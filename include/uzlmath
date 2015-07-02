@@ -26,10 +26,6 @@
 // defining namespace for uzlmath classes and functions
 namespace uzlmath
 {
-    /* Global setting variables */
-    #include "uzlmath_headers/glob_vars.hpp"
-    
-    
     /* Forward declarations */
     #include "uzlmath_headers/forward_declarations.hpp"
 
