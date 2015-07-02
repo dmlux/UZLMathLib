@@ -27,7 +27,14 @@ grid3D< eT >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays)
     , cols(cols)
     , lays(lays)
 {
-    mem = new eT[rows * cols * lays];
+    if (rows == 0 || cols == 0 || lays == 0)
+    {
+        mem = nullptr;
+    }
+    else
+    {
+        mem = new eT[rows * cols * lays];
+    }
 }
 
 template< typename eT >
@@ -37,7 +44,14 @@ grid3D< eT >::grid3D(const size_t& rcl)
     , cols(rcl)
     , lays(rcl)
 {
-    mem = new eT[rows * cols * lays];
+    if (rows == 0 || cols == 0 || lays == 0)
+    {
+        mem = nullptr;
+    }
+    else
+    {
+        mem = new eT[rows * cols * lays];
+    }
 }
 
 template< typename eT >
@@ -47,15 +61,23 @@ grid3D< eT >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays,
     , cols(cols)
     , lays(lays)
 {
-    mem = new eT[rows * cols * lays];
-    
-    if (initial == 0 || initial == -1)
+    if (rows == 0 || cols == 0 || lays == 0)
     {
-        memset(mem, initial, rows * cols * lays * sizeof(eT));
+        mem = nullptr;
     }
     else
     {
-        std::fill(mem, mem + rows * cols * lays, initial);
+        mem = new eT[rows * cols * lays];
+        
+        // fill grid with intial values
+        if (initial == 0 || initial == -1)
+        {
+            memset(mem, initial, rows * cols * lays * sizeof(eT));
+        }
+        else
+        {
+            std::fill(mem, mem + rows * cols * lays, initial);
+        }
     }
 }
 
@@ -66,15 +88,23 @@ grid3D< eT >::grid3D(const size_t& rcl, const eT& initial)
     , cols(rcl)
     , lays(rcl)
 {
-    mem = new eT[rows * cols * lays];
-    
-    if (initial == 0 || initial == -1)
+    if (rows == 0 || cols == 0 || lays == 0)
     {
-        memset(mem, initial, rows * cols * lays * sizeof(eT));
+        mem = nullptr;
     }
     else
     {
-        std::fill(mem, mem + rows * cols * lays, initial);
+        mem = new eT[rows * cols * lays];
+        
+        // fill grid with intial values
+        if (initial == 0 || initial == -1)
+        {
+            memset(mem, initial, rows * cols * lays * sizeof(eT));
+        }
+        else
+        {
+            std::fill(mem, mem + rows * cols * lays, initial);
+        }
     }
 }
 

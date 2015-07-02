@@ -43,13 +43,14 @@ vector< eT >::vector(const size_t& s, const vec_type& type)
     , type(type)
     , inj(0)
 {
-    if (s <= 0)
+    if (s == 0)
     {
-        printf("** uzlmath error: Try to initialize vector with zero or negative size. **");
-        exit(EXIT_FAILURE);
+        mem = nullptr;
     }
-    
-    mem = new eT[s];
+    else
+    {
+        mem = new eT[s];
+    }
 }
 
 /*!
@@ -70,21 +71,23 @@ vector< eT >::vector(const size_t& s, const eT& initial, const vec_type& type)
     , type(type)
     , inj(0)
 {
-    if (s <= 0)
+    if (s == 0)
     {
-        printf("** uzlmath error: Try to initialize vector with zero or negative size. **");
-        exit(EXIT_FAILURE);
-    }
-    
-    mem = new eT[s];
-    
-    if (initial == 0 || initial == -1)
-    {
-        memset(mem, initial, size * sizeof(eT));
+        mem = nullptr;
     }
     else
     {
-        std::fill(mem, mem + size, initial);
+        mem = new eT[size];
+        
+        // fill with values
+        if (initial == 0 || initial == -1)
+        {
+            memset(mem, initial, size * sizeof(eT));
+        }
+        else
+        {
+            std::fill(mem, mem + size, initial);
+        }
     }
 }
 
