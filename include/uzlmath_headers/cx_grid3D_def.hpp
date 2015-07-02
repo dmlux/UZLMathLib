@@ -24,12 +24,9 @@ grid3D< complex< eT > >::grid3D(const size_t& rows, const size_t& cols, const si
     : rows(rows)
     , cols(cols)
     , lays(lays)
+    , mem(nullptr)
 {
-    if (rows == 0 || cols == 0 || lays == 0)
-    {
-        mem = nullptr;
-    }
-    else
+    if (rows != 0 && cols != 0 && lays != 0)
     {
         mem = new complex< eT >[rows * cols * lays];
     }
@@ -41,12 +38,9 @@ grid3D< complex< eT > >::grid3D(const size_t& rcl)
     : rows(rcl)
     , cols(rcl)
     , lays(rcl)
+    , mem(nullptr)
 {
-    if (rows == 0 || cols == 0 || lays == 0)
-    {
-        mem = nullptr;
-    }
-    else
+    if (rows != 0 && cols != 0 && lays != 0)
     {
         mem = new complex< eT >[rows * cols * lays];
     }
