@@ -89,7 +89,7 @@ namespace uzlmath
             // get all values of d^J_{M,M'}
             for (int i = 0; i <= J; ++i)
             {
-                if ( !(i >= UZL_MAX(UZL_ABS(M), UZL_ABS(Mp))) )
+                if ( !(i >= std::max(abs(M), abs(Mp))) )
                 {
                     mem[i] = 0;
                 }
@@ -172,7 +172,7 @@ namespace uzlmath
          */
         auto wigner_d_l2normalized(const int& J, const int& M, const int& Mp, const double& beta) -> const double
         {
-            if ( !(-J <= UZL_ABS(M) && UZL_ABS(Mp) <= J) )
+            if ( !(-J <= abs(M) && abs(Mp) <= J) )
             {
                 printf("** uzlmath error: Illegal arguments for normalized Wigner d-function. Legal arguments are -J <= |M|, |M'| <= J. **");
                 exit(EXIT_FAILURE);
@@ -217,7 +217,7 @@ namespace uzlmath
          */
         auto wigner_D(const int& J, const int& M, const int& Mp, const double& alpha, const double& beta, const double& gamma) -> const complex< double >
         {
-            if ( !(-J <= UZL_ABS(M) && UZL_ABS(Mp) <= J) )
+            if ( !(-J <= abs(M) && abs(Mp) <= J) )
             {
                 printf("** uzlmath error: Illegal arguments for Wigner D-function. Legal arguments are -J <= |M|, |M'| <= J. **");
                 exit(EXIT_FAILURE);
@@ -268,7 +268,7 @@ namespace uzlmath
          */
         auto wigner_D_l2normalized(const int& J, const int& M, const int& Mp, const double& alpha, const double& beta, const double& gamma) -> const complex< double >
         {
-            if ( !(-J <= UZL_ABS(M) && UZL_ABS(Mp) <= J) )
+            if ( !(-J <= abs(M) && abs(Mp) <= J) )
             {
                 printf("** uzlmath error: Illegal arguments for L^2 normalized Wigner D-function. Legal arguments are -J <= |M|, |M'| <= J. **");
                 exit(EXIT_FAILURE);

@@ -44,7 +44,7 @@ auto randi(matrix< eT >& mat, const int& min, const int& max) -> typename uzl_vo
     {
         for (j = 0; j < mat.n_cols(); ++j)
         {
-            mat(i, j) = rand() % (UZL_ABS(max) + UZL_ABS(min) + 1) + min;
+            mat(i, j) = rand() % (abs(max) + abs(min) + 1) + min;
         }
     }
     
@@ -87,8 +87,8 @@ auto randi(matrix< complex< eT > >& mat, const int& min, const int& max) -> type
     {
         for (j = 0; j < mat.n_cols(); ++j)
         {
-            mat(i, j).re = rand() % (UZL_ABS(max) + UZL_ABS(min) + 1) + min;
-            mat(i, j).im = rand() % (UZL_ABS(max) + UZL_ABS(min) + 1) + min;
+            mat(i, j).re = rand() % (abs(max) + abs(min) + 1) + min;
+            mat(i, j).im = rand() % (abs(max) + abs(min) + 1) + min;
         }
     }
     

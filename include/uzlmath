@@ -23,53 +23,34 @@
     #include <omp.h>
 #endif
 
-// Define functions
-#define UZL_MAX(A, B) ((A) > (B) ? (A) :  (B))
-#define UZL_MIN(A, B) ((A) > (B) ? (B) :  (A))
-#define UZL_ABS(A)    ((A) >  0  ? (A) : (-A))
-
 // defining namespace for uzlmath classes and functions
 namespace uzlmath
 {
-    ////////////////////////////////////////
-    // Global setting variables           //
-    ////////////////////////////////////////
+    /* Global setting variables */
     #include "uzlmath_headers/glob_vars.hpp"
     
     
-    ////////////////////////////////////////
-    // Forward declarations               //
-    ////////////////////////////////////////
+    /* Forward declarations */
     #include "uzlmath_headers/forward_declarations.hpp"
 
 
-    ////////////////////////////////////////
-    // Typedefs                           //
-    ////////////////////////////////////////
+    /* Typedefs */
     #include "uzlmath_headers/typedefs.hpp"
 
 
-    ////////////////////////////////////////
-    // Traits                             //
-    ////////////////////////////////////////
+    /* Traits */
     #include "uzlmath_headers/traits.hpp"
 
 
-    ////////////////////////////////////////
-    // Wrapper interface                  //
-    ////////////////////////////////////////
+    /* Wrapper interface */
     #include "uzlmath_headers/lib_wrapper.hpp"
 
 
-    ////////////////////////////////////////
-    // Restrictors                        //
-    ////////////////////////////////////////
+    /* Restrictors */
     #include "uzlmath_headers/restrictors.hpp"
 
 
-    ////////////////////////////////////////
-    // Class prototypes                   //
-    ////////////////////////////////////////
+    /* Class prototypes */
     #include "uzlmath_headers/base_dec.hpp"
     #include "uzlmath_headers/complex_dec.hpp"
     #include "uzlmath_headers/grid3D_dec.hpp"
@@ -85,9 +66,7 @@ namespace uzlmath
     #include "uzlmath_headers/vector_dec.hpp"
 
 
-    ////////////////////////////////////////
-    // Class implementation               //
-    ////////////////////////////////////////
+    /* Class implementations */
     #include "uzlmath_headers/base_def.hpp"
     #include "uzlmath_headers/complex_def.hpp"
     #include "uzlmath_headers/grid3D_def.hpp"
@@ -100,9 +79,7 @@ namespace uzlmath
     #include "uzlmath_headers/vector_def.hpp"
 
 
-    ////////////////////////////////////////
-    // Function implementations           //
-    ////////////////////////////////////////
+    /* Function implementations */
     #include "uzlmath_headers/fn_fliplr_matrix.hpp"
     #include "uzlmath_headers/fn_orthopoly.hpp"
     #include "uzlmath_headers/fn_cx_sqrt.hpp"

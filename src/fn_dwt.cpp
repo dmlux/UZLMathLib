@@ -104,28 +104,28 @@ namespace uzlmath
             // Definition of used indices and the matrix that will be returned
             unsigned int i, j;
             
-            int minJ = UZL_MAX(UZL_ABS(M), UZL_ABS(Mp));
+            int minJ = std::max(abs(M), abs(Mp));
             matrix< double > wig(bandwidth - minJ, 2 * bandwidth);
             
             // Compute root coefficient for the base case
             double normFactor  = sqrt((2. * minJ + 1.)/2.);
-            for (i = 0 ; i < minJ - UZL_MIN(UZL_ABS(M), UZL_ABS(Mp)) ; ++i)
+            for (i = 0 ; i < minJ - std::min(abs(M), abs(Mp)) ; ++i)
             {
                 normFactor *= sqrt((2. * minJ - i) / (i + 1.));
             }
             
             // Sin sign for the recurrence base case
-            double sinSign  = (minJ == UZL_ABS(M) && M >= 0 && (minJ - Mp) & 1 ? 1 : -1      );
-            sinSign         = (minJ != UZL_ABS(M) && Mp < 0 && (minJ - Mp) & 1 ? sinSign : -1);
+            double sinSign  = (minJ == abs(M) && M >= 0 && (minJ - Mp) & 1 ? 1 : -1      );
+            sinSign         = (minJ != abs(M) && Mp < 0 && (minJ - Mp) & 1 ? sinSign : -1);
             
             // Powers
             double cosPower, sinPower;
-            if (minJ == UZL_ABS(M) && M >= 0)
+            if (minJ == abs(M) && M >= 0)
             {
                 cosPower = minJ + Mp;
                 sinPower = minJ - Mp;
             }
-            else if (minJ == UZL_ABS(M))
+            else if (minJ == abs(M))
             {
                 cosPower = minJ - Mp;
                 sinPower = minJ + Mp;
@@ -236,28 +236,28 @@ namespace uzlmath
             // Definition of used indices and the matrix that will be returned
             unsigned int i, j;
             
-            int minJ = UZL_MAX(UZL_ABS(M), UZL_ABS(Mp));
+            int minJ = std::max(abs(M), abs(Mp));
             matrix< double > wig(bandwidth - minJ, 2 * bandwidth);
             
             // Compute root coefficient for the base case
             double normFactor  = sqrt((2. * minJ + 1.)/2.);
-            for (i = 0 ; i < minJ - UZL_MIN(UZL_ABS(M), UZL_ABS(Mp)) ; ++i)
+            for (i = 0 ; i < minJ - std::min(abs(M), abs(Mp)) ; ++i)
             {
                 normFactor *= sqrt((2. * minJ - i) / (i + 1.));
             }
             
             // Sin sign for the recurrence base case
-            double sinSign  = (minJ == UZL_ABS(M) && M >= 0 && (minJ - Mp) & 1 ? 1 : -1      );
-            sinSign         = (minJ != UZL_ABS(M) && Mp < 0 && (minJ - Mp) & 1 ? sinSign : -1);
+            double sinSign  = (minJ == abs(M) && M >= 0 && (minJ - Mp) & 1 ? 1 : -1      );
+            sinSign         = (minJ != abs(M) && Mp < 0 && (minJ - Mp) & 1 ? sinSign : -1);
             
             // Powers
             double cosPower, sinPower;
-            if (minJ == UZL_ABS(M) && M >= 0)
+            if (minJ == abs(M) && M >= 0)
             {
                 cosPower = minJ + Mp;
                 sinPower = minJ - Mp;
             }
-            else if (minJ == UZL_ABS(M))
+            else if (minJ == abs(M))
             {
                 cosPower = minJ - Mp;
                 sinPower = minJ + Mp;

@@ -373,7 +373,7 @@ std::ostream& operator<<(std::ostream& o, const grid3D< complex< S > >& c)
             for (y = 0; y < c.n_cols(); ++y)
             {
                 complex< S > val = c(x, y, z);
-                if (UZL_ABS(val.re) >= 10 || UZL_ABS(val.im) >= 10)
+                if (std::abs(val.re) >= 10 || std::abs(val.im) >= 10)
                 {
                     width   = 22;
                     format  = std::fixed;
@@ -384,7 +384,7 @@ std::ostream& operator<<(std::ostream& o, const grid3D< complex< S > >& c)
                     }
                 }
                 
-                if (UZL_ABS(val.re) >= 100 || UZL_ABS(val.im) >= 100)
+                if (std::abs(val.re) >= 100 || std::abs(val.im) >= 100)
                 {
                     width   = 24;
                     format  = std::fixed;
@@ -395,7 +395,7 @@ std::ostream& operator<<(std::ostream& o, const grid3D< complex< S > >& c)
                     }
                 }
                 
-                if (UZL_ABS(val.re) >= 1000 || UZL_ABS(val.im) >= 1000)
+                if (std::abs(val.re) >= 1000 || std::abs(val.im) >= 1000)
                 {
                     width   = 28;
                     format  = std::scientific;
@@ -413,7 +413,7 @@ std::ostream& operator<<(std::ostream& o, const grid3D< complex< S > >& c)
     for (z = 0; z < c.n_lays(); ++z)
     {
         // print layer number
-        std::cout << "layer[" << z << "]" << std::endl;
+        o << "layer[" << z << "]" << std::endl;
         
         // print numbers of layer
         for (x = 0; x < c.n_rows(); ++x)
@@ -428,7 +428,7 @@ std::ostream& operator<<(std::ostream& o, const grid3D< complex< S > >& c)
                 
                 // add real value to string
                 out << format << std::setprecision(4) << val.re;
-                out << (val.im < 0 ? " - " : " + ") << (val.im == 0 ?  0 : UZL_ABS(val.im)) << "i";
+                out << (val.im < 0 ? " - " : " + ") << (val.im == 0 ?  0 : std::abs(val.im)) << "i";
                 
                 // get string from steram
                 std::string str = out.str();

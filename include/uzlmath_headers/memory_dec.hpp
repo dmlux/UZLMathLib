@@ -18,21 +18,21 @@ class memory
     size_t size;    //!< Size of memory allocation
     
 public:
-    inline memory();
-    inline ~memory();
-    inline memory(memory&& A);
-    inline memory(const memory& A);
-    inline memory(const size_t& size);
+    inline              memory();
+    inline             ~memory();
+    inline              memory(memory&& A);
+    inline              memory(const memory& A);
+    inline              memory(const size_t& size);
     
-    inline void resize(const size_t& new_size);
+    inline       void   resize(const size_t& new_size);
     
-    inline      size_t n_elements() const;
+    inline       size_t n_elements() const;
     
-    inline eT& operator[](const size_t& idx);
-    inline const eT& operator[](const size_t& idx) const;
+    inline       eT&    operator[](const size_t& idx);
+    inline const eT&    operator[](const size_t& idx) const;
     
-    inline eT* memptr();
-    inline const eT* memptr() const;
+    inline       eT*    memptr();
+    inline const eT*    memptr() const;
 };
 
 #endif

@@ -56,7 +56,7 @@ matrix< complex< eT > >::matrix(const size_t& m, const size_t& n)
 {
     if (m <= 0 || n <= 0)
     {
-        std::cout << "** uzlmath error: Try to initialize complex matrix with zero or negative rows or columns. **" << std::endl;
+        printf("** uzlmath error: Try to initialize complex matrix with zero or negative rows or columns. **");
         exit(EXIT_FAILURE);
     }
     
@@ -81,7 +81,7 @@ matrix< complex< eT > >::matrix(const size_t& mn)
 {
     if (mn <= 0)
     {
-        std::cout << "** uzlmath error: Try to initialize complex matrix with zero or negative rows or columns. **" << std::endl;
+        printf("** uzlmath error: Try to initialize complex matrix with zero or negative rows or columns. **");
         exit(EXIT_FAILURE);
     }
     
@@ -108,7 +108,7 @@ matrix< complex< eT > >::matrix(const size_t& m, const size_t& n, const complex<
 {
     if (m <= 0 || n <= 0)
     {
-        std::cout << "** uzlmath error: Try to initialize complex matrix with zero or negative rows or columns. **" << std::endl;
+        printf("** uzlmath error: Try to initialize complex matrix with zero or negative rows or columns. **");
         exit(EXIT_FAILURE);
     }
     
@@ -349,7 +349,7 @@ matrix< complex< eT > > matrix< complex< eT > >::operator*(const matrix< complex
 {
     if ( cols != A.rows )
     {
-        std::cout << "** uzlmath error: Dimension mismatch in matrix-matrix multiplication. **" << std::endl;
+        printf("** uzlmath error: Dimension mismatch in matrix-matrix multiplication. **");
         exit(EXIT_FAILURE);
     }
     
@@ -477,7 +477,7 @@ matrix< complex< eT > > matrix< complex< eT > >::operator*(const matrix< eT >& A
 {
     if ( cols != A.rows )
     {
-        std::cout << "** uzlmath error: Dimension mismatch in matrix-matrix multiplication. **" << std::endl;
+        printf("** uzlmath error: Dimension mismatch in matrix-matrix multiplication. **");
         exit(EXIT_FAILURE);
     }
     
@@ -861,11 +861,9 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix<
 {
     if ( cols != A.rows )
     {
-        std::cout << "** uzlmath error: Dimension mismatch in matrix-matrix multiplication. **" << std::endl;
+        printf("** uzlmath error: Dimension mismatch in matrix-matrix multiplication. **");
         exit(EXIT_FAILURE);
     }
-    
-    std::cout << "wird hier ein aufruf getätigt?" << std::endl;
     
     size_t n_rows = rows;
     size_t n_cols = A.cols();
@@ -1013,7 +1011,7 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix<
 {
     if ( cols != A.rows )
     {
-        std::cout << "** uzlmath error: Dimension mismatch in matrix-matrix multiplication. **" << std::endl;
+        printf("** uzlmath error: Dimension mismatch in matrix-matrix multiplication. **");
         exit(EXIT_FAILURE);
     }
     
@@ -2097,7 +2095,7 @@ std::ostream& operator<<(std::ostream& o, const matrix< complex< eT > >& A)
         for (j = 0; j < A.n_cols(); ++j)
         {
             complex< eT > c = A(i, j);
-            if (UZL_ABS(c.re) >= 10 || UZL_ABS(c.im) >= 10)
+            if (std::abs(c.re) >= 10 || std::abs(c.im) >= 10)
             {
                 width   = 22;
                 format  = std::fixed;
@@ -2108,7 +2106,7 @@ std::ostream& operator<<(std::ostream& o, const matrix< complex< eT > >& A)
                 }
             }
             
-            if (UZL_ABS(c.re) >= 100 || UZL_ABS(c.im) >= 100)
+            if (std::abs(c.re) >= 100 || std::abs(c.im) >= 100)
             {
                 width   = 24;
                 format  = std::fixed;
@@ -2119,7 +2117,7 @@ std::ostream& operator<<(std::ostream& o, const matrix< complex< eT > >& A)
                 }
             }
             
-            if (UZL_ABS(c.re) >= 1000 || UZL_ABS(c.im) >= 1000)
+            if (std::abs(c.re) >= 1000 || std::abs(c.im) >= 1000)
             {
                 width   = 28;
                 format  = std::scientific;
@@ -2145,7 +2143,7 @@ std::ostream& operator<<(std::ostream& o, const matrix< complex< eT > >& A)
             
             // add real value to string
             val << format << std::setprecision(4) << c.re;
-            val << (c.im < 0 ? " - " : " + ") << (c.im == 0 ?  0 : UZL_ABS(c.im)) << "i";
+            val << (c.im < 0 ? " - " : " + ") << (c.im == 0 ?  0 : std::abs(c.im)) << "i";
             
             // get string from stream
             std::string str = val.str();

@@ -37,7 +37,7 @@ auto randi(vector< eT >& vec, const int& min, const int& max) -> typename uzl_vo
     size_t i;
     for (i = 0; i < vec.n_elements(); ++i)
     {
-        vec[i] = rand() % (UZL_ABS(max) + UZL_ABS(min) + 1) + min;
+        vec[i] = rand() % (abs(max) + abs(min) + 1) + min;
     }
     
     // set new seed
@@ -58,8 +58,8 @@ auto randi(vector< complex< eT > >& vec, const int& min, const int& max) -> type
     size_t i;
     for (i = 0; i < vec.n_elements(); ++i)
     {
-        vec[i].re = rand() % (UZL_ABS(max) + UZL_ABS(min) + 1) + min;
-        vec[i].im = rand() % (UZL_ABS(max) + UZL_ABS(min) + 1) + min;
+        vec[i].re = rand() % (abs(max) + abs(min) + 1) + min;
+        vec[i].im = rand() % (abs(max) + abs(min) + 1) + min;
     }
     
     // set new seed

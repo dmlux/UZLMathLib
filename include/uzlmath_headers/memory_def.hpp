@@ -55,7 +55,7 @@ memory< eT >::memory(const size_t& size)
     }
     else
     {
-        std::cout << "** uzlmath error: Bad allocation in memory allocation. **" << std::endl;
+        printf("** uzlmath error: Bad allocation in memory allocation. **");
         exit(EXIT_FAILURE);
     }
 }
@@ -79,7 +79,7 @@ void memory< eT >::resize(const size_t& new_size)
         }
         else
         {
-            std::cout << "** uzlmath error: Bad allocation in memory resize. **" << std::endl;
+            printf("** uzlmath error: Bad allocation in memory resize. **");
             exit(EXIT_FAILURE);
         }
     }

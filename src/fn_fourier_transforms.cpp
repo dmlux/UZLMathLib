@@ -333,7 +333,7 @@ namespace uzlmath
          *
          * @sa              DWT::wigner_d_matrix
          * @sa              SOFTFourierCoefficients
-         * @sa              spharmonics::SOFT
+         * @sa              FourierTransforms::SOFT
          * @sa              complex
          * @sa              matrix
          * @sa              grid3D
@@ -351,14 +351,14 @@ namespace uzlmath
             // Check if the grid has same size in each dimension
             if (synthesis.n_rows() != synthesis.n_cols() || synthesis.n_rows() != synthesis.n_lays())
             {
-                printf("** uzlmath error: all inverseSOFT synthesis grid dimensions should be equal. **\n");
+                printf("** uzlmath error: all ISOFT synthesis grid dimensions should be equal. **\n");
                 return;
             }
             
             // Check if grid has odd dimensions
             if (synthesis.n_rows() & 1)
             {
-                printf("** uzlmath error: inverseSOFT synthesis grid dimensions are not even. **\n");
+                printf("** uzlmath error: ISOFT synthesis grid dimensions are not even. **\n");
                 return;
             }
             
@@ -368,7 +368,7 @@ namespace uzlmath
             // Check if Fourier coefficients container dimension matches sample dimension
             if (bandwidth != fc.bandwidth())
             {
-                printf("** uzlmath error: SOFT Fourier coefficients container bandwidth does not match to synthesis grid bandwidth. **\n");
+                printf("** uzlmath error: ISOFT Fourier coefficients container bandwidth does not match to synthesis grid bandwidth. **\n");
                 return;
             }
             

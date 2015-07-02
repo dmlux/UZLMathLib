@@ -263,7 +263,7 @@ std::ostream& operator<<(std::ostream& o, const grid3D< S >& c)
     // setting decimal precesion
     for (z = 0; z < c.n_lays(); ++z)
     {
-        std::cout << "layer[" << z << "]" << std::endl;
+        o << "layer[" << z << "]" << std::endl;
         for (x = 0; x < c.n_rows(); ++x)
         {
             for (y = 0; y < c.n_cols(); ++y)

@@ -12,6 +12,11 @@
 #define uzlmath_fn_fourier_transforms_hpp
 
 /*!
+ * @defgroup    fourierTransforms Fourier Transforms
+ * @{
+ */
+
+/*!
  * @brief       The fft namespace encapsulates a collection of fourier transforms for different
  *              datastructures like matrices and vectors.
  *
@@ -299,5 +304,9 @@ namespace FourierTransforms
     // Inverse fast Fourier transform on SO(3)
     auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis) -> void;
 }
+
+/*!
+ * @}
+ */
 
 #endif

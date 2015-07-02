@@ -233,10 +233,22 @@ void for_back(unsigned int bandwidth, bool show_coefs)
 int main(int argc, const char ** argv)
 {
     //createGridSOFT(10);
-    for_back_file("/Users/dlux/Desktop/soft_files/test_series/grid_3_test.dat", 3, true);
-//    for_back(128, false);
+//    for_back_file("/Users/dlux/Desktop/soft_files/test_series/grid_3_test.dat", 3, true);
+    for_back(128, false);
     
 //    std::cout << std::setprecision(20) << std::numeric_limits<float>::epsilon << std::endl;
+    
+//    matrix< double > A(4, 5), B(4, 5);
+//    
+//    for (int i = 0; i < 4; ++i)
+//    {
+//        for (int j = 0; j < 5; ++j)
+//        {
+//            A(i, j) = B(i, j) = i + j;
+//        }
+//    }
+//    
+//    std::cout << "A = " << A << std::endl << "B = " << B << std::endl;
     
     return 0;
 }
