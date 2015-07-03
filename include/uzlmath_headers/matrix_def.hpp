@@ -55,14 +55,8 @@ matrix< eT >::matrix(const size_t& m, const size_t& n)
     , r_inj(0)
     , c_inj(0)
 {
-    if (m <= 0 || n <= 0)
-    {
-        printf("** uzlmath error: Try to initialize matrix with zero or negative rows or columns. **");
-        exit(EXIT_FAILURE);
-    }
-    
-    size_t cap = m * n;
-    mem = new eT[cap];
+    size_t cap  = m * n;
+    mem         = new eT[cap];
 }
 
 /*!
@@ -81,15 +75,8 @@ matrix< eT >::matrix(const size_t& mn)
     , r_inj(0)
     , c_inj(0)
 {
-    if (mn <= 0)
-    {
-        printf("** uzlmath error: Try to initialize matrix with zero or negative rows or columns. **");
-        exit(EXIT_FAILURE);
-    }
-    
-    
-    size_t cap = mn * mn;
-    mem = new eT[cap];
+    size_t cap  = mn * mn;
+    mem         = new eT[cap];
 }
 
 /*!
@@ -109,23 +96,20 @@ matrix< eT >::matrix(const size_t& m, const size_t& n, const eT& initial)
     , r_inj(0)
     , c_inj(0)
 {
-    if (m <= 0 || n <= 0)
-    {
-        printf("** uzlmath error: Try to initialize matrix with zero or negative rows or columns. **");
-        exit(EXIT_FAILURE);
-    }
+    size_t cap  = m * n;
+    mem         = new eT[cap];
     
-    size_t cap = m * n;
-    mem = new eT[cap];
-    
-    if (initial == 0 || initial == -1)
+    if (cap > 0)
     {
-        // fastest possible assembler routine
-        memset(mem, initial, cap * sizeof(eT));
-    }
-    else
-    {
-        std::fill(mem, mem + cap, initial);
+        if (initial == 0 || initial == -1)
+        {
+            // fastest possible assembler routine
+            memset(mem, initial, cap * sizeof(eT));
+        }
+        else
+        {
+            std::fill(mem, mem + cap, initial);
+        }
     }
 }
 
@@ -199,7 +183,11 @@ matrix< eT >::matrix(const matrix< eT >& A)
 {
     size_t cap  = rows * cols;
     mem         = new eT[cap];
-    memcpy(mem, A.mem, cap * sizeof(eT));
+    
+    if (cap > 0)
+    {
+        memcpy(mem, A.mem, cap * sizeof(eT));
+    }
 }
 
 /*!
@@ -633,8 +621,12 @@ const matrix< eT >&  matrix< eT >::operator=(const matrix< eT >& A)
     delete [] mem;
         
     mem = new eT[cap];
-    memcpy(mem, A.mem, cap * sizeof(eT));
     
+    if (cap > 0)
+    {
+        memcpy(mem, A.mem, cap * sizeof(eT));
+    }
+        
     return *this;
 }
 

@@ -47,15 +47,19 @@ grid3D< eT >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays,
     , cols(cols)
     , lays(lays)
 {
-    mem = new eT[rows * cols * lays];
+    size_t cap  = rows * cols * lays;
+    mem         = new eT[cap];
     
-    if (initial == 0 || initial == -1)
+    if (cap > 0)
     {
-        memset(mem, initial, rows * cols * lays * sizeof(eT));
-    }
-    else
-    {
-        std::fill(mem, mem + rows * cols * lays, initial);
+        if (initial == 0 || initial == -1)
+        {
+            memset(mem, initial, cap * sizeof(eT));
+        }
+        else
+        {
+            std::fill(mem, mem + cap, initial);
+        }
     }
 }
 
@@ -66,15 +70,19 @@ grid3D< eT >::grid3D(const size_t& rcl, const eT& initial)
     , cols(rcl)
     , lays(rcl)
 {
-    mem = new eT[rows * cols * lays];
+    size_t cap  = rows * cols * lays;
+    mem         = new eT[cap];
     
-    if (initial == 0 || initial == -1)
+    if (cap > 0)
     {
-        memset(mem, initial, rows * cols * lays * sizeof(eT));
-    }
-    else
-    {
-        std::fill(mem, mem + rows * cols * lays, initial);
+        if (initial == 0 || initial == -1)
+        {
+            memset(mem, initial, cap * sizeof(eT));
+        }
+        else
+        {
+            std::fill(mem, mem + cap, initial);
+        }
     }
 }
 
@@ -85,8 +93,13 @@ grid3D< eT >::grid3D(const grid3D< eT >& c)
     , cols(c.cols)
     , lays(c.lays)
 {
-    mem = new eT[rows * cols * lays];
-    memcpy(mem, c.mem, c.rows * c.cols * c.lays * sizeof(eT));
+    size_t cap  = rows * cols * lays;
+    mem         = new eT[cap];
+    
+    if (cap > 0)
+    {
+        memcpy(mem, c.mem, c.rows * c.cols * c.lays * sizeof(eT));
+    }
 }
 
 template< typename eT >
@@ -122,9 +135,14 @@ const grid3D< eT >& grid3D< eT >::operator=(const grid3D< eT >& c)
     lays = c.lays;
     
     delete [] mem;
-    mem = new eT[rows * cols * lays];
     
-    memcpy(mem, c.mem, rows * cols * lays * sizeof(eT));
+    size_t cap  = rows * cols * lays;
+    mem         = new eT[cap];
+    
+    if (cap > 0)
+    {
+        memcpy(mem, c.mem, cap * sizeof(eT));
+    }
     
     return *this;
 }

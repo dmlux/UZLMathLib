@@ -43,12 +43,6 @@ vector< eT >::vector(const size_t& s, const vec_type& type)
     , type(type)
     , inj(0)
 {
-    if (s <= 0)
-    {
-        printf("** uzlmath error: Try to initialize vector with zero or negative size. **");
-        exit(EXIT_FAILURE);
-    }
-    
     mem = new eT[s];
 }
 
@@ -70,21 +64,18 @@ vector< eT >::vector(const size_t& s, const eT& initial, const vec_type& type)
     , type(type)
     , inj(0)
 {
-    if (s <= 0)
-    {
-        printf("** uzlmath error: Try to initialize vector with zero or negative size. **");
-        exit(EXIT_FAILURE);
-    }
-    
     mem = new eT[s];
     
-    if (initial == 0 || initial == -1)
+    if (s > 0)
     {
-        memset(mem, initial, size * sizeof(eT));
-    }
-    else
-    {
-        std::fill(mem, mem + size, initial);
+        if (initial == 0 || initial == -1)
+        {
+            memset(mem, initial, size * sizeof(eT));
+        }
+        else
+        {
+            std::fill(mem, mem + size, initial);
+        }
     }
 }
 
@@ -103,8 +94,12 @@ vector< eT >::vector(const vector< eT >& vec)
     , type(vec.type)
     , inj(vec.inj)
 {
-    mem = new eT[vec.size];
-    memcpy(mem, vec.mem, vec.size * sizeof(eT));
+    mem = new eT[size];
+    
+    if (size > 0)
+    {
+        memcpy(mem, vec.mem, size * sizeof(eT));
+    }
 }
 
 /*!
@@ -125,8 +120,12 @@ vector< eT >::vector(const vector< eT >& vec, const vec_type& type)
     , type(type)
     , inj(vec.inj)
 {
-    mem = new eT[vec.size];
-    memcpy(mem, vec.mem, vec.size * sizeof(eT));
+    mem = new eT[size];
+    
+    if (size > 0)
+    {
+        memcpy(mem, vec.mem, size * sizeof(eT));
+    }
 }
 
 /*!
@@ -283,7 +282,7 @@ matrix< eT > vector< eT >::operator*(const vector< eT >& v)
         size_t cap_c = M * N;
         for (i = 0; i < cap_c; ++i)
         {
-            result.mem[i] = (eT)C[i];
+            result.mem[i] = static_cast< eT >(C[i]);
         }
         
         delete [] tmp_mem;
@@ -330,7 +329,7 @@ matrix< eT > vector< eT >::operator*(const vector< eT >& v)
         size_t cap_c = M * N;
         for (i = 0; i < cap_c; ++i)
         {
-            result.mem[i] = (eT)C[i];
+            result.mem[i] = static_cast< eT >(C[i]);
         }
         
         delete [] tmp_mem;
@@ -944,7 +943,7 @@ vector< eT > vector< eT >::operator*(const matrix< eT >& mat)
         size_t cap_c = M * N;
         for (i = 0; i < cap_c; ++i)
         {
-            result[i] = (eT)C[i];
+            result[i] = static_cast< eT >(C[i]);
         }
         
         delete [] tmp_mem;
@@ -989,7 +988,7 @@ vector< eT > vector< eT >::operator*(const matrix< eT >& mat)
         size_t cap_c = M * N;
         for (i = 0; i < cap_c; ++i)
         {
-            result[i] = (eT)C[i];
+            result[i] = static_cast< eT >(C[i]);
         }
         
         delete [] tmp_mem;
@@ -1109,8 +1108,11 @@ const vector< eT >& vector< eT >::operator=(const vector< eT >& v)
     delete [] mem;
     mem = new eT[size];
     
-    memcpy(mem, v.mem, size * sizeof(eT));
-    
+    if (size > 0)
+    {
+        memcpy(mem, v.mem, size * sizeof(eT));
+    }
+        
     return *this;
 }
 

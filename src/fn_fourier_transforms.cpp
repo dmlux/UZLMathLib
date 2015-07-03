@@ -92,7 +92,7 @@ namespace uzlmath
             unsigned int bandwidth = static_cast< unsigned int >(sample.n_cols() / 2);
             
             // Check if Fourier coefficients container dimension matches sample dimension
-            if (bandwidth != fc.bandwidth())
+            if (bandwidth != fc.bandwidth)
             {
                 printf("** uzlmath error: SOFT Fourier coefficients container bandwidth does not match to sample grid bandwidth. **\n");
                 return;
@@ -366,7 +366,7 @@ namespace uzlmath
             unsigned int bandwidth = static_cast< unsigned int >(synthesis.n_cols() / 2);
             
             // Check if Fourier coefficients container dimension matches sample dimension
-            if (bandwidth != fc.bandwidth())
+            if (bandwidth != fc.bandwidth)
             {
                 printf("** uzlmath error: ISOFT Fourier coefficients container bandwidth does not match to synthesis grid bandwidth. **\n");
                 return;
@@ -375,13 +375,13 @@ namespace uzlmath
             /*****************************************************************
              ** M = 0, M' = 0                                               **
              *****************************************************************/
-            matrix< double >            d = DWT::wigner_d_matrix(bandwidth, 0, 0) * -1;
+            matrix< double > d = DWT::wigner_d_matrix(bandwidth, 0, 0) * -1;
             vector< complex< double > > sh(d.n_rows(), vec_type::COLUMN);
             
             d.transpose();
             
             // defining norm factor
-            double norm                   = (2 * bandwidth * bandwidth) / M_PI;
+            double norm = (2 * bandwidth * bandwidth) / M_PI;
             
             // defining needed indices
             unsigned MMp, i, j, M, Mp;

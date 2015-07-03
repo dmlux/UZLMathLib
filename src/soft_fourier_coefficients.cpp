@@ -21,9 +21,8 @@ namespace uzlmath
      *                  empty
      */
     SOFTFourierCoefficients::SOFTFourierCoefficients()
-        : max_l(0)
-        , B(0)
-        , mem(nullptr)
+        : mem(nullptr)
+        , bandwidth(0)
     {}
     
     
@@ -37,9 +36,8 @@ namespace uzlmath
      * @param[in]       bandlimit The bandlimit of the function which coefficients
      *                  are supposed to be stored in this coefficient container.
      */
-    SOFTFourierCoefficients::SOFTFourierCoefficients(int bandlimit)
-        : max_l(bandlimit- 1)
-        , B(bandlimit)
+    SOFTFourierCoefficients::SOFTFourierCoefficients(unsigned int bandlimit)
+        : bandwidth(bandlimit)
     {
         mem   = new matrix< complex< double > >[bandlimit];
         
@@ -78,26 +76,11 @@ namespace uzlmath
             exit(EXIT_FAILURE);
         }
         
+        // if M or Mp are negative count from behind
         size_t idx_M  = (M  >= 0 ? M  : mem[l].n_rows() + M );
         size_t idx_Mp = (Mp >= 0 ? Mp : mem[l].n_cols() + Mp);
-        return  mem[l](idx_M, idx_Mp);
         
-        //    if (M >= 0 && Mp >= 0)
-        //    {
-        //        return mem[l](M, Mp);
-        //    }
-        //    else if (M >= 0)
-        //    {
-        //        return mem[l](M, mem[l].n_cols() + Mp);
-        //    }
-        //    else if (Mp >= 0)
-        //    {
-        //        return mem[l](mem[l].n_rows() + M, Mp);
-        //    }
-        //    else
-        //    {
-        //        return mem[l](mem[l].n_rows() + M, mem[l].n_cols() + Mp);
-        //    }
+        return  mem[l](idx_M, idx_Mp);
     }
     
     /*!
@@ -120,38 +103,11 @@ namespace uzlmath
             exit(EXIT_FAILURE);
         }
         
+        // if M or Mp are negative count from behind
         size_t idx_M  = (M  >= 0 ? M  : mem[l].n_rows() + M );
         size_t idx_Mp = (Mp >= 0 ? Mp : mem[l].n_cols() + Mp);
-        return  mem[l](idx_M, idx_Mp);
         
-        //    if (M >= 0 && Mp >= 0)
-        //    {
-        //        return mem[l](M, Mp);
-        //    }
-        //    else if (M >= 0)
-        //    {
-        //        return mem[l](M, mem[l].n_cols() + Mp);
-        //    }
-        //    else if (Mp >= 0)
-        //    {
-        //        return mem[l](mem[l].n_rows() + M, Mp);
-        //    }
-        //    else
-        //    {
-        //        return mem[l](mem[l].n_rows() + M, mem[l].n_cols() + Mp);
-        //    }
-    }
-    
-    /*!
-     * @brief           Getter for the bandwidth of function
-     * @details         Returns the bandwidth of the function that corresponds
-     *                  to the Fourier coefficients of this container.
-     *
-     * @return          The bandwdith
-     */
-    const int& SOFTFourierCoefficients::bandwidth() const
-    {
-        return B;
+        return  mem[l](idx_M, idx_Mp);
     }
     
     /*!
@@ -167,9 +123,9 @@ namespace uzlmath
     std::ostream& operator<<(std::ostream& o, const SOFTFourierCoefficients& fc)
     {
         std::ios::fmtflags f( std::cout.flags() );
-        o << std::setprecision(4);
+        o << std::endl << std::setprecision(4);
         
-        for (int i = 0; i < fc.max_l + 1; ++i)
+        for (int i = 0; i < fc.bandwidth; ++i)
         {
             o << "SOFTFourierCoefficients[M_{0,1,2,...,-2,-1} x M'_{0,1,2,...,-2,-1}] ~> [l = " << i << "]\n" << fc.mem[i] << std::endl;
         }

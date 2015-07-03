@@ -45,9 +45,13 @@ grid3D< complex< eT > >::grid3D(const size_t& rows, const size_t& cols, const si
     , cols(cols)
     , lays(lays)
 {
-    mem = new complex< eT >[rows * cols * lays];
+    size_t cap  = rows * cols * lays;
+    mem         = new complex< eT >[cap];
     
-    std::fill(mem, mem + rows * cols * lays, initial);
+    if (cap > 0)
+    {
+        std::fill(mem, mem + cap, initial);
+    }
 }
 
 template< typename eT >
@@ -57,10 +61,14 @@ grid3D< complex< eT > >::grid3D(const size_t& rows, const size_t& cols, const si
     , cols(cols)
     , lays(lays)
 {
-    mem = new complex< eT >[rows * cols * lays];
-    complex< eT > init(initial, 0);
+    size_t cap  = rows * cols * lays;
+    mem         = new complex< eT >[cap];
     
-    std::fill(mem, mem + rows * cols * lays, init);
+    if (cap > 0)
+    {
+        complex< eT > init(initial, 0);
+        std::fill(mem, mem + cap, init);
+    }
 }
 
 template< typename eT >
@@ -70,9 +78,13 @@ grid3D< complex< eT > >::grid3D(const size_t& rcl, const complex< eT >& initial)
     , cols(rcl)
     , lays(rcl)
 {
-    mem = new complex< eT >[rows * cols * lays];
+    size_t cap  = rows * cols * lays;
+    mem         = new complex< eT >[cap];
     
-    std::fill(mem, mem + rows * cols * lays, initial);
+    if (cap > 0)
+    {
+        std::fill(mem, mem + cap, initial);
+    }
 }
 
 template< typename eT >
@@ -82,10 +94,14 @@ grid3D< complex< eT > >::grid3D(const size_t& rcl, const eT& initial)
     , cols(rcl)
     , lays(rcl)
 {
-    mem = new complex< eT >[rows * cols * lays];
-    complex< eT > init(initial, 0);
+    size_t cap  = rows * cols * lays;
+    mem         = new complex< eT >[cap];
     
-    std::fill(mem, mem + rows * cols * lays, init);
+    if (cap > 0)
+    {
+        complex< eT > init(initial, 0);
+        std::fill(mem, mem + cap, init);
+    }
 }
 
 template< typename eT >
@@ -95,12 +111,15 @@ grid3D< complex< eT > >::grid3D(const grid3D< eT >& c)
     , cols(c.cols)
     , lays(c.lays)
 {
-    mem = new complex< eT >[rows * cols * lays];
+    size_t i, cap   = rows * cols * lays;
+    mem             = new complex< eT >[cap];
     
-    size_t i;
-    for (i = 0; i < rows * cols * lays; ++i)
+    if (cap > 0)
     {
-        mem[i] = complex< eT >(c.mem[i], 0);
+        for (i = 0; i < cap; ++i)
+        {
+            mem[i] = complex< eT >(c.mem[i], 0);
+        }
     }
 }
 
@@ -111,8 +130,13 @@ grid3D< complex< eT > >::grid3D(const grid3D< complex< eT > >& c)
     , cols(c.cols)
     , lays(c.lays)
 {
-    mem = new complex< eT >[rows * cols * lays];
-    memcpy(mem, c.mem, rows * cols * lays * sizeof(complex< eT >));
+    size_t cap  = rows * cols * lays;
+    mem         = new complex< eT >[cap];
+    
+    if (cap > 0)
+    {
+        memcpy(mem, c.mem, cap * sizeof(complex< eT >));
+    }
 }
 
 template< typename eT >
@@ -143,12 +167,17 @@ const grid3D< complex< eT > >& grid3D< complex< eT > >::operator=(const grid3D< 
     lays = c.lays;
     
     delete [] mem;
-    mem = new complex< eT >[rows * cols * lays];
     
-    size_t i;
-    for (i = 0; i < rows * cols * lays; ++i)
+    size_t cap = rows * cols * lays;
+    mem = new complex< eT >[cap];
+    
+    if (cap > 0)
     {
-        mem[i] = complex< eT >(c.mem[i], 0);
+        size_t i;
+        for (i = 0; i < cap; ++i)
+        {
+            mem[i] = complex< eT >(c.mem[i], 0);
+        }
     }
 }
 
@@ -161,9 +190,14 @@ const grid3D< complex< eT > >& grid3D< complex< eT > >::operator=(const grid3D< 
     lays = c.lays;
     
     delete [] mem;
-    mem = new complex< eT >[rows * cols * lays];
     
-    memcpy(mem, c.mem, rows * cols * lays * sizeof(complex< eT >));
+    size_t cap = rows * cols * lays;
+    mem = new complex< eT >[cap];
+    
+    if (cap > 0)
+    {
+        memcpy(mem, c.mem, rows * cols * lays * sizeof(complex< eT >));
+    }
 }
 
 template< typename eT >

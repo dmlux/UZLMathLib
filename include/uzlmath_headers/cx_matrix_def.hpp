@@ -54,14 +54,8 @@ matrix< complex< eT > >::matrix(const size_t& m, const size_t& n)
     , r_inj(0)
     , c_inj(0)
 {
-    if (m <= 0 || n <= 0)
-    {
-        printf("** uzlmath error: Try to initialize complex matrix with zero or negative rows or columns. **");
-        exit(EXIT_FAILURE);
-    }
-    
-    size_t cap = m * n;
-    mem = new complex< eT >[cap];
+    size_t cap  = m * n;
+    mem         = new complex< eT >[cap];
 }
 
 /*!
@@ -79,14 +73,8 @@ matrix< complex< eT > >::matrix(const size_t& mn)
     , r_inj(0)
     , c_inj(0)
 {
-    if (mn <= 0)
-    {
-        printf("** uzlmath error: Try to initialize complex matrix with zero or negative rows or columns. **");
-        exit(EXIT_FAILURE);
-    }
-    
-    size_t cap = mn * mn;
-    mem = new complex< eT >[cap];
+    size_t cap  = mn * mn;
+    mem         = new complex< eT >[cap];
 }
 
 /*!
@@ -106,18 +94,15 @@ matrix< complex< eT > >::matrix(const size_t& m, const size_t& n, const complex<
     , r_inj(0)
     , c_inj(0)
 {
-    if (m <= 0 || n <= 0)
-    {
-        printf("** uzlmath error: Try to initialize complex matrix with zero or negative rows or columns. **");
-        exit(EXIT_FAILURE);
-    }
+    size_t cap  = m * n;
+    mem         = new complex< eT >[cap];
     
-    size_t cap = m * n;
-    mem = new complex< eT >[cap];
-    
-    for (int i = 0; i < cap; ++i)
+    if (cap > 0)
     {
-        mem[i] = initial;
+        for (int i = 0; i < cap; ++i)
+        {
+            mem[i] = initial;
+        }
     }
 }
 
@@ -139,7 +124,10 @@ matrix< complex< eT > >::matrix(const matrix< complex< eT > >& A)
     size_t cap  = rows * cols;
     mem         = new complex< eT >[cap];
     
-    memcpy(mem, A.mem, cap * sizeof(complex< eT >));
+    if (cap > 0)
+    {
+        memcpy(mem, A.mem, cap * sizeof(complex< eT >));
+    }
 }
 
 /*!
@@ -617,9 +605,12 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator=(const matrix< 
     delete [] mem;
     mem = new complex< eT >[cap];
     
-    for (int i = 0; i < cap; ++i)
+    if (cap > 0)
     {
-        mem[i] = complex< eT >(A.mem[i], 0);
+        for (int i = 0; i < cap; ++i)
+        {
+            mem[i] = complex< eT >(A.mem[i], 0);
+        }
     }
     
     return *this;
@@ -649,8 +640,12 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator=(const matrix< 
     
     delete [] mem;
     mem = new complex< eT >[cap];
-    memcpy(mem, A.mem, cap * sizeof(complex< eT >));
     
+    if (cap > 0)
+    {
+        memcpy(mem, A.mem, cap * sizeof(complex< eT >));
+    }
+        
     return *this;
 }
 
@@ -675,9 +670,9 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator=(matrix< comple
     rows = A.rows;
     cols = A.cols;
     
-    complex< eT >* tmp = mem;
-    mem              = A.mem;
-    A.mem            = tmp;
+    complex< eT >* tmp  = mem;
+    mem                 = A.mem;
+    A.mem               = tmp;
     
     return *this;
 }

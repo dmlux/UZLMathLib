@@ -47,7 +47,7 @@ namespace uzlmath
         rand();
         
         // iterate over degree
-        for (int l = 0; l < fc.bandwidth(); ++l)
+        for (int l = 0; l < fc.bandwidth; ++l)
         {
             // iterate over M order
             for (int M = -l; M <= l; ++M)

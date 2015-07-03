@@ -17,13 +17,48 @@ namespace uzlmath
 {
     
     /*!
+     * @brief           Writes the Fourier coefficients container to disk.
+     * @details         Writes the contents of the Fourier coefficients container
+     *                  to a file with the given name. 
+     *
+     * @param[in]       coef The Fourier coefficients container containing the Fourier
+     *                  coefficients of the SOFT for the given bandwidth.
+     * @param[in]       fileName The file name where the coefficients are getting written
+     *                  to.
+     *
      * @ingroup         SOFTFourierCoefficients
      */
     auto obj2file(const SOFTFourierCoefficients& coef, const std::string& fileName) -> void
     {
-    
+        // create file and open it with write flag
+        FILE* fp = fopen(fileName.c_str(), "w");
+        
+        // print labels into  file labels
+        fprintf(fp, "-----------------------------------------------------------------\n");
+        fprintf(fp, "  l    M    M'     Fourier coefficient\n");
+        fprintf(fp, "-----------------------------------------------------------------\n");
+        
+        // iterate over grid starting with layers
+        int l, M, Mp;
+        for (l = 0; l < coef.bandwidth; ++l)
+        {
+            for (M = -l; M <= l; ++M)
+            {
+                for (Mp = -l; Mp <= l; ++Mp)
+                {
+                    // print orders and degree of coefficient
+                    fprintf(fp, "%4d %4d %4d     ", l, M, Mp);
+                    // print space if real part of coefficient is positive
+                    fprintf(fp, "%s", (coef(l, M, Mp).re > 0 ? " " : ""));
+                    // print coefficient
+                    fprintf(fp, "%.16f%s%.16fi\n", coef(l, M, Mp).re, (coef(l, M, Mp).im >= 0 ? " + " : " - "), fabs(coef(l, M, Mp).im));
+                }
+            }
+        }
+        
+        // close file and everything is done
+        fclose(fp);
     }
-    
 }
     
 #endif

@@ -27,12 +27,6 @@ vector< complex< eT > >::vector(const size_t& s, const vec_type& type)
     , type(type)
     , inj(0)
 {
-    if (s <= 0)
-    {
-        printf("** uzlmath error: try to initialize complex vector with zero or negative size. **");
-        exit(EXIT_FAILURE);
-    }
-    
     mem = new complex< eT >[s];
 }
 
@@ -43,14 +37,12 @@ vector< complex< eT > >::vector(const size_t& s, const eT& initial, const vec_ty
     , type(type)
     , inj(0)
 {
-    if (s <= 0)
-    {
-        printf("** uzlmath error: try to initialize complex vector with zero or negative size. **");
-        exit(EXIT_FAILURE);
-    }
-    
     mem = new complex< eT >[s];
-    std::fill(mem, mem + size, complex< eT >(initial, 0));
+    
+    if (size > 0)
+    {
+        std::fill(mem, mem + size, complex< eT >(initial, 0));
+    }
 }
 
 template< typename eT >
@@ -60,14 +52,12 @@ vector< complex< eT > >::vector(const size_t& s, const complex< eT >& initial, c
     , type(type)
     , inj(0)
 {
-    if (s <= 0)
-    {
-        printf("** uzlmath error: try to initialize complex vector with zero or negative size. **");
-        exit(EXIT_FAILURE);
-    }
-    
     mem = new complex< eT >[s];
-    std::fill(mem, mem + size, initial);
+    
+    if (size > 0)
+    {
+        std::fill(mem, mem + size, initial);
+    }
 }
 
 template< typename eT >
@@ -120,8 +110,12 @@ vector< complex< eT > >::vector(const vector< complex< eT > >& vec, const vec_ty
     , type(type)
     , inj(vec.inj)
 {
-    mem = new complex< eT >[vec.size];
-    memcpy(mem, vec.mem, vec.size * sizeof(complex< eT >));
+    mem = new complex< eT >[size];
+    
+    if (size > 0)
+    {
+        memcpy(mem, vec.mem, size * sizeof(complex< eT >));
+    }
 }
 
 template< typename eT >
@@ -889,10 +883,13 @@ const vector< complex< eT > >& vector< complex< eT > >::operator=(const vector< 
     delete [] mem;
     mem = new complex< eT >[size];
     
-    size_t i;
-    for (i = 0; i < size; ++i)
+    if (size > 0)
     {
-        mem[i] = complex< eT >(v[i], 0);
+        size_t i;
+        for (i = 0; i < size; ++i)
+        {
+            mem[i] = complex< eT >(v[i], 0);
+        }
     }
     
     return *this;
@@ -913,7 +910,10 @@ const vector< complex< eT > >& vector< complex< eT > >::operator=(const vector< 
     delete [] mem;
     mem = new complex< eT >[size];
     
-    memcpy(mem, v.mem, size * sizeof(complex< eT >));
+    if (size > 0)
+    {
+        memcpy(mem, v.mem, size * sizeof(complex< eT >));
+    }
     
     return *this;
 }
