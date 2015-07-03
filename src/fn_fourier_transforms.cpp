@@ -148,30 +148,29 @@ namespace uzlmath
                 sh = dw * s;
                 if (M & 1)
                 {
-                    //for (i = 0; i < ceil(sh.n_elements()/2.); ++i) { sh[i * 2] *= -1;                             }
-                    for (i = 0; i < (sh.n_elements()+1)/2; ++i) { sh[i * 2] *= -1;                                }
+                    for (i = 0; i < sh.n_elements(); i += 2) { sh[i] *= -1;                                       }
                 }
                 else
                 {
-                    for (i = 0; i < sh.n_elements()/2; ++i) { sh[i * 2 + 1] *= -1;                                }
+                    for (i = 1; i < sh.n_elements(); i += 2) { sh[i] *= -1;                                       }
                 }
                 for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, 0) = norm * sh[sh.n_elements()-i];  }
                 
                 // case f_{0,-M}
                 for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, 0, i);                 }
                 sh = dw * s;
-                for (i = 0; i < sh.n_elements()/2; ++i) { sh[i * 2 + 1] *= -1;                                    }
+                for (i = 1; i < sh.n_elements(); i +=2 ){ sh[i] *= -1;                                            }
                 for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, 0, -M) = norm * sh[sh.n_elements()-i];  }
                 
                 // get new wigner matrix
                 dw = DWT::weighted_wigner_d_matrix(bandwidth, M, M, weights) * -1;
                 
-                // case M, M
+                // case f_{M, M}
                 for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, M, i);                                 }
                 sh = dw * s;
                 for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, M) = norm * sh[sh.n_elements()-i];   }
                 
-                // case -M, -M
+                // case f_{-M, -M}
                 for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, 2 * bandwidth - M, i); }
                 sh = dw * s;
                 for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, -M) = norm * sh[sh.n_elements()-i]; }
@@ -181,12 +180,12 @@ namespace uzlmath
                 fliplr_ne2ndorow(dw);
                 
                 // An little arithmetic error is occuring in the following calculation
-                // case M, -M
+                // case f_{M, -M}
                 for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, M, i);                 }
                 sh = dw * s;
                 for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, -M) = norm * sh[sh.n_elements()-i];  }
                 
-                // case -M, M
+                // case f_{-M, M}
                 for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, 2 * bandwidth - M, i);                 }
                 sh = dw * s;
                 for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, M) = norm * sh[sh.n_elements()-i];  }
@@ -212,25 +211,25 @@ namespace uzlmath
                 // get new wigner d-matrix
                 dw = DWT::weighted_wigner_d_matrix(bandwidth, M, Mp, weights);
                 
-                // case M, Mp
+                // case f_{M, Mp}
                 for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(Mp, M, i);                                          }
                 sh  = dw * s;
                 sh *= -1;
                 for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, Mp) = norm * sh[sh.n_elements()-i];            }
                 
-                // case Mp, M
+                // case f_{Mp, M}
                 for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, Mp, i);                                          }
                 sh = dw * s;
                 if  (!((M - Mp) & 1))                   { sh *= -1;                                                         }
                 for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, Mp, M) = norm * sh[sh.n_elements()-i];            }
                 
-                // case -M, -Mp
+                // case f_{-M, -Mp}
                 for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - Mp, 2 * bandwidth - M, i);          }
                 sh = dw * s;
                 if  (!((M - Mp) & 1))                   { sh *= -1;                                                         }
                 for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, -Mp) = norm * sh[sh.n_elements()-i];          }
                 
-                // case -Mp, -M
+                // case f_{-Mp, -M}
                 for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, 2 * bandwidth - Mp, i);          }
                 sh  = dw * s;
                 sh *= -1;
@@ -241,12 +240,12 @@ namespace uzlmath
                 // matrix and negate each even value with even row index.
                 fliplr_ne2nderow(dw);
                 
-                // case Mp, -M
+                // case f_{Mp, -M}
                 for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, Mp, i);                          }
                 sh = dw * s;
                 for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, Mp, -M) = norm * sh[sh.n_elements()-i];           }
                 
-                // case M, -Mp
+                // case f_{M, -Mp}
                 for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - Mp, M, i);                          }
                 sh = dw * s;
                 for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, -Mp) = norm * sh[sh.n_elements()-i];           }
@@ -254,18 +253,19 @@ namespace uzlmath
                 // alter signs
                 if ((M - Mp) & 1)
                 {
+                    double* dw_mem = dw.memptr();
                     for (i = 0; i < dw.n_rows() * dw.n_cols(); ++i)
                     {
-                        dw.memptr()[i] *= -1;
+                        dw_mem[i] *= -1;
                     }
                 }
                 
-                // case -Mp, M
+                // case f_{-Mp, M}
                 for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, 2 * bandwidth - Mp, i);                          }
                 sh = dw * s;
                 for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -Mp, M) = norm * sh[sh.n_elements()-i];           }
                 
-                // case -M, Mp
+                // case f_{-M, Mp}
                 for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(Mp, 2 * bandwidth - M, i);                          }
                 sh = dw * s;
                 for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, Mp) = norm * sh[sh.n_elements()-i];           }
@@ -392,19 +392,18 @@ namespace uzlmath
                 for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -M, 0);  }
                 if (M & 1)
                 {
-                    //for (i = 0; i < ceil(sh.n_elements()/2.); ++i) { sh[i * 2] *= -1;                             }
-                    for (i = 0; i < (sh.n_elements()+1)/2; ++i) { sh[i * 2] *= -1;                                }
+                    for (i = 0; i < sh.n_elements(); i += 2) { sh[i] *= -1;                                       }
                 }
                 else
                 {
-                    for (i = 0; i < sh.n_elements()/2; ++i) { sh[i * 2 + 1] *= -1;                                }
+                    for (i = 1; i < sh.n_elements(); i += 2) { sh[i] *= -1;                                       }
                 }
                 s = d * sh;
                 for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(0, 2 * bandwidth - M, i) = s[i];              }
                 
                 // case f_{0,-M}
                 for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, 0, -M);  }
-                for (i = 0; i < sh.n_elements()/2; ++i) { sh[i * 2 + 1] *= -1;                                    }
+                for (i = 1; i < sh.n_elements(); i += 2){ sh[i] *= -1;                                            }
                 s = d * sh;
                 for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, 0, i) = s[i];              }
                 
@@ -502,9 +501,10 @@ namespace uzlmath
                 // alter signs
                 if ((M - Mp) & 1)
                 {
+                    double* d_mem = d.memptr();
                     for (i = 0; i < d.n_rows() * d.n_cols(); ++i)
                     {
-                        d.memptr()[i] *= -1;
+                        d_mem[i] *= -1;
                     }
                 }
                 
