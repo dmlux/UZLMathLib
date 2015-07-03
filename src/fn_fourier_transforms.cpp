@@ -114,7 +114,7 @@ namespace uzlmath
             double norm              = M_PI / (2 * bandwidth * bandwidth);
             
             // defining needed indices
-            unsigned int MMp, i, j, M, Mp;
+            unsigned int MMp, i, M, Mp;
             
             // DWT for M = 0, M' = 0
             for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(0, 0, i);                               }
@@ -124,7 +124,7 @@ namespace uzlmath
             /*****************************************************************
              ** Iterate over all combinations of M and M'                   **
              *****************************************************************/
-            #pragma omp parallel for default(shared) private(i, j, M, dw, sh) firstprivate(s) schedule(dynamic)
+            #pragma omp parallel for default(shared) private(i, M, dw, sh) firstprivate(s) schedule(dynamic)
             for (M = 1; M < bandwidth; ++M)
             {
                 dw = DWT::weighted_wigner_d_matrix(bandwidth, M, 0, weights) * -1;
@@ -176,21 +176,9 @@ namespace uzlmath
                 sh = dw * s;
                 for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, -M) = norm * sh[sh.n_elements()-i]; }
                 
-                // Modify dw for the last two cases. flip matrix from left to right
-                fliplr(dw);
-                
-                // invert every second row
-                for (j = 0; j < dw.n_cols(); ++j)
-                {
-                    // don't change the division into floating point division. The used
-                    // integer division will truncate the decimal places to prevent the
-                    // loop index to jump out of the array bounds. (more efficient since
-                    // division with integers replaces the floor operation!)
-                    for (i = 0; i < dw.n_rows()/2; ++i)
-                    {
-                        dw(i * 2 + 1, j) *= -1;
-                    }
-                }
+                // Modify dw for the last two cases. flip matrix from left to right and negates sign of
+                // every second row with odd row index.
+                fliplr_ne2ndorow(dw);
                 
                 // An little arithmetic error is occuring in the following calculation
                 // case M, -M
@@ -210,7 +198,7 @@ namespace uzlmath
             //     for (Mp = 1; Mp < M; ++Mp)
             //
             // which now is equivalent to the following loop
-            #pragma omp parallel for default(shared) private(i, j, MMp, M, Mp, dw, sh) firstprivate(s) schedule(dynamic)
+            #pragma omp parallel for default(shared) private(i, MMp, M, Mp, dw, sh) firstprivate(s) schedule(dynamic)
             for (MMp = 0; MMp < (bandwidth - 2) * (bandwidth - 1) / 2; ++MMp)
             {
                 // reconstructing nested loop indices
@@ -250,24 +238,8 @@ namespace uzlmath
                 
                 // modify wigner d-matrix for next four cases. This just works because the weight
                 // function is also symmetric like the wigner-d matrix. flip left-right the dw
-                // matrix.
-                fliplr(dw);
-                
-                // invert every second row
-                for (j = 0; j < dw.n_cols(); ++j)
-                {
-                    // replace
-                    //
-                    //  for (i = 0; i < ceil(dw.n_rows()/2.); ++i)
-                    //
-                    // for removing the expensive ceil function. Do not change to
-                    // decimal values because integer caculation will truncate
-                    // decimal places!
-                    for (i = 0; i < (dw.n_rows()+1)/2; ++i)
-                    {
-                        dw(i*2, j) *= -1;
-                    }
-                }
+                // matrix and negate each even value with even row index.
+                fliplr_ne2nderow(dw);
                 
                 // case Mp, -M
                 for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, Mp, i);                          }
@@ -384,7 +356,7 @@ namespace uzlmath
             double norm = (2 * bandwidth * bandwidth) / M_PI;
             
             // defining needed indices
-            unsigned MMp, i, j, M, Mp;
+            unsigned MMp, i, M, Mp;
             
             // inverse DWT for M = 0, M' = 0
             for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth - i, 0, 0); }
@@ -394,7 +366,7 @@ namespace uzlmath
             /*****************************************************************
              ** Iterate over all combinations of M and M'                   **
              *****************************************************************/
-            #pragma omp parallel for private(i, j, M, d, s, sh) schedule(dynamic)
+            #pragma omp parallel for private(i, M, d, s, sh) schedule(dynamic)
             for (M = 1; M < bandwidth; ++M)
             {
                 d  = DWT::wigner_d_matrix(bandwidth, M, 0) * -1;
@@ -415,9 +387,7 @@ namespace uzlmath
                 for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(M, 0, i) = s[i];                              }
                 
                 // case f_{-M,0}
-                d.transpose();
-                fliplr(d);
-                d.transpose();
+                flipud(d);
                 
                 for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -M, 0);  }
                 if (M & 1)
@@ -452,23 +422,9 @@ namespace uzlmath
                 s = d * sh;
                 for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, 2 * bandwidth - M, i) = s[i]; }
                 
-                // Modify dw for the last two cases. flip matrix from left to right
-                d.transpose();
-                fliplr(d);
-                
-                // invert every second row
-                for (j = 0; j < d.n_cols(); ++j)
-                {
-                    // don't change the division into floating point division. The used
-                    // integer division will truncate the decimal places to prevent the
-                    // loop index to jump out of the array bounds. (more efficient since
-                    // division with integers replaces the floor operation!)
-                    for (i = 0; i < d.n_rows()/2; ++i)
-                    {
-                        d(i * 2 + 1, j) *= -1;
-                    }
-                }
-                d.transpose();
+                // Modify dw for the last two cases. flip matrix from left to right and negate every
+                // second row with odd row index.
+                flipud_ne2ndocol(d);
                 
                 // An little arithmetic error is occuring in the following calculation
                 // case f_{M,-M}
@@ -488,7 +444,7 @@ namespace uzlmath
             //     for (Mp = 1; Mp < M; ++Mp)
             //
             // which now is equivalent to the following loop
-            #pragma omp parallel for private(i, j, MMp, M, Mp, d, s, sh) schedule(dynamic)
+            #pragma omp parallel for private(i, MMp, M, Mp, d, s, sh) schedule(dynamic)
             for (MMp = 0; MMp < (bandwidth - 2) * (bandwidth - 1) / 2; ++MMp)
             {
                 // reconstructing indices of the two nested for loops
@@ -503,7 +459,6 @@ namespace uzlmath
                 d  = DWT::wigner_d_matrix(bandwidth, M, Mp);
                 d.transpose();
                 sh = vector< complex< double > >(d.n_cols(), vec_type::COLUMN);
-                
                 
                 // case f_{M,Mp}
                 for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, M, Mp);            }
@@ -530,27 +485,9 @@ namespace uzlmath
                 for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, 2 * bandwidth - Mp, i) = s[i];       }
                 
                 // modify wigner d-matrix for next four cases. This just works because the weight
-                // function is also symmetric like the wigner-d matrix. flip left-right the dw
-                // matrix.
-                d.transpose();
-                fliplr(d);
-                
-                // invert every second row
-                for (j = 0; j < d.n_cols(); ++j)
-                {
-                    // replace
-                    //
-                    //  for (i = 0; i < ceil(d.n_rows()/2.); ++i)
-                    //
-                    // for removing the expensive ceil function. Do not change to
-                    // decimal values because integer caculation will truncate
-                    // decimal places!
-                    for (i = 0; i < (d.n_rows()+1)/2; ++i)
-                    {
-                        d(i*2, j) *= -1;
-                    }
-                }
-                d.transpose();
+                // function is also symmetric like the wigner-d matrix. flip up-dow the d
+                // matrix and negate every second column with even row index.
+                flipud_ne2ndecol(d);
                 
                 // case f_{Mp,-M}
                 for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, Mp, -M);           }
@@ -563,7 +500,6 @@ namespace uzlmath
                 for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - Mp, M, i) = s[i];                       }
                 
                 // alter signs
-                d.transpose();
                 if ((M - Mp) & 1)
                 {
                     for (i = 0; i < d.n_rows() * d.n_cols(); ++i)
@@ -571,7 +507,6 @@ namespace uzlmath
                         d.memptr()[i] *= -1;
                     }
                 }
-                d.transpose();
                 
                 // case f_{-Mp,M}
                 for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -Mp, M);           }

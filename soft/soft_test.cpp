@@ -161,8 +161,8 @@ void for_back_file(const char* fileName, unsigned int bandwidth, bool show_coefs
     printf("SOFT:         %.6fs\n", time);
     printf("ISOFT:        %.6fs\n", time2);
     
-//    std::cout << "sample = " << sample << std::endl;
-//    std::cout << "reconstructed sample = " << grid_rec << std::endl;
+    std::cout << "sample = " << sample << std::endl;
+    std::cout << "reconstructed sample = " << grid_rec << std::endl;
 }
 
 void for_back(unsigned int bandwidth, bool show_coefs)
@@ -239,11 +239,59 @@ int main(int argc, const char ** argv)
 {
     //createGridSOFT(10);
 //    for_back_file("/Users/dlux/Desktop/soft_files/grid_128_samp.dat", 128, false);
-//    for_back_file("/Users/dlux/Desktop/soft_files/test_series/grid_3_test.dat", 3, false);
-    for_back(128, false);
+    for_back_file("/Users/dlux/Desktop/soft_files/test_series/grid_3_test.dat", 3, true);
+//    for_back(128, false);
+    return 0;
     
-//    std::cout << std::setprecision(20) << std::numeric_limits<float>::epsilon << std::endl;
+    size_t i, j;
+    int B = 128;
+    vector< double > weights = DWT::quadrature_weights(B);
+    matrix< double > dw1, dw2;
+    
+    dw1 = dw2 = DWT::weighted_wigner_d_matrix(B, 0, 0, weights);
+    
+    /*-- current implementation --*/
+    stopwatch sw = stopwatch::tic();
+    fliplr(dw1);
+    
+    // invert every second row
+    for (j = 0; j < dw1.n_cols(); ++j)
+    {
+        // don't change the division into floating point division. The used
+        // integer division will truncate the decimal places to prevent the
+        // loop index to jump out of the array bounds. (more efficient since
+        // division with integers replaces the floor operation!)
+        for (i = 0; i < dw1.n_rows()/2; ++i)
+        {
+            dw1(i * 2 + 1, j) *= -1;
+        }
+    }
+    double time1 = sw.toc();
+    /*-- current implementation --*/
+    
+    /*-- optimized version of fliplr --*/
+    sw = stopwatch::tic();
+    fliplr_ne2ndorow(dw2);
+    double time2 = sw.toc();
+    /*-- optimized version of fliplr --*/
+    
+    std::cout << "time: " << std::fixed << std::setprecision(6) << time1 << std::endl;
+    std::cout << "time: " << std::fixed << std::setprecision(6) << time2 << std::endl;
    
+    bool equal = true;
+    double *mem_dw1 = dw1.memptr(), *mem_dw2 = dw2.memptr();
+    
+    for (i = 0; i < dw1.n_cols() * dw1.n_rows(); ++i)
+    {
+        if (mem_dw1[i] != mem_dw2[i])
+        {
+            equal = false;
+            break;
+        }
+    }
+    
+    std::cout << "equal ? " << (equal ? "Yes" : "No") << std::endl;
+    
     return 0;
 }
 

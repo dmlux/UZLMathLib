@@ -69,7 +69,8 @@ namespace uzlmath
     #include "uzlmath_headers/vector_def.hpp"
 
     /*- Function implementations     -*/
-    #include "uzlmath_headers/fn_fliplr_matrix.hpp"
+    #include "uzlmath_headers/fn_fliplr.hpp"
+    #include "uzlmath_headers/fn_flipud.hpp"
     #include "uzlmath_headers/fn_orthopoly.hpp"
     #include "uzlmath_headers/fn_cx_sqrt.hpp"
     #include "uzlmath_headers/fn_cx_ntrt.hpp"
