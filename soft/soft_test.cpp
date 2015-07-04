@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <chrono>
 #include <thread>
+#include <fftw3.h>
 
 #if _OPENMP
     #include <omp.h>
@@ -240,7 +241,83 @@ int main(int argc, const char ** argv)
     //createGridSOFT(10);
 //    for_back_file("/Users/dlux/Desktop/soft_files/grid_128_samp.dat", 128, false);
 //    for_back_file("/Users/dlux/Desktop/soft_files/test_series/grid_3_test.dat", 3, true);
-    for_back(128, false);
+//    for_back(128, false);
+    
+    int n = 1024 * 2;
+    matrix< complex< double > > A(n), B(n), C(n);
+    
+    rand(A, -1, 1);
+    B = A;
+    
+    stopwatch sw = stopwatch::tic();
+    FourierTransforms::DFT2(B);
+    double time1 = sw.toc();
+    
+    // create a FFTW plan and executing an FFT2 by use of 1D ffts
+    // First part is the none strided version... (columns)
+    memcpy(C.memptr(), A.memptr(), A.n_cols() * A.n_rows() * sizeof(complex< double >));
+    
+    sw = stopwatch::tic();
+    fftw_complex* mat = reinterpret_cast< fftw_complex* >(C.memptr());
+    fftw_plan* cols = new fftw_plan[C.n_cols()], * rows = new fftw_plan[C.n_rows()];
+    
+    // first transform the cols of the matrix
+    for (int i = 0; i < C.n_cols(); ++i)
+    {
+        cols[i] = fftw_plan_dft_1d(C.n_rows(), mat + i * C.n_rows(), mat + i * C.n_rows(), FFTW_FORWARD, FFTW_ESTIMATE);
+    }
+    
+    // second transform the rows of the matrix
+    for (int i = 0; i < C.n_rows(); ++i)
+    {
+        int N = C.n_cols();
+        int istride = C.n_rows();
+        rows[i] = fftw_plan_many_dft(1, &N, 1, mat + i, NULL, istride, 1, mat + i, NULL, istride, 1, FFTW_FORWARD, FFTW_ESTIMATE);
+    }
+    
+    // execute column FFTs
+    #pragma omp parallel for shared(cols, C) schedule(dynamic)
+    for (int i = 0; i < C.n_cols(); ++i)
+    {
+        fftw_execute(cols[i]);
+    }
+    
+    // execute row FFTs
+    #pragma omp parallel for shared(rows, C) schedule(dynamic)
+    for (int i = 0; i < C.n_rows(); ++i)
+    {
+        fftw_execute(rows[i]);
+    }
+    
+    // destroy plans and cleanup
+    for (int i = 0; i < C.n_rows(); ++i)
+    {
+        fftw_destroy_plan(rows[i]);
+    }
+    for (int i = 0; i < C.n_cols(); ++i)
+    {
+        fftw_destroy_plan(cols[i]);
+    }
+    delete [] rows;
+    delete [] cols;
+    fftw_cleanup();
+    double time2 = sw.toc();
+    
+    bool equal = true;
+    for (int i = 0; i < A.n_rows() * A.n_cols(); ++i)
+    {
+        if (fabs(B.memptr()[i].re - C.memptr()[i].re) > 1e-10 || fabs(B.memptr()[i].im - C.memptr()[i].im) > 1e-10)
+        {
+            equal = false;
+            break;
+        }
+    }
+    
+    std::cout << "time1: " << std::fixed << std::setprecision(6) << time1 << "s" << std::endl << "time2: " << time2 << "s" << std::endl;
+    std::cout << "Equal? " << (equal ? "Yes" : "No") << std::endl;
+    
+//    std::cout << "B = " << B << std::endl;
+//    std::cout << "C = " << C << std::endl;
     
     return 0;
 }

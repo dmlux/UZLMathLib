@@ -223,7 +223,7 @@ namespace FourierTransforms
     auto DFT2(matrix< complex< eT > >& mat, complex< eT > scale = complex< eT >(1, 0)) -> typename uzl_void_real_num_only< eT >::result
     {
         // make fft array
-        double fftInOut[mat.n_rows() * mat.n_cols() * 2];
+        double* fftInOut = new double[mat.n_rows() * mat.n_cols() * 2];
         
         // extract complex values
         size_t i;
@@ -241,6 +241,8 @@ namespace FourierTransforms
             complex< eT > comp(fftInOut[i * 2], fftInOut[i * 2 + 1]);
             mat.memptr()[i] = scale * comp;
         }
+        
+        delete [] fftInOut;
     }
     
     /*!

@@ -388,7 +388,7 @@ namespace uzlmath
         {
             // allocate storage for the FFT
             //fftw_complex  inFFT2[cols * rows];
-            fftw_complex outFFT2[cols * rows];
+            fftw_complex* outFFT2 = new fftw_complex[cols * rows];
             
             // create plan to execute an FFT
             fftw_plan fft2 = fftw_plan_dft_2d(cols, rows, (fftw_complex*)arr, outFFT2, FFTW_FORWARD, FFTW_ESTIMATE);
@@ -403,6 +403,7 @@ namespace uzlmath
             
             // remove all additional allocated objects needed for the FFT
             fftw_cleanup();
+            delete [] outFFT2;
         }
         
         void uzl_fftw_IDFT2(size_t cols, size_t rows, double* arr)
