@@ -1,5 +1,5 @@
 //
-//  benchmark_soft_for.cpp
+//  benchmark_soft_inv.cpp
 //  uzlmath
 //
 //  Created by Denis-Michael Lux on 14.06.15.
@@ -14,7 +14,7 @@
 #include <thread>
 
 #define MAX_BW 140  // Maximal bandwidth
-#define LOOP_R 10   // SOFT runs per bandwidth
+#define LOOP_R 10   // ISOFT runs per bandwidth
 
 using namespace uzlmath;
 using namespace FourierTransforms;
@@ -26,19 +26,19 @@ int main(int argc, const char** argv)
     double times[MAX_BW - 1];
     
     // write to file
-    char fileName[] = "benchmark_soft_for.txt";
+    char fileName[] = "benchmark_soft_inv.txt";
     FILE* fp  = fopen(fileName, "w");
-    FILE* fp2 = fopen("soft_forward.dat", "w");
+    FILE* fp2 = fopen("soft_inverse.dat", "w");
     
     // print some information
     printf(     "+-----------------------------------------------------------------------------------------+\n");
-    printf(     "|                                 SOFT FORWARD BENCHMARK                                  |\n");
+    printf(     "|                                 ISOFT FORWARD BENCHMARK                                 |\n");
     printf(     "+-----------------------------------------------------------------------------------------+\n");
     printf(     "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
     
-    // write output to file "benchmark_soft_for.txt"
+    // write output to file "benchmark_soft_inv.txt"
     fprintf(fp, "+-----------------------------------------------------------------------------------------+\n");
-    fprintf(fp, "|                                 SOFT FORWARD BENCHMARK                                  |\n");
+    fprintf(fp, "|                                 ISOFT FORWARD BENCHMARK                                 |\n");
     fprintf(fp, "+-----------------------------------------------------------------------------------------+\n");
     fprintf(fp, "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
     
@@ -47,7 +47,7 @@ int main(int argc, const char** argv)
     printf(     "|  bw | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  |\n");
     printf(     "+=====+===========+===================================+===================================+\n");
     
-    // write output to file "benchmark_soft_for.txt"
+    // write output to file "benchmark_soft_inv.txt"
     fprintf(fp, "+=====+===========+===================================+===================================+\n");
     fprintf(fp, "|  bw | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  |\n");
     fprintf(fp, "+=====+===========+===================================+===================================+\n");
@@ -68,23 +68,19 @@ int main(int argc, const char** argv)
         
         // creating fourier coefficients container
         SOFTFourierCoefficients coef(bandwidth);
-        SOFTFourierCoefficients rec_coef(bandwidth);
         
         // generate random coefficients between -1 and 1
         rand(coef, -1, 1);
-        
-        // create sample
-        ISOFT(coef, sample);
         
         // min and max exec tiems
         double min, max;
         
         for (i = 0; i < LOOP_R; ++i)
         {
-            // perform forward SOFT transform
+            // perform inverse SOFT transform
             // and stop time
             stopwatch sw = stopwatch::tic();
-            SOFT(sample, rec_coef);
+            ISOFT(coef, sample);
             double time  = sw.toc();
             
             // add to sum of time for current bandwidth
