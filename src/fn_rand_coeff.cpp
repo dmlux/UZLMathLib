@@ -29,7 +29,7 @@ namespace uzlmath
      *
      * @since           0.1.1
      */
-    auto rand_coef(SOFTFourierCoefficients& fc, const double& min, const double& max) -> void
+    auto rand(SOFTFourierCoefficients& fc, const double& min, const double& max) -> void
     {
         // create timeval object
         struct timeval tv;
@@ -40,11 +40,10 @@ namespace uzlmath
         // create seed
         unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
         
-        // seed the random number generator
-        srand(seed);
+        // C++11 random numbers uniformly distributed
+        std::default_random_engine e(seed);
+        std::uniform_real_distribution< double > d(min, max);
         
-        // drop first seed
-        rand();
         
         // iterate over degree
         for (int l = 0; l < fc.bandwidth; ++l)
@@ -55,8 +54,8 @@ namespace uzlmath
                 // iterate over M' order
                 for (int Mp = -l; Mp <= l; ++Mp)
                 {
-                    fc(l,M,Mp).re = (static_cast< double >(rand()) / RAND_MAX) * (max - min) + min;
-                    fc(l,M,Mp).im = (static_cast< double >(rand()) / RAND_MAX) * (max - min) + min;
+                    fc(l,M,Mp).re = d(e);
+                    fc(l,M,Mp).im = d(e);
                 }
             }
         }

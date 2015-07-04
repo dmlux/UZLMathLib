@@ -36,17 +36,15 @@ auto randi(vector< eT >& vec, const int& min, const int& max) -> typename uzl_vo
     // create seed
     unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
     
-    // seed the random number generator
-    srand(seed);
-    
-    // drop first seed
-    rand();
+    // C++11 random numbers uniformly distributed
+    std::default_random_engine e(seed);
+    std::uniform_int_distribution< typename uzl_int_rand_dist_type< eT >::result > d(min, max);
     
     // fill vector with randoms
     size_t i;
     for (i = 0; i < vec.n_elements(); ++i)
     {
-        vec[i] = rand() % (abs(max) + abs(min) + 1) + min;
+        vec[i] = d(e);
     }
 }
 
@@ -63,18 +61,16 @@ auto randi(vector< complex< eT > >& vec, const int& min, const int& max) -> type
     // create seed
     unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
     
-    // seed the random number generator
-    srand(seed);
-    
-    // drop first seed
-    rand();
+    // C++11 random numbers uniformly distributed
+    std::default_random_engine e(seed);
+    std::uniform_int_distribution< typename uzl_int_rand_dist_type< eT >::result > d(min, max);
     
     // fill vector with randoms
     size_t i;
     for (i = 0; i < vec.n_elements(); ++i)
     {
-        vec[i].re = rand() % (abs(max) + abs(min) + 1) + min;
-        vec[i].im = rand() % (abs(max) + abs(min) + 1) + min;
+        vec[i].re = d(e);
+        vec[i].im = d(e);
     }
 }
 
@@ -96,7 +92,7 @@ auto randi(vector< complex< eT > >& vec, const int& min, const int& max) -> type
  * @ingroup         vector
  */
 template< typename eT >
-auto randf(vector< eT >& vec, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
+auto rand(vector< eT >& vec, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
 {
     // create timeval object
     struct timeval tv;
@@ -107,22 +103,36 @@ auto randf(vector< eT >& vec, const double& min, const double& max) -> typename 
     // create seed
     unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
     
-    // seed the random number generator
-    srand(seed);
-    
-    // drop first seed
-    rand();
+    // C++11 random numbers uniformly distributed
+    std::default_random_engine e(seed);
+    std::uniform_real_distribution< eT > d(min, max);
     
     // fill vector with randoms
     size_t i;
     for (i = 0; i < vec.n_elements(); ++i)
     {
-        vec[i] = min + (static_cast< eT >(rand()) / RAND_MAX) * (max - min);
+        vec[i] = d(e);
     }
 }
 
+/*!
+ * @brief           Fills a given complex vector with real random values.
+ * @details         The given vector gets filled with random complex values in
+ *                  range of \f$[\min, \max]\f$
+ *
+ * @param[in, out]  vec The complex vector that is supposed to be filled with random
+ *                  values.
+ * @param[in]       min The min value for the random co-domain.
+ * @param[in]       max The max value for the random co-domain.
+ * @tparam          eT The element type of the vector. The type has to be a floating
+ *                  point type (float, double or long double).
+ *
+ * @note            Only available for vectors of type float, double or long double!
+ *
+ * @ingroup         vector
+ */
 template< typename eT >
-auto randf(vector< complex< eT > >& vec, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
+auto rand(vector< complex< eT > >& vec, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
 {
     // create timeval object
     struct timeval tv;
@@ -133,18 +143,16 @@ auto randf(vector< complex< eT > >& vec, const double& min, const double& max) -
     // create seed
     unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
     
-    // seed the random number generator
-    srand(seed);
-    
-    // drop first seed
-    rand();
+    // C++11 random numbers uniformly distributed
+    std::default_random_engine e(seed);
+    std::uniform_real_distribution< eT > d(min, max);
     
     // fill vector with randoms
     size_t i;
     for (i = 0; i < vec.n_elements(); ++i)
     {
-        vec[i].re = min + (static_cast< eT >(rand()) / RAND_MAX) * (max - min);
-        vec[i].im = min + (static_cast< eT >(rand()) / RAND_MAX) * (max - min);
+        vec[i].re = d(e);
+        vec[i].im = d(e);
     }
 }
 

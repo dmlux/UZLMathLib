@@ -14,7 +14,7 @@
 #include <uzlmath>
 
 // include OpenMP if compiler supports it
-#ifdef _OPENMP
+#if _OPENMP
     #include <omp.h>
 #endif
 

@@ -61,12 +61,21 @@ MESSAGE(STATUS "*** UZLMATH_LIBS          = ${UZLMATH_LIBS}"                  )
 MESSAGE(STATUS "*** UZLMATH_INCLUDE_DIRS  = ${UZLMATH_INCLUDE_DIRS}"          )
 MESSAGE(STATUS "")
 
+
+IF(CMAKE_COMPILER_IS_GNUCXX)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+    MESSAGE(STATUS "Detected gcc. Added '-O3' to compiler flags")
+ENDIF()
+
 IF(DEFINED CMAKE_CXX_COMPILER_ID AND DEFINED CMAKE_CXX_COMPILER_VERSION)
     IF(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 4.8.1)
         SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
         SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
+
+        MESSAGE(STATUS "Detected gcc 4.8.1 or later. Added '-std=c++11 -fopenmp' to compiler flags")
+        MESSAGE(STATUS "OpenMP support for UZLMathLib enabled.")
+
         #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-        MESSAGE(STATUS "Detected gcc 4.8.1 or later. Added '-std=c++11 -Wall -fopenmp' to compiler flags")
     ENDIF()
 ENDIF()
 
@@ -76,16 +85,12 @@ INCLUDE_DIRECTORIES( ${UZLMATH_INCLUDE_DIRS}                             )
 
 IF(APPLE)
     IF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
-        #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything")
-        MESSAGE(STATUS "Clang compiler on MacOS X detected. Added '-stdlib=libc++ -std=c++11 -O3' to compiler flags")
+        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+        #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything")
+        MESSAGE(STATUS "Clang compiler on MacOS X detected. Added '-stdlib=libc++ -std=c++11 -O3' to compiler flags.")
     ENDIF()
-ENDIF()
-
-IF(CMAKE_COMPILER_IS_GNUCXX)
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 ENDIF()
 
 MESSAGE(STATUS "")

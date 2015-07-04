@@ -872,11 +872,6 @@ template< typename eT >
 inline
 const vector< complex< eT > >& vector< complex< eT > >::operator=(const vector< eT >& v)
 {
-    if ( this == &v )
-    {
-        return *this;
-    }
-    
     size = v.size;
     type = v.type;
     

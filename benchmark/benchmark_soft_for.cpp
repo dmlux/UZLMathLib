@@ -76,7 +76,7 @@ int main(int argc, const char** argv)
         SOFTFourierCoefficients rec_coef(bandwidth);
         
         // generate random coefficients between -1 and 1
-        rand_coef(coef, -1, 1);
+        rand(coef, -1, 1);
         
         // create sample
         ISOFT(coef, sample);

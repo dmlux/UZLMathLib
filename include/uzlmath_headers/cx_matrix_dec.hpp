@@ -41,7 +41,7 @@ class matrix< complex< eT > >
     size_t r_inj;               //!< Row injection index
     size_t c_inj;               //!< Column injection index
     
-    complex< eT >* mem;           //!< Matrix memory
+    complex< eT >* mem;         //!< Matrix memory
     
     // Friend classes to grant member access
     template< typename F > friend class matrix;

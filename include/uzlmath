@@ -18,10 +18,7 @@
 
 #include <string.h>     // memcpy, memset
 
-// include OpenMP headers if compiler supports OpenMP
-#if _OPENMP
-    #include <omp.h>    // OpenMP API
-#endif
+#include <random>       // for random C++11 library
 
 // defining namespace for uzlmath classes and functions
 namespace uzlmath

@@ -174,7 +174,7 @@ void for_back(unsigned int bandwidth, bool show_coefs)
     SOFTFourierCoefficients coef(bandwidth);
     SOFTFourierCoefficients rec_coef(bandwidth);
     
-    rand_coef(coef, -1, 1);
+    rand(coef, -1, 1);
     
     stopwatch sw = stopwatch::tic();
     FourierTransforms::ISOFT(coef, sample);

@@ -93,7 +93,7 @@ auto fliplr_ne2nderow(matrix< eT >& mat) -> typename uzl_void_real_num_only<eT>:
             }
             else
             {
-                mat(k, j)                    =  -mat(k, mat.n_cols() - j - 1);
+                mat(k, j)                    = -mat(k, mat.n_cols() - j - 1);
                 mat(k, mat.n_cols() - j - 1) = -tmp;
             }
         }
@@ -138,7 +138,7 @@ auto fliplr_ne2ndorow(matrix< eT >& mat) -> typename uzl_void_real_num_only<eT>:
             // swap elements
             if (k & 1)
             {
-                mat(k, j)                    =  -mat(k, mat.n_cols() - j - 1);
+                mat(k, j)                    = -mat(k, mat.n_cols() - j - 1);
                 mat(k, mat.n_cols() - j - 1) = -tmp;
             }
             else

@@ -41,11 +41,9 @@ auto randi(matrix< eT >& mat, const int& min, const int& max) -> typename uzl_vo
     // create seed
     unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
     
-    // seed the random number generator
-    srand(seed);
-    
-    // drop first seed
-    rand();
+    // C++11 random numbers uniformly distributed
+    std::default_random_engine e(seed);
+    std::uniform_int_distribution< typename uzl_int_rand_dist_type< eT >::result > d(min, max);
     
     // fill vector with random integers
     size_t i, j;
@@ -53,7 +51,7 @@ auto randi(matrix< eT >& mat, const int& min, const int& max) -> typename uzl_vo
     {
         for (j = 0; j < mat.n_cols(); ++j)
         {
-            mat(i, j) = rand() % (abs(max) + abs(min) + 1) + min;
+            mat(i, j) = d(e);
         }
     }
 }
@@ -89,12 +87,10 @@ auto randi(matrix< complex< eT > >& mat, const int& min, const int& max) -> type
     
     // create seed
     unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
-    
-    // seed the random number generator
-    srand(seed);
-    
-    // drop first seed
-    rand();
+
+    // C++11 random numbers uniformly distributed
+    std::default_random_engine e(seed);
+    std::uniform_int_distribution< typename uzl_int_rand_dist_type< eT >::result > d(min, max);
     
     // fill vector with random complex integers
     size_t i, j;
@@ -102,8 +98,8 @@ auto randi(matrix< complex< eT > >& mat, const int& min, const int& max) -> type
     {
         for (j = 0; j < mat.n_cols(); ++j)
         {
-            mat(i, j).re = rand() % (abs(max) + abs(min) + 1) + min;
-            mat(i, j).im = rand() % (abs(max) + abs(min) + 1) + min;
+            mat(i, j).re = d(e);
+            mat(i, j).im = d(e);
         }
     }
 }
@@ -131,8 +127,10 @@ auto randi(matrix< complex< eT > >& mat, const int& min, const int& max) -> type
  */
 template< typename eT >
 inline
-auto randf(matrix< eT >& mat, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
+auto rand(matrix< eT >& mat, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
 {
+    std::cout << "test" << std::endl;
+    
     // create timeval object
     struct timeval tv;
     
@@ -142,11 +140,9 @@ auto randf(matrix< eT >& mat, const double& min, const double& max) -> typename 
     // create seed
     unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
     
-    // seed the random number generator
-    srand(seed);
-    
-    // drop first seed
-    rand();
+    // C++11 random numbers uniformly distributed
+    std::default_random_engine e(seed);
+    std::uniform_real_distribution< eT > d(min, max);
     
     // fill vector with randoms
     size_t i, j;
@@ -154,7 +150,7 @@ auto randf(matrix< eT >& mat, const double& min, const double& max) -> typename 
     {
         for (j = 0; j < mat.n_cols(); ++j)
         {
-            mat(i, j) = min + (static_cast< eT >(rand()) / RAND_MAX) * (max - min);
+            mat(i, j) = d(e);
         }
     }
 }
@@ -182,7 +178,7 @@ auto randf(matrix< eT >& mat, const double& min, const double& max) -> typename 
  */
 template< typename eT >
 inline
-auto randf(matrix< complex< eT > >& mat, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
+auto rand(matrix< complex< eT > >& mat, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
 {
     // create timeval object
     struct timeval tv;
@@ -193,11 +189,9 @@ auto randf(matrix< complex< eT > >& mat, const double& min, const double& max) -
     // create seed
     unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
     
-    // seed the random number generator
-    srand(seed);
-    
-    // drop first seed
-    rand();
+    // C++11 random numbers uniformly distributed
+    std::default_random_engine e(seed);
+    std::uniform_real_distribution< eT > d(min, max);
     
     // fill vector with randoms
     size_t i, j;
@@ -205,8 +199,8 @@ auto randf(matrix< complex< eT > >& mat, const double& min, const double& max) -
     {
         for (j = 0; j < mat.n_cols(); ++j)
         {
-            mat(i, j).re = min + (static_cast< eT >(rand()) / RAND_MAX) * (max - min);
-            mat(i, j).im = min + (static_cast< eT >(rand()) / RAND_MAX) * (max - min);
+            mat(i, j).re = d(e);
+            mat(i, j).im = d(e);
         }
     }
 }
