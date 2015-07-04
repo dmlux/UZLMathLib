@@ -32,6 +32,12 @@ template< typename eT >
 inline
 auto randi(matrix< eT >& mat, const int& min, const int& max) -> typename uzl_void_real_num_only< eT >::result
 {
+    if (min > max)
+    {
+        printf("** uzlmath error: min value is greater than max value in rand function for SOFTFourierCoefficients. **");
+        exit(EXIT_FAILURE);
+    }
+    
     // create timeval object
     struct timeval tv;
     
@@ -39,7 +45,7 @@ auto randi(matrix< eT >& mat, const int& min, const int& max) -> typename uzl_vo
     gettimeofday(&tv, NULL);
     
     // create seed
-    unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
+    unsigned long seed = 1000000L * tv.tv_sec + tv.tv_usec;
     
     // C++11 random numbers uniformly distributed
     std::default_random_engine e(seed);
@@ -79,6 +85,12 @@ template< typename eT >
 inline
 auto randi(matrix< complex< eT > >& mat, const int& min, const int& max) -> typename uzl_void_real_num_only< eT >::result
 {
+    if (min > max)
+    {
+        printf("** uzlmath error: min value is greater than max value in rand function for SOFTFourierCoefficients. **");
+        exit(EXIT_FAILURE);
+    }
+    
     // create timeval object
     struct timeval tv;
     
@@ -86,7 +98,7 @@ auto randi(matrix< complex< eT > >& mat, const int& min, const int& max) -> type
     gettimeofday(&tv, NULL);
     
     // create seed
-    unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
+    unsigned long seed = 1000000L * tv.tv_sec + tv.tv_usec;
 
     // C++11 random numbers uniformly distributed
     std::default_random_engine e(seed);
@@ -129,7 +141,11 @@ template< typename eT >
 inline
 auto rand(matrix< eT >& mat, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
 {
-    std::cout << "test" << std::endl;
+    if (min > max)
+    {
+        printf("** uzlmath error: min value is greater than max value in rand function for SOFTFourierCoefficients. **");
+        exit(EXIT_FAILURE);
+    }
     
     // create timeval object
     struct timeval tv;
@@ -138,7 +154,7 @@ auto rand(matrix< eT >& mat, const double& min, const double& max) -> typename u
     gettimeofday(&tv, NULL);
     
     // create seed
-    unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
+    unsigned long seed = 1000000L * tv.tv_sec + tv.tv_usec;
     
     // C++11 random numbers uniformly distributed
     std::default_random_engine e(seed);
@@ -180,6 +196,12 @@ template< typename eT >
 inline
 auto rand(matrix< complex< eT > >& mat, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
 {
+    if (min > max)
+    {
+        printf("** uzlmath error: min value is greater than max value in rand function for SOFTFourierCoefficients. **");
+        exit(EXIT_FAILURE);
+    }
+    
     // create timeval object
     struct timeval tv;
     
@@ -187,7 +209,7 @@ auto rand(matrix< complex< eT > >& mat, const double& min, const double& max) ->
     gettimeofday(&tv, NULL);
     
     // create seed
-    unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
+    unsigned long seed = 1000000L * tv.tv_sec + tv.tv_usec;
     
     // C++11 random numbers uniformly distributed
     std::default_random_engine e(seed);

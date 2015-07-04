@@ -34,7 +34,7 @@ auto randi(vector< eT >& vec, const int& min, const int& max) -> typename uzl_vo
     gettimeofday(&tv, NULL);
     
     // create seed
-    unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
+    unsigned long seed = 1000000L * tv.tv_sec + tv.tv_usec;
     
     // C++11 random numbers uniformly distributed
     std::default_random_engine e(seed);
@@ -59,7 +59,7 @@ auto randi(vector< complex< eT > >& vec, const int& min, const int& max) -> type
     gettimeofday(&tv, NULL);
     
     // create seed
-    unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
+    unsigned long seed = 1000000L * tv.tv_sec + tv.tv_usec;
     
     // C++11 random numbers uniformly distributed
     std::default_random_engine e(seed);
@@ -101,7 +101,7 @@ auto rand(vector< eT >& vec, const double& min, const double& max) -> typename u
     gettimeofday(&tv, NULL);
     
     // create seed
-    unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
+    unsigned long seed = 1000000L * tv.tv_sec + tv.tv_usec;
     
     // C++11 random numbers uniformly distributed
     std::default_random_engine e(seed);
@@ -141,7 +141,7 @@ auto rand(vector< complex< eT > >& vec, const double& min, const double& max) ->
     gettimeofday(&tv, NULL);
     
     // create seed
-    unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
+    unsigned long seed = 1000000L * tv.tv_sec + tv.tv_usec;
     
     // C++11 random numbers uniformly distributed
     std::default_random_engine e(seed);

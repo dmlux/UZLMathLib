@@ -31,6 +31,12 @@ namespace uzlmath
      */
     auto rand(SOFTFourierCoefficients& fc, const double& min, const double& max) -> void
     {
+        if (min > max)
+        {
+            printf("** uzlmath error: min value is greater than max value in rand function for SOFTFourierCoefficients. **");
+            exit(EXIT_FAILURE);
+        }
+        
         // create timeval object
         struct timeval tv;
         
@@ -38,12 +44,11 @@ namespace uzlmath
         gettimeofday(&tv, NULL);
         
         // create seed
-        unsigned long seed = 1000000 * tv.tv_sec + tv.tv_usec;
+        unsigned long seed = 1000000L * tv.tv_sec + tv.tv_usec;
         
         // C++11 random numbers uniformly distributed
         std::default_random_engine e(seed);
         std::uniform_real_distribution< double > d(min, max);
-        
         
         // iterate over degree
         for (int l = 0; l < fc.bandwidth; ++l)
