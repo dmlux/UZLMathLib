@@ -8,6 +8,7 @@
 #ifndef UZLMATH_INCLUDES
 #define UZLMATH_INCLUDES
 
+/*- Standard libraries -*/
 #include <iostream>     // std::cout, std::err, ...
 #include <sstream>      // string streams
 #include <iomanip>      // formatting std:: streams
@@ -20,12 +21,16 @@
 
 #include <random>       // for random C++11 library
 
+
+
 /*- Makros -*/
 #define UZLMATH_BEGIN           namespace uzlmath {
-#define UZLMATH_NAMESPACE(a)    namespace uzlmath { namespace a {
-
-#define UZLMATH_NAMESPACE_END   } }
 #define UZLMATH_END             }
+
+#define UZLMATH_NAMESPACE(a)    namespace uzlmath { namespace a {
+#define UZLMATH_NAMESPACE_END   } }
+
+
 
 /*- Forward declarations         -*/
 #include "uzlmath_headers/forward_declarations.hpp"

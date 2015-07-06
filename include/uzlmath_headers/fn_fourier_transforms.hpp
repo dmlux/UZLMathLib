@@ -11,12 +11,13 @@
 #ifndef uzlmath_fn_fourier_transforms_hpp
 #define uzlmath_fn_fourier_transforms_hpp
 
-/*!
- * @defgroup    fourierTransforms Fourier Transforms
- * @{
- */
-
 UZLMATH_NAMESPACE(FourierTransforms)
+
+/*!
+ * @defgroup        fourierTransforms Fourier Transforms
+ * @{
+ * @}
+ */
 
 /*!
  * @brief           Performing the FFT on a complex vector.
@@ -43,6 +44,8 @@ UZLMATH_NAMESPACE(FourierTransforms)
  * @sa              vector
  *
  * @since           0.1.1
+ *
+ * @ingroup         fourierTransforms
  *
  * @author          Denis-Michael Lux <denis.lux@icloud.com>
  * @date            23.06.15
@@ -136,6 +139,8 @@ auto DFT(vector< eT >& vec, eT scale = eT(1, 0)) -> typename uzl_void_cx_num_onl
  *
  * @since           0.1.1
  *
+ * @ingroup         fourierTransforms
+ *
  * @author          Denis-Michael Lux <denis.lux@icloud.com>
  * @date            23.06.15
  *
@@ -204,6 +209,8 @@ auto DFT(vector< eT >& vec, complex< double > scale = complex< double >(1, 0)) -
  *
  * @since           0.0.1
  *
+ * @ingroup         fourierTransforms
+ *
  * @author          Denis-Michael Lux <denis.lux@icloud.com>
  * @date            21.04.15
  *
@@ -261,6 +268,8 @@ auto DFT2(matrix< complex< eT > >& mat, complex< eT > scale = complex< eT >(1, 0
  *
  * @since           0.0.1
  *
+ * @ingroup         fourierTransforms
+ *
  * @author          Denis-Michael Lux <denis.lux@icloud.com>
  * @date            21.04.15
  *
@@ -298,9 +307,5 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc) -> vo
 auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis) -> void;
 
 UZLMATH_NAMESPACE_END
-
-/*!
- * @}
- */
 
 #endif

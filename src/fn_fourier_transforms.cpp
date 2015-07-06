@@ -62,6 +62,8 @@ UZLMATH_NAMESPACE(FourierTransforms)
  * @sa              matrix
  * @sa              grid3D
  *
+ * @ingroup         fourierTransforms
+ *
  * @author          Denis-Michael Lux <denis.lux@icloud.com>
  * @date            14.05.2015
  *
@@ -310,6 +312,8 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc) -> vo
  * @sa              grid3D
  *
  * @since           0.0.1
+ *
+ * @ingroup         fourierTransforms
  *
  * @author          Denis-Michael Lux <denis.lux@icloud.com>
  * @date            23.05.2015
