@@ -22,6 +22,7 @@ namespace uzlmath
 {
     namespace FourierTransforms
     {
+        
         /*!
          * @brief           The SOFT (<b>S0</b>(3) <b>F</b>ourier <b>T</b>ransform)
          *                  describes the FFT on the rotation group \f$\mathcal{SO}(3)\f$
@@ -139,7 +140,8 @@ namespace uzlmath
                 
                 // case f_{0,M}
                 for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, 0, i);                                 }
-                if  (M & 1) { sh = (dw * s) * -1;} else { sh = dw * s;                                            }
+                sh = dw * s;
+                if  (M & 1)                             { sh *= -1;                                               }
                 for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, 0, M) = norm * sh[sh.n_elements()-i];   }
                 
                 // case f_{-M,0}
