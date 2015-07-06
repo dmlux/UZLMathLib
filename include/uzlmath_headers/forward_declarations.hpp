@@ -11,6 +11,8 @@
 #ifndef uzlmath_forward_declarations_hpp
 #define uzlmath_forward_declarations_hpp
 
+UZLMATH_BEGIN
+
 template< typename derived >            struct base;
 template< typename T1, typename T2 >    class  glue;
 template< typename eT >                 class  complex;
@@ -53,5 +55,7 @@ enum class mat
 {
     nextRow     //!< Represents a token indicating the next row for injection operators
 };
+
+UZLMATH_END
 
 #endif

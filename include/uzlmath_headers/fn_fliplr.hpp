@@ -11,6 +11,8 @@
 #ifndef uzlmath_fn_fliplr_hpp
 #define uzlmath_fn_fliplr_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief           Flips a given matrix by mirroring the columns.
  * @details         Flips a matrix so that 
@@ -188,5 +190,7 @@ auto fliplr(matrix< complex< eT > >& mat) -> typename uzl_void_real_num_only< eT
         }
     }
 }
+
+UZLMATH_END
 
 #endif

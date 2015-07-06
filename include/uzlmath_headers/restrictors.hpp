@@ -11,6 +11,8 @@
 #ifndef uzlath_restrictors_hpp
 #define uzlath_restrictors_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief       Collection of restrictors to restrict element types for special functions
  * @defgroup    restrictors Restrictors
@@ -101,5 +103,7 @@ template<>             struct uzl_real_rand_dist_type< long double >            
 /*!
  * @}
  */
+
+UZLMATH_END
 
 #endif

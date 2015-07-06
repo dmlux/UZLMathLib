@@ -11,6 +11,8 @@
 #ifndef uzlmath_base_dec_hpp
 #define uzlmath_base_dec_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief           Collection of base class classes and functions.
  * @defgroup        base Base class
@@ -28,5 +30,7 @@ template< typename T1, typename T2 > inline glue< T1, T2 > operator+(const base<
 /*!
  * @}
  */
+
+UZLMATH_END
 
 #endif

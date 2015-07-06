@@ -9,6 +9,8 @@
 #ifndef uzlmath_fn_rand_matrix_hpp
 #define uzlmath_fn_rand_matrix_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief           Fills a given matrix with random integer values.
  * @details         The given vector gets filled with random integer values
@@ -226,5 +228,7 @@ auto rand(matrix< complex< eT > >& mat, const double& min, const double& max) ->
         }
     }
 }
+
+UZLMATH_END
 
 #endif

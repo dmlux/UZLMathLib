@@ -11,19 +11,11 @@
 #ifndef uzlmath_fn_orthopoly_hpp
 #define uzlmath_fn_orthopoly_hpp
 
-/*!
- * @brief   The polynomials namespace contains functions that defining
- *          polynomials and functions that are used in analysis.
- *
- * @since   0.0.1
- *
- * @author  Denis-Michael Lux <denis.lux@icloud.com>
- * @date    12.01.15
- */
-namespace orthoPoly
-{
-    // Legendre polynome for x of degree n
-    auto legendre(const int& n, const double& x) -> const double;
-}
+UZLMATH_NAMESPACE(orthoPoly)
+
+// Legendre polynome for x of degree n
+auto legendre(const int& n, const double& x) -> const double;
+
+UZLMATH_NAMESPACE_END
 
 #endif

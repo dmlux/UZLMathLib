@@ -11,6 +11,8 @@
 #ifndef uzlmath_fn_to_file_grid3D_hpp
 #define uzlmath_fn_to_file_grid3D_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief           Stores the contents of a complex grid3D object on disk.
  * @details         Since grid objects can be very big this method uses
@@ -106,5 +108,7 @@ auto obj2file(const grid3D< eT >& grid, const std::string& fileName) -> typename
     // close file and everything is done
     fclose(fp);
 }
+
+UZLMATH_END
 
 #endif

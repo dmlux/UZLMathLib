@@ -11,6 +11,8 @@
 #ifndef uzlmath_vector_tpl_def_hpp
 #define uzlmath_vector_tpl_def_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief           Default constructor for a vector
  * @details         Constructs an empty vector which represents a row vector.
@@ -1810,5 +1812,7 @@ std::ostream& operator<<(std::ostream& o, const vector< S >& v)
     std::cout.flags( f );
     return o;
 }
+
+UZLMATH_END
 
 #endif

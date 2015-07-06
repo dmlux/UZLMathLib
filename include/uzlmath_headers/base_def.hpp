@@ -11,6 +11,8 @@
 #ifndef uzlmath_base_def_hpp
 #define uzlmath_base_def_hpp
 
+UZLMATH_BEGIN
+
 template< typename derived >
 inline
 const derived& base< derived >::get_ref() const
@@ -24,5 +26,7 @@ glue< T1, T2 > operator+(const base< T1 >& A, const base< T2 >& B)
 {
     return glue< T1, T2 >(A.get_ref(), B.get_ref());
 }
+
+UZLMATH_END
 
 #endif

@@ -11,6 +11,8 @@
 #ifndef uzlmath_fn_cx_ntrt_hpp
 #define uzlmath_fn_cx_ntrt_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief       Calculates the nth root of given number. And allows to calculate 
  *              root of negative real numbers.
@@ -65,5 +67,7 @@ complex< eT > cx_ntrt(const complex< eT >& c, const int n)
     
     return com;
 }
+
+UZLMATH_END
 
 #endif

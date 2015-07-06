@@ -11,6 +11,8 @@
 #ifndef uzlmath_grid3D_def_hpp
 #define uzlmath_grid3D_def_hpp
 
+UZLMATH_BEGIN
+
 template< typename eT >
 inline
 grid3D< eT >::grid3D()
@@ -302,5 +304,7 @@ std::ostream& operator<<(std::ostream& o, const grid3D< S >& c)
     std::cout.flags( f );
     return o;
 }
+
+UZLMATH_END
 
 #endif

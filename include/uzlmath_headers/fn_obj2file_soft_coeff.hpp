@@ -11,7 +11,11 @@
 #ifndef uzlmath_fn_to_file_soft_coef_hpp
 #define uzlmath_fn_to_file_soft_coef_hpp
 
+UZLMATH_BEGIN
+
 // Saves a SOFTFourierCoefficients container on disk
 auto obj2file(const SOFTFourierCoefficients& coef, const std::string& fileName) -> void;
+
+UZLMATH_END
 
 #endif

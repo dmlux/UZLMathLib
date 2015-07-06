@@ -11,6 +11,8 @@
 #ifndef uzlmath_typedefs_hpp
 #define uzlmath_typedefs_hpp
 
+UZLMATH_BEGIN
+
 // matrix typedefs
 typedef matrix< short >               s_mat;
 typedef matrix< int >                 i_mat;
@@ -66,5 +68,7 @@ typedef complex< double >             zx;
 typedef complex< float >              complex_float;
 typedef complex< float >              cx_float;
 typedef complex< float >              cx;
+
+UZLMATH_END
 
 #endif

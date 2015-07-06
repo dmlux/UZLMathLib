@@ -11,6 +11,8 @@
 #ifndef uzlmath_fn_rand_vector_hpp
 #define uzlmath_fn_rand_vector_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief           Fills a given vector with random integer values.
  * @details         The given vector gets filled with random integer values
@@ -155,5 +157,7 @@ auto rand(vector< complex< eT > >& vec, const double& min, const double& max) ->
         vec[i].im = d(e);
     }
 }
+
+UZLMATH_END
 
 #endif

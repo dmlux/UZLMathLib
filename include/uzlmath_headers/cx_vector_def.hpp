@@ -11,6 +11,8 @@
 #ifndef uzlmath_cx_vector_def_hpp
 #define uzlmath_cx_vector_def_hpp
 
+UZLMATH_BEGIN
+
 template< typename eT >
 inline
 vector< complex< eT > >::vector()
@@ -1442,5 +1444,7 @@ std::ostream& operator<<(std::ostream& o, const vector< complex< S > >& v)
     std::cout.flags( f );
     return o;
 }
+
+UZLMATH_END
 
 #endif

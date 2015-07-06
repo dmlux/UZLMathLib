@@ -11,6 +11,8 @@
 #ifndef uzlmath_traits_hpp
 #define uzlmath_traits_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief       Collection of trait classes.
  * @details     Trait classes can be used to detect the type of template
@@ -77,5 +79,7 @@ template< typename T > struct is_complex< complex< T > >  { static const bool va
 /*!
  * @}
  */
+
+UZLMATH_END
 
 #endif

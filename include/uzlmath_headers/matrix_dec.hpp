@@ -11,6 +11,8 @@
 #ifndef uzlmath_matrix_dec_hpp
 #define uzlmath_matrix_dec_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief       Collection of classes and functions for matrices for mathematical
  *              purposes.
@@ -146,5 +148,7 @@ template< typename S > std::ostream& operator<<(std::ostream& o, const matrix< S
 /*!
  * @}
  */
+
+UZLMATH_END
 
 #endif

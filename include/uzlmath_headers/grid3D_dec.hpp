@@ -11,6 +11,8 @@
 #ifndef uzlmath_grid3D_dec_hpp
 #define uzlmath_grid3D_dec_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief       A collection of classes and functions for 3D grids
  * @details     A 3D grid can hold values of the given template type. The
@@ -72,5 +74,7 @@ template< typename S > std::ostream& operator<<(std::ostream& o, const grid3D< S
 /*!
  * @}
  */
+
+UZLMATH_END
 
 #endif

@@ -11,6 +11,8 @@
 #ifndef uzlmath_glue_dec_hpp
 #define uzlmath_glue_dec_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief           Collection of struct and classes for the glue object
  * @defgroup        glue Glue class
@@ -103,5 +105,7 @@ struct mat_ptrs< glue< T1, T2 >, eT >
 /*!
  * @}
  */
+
+UZLMATH_END
 
 #endif

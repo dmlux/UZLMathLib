@@ -20,67 +20,70 @@
 
 #include <random>       // for random C++11 library
 
-// defining namespace for uzlmath classes and functions
-namespace uzlmath
-{
-    /*- Forward declarations         -*/
-    #include "uzlmath_headers/forward_declarations.hpp"
+/*- Makros -*/
+#define UZLMATH_BEGIN           namespace uzlmath {
+#define UZLMATH_NAMESPACE(a)    namespace uzlmath { namespace a {
 
-    /*- Typedefs                     -*/
-    #include "uzlmath_headers/typedefs.hpp"
+#define UZLMATH_NAMESPACE_END   } }
+#define UZLMATH_END             }
 
-    /*- Traits                       -*/
-    #include "uzlmath_headers/traits.hpp"
+/*- Forward declarations         -*/
+#include "uzlmath_headers/forward_declarations.hpp"
 
-    /*- Wrapper interface            -*/
-    #include "uzlmath_headers/lib_wrapper.hpp"
+/*- Typedefs                     -*/
+#include "uzlmath_headers/typedefs.hpp"
 
-    /*- Restrictors                  -*/
-    #include "uzlmath_headers/restrictors.hpp"
+/*- Traits                       -*/
+#include "uzlmath_headers/traits.hpp"
 
-    /*- Class prototypes             -*/
-    #include "uzlmath_headers/base_dec.hpp"
-    #include "uzlmath_headers/complex_dec.hpp"
-    #include "uzlmath_headers/grid3D_dec.hpp"
-    #include "uzlmath_headers/cx_grid3D_dec.hpp"
-    #include "uzlmath_headers/cx_matrix_dec.hpp"
-    #include "uzlmath_headers/cx_vector_dec.hpp"
-    #include "uzlmath_headers/factorial.hpp"
-    #include "uzlmath_headers/glue_dec.hpp"
-    #include "uzlmath_headers/matrix_dec.hpp"
-    #include "uzlmath_headers/memory_dec.hpp"
-    #include "uzlmath_headers/soft_fourier_coefficients.hpp"
-    #include "uzlmath_headers/stopwatch.hpp"
-    #include "uzlmath_headers/vector_dec.hpp"
+/*- Wrapper interface            -*/
+#include "uzlmath_headers/lib_wrapper.hpp"
 
-    /*- Class implementations        -*/
-    #include "uzlmath_headers/base_def.hpp"
-    #include "uzlmath_headers/complex_def.hpp"
-    #include "uzlmath_headers/grid3D_def.hpp"
-    #include "uzlmath_headers/cx_grid3D_def.hpp"
-    #include "uzlmath_headers/cx_matrix_def.hpp"
-    #include "uzlmath_headers/cx_vector_def.hpp"
-    #include "uzlmath_headers/glue_def.hpp"
-    #include "uzlmath_headers/matrix_def.hpp"
-    #include "uzlmath_headers/memory_def.hpp"
-    #include "uzlmath_headers/vector_def.hpp"
+/*- Restrictors                  -*/
+#include "uzlmath_headers/restrictors.hpp"
 
-    /*- Function implementations     -*/
-    #include "uzlmath_headers/fn_fliplr.hpp"
-    #include "uzlmath_headers/fn_flipud.hpp"
-    #include "uzlmath_headers/fn_orthopoly.hpp"
-    #include "uzlmath_headers/fn_cx_sqrt.hpp"
-    #include "uzlmath_headers/fn_cx_ntrt.hpp"
-    #include "uzlmath_headers/fn_matrix_lu.hpp"
-    #include "uzlmath_headers/fn_matrix_inv.hpp"
-    #include "uzlmath_headers/fn_wigner.hpp"
-    #include "uzlmath_headers/fn_dwt.hpp"
-    #include "uzlmath_headers/fn_fourier_transforms.hpp"
-    #include "uzlmath_headers/fn_rand_coeff.hpp"
-    #include "uzlmath_headers/fn_rand_matrix.hpp"
-    #include "uzlmath_headers/fn_rand_vector.hpp"
-    #include "uzlmath_headers/fn_obj2file_grid3D.hpp"
-    #include "uzlmath_headers/fn_obj2file_soft_coeff.hpp"
-}
+/*- Class prototypes             -*/
+#include "uzlmath_headers/base_dec.hpp"
+#include "uzlmath_headers/complex_dec.hpp"
+#include "uzlmath_headers/grid3D_dec.hpp"
+#include "uzlmath_headers/cx_grid3D_dec.hpp"
+#include "uzlmath_headers/cx_matrix_dec.hpp"
+#include "uzlmath_headers/cx_vector_dec.hpp"
+#include "uzlmath_headers/factorial.hpp"
+#include "uzlmath_headers/glue_dec.hpp"
+#include "uzlmath_headers/matrix_dec.hpp"
+#include "uzlmath_headers/memory_dec.hpp"
+#include "uzlmath_headers/soft_fourier_coefficients.hpp"
+#include "uzlmath_headers/stopwatch.hpp"
+#include "uzlmath_headers/vector_dec.hpp"
+
+/*- Class implementations        -*/
+#include "uzlmath_headers/base_def.hpp"
+#include "uzlmath_headers/complex_def.hpp"
+#include "uzlmath_headers/grid3D_def.hpp"
+#include "uzlmath_headers/cx_grid3D_def.hpp"
+#include "uzlmath_headers/cx_matrix_def.hpp"
+#include "uzlmath_headers/cx_vector_def.hpp"
+#include "uzlmath_headers/glue_def.hpp"
+#include "uzlmath_headers/matrix_def.hpp"
+#include "uzlmath_headers/memory_def.hpp"
+#include "uzlmath_headers/vector_def.hpp"
+
+/*- Function implementations     -*/
+#include "uzlmath_headers/fn_fliplr.hpp"
+#include "uzlmath_headers/fn_flipud.hpp"
+#include "uzlmath_headers/fn_orthopoly.hpp"
+#include "uzlmath_headers/fn_cx_sqrt.hpp"
+#include "uzlmath_headers/fn_cx_ntrt.hpp"
+#include "uzlmath_headers/fn_matrix_lu.hpp"
+#include "uzlmath_headers/fn_matrix_inv.hpp"
+#include "uzlmath_headers/fn_wigner.hpp"
+#include "uzlmath_headers/fn_dwt.hpp"
+#include "uzlmath_headers/fn_fourier_transforms.hpp"
+#include "uzlmath_headers/fn_rand_coeff.hpp"
+#include "uzlmath_headers/fn_rand_matrix.hpp"
+#include "uzlmath_headers/fn_rand_vector.hpp"
+#include "uzlmath_headers/fn_obj2file_grid3D.hpp"
+#include "uzlmath_headers/fn_obj2file_soft_coeff.hpp"
 
 #endif

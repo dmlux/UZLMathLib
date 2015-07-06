@@ -11,6 +11,8 @@
 #ifndef uzlmath_glue_def_hpp
 #define uzlmath_glue_def_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief           The glue type default constructor.
  * @details         Builds the glue object by just applying both elements of the expression to
@@ -57,5 +59,7 @@ void mat_ptrs< glue< T1, T2 >, eT >::get_ptrs(const matrix< eT >**in_ptrs, const
     // get address of the matrix on the right
     in_ptrs[num] = reinterpret_cast< const matrix< eT >* >(&X.B);
 }
+
+UZLMATH_END
 
 #endif

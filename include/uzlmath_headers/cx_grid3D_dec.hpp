@@ -9,6 +9,8 @@
 #ifndef uzlmath_cx_grid3D_dec_hpp
 #define uzlmath_cx_grid3D_dec_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @ingroup     grid3D
  * @{
@@ -75,5 +77,7 @@ template< typename S > std::ostream& operator<<(std::ostream& o, const grid3D< c
 /*!
  * @}
  */
+
+UZLMATH_END
 
 #endif

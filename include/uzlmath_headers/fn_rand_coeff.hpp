@@ -11,7 +11,11 @@
 #ifndef uzlmath_fn_rand_coeff_hpp
 #define uzlmath_fn_rand_coeff_hpp
 
+UZLMATH_BEGIN
+
 // filling SOFTFourierCoefficients container with randoms in range
 auto rand(SOFTFourierCoefficients& fc, const double& min, const double& max) -> void;
+
+UZLMATH_END
 
 #endif

@@ -11,6 +11,8 @@
 #ifndef uzlmath_blas_wrapper_hpp
 #define uzlmath_blas_wrapper_hpp
 
+UZLMATH_BEGIN
+
 /*- BLAS ENUM CUSTOMIZATIONS -*/
 typedef enum UZLBLAS_ORDER     {UZLblasRowMajor, UZLblasColMajor}                                   UZLBLAS_ORDER;
 typedef enum UZLBLAS_TRANSPOSE {UZLblasNoTrans, UZLblasTrans, UZLblasConjTrans, UZLblasConjNoTrans} UZLBLAS_TRANSPOSE;
@@ -46,5 +48,7 @@ extern "C"
     void uzl_fftw_DFT(size_t size, double* arr);
     void uzl_fftw_IDFT(size_t size, double* arr);
 }
+
+UZLMATH_END
 
 #endif

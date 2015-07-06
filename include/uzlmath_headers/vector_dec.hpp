@@ -11,6 +11,8 @@
 #ifndef uzlmath_vector_dec_hpp
 #define uzlmath_vector_dec_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief       Collection of classes and functions for vectors for mathematical 
  *              purposes.
@@ -133,5 +135,7 @@ template< typename S > std::ostream& operator<<(std::ostream& o, const vector< S
 /*!
  * @}
  */
+
+UZLMATH_END
 
 #endif

@@ -11,6 +11,8 @@
 #ifndef uzlmath_soft_fourier_coefficients_hpp
 #define uzlmath_soft_fourier_coefficients_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief       Collection of functions and classes for SOFT Fourier coefficients
  *              container
@@ -56,5 +58,7 @@ public:
 /*!
  * @}
  */
+
+UZLMATH_END
 
 #endif

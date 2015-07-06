@@ -11,6 +11,8 @@
 #ifndef uzlmath_matrix_tpl_def_hpp
 #define uzlmath_matrix_tpl_def_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief           Default constructor to build a matrix with no rows and columns.
  * @details         Constructs a matrix that has no columns and rows and is declared
@@ -1901,5 +1903,7 @@ std::ostream& operator<<(std::ostream& o, const matrix<S>& A)
     std::cout.flags( f );
     return o;
 }
+
+UZLMATH_END
 
 #endif

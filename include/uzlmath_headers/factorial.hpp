@@ -11,6 +11,8 @@
 #ifndef uzlmath_factorial_dec_hpp
 #define uzlmath_factorial_dec_hpp
 
+UZLMATH_BEGIN
+
 /*! 
  * @brief   A C++ implementation of a factorial number.
  * @details It can be used to do calculations with big factorial values. 
@@ -47,5 +49,7 @@ public:
     
     double   eval() const;
 };
+
+UZLMATH_END
 
 #endif

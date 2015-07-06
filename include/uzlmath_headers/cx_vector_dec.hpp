@@ -11,6 +11,8 @@
 #ifndef uzlmath_cx_vector_dec_hpp
 #define uzlmath_cx_vector_dec_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @ingroup    vector
  * @{
@@ -137,5 +139,7 @@ template< typename S > std::ostream& operator<<(std::ostream& o, const vector< c
 /*!
  * @}
  */
+
+UZLMATH_END
 
 #endif

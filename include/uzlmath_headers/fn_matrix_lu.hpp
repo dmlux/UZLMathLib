@@ -11,6 +11,8 @@
 #ifndef uzlmath_fn_matrix_lu_hpp
 #define uzlmath_fn_matrix_lu_hpp
 
+UZLMATH_BEGIN
+
 /*! 
  * @brief   Calculates the LU-decomposition of a given matrix A.
  *
@@ -266,5 +268,7 @@ void lu(const matrix< eT >& A, matrix< double >& L , matrix< double >& U, matrix
 {
     
 }
+
+UZLMATH_END
 
 #endif

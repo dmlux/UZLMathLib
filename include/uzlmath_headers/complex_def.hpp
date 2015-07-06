@@ -11,6 +11,8 @@
 #ifndef uzlmath_comlex_def_hpp
 #define uzlmath_comlex_def_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief           Destructor for a complex number.
  * @details         Frees allocated memory
@@ -870,5 +872,7 @@ std::ostream& operator<<(std::ostream& o, const complex< eT >& c)
     std::cout.flags( f );
     return o << std::fixed;
 }
+
+UZLMATH_END
 
 #endif

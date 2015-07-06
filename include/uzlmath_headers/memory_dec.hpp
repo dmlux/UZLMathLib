@@ -11,6 +11,8 @@
 #ifndef uzlmath_memory_dec_hpp
 #define uzlmath_memory_dec_hpp
 
+UZLMATH_BEGIN
+
 template< typename eT >
 class memory
 {
@@ -34,5 +36,7 @@ public:
     inline       eT*    memptr();
     inline const eT*    memptr() const;
 };
+
+UZLMATH_END
 
 #endif

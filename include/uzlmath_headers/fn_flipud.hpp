@@ -11,6 +11,8 @@
 #ifndef UZLMathLib_fn_flipud_hpp
 #define UZLMathLib_fn_flipud_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief           Flips a given matrix inverting the row order.
  * @details         Flips a matrix so that
@@ -188,5 +190,7 @@ auto flipud(matrix< complex< eT > >& mat) -> typename uzl_void_real_num_only< eT
         }
     }
 }
+
+UZLMATH_END
 
 #endif

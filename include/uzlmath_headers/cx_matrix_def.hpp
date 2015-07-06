@@ -11,6 +11,8 @@
 #ifndef uzlmath_cx_matrix_def_hpp
 #define uzlmath_cx_matrix_def_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief       The deconstructor to delete a complex matrix and its contents properly from
  *              RAM.
@@ -2154,5 +2156,7 @@ std::ostream& operator<<(std::ostream& o, const matrix< complex< eT > >& A)
     std::cout.flags( f );
     return o;
 }
+
+UZLMATH_END
 
 #endif

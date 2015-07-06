@@ -11,6 +11,8 @@
 #ifndef uzlmath_fn_matrix_inv_hpp
 #define uzlmath_fn_matrix_inv_hpp
 
+UZLMATH_BEGIN
+
 template< typename eT >
 inline
 matrix< double > invert(const matrix< eT >& A)
@@ -76,5 +78,7 @@ matrix< double > invert(const matrix< eT >& A)
 //    delete [] WORK;
 //    return inverse;
 }
+
+UZLMATH_END
 
 #endif

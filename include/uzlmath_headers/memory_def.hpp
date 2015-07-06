@@ -11,6 +11,8 @@
 #ifndef uzlmath_memory_def_hpp
 #define uzlmath_memory_def_hpp
 
+UZLMATH_BEGIN
+
 template< typename eT >
 inline
 memory< eT >::memory()
@@ -119,5 +121,7 @@ const eT* memory< eT >::memptr() const
 {
     return mem;
 }
+
+UZLMATH_END
 
 #endif

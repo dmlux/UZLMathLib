@@ -11,6 +11,8 @@
 #ifndef uzlmath_stop_watch_dec_hpp
 #define uzlmath_stop_watch_dec_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief   A measurment tool for getting execution time of code snippets.
  * @details The stop watch can be used to measure the execution time of a
@@ -40,5 +42,7 @@ public:
     double toc_minutes();
     double toc_hours();
 };
+
+UZLMATH_END
 
 #endif

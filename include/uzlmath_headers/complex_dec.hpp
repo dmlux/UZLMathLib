@@ -11,6 +11,8 @@
 #ifndef uzlmath_complex_dec_hpp
 #define uzlmath_complex_dec_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief       Collection of classes and functions for complex numbers for
  *              mathematical purposes.
@@ -103,5 +105,7 @@ template< typename eT >             std::ostream&   operator<<(std::ostream& o, 
 /*!
  * @}
  */
+
+UZLMATH_END
 
 #endif

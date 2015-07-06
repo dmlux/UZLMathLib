@@ -11,6 +11,8 @@
 #ifndef uzlmath_fn_cx_sqrt_hpp
 #define uzlmath_fn_cx_sqrt_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief       Calculates the square root of a given real number. And
  *              allows to calculate the square root of negative real numbers.
@@ -130,6 +132,6 @@ complex< eT > cx_sqrt(const complex< eT >& c)
     return com;
 }
 
-
+UZLMATH_END
 
 #endif

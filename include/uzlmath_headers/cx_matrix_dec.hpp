@@ -11,6 +11,8 @@
 #ifndef uzlmath_cx_matrix_dec_hpp
 #define uzlmath_cx_matrix_dec_hpp
 
+UZLMATH_BEGIN
+
 /*!
  * @brief       Matrix specialization for complex data.
  * @details     A matrix that contains only complex values on each
@@ -145,5 +147,7 @@ public:
 };
 
 template<typename eT> std::ostream& operator<<(std::ostream& o, const matrix< complex< eT > >& A);
+
+UZLMATH_END
 
 #endif
