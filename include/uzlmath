@@ -23,7 +23,7 @@
 
 
 
-/*- Makros -*/
+/*- Macros -*/
 #define UZLMATH_BEGIN           namespace uzlmath {
 #define UZLMATH_END             }
 
