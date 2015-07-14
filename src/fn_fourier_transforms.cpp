@@ -13,6 +13,9 @@
 
 #include <uzlmath>
 
+// SOFT Threshold
+#define SOFT_THREASHOLD 20
+
 // include OpenMP if compiler supports it
 #if _OPENMP
     #include <omp.h>
@@ -111,7 +114,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc) -> vo
     vector< complex< double > > s(2 * bandwidth, vec_type::COLUMN);
     
     // defining norm factor
-    double norm              = M_PI / (2 * bandwidth * bandwidth);
+    double norm = M_PI / (2 * bandwidth * bandwidth);
     
     // defining needed indices
     unsigned int MMp, i, M, Mp;
@@ -124,152 +127,157 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc) -> vo
     /*****************************************************************
      ** Iterate over all combinations of M and M'                   **
      *****************************************************************/
-    #pragma omp parallel for default(shared) private(i, M, dw, sh) firstprivate(s) schedule(dynamic)
-    for (M = 1; M < bandwidth; ++M)
+    #pragma omp parallel default(shared) if(bandwidth >= SOFT_THREASHOLD)
     {
-        dw = DWT::weighted_wigner_d_matrix(bandwidth, M, 0, weights) * -1;
-        
-        /*****************************************************************
-         ** Make use of symmetries                                      **
-         *****************************************************************/
-        // case f_{M,0}
-        for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(0, M, i);                                 }
-        sh = dw * s;
-        for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, 0) = norm * sh[sh.n_elements()-i];   }
-        
-        // case f_{0,M}
-        for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, 0, i);                                 }
-        sh = dw * s;
-        if  (M & 1)                             { sh *= -1;                                               }
-        for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, 0, M) = norm * sh[sh.n_elements()-i];   }
-        
-        // case f_{-M,0}
-        fliplr(dw);
-        for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(0, 2 * bandwidth - M, i);                 }
-        sh = dw * s;
-        if (M & 1)
+        //#pragma omp parallel for default(shared) private(i, M, dw, sh) firstprivate(s) schedule(dynamic) if(bandwidth >= SOFT_THREASHOLD)
+        #pragma omp for private(i, M, dw, sh) firstprivate(s) schedule(dynamic) nowait
+        for (M = 1; M < bandwidth; ++M)
         {
-            for (i = 0; i < sh.n_elements(); i += 2) { sh[i] *= -1;                                       }
-        }
-        else
-        {
-            for (i = 1; i < sh.n_elements(); i += 2) { sh[i] *= -1;                                       }
-        }
-        for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, 0) = norm * sh[sh.n_elements()-i];  }
-        
-        // case f_{0,-M}
-        for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, 0, i);                 }
-        sh = dw * s;
-        for (i = 1; i < sh.n_elements(); i +=2 ){ sh[i] *= -1;                                            }
-        for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, 0, -M) = norm * sh[sh.n_elements()-i];  }
-        
-        // get new wigner matrix
-        dw = DWT::weighted_wigner_d_matrix(bandwidth, M, M, weights) * -1;
-        
-        // case f_{M, M}
-        for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, M, i);                                 }
-        sh = dw * s;
-        for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, M) = norm * sh[sh.n_elements()-i];   }
-        
-        // case f_{-M, -M}
-        for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, 2 * bandwidth - M, i); }
-        sh = dw * s;
-        for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, -M) = norm * sh[sh.n_elements()-i]; }
-        
-        // Modify dw for the last two cases. flip matrix from left to right and negates sign of
-        // every second row with odd row index.
-        fliplr_ne2ndorow(dw);
-        
-        // An little arithmetic error is occuring in the following calculation
-        // case f_{M, -M}
-        for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, M, i);                 }
-        sh = dw * s;
-        for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, -M) = norm * sh[sh.n_elements()-i];  }
-        
-        // case f_{-M, M}
-        for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, 2 * bandwidth - M, i);                 }
-        sh = dw * s;
-        for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, M) = norm * sh[sh.n_elements()-i];  }
-    }
-    
-    // Fused two loops per hand
-    //
-    // for (M = 1; M < bandwidth; ++M)
-    //     for (Mp = 1; Mp < M; ++Mp)
-    //
-    // which now is equivalent to the following loop
-    #pragma omp parallel for default(shared) private(i, MMp, M, Mp, dw, sh) firstprivate(s) schedule(dynamic)
-    for (MMp = 0; MMp < (bandwidth - 2) * (bandwidth - 1) / 2; ++MMp)
-    {
-        // reconstructing nested loop indices
-        int i = MMp / (bandwidth - 1) + 1;
-        int j = MMp % (bandwidth - 1) + 1;
-        
-        // get M and M'
-        M  = j > i ? bandwidth - i : i + 1;
-        Mp = j > i ? bandwidth - j : j    ;
-        
-        // get new wigner d-matrix
-        dw = DWT::weighted_wigner_d_matrix(bandwidth, M, Mp, weights);
-        
-        // case f_{M, Mp}
-        for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(Mp, M, i);                                          }
-        sh  = dw * s;
-        sh *= -1;
-        for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, Mp) = norm * sh[sh.n_elements()-i];            }
-        
-        // case f_{Mp, M}
-        for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, Mp, i);                                          }
-        sh = dw * s;
-        if  (!((M - Mp) & 1))                   { sh *= -1;                                                         }
-        for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, Mp, M) = norm * sh[sh.n_elements()-i];            }
-        
-        // case f_{-M, -Mp}
-        for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - Mp, 2 * bandwidth - M, i);          }
-        sh = dw * s;
-        if  (!((M - Mp) & 1))                   { sh *= -1;                                                         }
-        for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, -Mp) = norm * sh[sh.n_elements()-i];          }
-        
-        // case f_{-Mp, -M}
-        for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, 2 * bandwidth - Mp, i);          }
-        sh  = dw * s;
-        sh *= -1;
-        for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -Mp, -M) = norm * sh[sh.n_elements()-i];          }
-        
-        // modify wigner d-matrix for next four cases. This just works because the weight
-        // function is also symmetric like the wigner-d matrix. flip left-right the dw
-        // matrix and negate each even value with even row index.
-        fliplr_ne2nderow(dw);
-        
-        // case f_{Mp, -M}
-        for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, Mp, i);                          }
-        sh = dw * s;
-        for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, Mp, -M) = norm * sh[sh.n_elements()-i];           }
-        
-        // case f_{M, -Mp}
-        for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - Mp, M, i);                          }
-        sh = dw * s;
-        for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, -Mp) = norm * sh[sh.n_elements()-i];           }
-        
-        // alter signs
-        if ((M - Mp) & 1)
-        {
-            double* dw_mem = dw.memptr();
-            for (i = 0; i < dw.n_rows() * dw.n_cols(); ++i)
+            dw = DWT::weighted_wigner_d_matrix(bandwidth, M, 0, weights) * -1;
+            
+            /*****************************************************************
+             ** Make use of symmetries                                      **
+             *****************************************************************/
+            // case f_{M,0}
+            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(0, M, i);                                 }
+            sh = dw * s;
+            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, 0) = norm * sh[sh.n_elements()-i];   }
+            
+            // case f_{0,M}
+            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, 0, i);                                 }
+            sh = dw * s;
+            if  (M & 1)                             { sh *= -1;                                               }
+            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, 0, M) = norm * sh[sh.n_elements()-i];   }
+            
+            // case f_{-M,0}
+            fliplr(dw);
+            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(0, 2 * bandwidth - M, i);                 }
+            sh = dw * s;
+            if (M & 1)
             {
-                dw_mem[i] *= -1;
+                for (i = 0; i < sh.n_elements(); i += 2) { sh[i] *= -1;                                       }
             }
+            else
+            {
+                for (i = 1; i < sh.n_elements(); i += 2) { sh[i] *= -1;                                       }
+            }
+            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, 0) = norm * sh[sh.n_elements()-i];  }
+            
+            // case f_{0,-M}
+            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, 0, i);                 }
+            sh = dw * s;
+            for (i = 1; i < sh.n_elements(); i +=2 ){ sh[i] *= -1;                                            }
+            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, 0, -M) = norm * sh[sh.n_elements()-i];  }
+            
+            // get new wigner matrix
+            dw = DWT::weighted_wigner_d_matrix(bandwidth, M, M, weights) * -1;
+            
+            // case f_{M, M}
+            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, M, i);                                 }
+            sh = dw * s;
+            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, M) = norm * sh[sh.n_elements()-i];   }
+            
+            // case f_{-M, -M}
+            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, 2 * bandwidth - M, i); }
+            sh = dw * s;
+            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, -M) = norm * sh[sh.n_elements()-i]; }
+            
+            // Modify dw for the last two cases. flip matrix from left to right and negates sign of
+            // every second row with odd row index.
+            fliplr_ne2ndorow(dw);
+            
+            // An little arithmetic error is occuring in the following calculation
+            // case f_{M, -M}
+            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, M, i);                 }
+            sh = dw * s;
+            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, -M) = norm * sh[sh.n_elements()-i];  }
+            
+            // case f_{-M, M}
+            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, 2 * bandwidth - M, i);                 }
+            sh = dw * s;
+            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, M) = norm * sh[sh.n_elements()-i];  }
         }
         
-        // case f_{-Mp, M}
-        for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, 2 * bandwidth - Mp, i);                          }
-        sh = dw * s;
-        for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -Mp, M) = norm * sh[sh.n_elements()-i];           }
-        
-        // case f_{-M, Mp}
-        for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(Mp, 2 * bandwidth - M, i);                          }
-        sh = dw * s;
-        for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, Mp) = norm * sh[sh.n_elements()-i];           }
+        // Fused two loops per hand
+        //
+        // for (M = 1; M < bandwidth; ++M)
+        //     for (Mp = 1; Mp < M; ++Mp)
+        //
+        // which now is equivalent to the following loop
+        //#pragma omp parallel for default(shared) private(i, MMp, M, Mp, dw, sh) firstprivate(s) schedule(dynamic) if(bandwidth >= SOFT_THREASHOLD)
+        #pragma omp for private(i, MMp, M, Mp, dw, sh) schedule(dynamic) firstprivate(s) nowait
+        for (MMp = 0; MMp < (bandwidth - 2) * (bandwidth - 1) / 2; ++MMp)
+        {
+            // reconstructing nested loop indices
+            int i = MMp / (bandwidth - 1) + 1;
+            int j = MMp % (bandwidth - 1) + 1;
+            
+            // get M and M'
+            M  = j > i ? bandwidth - i : i + 1;
+            Mp = j > i ? bandwidth - j : j    ;
+            
+            // get new wigner d-matrix
+            dw = DWT::weighted_wigner_d_matrix(bandwidth, M, Mp, weights);
+            
+            // case f_{M, Mp}
+            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(Mp, M, i);                                          }
+            sh  = dw * s;
+            sh *= -1;
+            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, Mp) = norm * sh[sh.n_elements()-i];            }
+            
+            // case f_{Mp, M}
+            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, Mp, i);                                          }
+            sh = dw * s;
+            if  (!((M - Mp) & 1))                   { sh *= -1;                                                         }
+            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, Mp, M) = norm * sh[sh.n_elements()-i];            }
+            
+            // case f_{-M, -Mp}
+            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - Mp, 2 * bandwidth - M, i);          }
+            sh = dw * s;
+            if  (!((M - Mp) & 1))                   { sh *= -1;                                                         }
+            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, -Mp) = norm * sh[sh.n_elements()-i];          }
+            
+            // case f_{-Mp, -M}
+            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, 2 * bandwidth - Mp, i);          }
+            sh  = dw * s;
+            sh *= -1;
+            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -Mp, -M) = norm * sh[sh.n_elements()-i];          }
+            
+            // modify wigner d-matrix for next four cases. This just works because the weight
+            // function is also symmetric like the wigner-d matrix. flip left-right the dw
+            // matrix and negate each even value with even row index.
+            fliplr_ne2nderow(dw);
+            
+            // case f_{Mp, -M}
+            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, Mp, i);                          }
+            sh = dw * s;
+            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, Mp, -M) = norm * sh[sh.n_elements()-i];           }
+            
+            // case f_{M, -Mp}
+            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - Mp, M, i);                          }
+            sh = dw * s;
+            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, -Mp) = norm * sh[sh.n_elements()-i];           }
+            
+            // alter signs
+            if ((M - Mp) & 1)
+            {
+                double* dw_mem = dw.memptr();
+                for (i = 0; i < dw.n_rows() * dw.n_cols(); ++i)
+                {
+                    dw_mem[i] *= -1;
+                }
+            }
+            
+            // case f_{-Mp, M}
+            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, 2 * bandwidth - Mp, i);                          }
+            sh = dw * s;
+            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -Mp, M) = norm * sh[sh.n_elements()-i];           }
+            
+            // case f_{-M, Mp}
+            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(Mp, 2 * bandwidth - M, i);                          }
+            sh = dw * s;
+            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, Mp) = norm * sh[sh.n_elements()-i];           }
+        }
     }
 }
 
@@ -362,170 +370,175 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
     unsigned MMp, i, M, Mp;
     
     // inverse DWT for M = 0, M' = 0
-    for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth - i, 0, 0); }
+    for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth - i, 0, 0);           }
     vector< complex< double > > s = d * sh;
-    for (i = 0; i < 2 * bandwidth; ++i) { synthesis(0, 0, i) = s[i];                                  }
+    for (i = 0; i < 2 * bandwidth; ++i) { synthesis(0, 0, i) = s[i];                                            }
     
     /*****************************************************************
      ** Iterate over all combinations of M and M'                   **
      *****************************************************************/
-    #pragma omp parallel for private(i, M, d, s, sh) schedule(dynamic)
-    for (M = 1; M < bandwidth; ++M)
+    #pragma omp parallel default(shared) if(bandwidth >= SOFT_THREASHOLD)
     {
-        d  = DWT::wigner_d_matrix(bandwidth, M, 0) * -1;
-        sh = vector< complex< double > >(d.n_rows(), vec_type::COLUMN);
-        d.transpose();
-        
-        /*****************************************************************
-         ** Make use of symmetries                                      **
-         *****************************************************************/
-        // case f_{M,0}
-        for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i]  = norm * fc(bandwidth-i, M, 0);  }
-        s = d * sh;
-        for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(0, M, i) = s[i];                              }
-        
-        // case f_{0,M}
-        for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, 0, M);   }
-        if  (M & 1) { s = d * (sh * -1);} else  { s = d * sh;                                             }
-        for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(M, 0, i) = s[i];                              }
-        
-        // case f_{-M,0}
-        flipud(d);
-        
-        for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -M, 0);  }
-        if (M & 1)
+        //#pragma omp parallel for private(i, M, d, s, sh) schedule(dynamic) if(bandwidth >= SOFT_THREASHOLD)
+        #pragma omp for private(i, M, d, s, sh) schedule(dynamic) nowait
+        for (M = 1; M < bandwidth; ++M)
         {
-            for (i = 0; i < sh.n_elements(); i += 2) { sh[i] *= -1;                                       }
-        }
-        else
-        {
-            for (i = 1; i < sh.n_elements(); i += 2) { sh[i] *= -1;                                       }
-        }
-        s = d * sh;
-        for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(0, 2 * bandwidth - M, i) = s[i];              }
-        
-        // case f_{0,-M}
-        for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, 0, -M);  }
-        for (i = 1; i < sh.n_elements(); i += 2){ sh[i] *= -1;                                            }
-        s = d * sh;
-        for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, 0, i) = s[i];              }
-        
-        // get new wigner matrix
-        d = DWT::wigner_d_matrix(bandwidth, M, M) * -1;
-        d.transpose();
-        
-        // case f_{M,M}
-        for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, M, M);   }
-        s = d * sh;
-        for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(M, M, i) = s[i];                              }
-        
-        // case f_{-M,-M}
-        for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -M, -M); }
-        s = d * sh;
-        for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, 2 * bandwidth - M, i) = s[i]; }
-        
-        // Modify dw for the last two cases. flip matrix from left to right and negate every
-        // second row with odd row index.
-        flipud_ne2ndocol(d);
-        
-        // An little arithmetic error is occuring in the following calculation
-        // case f_{M,-M}
-        for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, M, -M);  }
-        s = d * sh;
-        for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, M, i) = s[i];              }
-        
-        // case f_{-M,M}
-        for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -M, M);  }
-        s = d * sh;
-        for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(M, 2 * bandwidth - M, i) = s[i];              }
-    }
-    
-    // Fused two loops per hand
-    //
-    // for (M = 1; M < bandwidth; ++M)
-    //     for (Mp = 1; Mp < M; ++Mp)
-    //
-    // which now is equivalent to the following loop
-    #pragma omp parallel for private(i, MMp, M, Mp, d, s, sh) schedule(dynamic)
-    for (MMp = 0; MMp < (bandwidth - 2) * (bandwidth - 1) / 2; ++MMp)
-    {
-        // reconstructing indices of the two nested for loops
-        int i = MMp / (bandwidth - 1) + 1;
-        int j = MMp % (bandwidth - 1) + 1;
-        
-        // get M and M'
-        M  = j > i ? bandwidth - i : i + 1;
-        Mp = j > i ? bandwidth - j : j    ;
-        
-        // get new wigner d-matrix
-        d  = DWT::wigner_d_matrix(bandwidth, M, Mp);
-        d.transpose();
-        sh = vector< complex< double > >(d.n_cols(), vec_type::COLUMN);
-        
-        // case f_{M,Mp}
-        for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, M, Mp);            }
-        sh *= -1;
-        s  = d * sh;
-        for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(Mp, M, i) = s[i];                                       }
-        
-        // case f_{Mp,M}
-        for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, Mp, M);            }
-        if  (!((M - Mp) & 1))                   { sh *= -1;                                                         }
-        s = d * sh;
-        for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(M, Mp, i) = s[i];                                       }
-        
-        // case f_{-M,-Mp}
-        for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -M, -Mp);          }
-        if  (!((M - Mp) & 1))                   { sh *= -1;                                                         }
-        s = d * sh;
-        for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - Mp, 2 * bandwidth - M, i) = s[i];       }
-        
-        // case f_{-Mp,-M}
-        for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -Mp, -M);          }
-        sh *= -1;
-        s  = d * sh;
-        for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, 2 * bandwidth - Mp, i) = s[i];       }
-        
-        // modify wigner d-matrix for next four cases. This just works because the weight
-        // function is also symmetric like the wigner-d matrix. flip up-dow the d
-        // matrix and negate every second column with even row index.
-        flipud_ne2ndecol(d);
-        
-        // case f_{Mp,-M}
-        for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, Mp, -M);           }
-        s = d * sh;
-        for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, Mp, i) = s[i];                       }
-        
-        // case f_{M,-Mp}
-        for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, M, -Mp);           }
-        s = d * sh;
-        for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - Mp, M, i) = s[i];                       }
-        
-        // alter signs
-        if ((M - Mp) & 1)
-        {
-            double* d_mem = d.memptr();
-            for (i = 0; i < d.n_rows() * d.n_cols(); ++i)
+            d  = DWT::wigner_d_matrix(bandwidth, M, 0) * -1;
+            sh = vector< complex< double > >(d.n_rows(), vec_type::COLUMN);
+            d.transpose();
+            
+            /*****************************************************************
+             ** Make use of symmetries                                      **
+             *****************************************************************/
+            // case f_{M,0}
+            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i]  = norm * fc(bandwidth-i, M, 0);        }
+            s = d * sh;
+            for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(0, M, i) = s[i];                                    }
+            
+            // case f_{0,M}
+            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, 0, M);         }
+            if  (M & 1) { s = d * (sh * -1);} else  { s = d * sh;                                                   }
+            for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(M, 0, i) = s[i];                                    }
+            
+            // case f_{-M,0}
+            flipud(d);
+            
+            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -M, 0);        }
+            if (M & 1)
             {
-                d_mem[i] *= -1;
+                for (i = 0; i < sh.n_elements(); i += 2) { sh[i] *= -1;                                             }
             }
+            else
+            {
+                for (i = 1; i < sh.n_elements(); i += 2) { sh[i] *= -1;                                             }
+            }
+            s = d * sh;
+            for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(0, 2 * bandwidth - M, i) = s[i];                    }
+            
+            // case f_{0,-M}
+            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, 0, -M);        }
+            for (i = 1; i < sh.n_elements(); i += 2){ sh[i] *= -1;                                                  }
+            s = d * sh;
+            for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, 0, i) = s[i];                    }
+            
+            // get new wigner matrix
+            d = DWT::wigner_d_matrix(bandwidth, M, M) * -1;
+            d.transpose();
+            
+            // case f_{M,M}
+            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, M, M);         }
+            s = d * sh;
+            for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(M, M, i) = s[i];                                    }
+            
+            // case f_{-M,-M}
+            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -M, -M);       }
+            s = d * sh;
+            for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, 2 * bandwidth - M, i) = s[i];    }
+            
+            // Modify dw for the last two cases. flip matrix from left to right and negate every
+            // second row with odd row index.
+            flipud_ne2ndocol(d);
+            
+            // An little arithmetic error is occuring in the following calculation
+            // case f_{M,-M}
+            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, M, -M);        }
+            s = d * sh;
+            for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, M, i) = s[i];                    }
+            
+            // case f_{-M,M}
+            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -M, M);        }
+            s = d * sh;
+            for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(M, 2 * bandwidth - M, i) = s[i];                    }
         }
         
-        // case f_{-Mp,M}
-        for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -Mp, M);           }
-        s = d * sh;
-        for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(M, 2 * bandwidth - Mp, i) = s[i];                       }
-        
-        // case f_{-M,Mp}
-        for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -M, Mp);           }
-        s = d * sh;
-        for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(Mp, 2 * bandwidth - M, i) = s[i];                       }
+        // Fused two loops per hand
+        //
+        // for (M = 1; M < bandwidth; ++M)
+        //     for (Mp = 1; Mp < M; ++Mp)
+        //
+        // which now is equivalent to the following loop
+        //#pragma omp parallel for private(i, MMp, M, Mp, d, s, sh) schedule(dynamic) if(bandwidth >= SOFT_THREASHOLD)
+        #pragma omp for private(i, MMp, M, Mp, d, s, sh) schedule(dynamic) nowait
+        for (MMp = 0; MMp < (bandwidth - 2) * (bandwidth - 1) / 2; ++MMp)
+        {
+            // reconstructing indices of the two nested for loops
+            int i = MMp / (bandwidth - 1) + 1;
+            int j = MMp % (bandwidth - 1) + 1;
+            
+            // get M and M'
+            M  = j > i ? bandwidth - i : i + 1;
+            Mp = j > i ? bandwidth - j : j    ;
+            
+            // get new wigner d-matrix
+            d  = DWT::wigner_d_matrix(bandwidth, M, Mp);
+            d.transpose();
+            sh = vector< complex< double > >(d.n_cols(), vec_type::COLUMN);
+            
+            // case f_{M,Mp}
+            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, M, Mp);            }
+            sh *= -1;
+            s  = d * sh;
+            for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(Mp, M, i) = s[i];                                       }
+            
+            // case f_{Mp,M}
+            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, Mp, M);            }
+            if  (!((M - Mp) & 1))                   { sh *= -1;                                                         }
+            s = d * sh;
+            for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(M, Mp, i) = s[i];                                       }
+            
+            // case f_{-M,-Mp}
+            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -M, -Mp);          }
+            if  (!((M - Mp) & 1))                   { sh *= -1;                                                         }
+            s = d * sh;
+            for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - Mp, 2 * bandwidth - M, i) = s[i];       }
+            
+            // case f_{-Mp,-M}
+            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -Mp, -M);          }
+            sh *= -1;
+            s  = d * sh;
+            for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, 2 * bandwidth - Mp, i) = s[i];       }
+            
+            // modify wigner d-matrix for next four cases. This just works because the weight
+            // function is also symmetric like the wigner-d matrix. flip up-dow the d
+            // matrix and negate every second column with even row index.
+            flipud_ne2ndecol(d);
+            
+            // case f_{Mp,-M}
+            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, Mp, -M);           }
+            s = d * sh;
+            for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, Mp, i) = s[i];                       }
+            
+            // case f_{M,-Mp}
+            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, M, -Mp);           }
+            s = d * sh;
+            for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - Mp, M, i) = s[i];                       }
+            
+            // alter signs
+            if ((M - Mp) & 1)
+            {
+                double* d_mem = d.memptr();
+                for (i = 0; i < d.n_rows() * d.n_cols(); ++i)
+                {
+                    d_mem[i] *= -1;
+                }
+            }
+            
+            // case f_{-Mp,M}
+            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -Mp, M);           }
+            s = d * sh;
+            for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(M, 2 * bandwidth - Mp, i) = s[i];                       }
+            
+            // case f_{-M,Mp}
+            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -M, Mp);           }
+            s = d * sh;
+            for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(Mp, 2 * bandwidth - M, i) = s[i];                       }
+        }
     }
     
     /*****************************************************************
      ** IFFT2 transform layers of input sample grid for fixed k     **
      *****************************************************************/
-    synthesis.layer_wise_IDFT2(complex< double > (1.0 /(4 * bandwidth * bandwidth), 0));
+    synthesis.layer_wise_IDFT2(complex< double > (1. / (4. * bandwidth * bandwidth), 0));
 }
 
 UZLMATH_NAMESPACE_END
