@@ -48,18 +48,24 @@ UZLMATH_NAMESPACE(orthoPoly)
  */
 auto legendre(const int& n, const double& x) -> const double
 {
-    // memory for memorization
-    double mem[n + 1];
+    // intialize three-term recurrence
+    double preprev  = 1;
+    double prev     = x;
     
-    mem[0] = 1;
-    mem[1] = x;
-    
+    // start with 2 because first two values are predefined with
+    // 1 and x
     for (int i = 2; i <= n; ++i)
     {
-        mem[i] = (2.0 * i - 1.0) / i * x * mem[i - 1] - (i - 1.0) / i * mem[i - 2];
+        // make copy of the previous value
+        double tmp  = prev;
+        
+        // shift values
+        prev        = (2. * i - 1.) / i * x * prev - (i - 1.) / i * preprev;
+        preprev     = tmp;
     }
     
-    return mem[n];
+    // return previous value which represents value of the legendre polynomial
+    return prev;
 }
 
 UZLMATH_NAMESPACE_END
