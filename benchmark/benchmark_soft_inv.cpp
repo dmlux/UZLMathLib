@@ -71,7 +71,7 @@ int main(int argc, const char** argv)
 #endif
     
 #ifdef _OPENMP
-    fprintf(fp2, "bandwidth\truntime\tspeedup\tefficiency\n");
+    fprintf(fp2, "bandwidth\truntime\tserial\tspeedup\tefficiency\n");
 #else
     fprintf(fp2, "bandwidth\truntime\n");
 #endif
