@@ -21,7 +21,9 @@
 
 #include <random>       // for random C++11 library
 
-
+#ifdef _OPENMP
+    #include <omp.h>
+#endif
 
 /*- Macros -*/
 #define UZLMATH_BEGIN           namespace uzlmath {
@@ -48,6 +50,7 @@
 #include "uzlmath_headers/restrictors.hpp"
 
 /*- Class prototypes             -*/
+#include "uzlmath_headers/array_dec.hpp"
 #include "uzlmath_headers/base_dec.hpp"
 #include "uzlmath_headers/complex_dec.hpp"
 #include "uzlmath_headers/grid3D_dec.hpp"
@@ -57,12 +60,12 @@
 #include "uzlmath_headers/factorial.hpp"
 #include "uzlmath_headers/glue_dec.hpp"
 #include "uzlmath_headers/matrix_dec.hpp"
-#include "uzlmath_headers/memory_dec.hpp"
 #include "uzlmath_headers/soft_fourier_coefficients.hpp"
 #include "uzlmath_headers/stopwatch.hpp"
 #include "uzlmath_headers/vector_dec.hpp"
 
 /*- Class implementations        -*/
+#include "uzlmath_headers/array_def.hpp"
 #include "uzlmath_headers/base_def.hpp"
 #include "uzlmath_headers/complex_def.hpp"
 #include "uzlmath_headers/grid3D_def.hpp"
@@ -71,7 +74,6 @@
 #include "uzlmath_headers/cx_vector_def.hpp"
 #include "uzlmath_headers/glue_def.hpp"
 #include "uzlmath_headers/matrix_def.hpp"
-#include "uzlmath_headers/memory_def.hpp"
 #include "uzlmath_headers/vector_def.hpp"
 
 /*- Function implementations     -*/

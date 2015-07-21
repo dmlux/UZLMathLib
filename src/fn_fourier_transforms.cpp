@@ -17,7 +17,7 @@
 #define SOFT_THRESHOLD 20
 
 // include OpenMP if compiler supports it
-#if _OPENMP
+#ifdef _OPENMP
     #include <omp.h>
 #endif
 
@@ -72,7 +72,11 @@ UZLMATH_NAMESPACE(FourierTransforms)
  *
  * @since           0.0.1
  */
+#ifdef _OPENMP
+auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int threads) -> void
+#else
 auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc) -> void
+#endif
 {
     /*****************************************************************
      ** Check parameters                                            **
@@ -127,7 +131,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc) -> vo
     /*****************************************************************
      ** Iterate over all combinations of M and M'                   **
      *****************************************************************/
-    #pragma omp parallel default(shared) if(bandwidth >= SOFT_THRESHOLD)
+    #pragma omp parallel default(shared) if(bandwidth >= SOFT_THRESHOLD) num_threads(threads)
     {
         //#pragma omp parallel for default(shared) private(i, M, dw, sh) firstprivate(s) schedule(dynamic) if(bandwidth >= SOFT_THRESHOLD)
         #pragma omp for private(i, M, dw, sh) firstprivate(s) schedule(dynamic) nowait
@@ -326,7 +330,11 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc) -> vo
  * @author          Denis-Michael Lux <denis.lux@icloud.com>
  * @date            23.05.2015
  */
+#ifdef _OPENMP
+auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis, int threads) -> void
+#else
 auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis) -> void
+#endif
 {
     /*****************************************************************
      ** Check parameters                                            **
@@ -377,7 +385,7 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
     /*****************************************************************
      ** Iterate over all combinations of M and M'                   **
      *****************************************************************/
-    #pragma omp parallel default(shared) if(bandwidth >= SOFT_THRESHOLD)
+    #pragma omp parallel default(shared) if(bandwidth >= SOFT_THRESHOLD) num_threads(threads)
     {
         //#pragma omp parallel for private(i, M, d, s, sh) schedule(dynamic) if(bandwidth >= SOFT_THRESHOLD)
         #pragma omp for private(i, M, d, s, sh) schedule(dynamic) nowait

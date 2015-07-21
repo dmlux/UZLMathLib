@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <thread>
 
-#define MAX_BW 140  // Maximal bandwidth
+#define MAX_BW 14  // Maximal bandwidth
 #define LOOP_R 10   // ISOFT runs per bandwidth
 
 using namespace uzlmath;
@@ -31,28 +31,50 @@ int main(int argc, const char** argv)
     FILE* fp2 = fopen("soft_inverse.dat", "w");
     
     // print some information
+#ifdef _OPENMP
+    printf(     "+-----------------------------------------------------------------------------------------------------------------------------+\n");
+    printf(     "|                                                    SOFT INVERSE BENCHMARK                                                   |\n");
+    printf(     "+-----------------------------------------------------------------------------------------------------------------------------+\n");
+    printf(     "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
+    printf(     "| PARALLELIZED WITH %d THREADS\n", omp_get_max_threads());
+    printf(     "+=====+===========+===================================+===================================+===========+==========+============+\n");
+    printf(     "|  B  | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  | serial    | speedup  | efficiency |\n");
+    printf(     "+=====+===========+===================================+===================================+===========+==========+============+\n");
+#else
     printf(     "+-----------------------------------------------------------------------------------------+\n");
-    printf(     "|                                 ISOFT FORWARD BENCHMARK                                 |\n");
+    printf(     "|                                  SOFT INVERSE BENCHMARK                                 |\n");
     printf(     "+-----------------------------------------------------------------------------------------+\n");
     printf(     "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
-    
+    printf(     "+=====+===========+===================================+===================================+\n");
+    printf(     "|  B  | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  |\n");
+    printf(     "+=====+===========+===================================+===================================+\n");
+#endif
+
     // write output to file "benchmark_soft_inv.txt"
+#ifdef _OPENMP
+    fprintf(fp, "+-----------------------------------------------------------------------------------------------------------------------------+\n");
+    fprintf(fp, "|                                                    SOFT INVERSE BENCHMARK                                                   |\n");
+    fprintf(fp, "+-----------------------------------------------------------------------------------------------------------------------------+\n");
+    fprintf(fp, "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
+    fprintf(fp, "| PARALLELIZED WITH %d THREADS\n", omp_get_max_threads());
+    fprintf(fp, "+=====+===========+===================================+===================================+===========+==========+============+\n");
+    fprintf(fp, "|  B  | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  | serial    | speedup  | efficiency |\n");
+    fprintf(fp, "+=====+===========+===================================+===================================+===========+==========+============+\n");
+#else
     fprintf(fp, "+-----------------------------------------------------------------------------------------+\n");
-    fprintf(fp, "|                                 ISOFT FORWARD BENCHMARK                                 |\n");
+    fprintf(fp, "|                                  SOFT INVERSE BENCHMARK                                 |\n");
     fprintf(fp, "+-----------------------------------------------------------------------------------------+\n");
     fprintf(fp, "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
-    
-    
-    printf(     "+=====+===========+===================================+===================================+\n");
-    printf(     "|  bw | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  |\n");
-    printf(     "+=====+===========+===================================+===================================+\n");
-    
-    // write output to file "benchmark_soft_inv.txt"
     fprintf(fp, "+=====+===========+===================================+===================================+\n");
-    fprintf(fp, "|  bw | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  |\n");
+    fprintf(fp, "|  B  | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  |\n");
     fprintf(fp, "+=====+===========+===================================+===================================+\n");
+#endif
     
+#ifdef _OPENMP
+    fprintf(fp2, "bandwidth\truntime\tspeedup\tefficiency\n");
+#else
     fprintf(fp2, "bandwidth\truntime\n");
+#endif
     
     // loop over all bandwidth up to MAX_BW
     for (unsigned int bandwidth = 2; bandwidth <= MAX_BW; ++bandwidth)
@@ -74,6 +96,13 @@ int main(int argc, const char** argv)
         
         // min and max exec tiems
         double min, max;
+        
+#ifdef _OPENMP
+        // get reference value of serial implementation
+        stopwatch sw = stopwatch::tic();
+        ISOFT(coef, sample, 1);  // setting threads explicitly to 1
+        double serial_ref = sw.toc();
+#endif
         
         for (i = 0; i < LOOP_R; ++i)
         {
@@ -119,19 +148,41 @@ int main(int argc, const char** argv)
         // print information
         printf("| %3i |", bandwidth);                                                // bandwidth
         printf(" %2.6fs |", avg);                                                    // average runtime for given bandwidth
-        printf(" %2.6fs (-%2.6fs / -%6s%%) |",   min, (avg - min), min_rat);         // fastest run and its difference to average
-        printf(" %2.6fs (+%2.6fs / +%6s%%) |\n", max, (max - avg), max_rat);         // slowest run and its difference to average
+        printf(" %2.6fs (-%2.6fs / -%6s%%) |", min, (avg - min), min_rat);           // fastest run and its difference to average
+        printf(" %2.6fs (+%2.6fs / +%6s%%) |", max, (max - avg), max_rat);           // slowest run and its difference to average
         
         // write to file
         fprintf(fp, "| %3i |", bandwidth);                                           // bandwidth
         fprintf(fp, " %2.6fs |", avg);                                               // average runtime for given bandwidth
-        fprintf(fp, " %2.6fs (-%2.6fs / -%6s%%) |",   min, (avg - min), min_rat);    // fastest run and its difference to average
-        fprintf(fp, " %2.6fs (+%2.6fs / +%6s%%) |\n", max, (max - avg), max_rat);    // slowest run and its difference to average
+        fprintf(fp, " %2.6fs (-%2.6fs / -%6s%%) |", min, (avg - min), min_rat);      // fastest run and its difference to average
+        fprintf(fp, " %2.6fs (+%2.6fs / +%6s%%) |", max, (max - avg), max_rat);      // slowest run and its difference to average
         
-        fprintf(fp2, "%d\t\t%f\n", bandwidth, avg);
+#ifdef _OPENMP
+        printf(     " %2.6fs |", serial_ref);
+        printf(     " %2.6f |", (serial_ref / max));
+        printf(     " %2.6f   |\n", (serial_ref / (omp_get_max_threads() * max)));
+        
+        fprintf(fp, " %2.6fs |", serial_ref);
+        fprintf(fp, " %2.6f |", (serial_ref / max));
+        fprintf(fp, " %2.6f   |\n", (serial_ref / (omp_get_max_threads() * max)));
+        
+        fprintf(fp2, "%d\t\t%15f\t\t%15f\t\t%15f\n", bandwidth, avg, (serial_ref / max), (serial_ref / (omp_get_max_threads() * max)));
+#else
+        printf("\n");
+        fprintf(fp, "\n");
+        
+        fprintf(fp2, "%d\t\t%15f\n", bandwidth, avg);
+#endif
+        
     }
+    
+#ifdef _OPENMP
+    printf(     "+=====+===========+===================================+===================================+===========+==========+============+\n");
+    fprintf(fp, "+=====+===========+===================================+===================================+===========+==========+============+\n");
+#else
     printf(     "+=====+===========+===================================+===================================+\n");
     fprintf(fp, "+=====+===========+===================================+===================================+\n");
+#endif
     
     // close files
     fclose(fp);
