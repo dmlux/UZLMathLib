@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <thread>
 
-#define MAX_BW 14  // Maximal bandwidth
+#define MAX_BW 140  // Maximal bandwidth
 #define LOOP_R 10   // ISOFT runs per bandwidth
 
 using namespace uzlmath;
