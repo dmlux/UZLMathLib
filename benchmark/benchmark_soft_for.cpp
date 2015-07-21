@@ -72,7 +72,7 @@ int main(int argc, const char** argv)
 #endif
     
 #ifdef _OPENMP
-    fprintf(fp2, "bandwidth\truntime\tspeedup\tefficiency\n");
+    fprintf(fp2, "bandwidth\truntime\tserial\tspeedup\tefficiency\n");
 #else
     fprintf(fp2, "bandwidth\truntime\n");
 #endif
@@ -171,7 +171,7 @@ int main(int argc, const char** argv)
         fprintf(fp, " %2.6f |", (serial_ref / max));
         fprintf(fp, " %2.6f   |\n", (serial_ref / (omp_get_max_threads() * max)));
         
-        fprintf(fp2, "%d\t\t%15f\t\t%15f\t\t%15f\n", bandwidth, avg, (serial_ref / max), (serial_ref / (omp_get_max_threads() * max)));
+        fprintf(fp2, "%d\t\t%15f\t\t%15f\t\t%15f\t\t%15f\n", bandwidth, avg, serial_ref, (serial_ref / max), (serial_ref / (omp_get_max_threads() * max)));
 #else
         printf("\n");
         fprintf(fp, "\n");
