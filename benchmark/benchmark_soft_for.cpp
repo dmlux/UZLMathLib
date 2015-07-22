@@ -6,15 +6,8 @@
 //
 //
 
-#ifndef benchmark_soft_for_cpp
-#define benchmark_soft_for_cpp
-
 #include <uzlmath>
 #include <stdio.h>
-#include <thread>
-
-#define MAX_BW 140  // Maximal bandwidth
-#define LOOP_R 10   // SOFT runs per bandwidth
 
 using namespace uzlmath;
 using namespace FourierTransforms;
@@ -22,12 +15,20 @@ using namespace FourierTransforms;
 // Main method
 int main(int argc, const char** argv)
 {
+    if (argc < 3)
+    {
+        printf("usage: ./benchmark_soft_for <MAX BANDWIDTH> <RUNS PER BANDWDITH>\n");
+        return 1;
+    }
+    
+    int MAX_BW = atoi(argv[1]);
+    int LOOP_R = atoi(argv[2]);
+    
     // space for the time values of all LOOP_R runs
     double times[MAX_BW - 1];
     
     // write to file
-    char fileName[] = "benchmark_soft_for.txt";
-    FILE* fp  = fopen(fileName, "w");
+    FILE* fp  = fopen("benchmark_soft_for.txt", "w");
     FILE* fp2 = fopen("soft_forward.dat", "w");
     
 #ifdef _OPENMP
@@ -159,12 +160,12 @@ int main(int argc, const char** argv)
         
 #ifdef _OPENMP
         printf(     " %2.6fs |", serial_ref);
-        printf(     " %2.6f |", (serial_ref / max));
-        printf(     " %2.6f   |\n", (serial_ref / (omp_get_max_threads() * max)));
+        printf(     "   %2.2f   |", (serial_ref / max));
+        printf(     "    %2.2f    |\n", (serial_ref / (omp_get_max_threads() * max)));
         
         fprintf(fp, " %2.6fs |", serial_ref);
-        fprintf(fp, " %2.6f |", (serial_ref / max));
-        fprintf(fp, " %2.6f   |\n", (serial_ref / (omp_get_max_threads() * max)));
+        fprintf(fp, "   %2.2f   |", (serial_ref / max));
+        fprintf(fp, "    %2.2f    |\n", (serial_ref / (omp_get_max_threads() * max)));
         
         fprintf(fp2, "%d\t\t%15f\t\t%15f\t\t%15f\t\t%15f\n", bandwidth, avg, serial_ref, (serial_ref / max), (serial_ref / (omp_get_max_threads() * max)));
 #else
@@ -189,4 +190,3 @@ int main(int argc, const char** argv)
     fclose(fp2);
 }
 
-#endif
