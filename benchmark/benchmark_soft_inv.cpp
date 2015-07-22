@@ -24,6 +24,14 @@ int main(int argc, const char** argv)
     int MAX_BW = atoi(argv[1]);
     int LOOP_R = atoi(argv[2]);
     
+    // To make things fair, we run omp once for startup. This will avoid
+    // initialization time later on:
+#ifdef _OPENMP
+    int max_procs = omp_get_num_procs();
+    #pragma omp parallel for num_threads(max_procs)
+    for (int i = 0; i < max_procs; i++);
+#endif
+    
     // space for the time values of all LOOP_R runs
     double times[MAX_BW - 1];
     
