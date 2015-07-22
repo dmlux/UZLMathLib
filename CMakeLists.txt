@@ -104,31 +104,20 @@ FILE(GLOB SRCS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c ${CMAKE_CURRENT_SOURCE_DIR}/s
 FILE(GLOB SRCS ${SRCS} ${CMAKE_CURRENT_SOURCE_DIR}/include/uzlmath_headers/*.h ${CMAKE_CURRENT_SOURCE_DIR}/include/uzlmath_headers/*.hpp )
 FILE(GLOB SRCS ${SRCS} ${CMAKE_CURRENT_SOURCE_DIR}/include/uzlmath )
 
-####################################################################
-##  COMPILING LIBRARY                                        	  ##
-####################################################################
+# Library
 ADD_LIBRARY(           UZLMath SHARED ${SRCS}                                                   )
 TARGET_LINK_LIBRARIES( UZLMath ${UZLMATH_LIBS}                                                  )
 SET_TARGET_PROPERTIES( UZLMath PROPERTIES VERSION ${UZLMATH_VERSION} SOVERSION ${UZLMATH_MAJOR} )
 
-####################################################################
-##  BENCHMARKS                                        		      ##
-####################################################################
-ADD_SUBDIRECTORY( benchmark )
-
-####################################################################
-##  UNIT TESTING                                        		  ##
-####################################################################
+# Benchmarks
+ADD_SUBDIRECTORY( benchmark     )
+    
+# Unit tests
 ADD_SUBDIRECTORY( gtest-1.7.0   )
 ADD_SUBDIRECTORY( test          )
 
-
-# Creating binary and linking library
-ADD_EXECUTABLE(
-    soft_test
-    ${PROJECT_SOURCE_DIR}/soft/soft_test.cpp
-)
-TARGET_LINK_LIBRARIES( soft_test UZLMath )
+# Soft test
+ADD_SUBDIRECTORY( soft          )
 
 
 ####################################################################
