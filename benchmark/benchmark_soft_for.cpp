@@ -29,7 +29,7 @@ int main(int argc, const char** argv)
     char fileName[] = "benchmark_soft_for.txt";
     FILE* fp  = fopen(fileName, "w");
     FILE* fp2 = fopen("soft_forward.dat", "w");
-
+    
 #ifdef _OPENMP
     // print some information
     printf(     "+-----------------------------------------------------------------------------------------------------------------------------+\n");
@@ -40,19 +40,8 @@ int main(int argc, const char** argv)
     printf(     "+=====+===========+===================================+===================================+===========+==========+============+\n");
     printf(     "|  B  | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  | serial    | speedup  | efficiency |\n");
     printf(     "+=====+===========+===================================+===================================+===========+==========+============+\n");
-#else
-    printf(     "+-----------------------------------------------------------------------------------------+\n");
-    printf(     "|                                 SOFT FORWARD BENCHMARK                                  |\n");
-    printf(     "+-----------------------------------------------------------------------------------------+\n");
-    printf(     "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
-    printf(     "+=====+===========+===================================+===================================+\n");
-    printf(     "|  B  | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  |\n");
-    printf(     "+=====+===========+===================================+===================================+\n");
-#endif
     
     // write output to file "benchmark_soft_for.txt"
-    
-#ifdef _OPENMP
     fprintf(fp, "+-----------------------------------------------------------------------------------------------------------------------------+\n");
     fprintf(fp, "|                                                   SOFT FORWARD BENCHMARK                                                    |\n");
     fprintf(fp, "+-----------------------------------------------------------------------------------------------------------------------------+\n");
@@ -61,7 +50,17 @@ int main(int argc, const char** argv)
     fprintf(fp, "+=====+===========+===================================+===================================+===========+==========+============+\n");
     fprintf(fp, "|  B  | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  | serial    | speedup  | efficiency |\n");
     fprintf(fp, "+=====+===========+===================================+===================================+===========+==========+============+\n");
+    
+    fprintf(fp2, "bandwidth\truntime\tserial\tspeedup\tefficiency\n");
 #else
+    printf(     "+-----------------------------------------------------------------------------------------+\n");
+    printf(     "|                                 SOFT FORWARD BENCHMARK                                  |\n");
+    printf(     "+-----------------------------------------------------------------------------------------+\n");
+    printf(     "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
+    printf(     "+=====+===========+===================================+===================================+\n");
+    printf(     "|  B  | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  |\n");
+    printf(     "+=====+===========+===================================+===================================+\n");
+    
     fprintf(fp, "+-----------------------------------------------------------------------------------------+\n");
     fprintf(fp, "|                                 SOFT FORWARD BENCHMARK                                  |\n");
     fprintf(fp, "+-----------------------------------------------------------------------------------------+\n");
@@ -69,11 +68,7 @@ int main(int argc, const char** argv)
     fprintf(fp, "+=====+===========+===================================+===================================+\n");
     fprintf(fp, "|  B  | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  |\n");
     fprintf(fp, "+=====+===========+===================================+===================================+\n");
-#endif
     
-#ifdef _OPENMP
-    fprintf(fp2, "bandwidth\truntime\tserial\tspeedup\tefficiency\n");
-#else
     fprintf(fp2, "bandwidth\truntime\n");
 #endif
     
