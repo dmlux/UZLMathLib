@@ -59,16 +59,16 @@ auto quadrature_weights(const int& bandwidth) -> vector< double >
     unsigned int i, k;
     for (i = 0; i < bandwidth; ++i)
     {
-        double wi = 2.0 / bandwidth * sin(M_PI * (2.0 * i + 1.0)/(4.0 * bandwidth));
+        double wi  = 2.0 / bandwidth * sin(M_PI * (2.0 * i + 1.0)/(4.0 * bandwidth));
         double sum = 0;
         for (k = 0; k < bandwidth; ++k)
         {
             sum += 1.0 / (2.0 * k + 1.0) * sin((2.0 * i + 1.0) * (2.0 * k + 1.0) * M_PI / (4.0 * bandwidth));
         }
         
-        wi                     *= sum;
-        w[i]                    = wi;
-        w[2 * bandwidth - 1 -i] = wi;
+        wi                      *= sum;
+        w[i]                     = wi;
+        w[2 * bandwidth - 1 - i] = wi;
     }
     
     return w;

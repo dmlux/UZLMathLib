@@ -16,11 +16,6 @@
 // SOFT Threshold
 #define SOFT_THRESHOLD 20
 
-// include OpenMP if compiler supports it
-#ifdef _OPENMP
-    #include <omp.h>
-#endif
-
 UZLMATH_NAMESPACE(FourierTransforms)
         
 /*!
@@ -72,11 +67,7 @@ UZLMATH_NAMESPACE(FourierTransforms)
  *
  * @since           0.0.1
  */
-#ifdef _OPENMP
 auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int threads) -> void
-#else
-auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc) -> void
-#endif
 {
     /*****************************************************************
      ** Check parameters                                            **
@@ -104,6 +95,14 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc) -> vo
         printf("** uzlmath error: SOFT Fourier coefficients container bandwidth does not match to sample grid bandwidth. **\n");
         return;
     }
+    
+    // print warinings for serial implementation
+    #ifdef _OPENMP
+    if (threads =! 1)
+    {
+        printf("** uzlmath warning: Compiler does not support OpenMP. Since no mulithreading is done, the number of threads has no effect. **\n");
+    }
+    #endif
     
     /*****************************************************************
      ** FFT2 transform layers of sample grid for fixed k            **
@@ -133,7 +132,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc) -> vo
      *****************************************************************/
     #pragma omp parallel default(shared) if(bandwidth >= SOFT_THRESHOLD) num_threads(threads)
     {
-        //#pragma omp parallel for default(shared) private(i, M, dw, sh) firstprivate(s) schedule(dynamic) if(bandwidth >= SOFT_THRESHOLD)
+        
         #pragma omp for private(i, M, dw, sh) firstprivate(s) schedule(dynamic) nowait
         for (M = 1; M < bandwidth; ++M)
         {
@@ -208,7 +207,6 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc) -> vo
         //     for (Mp = 1; Mp < M; ++Mp)
         //
         // which now is equivalent to the following loop
-        //#pragma omp parallel for default(shared) private(i, MMp, M, Mp, dw, sh) firstprivate(s) schedule(dynamic) if(bandwidth >= SOFT_THRESHOLD)
         #pragma omp for private(i, MMp, M, Mp, dw, sh) schedule(dynamic) firstprivate(s) nowait
         for (MMp = 0; MMp < (bandwidth - 2) * (bandwidth - 1) / 2; ++MMp)
         {
@@ -330,11 +328,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc) -> vo
  * @author          Denis-Michael Lux <denis.lux@icloud.com>
  * @date            23.05.2015
  */
-#ifdef _OPENMP
 auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis, int threads) -> void
-#else
-auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis) -> void
-#endif
 {
     /*****************************************************************
      ** Check parameters                                            **
@@ -363,6 +357,14 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
         return;
     }
     
+    // print warinings for serial implementation
+    #ifdef _OPENMP
+    if (threads =! 1)
+    {
+        printf("** uzlmath warning: Compiler does not support OpenMP. Since no mulithreading is done, the number of threads has no effect. **\n");
+    }
+    #endif
+    
     /*****************************************************************
      ** M = 0, M' = 0                                               **
      *****************************************************************/
@@ -387,7 +389,7 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
      *****************************************************************/
     #pragma omp parallel default(shared) if(bandwidth >= SOFT_THRESHOLD) num_threads(threads)
     {
-        //#pragma omp parallel for private(i, M, d, s, sh) schedule(dynamic) if(bandwidth >= SOFT_THRESHOLD)
+        
         #pragma omp for private(i, M, d, s, sh) schedule(dynamic) nowait
         for (M = 1; M < bandwidth; ++M)
         {
@@ -465,7 +467,6 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
         //     for (Mp = 1; Mp < M; ++Mp)
         //
         // which now is equivalent to the following loop
-        //#pragma omp parallel for private(i, MMp, M, Mp, d, s, sh) schedule(dynamic) if(bandwidth >= SOFT_THRESHOLD)
         #pragma omp for private(i, MMp, M, Mp, d, s, sh) schedule(dynamic) nowait
         for (MMp = 0; MMp < (bandwidth - 2) * (bandwidth - 1) / 2; ++MMp)
         {

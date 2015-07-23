@@ -183,11 +183,7 @@ void for_back(unsigned int bandwidth, bool show_coefs)
     
     // perform forward SOFT transform
     sw = stopwatch::tic();
-#ifdef _OPENMP
-    FourierTransforms::SOFT(sample, rec_coef, 1);
-#else
     FourierTransforms::SOFT(sample, rec_coef);
-#endif
     double time = sw.toc();
     
     // print Fourier coefficients

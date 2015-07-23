@@ -46,6 +46,7 @@ IF(OpenBLAS_FOUND)
 ENDIF()
 
 MESSAGE(STATUS "*** Try to find FFTW")
+
 # Including FFTW
 INCLUDE(UZLMATH_FindFFTW)
 MESSAGE(STATUS "~> FFTW_FOUND = ${FFTW_FOUND}")
@@ -118,7 +119,6 @@ ADD_SUBDIRECTORY( test          )
 
 # Soft test
 ADD_SUBDIRECTORY( soft          )
-
 
 ####################################################################
 ##  INSTALLATION SECTION                                          ##
