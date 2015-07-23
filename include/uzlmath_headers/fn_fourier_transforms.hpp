@@ -11,13 +11,6 @@
 #ifndef uzlmath_fn_fourier_transforms_hpp
 #define uzlmath_fn_fourier_transforms_hpp
 
-// Define the default number of used threads
-#ifdef _OPENMP
-    #define MAX_THREADS omp_get_max_threads()
-#else
-    #define MAX_THREADS 1
-#endif
-
 UZLMATH_NAMESPACE(FourierTransforms)
 
 /*!
@@ -308,11 +301,10 @@ auto IDFT2(matrix< complex< eT > >& mat, complex< eT > scale = complex< eT >(1,0
 }
 
 // Forward fast Fourier transform on SO(3)
-auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int threads = MAX_THREADS) -> void;
+auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int threads = UZL_MAX_THREADS) -> void;
 
 // Inverse fast Fourier transform on SO(3)
-auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis, int threads = MAX_THREADS) -> void;
-
+auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis, int threads = UZL_MAX_THREADS) -> void;
 
 UZLMATH_NAMESPACE_END
 

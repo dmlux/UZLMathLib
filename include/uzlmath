@@ -32,7 +32,12 @@
 #define UZLMATH_NAMESPACE(a)    namespace uzlmath { namespace a {
 #define UZLMATH_NAMESPACE_END   } }
 
-
+// Define the default number of used threads for multithreaded parts
+#ifdef _OPENMP
+    #define UZL_MAX_THREADS omp_get_max_threads()
+#else
+    #define UZL_MAX_THREADS 1
+#endif
 
 /*- Forward declarations         -*/
 #include "uzlmath_headers/forward_declarations.hpp"
