@@ -319,7 +319,7 @@ matrix< eT > matrix< eT >::operator*(const matrix< eT >& A)
         uzl_blas_sgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, 1.0,
                       tmp_mem, rows, tmp_A, A.rows, 0.0, C, n_rows);
         
-        size_t cap_c = n_rows * n_cols;
+        size_t cap_c   = n_rows * n_cols;
         
         for (i = 0; i < cap_c; ++i)
         {
@@ -370,7 +370,7 @@ matrix< eT > matrix< eT >::operator*(const matrix< eT >& A)
         uzl_blas_dgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, 1.0,
                       tmp_mem, rows, tmp_A, A.rows, 0.0, C, n_rows);
         
-        size_t cap_c = n_rows * n_cols;
+        size_t cap_c    = n_rows * n_cols;
         for (i = 0; i < cap_c; ++i)
         {
             result.mem[i] = static_cast< eT >(C[i]);
@@ -1644,7 +1644,7 @@ template< typename eT >
 inline
 void matrix< eT >::transpose()
 {
-    eT *tmp_mem = new eT[rows * cols];
+    eT *tmp_mem  = new eT[rows * cols];
     size_t tmp_r = cols;
     size_t tmp_c = rows;
     
@@ -1660,7 +1660,7 @@ void matrix< eT >::transpose()
     delete [] mem;
     rows = tmp_r;
     cols = tmp_c;
-    mem = tmp_mem;
+    mem  = tmp_mem;
 }
 
 /*!
@@ -1754,7 +1754,8 @@ const double matrix< eT >::determinant()
     }
     
     double det = 1;
-    int n = (cols < rows) ? cols : rows;
+    int n      = (cols < rows) ? cols : rows;
+    
     for (i = 0; i < n; ++i)
     {
         det *= A[i * rows + i];
@@ -1893,9 +1894,12 @@ std::ostream& operator<<(std::ostream& o, const matrix<S>& A)
             S val = A(i, j);
             
             // create string
-            o << std::setfill(' ');
-            o << std::right << std::setw(width);
-            o << format << std::setprecision(4) << val;
+            o << std::setw(width);      // setting fixed width for the number
+            o << std::setprecision(4);  // setting number precision
+            o << std::setfill(' ');     // fill space with white spaces
+            o << std::right;            // setting right alignment of number
+            o << format;                // setting correct number formatting
+            o << val;                   // print value
         }
         o << std::endl;
     }

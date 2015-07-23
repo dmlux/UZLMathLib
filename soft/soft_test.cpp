@@ -243,6 +243,12 @@ int main(int argc, const char ** argv)
 //    for_back_file("/Users/dlux/Desktop/soft_files/test_series/grid_3_test.dat", 3, true);
     for_back(128, false);
     
+//    SOFTFourierCoefficients fc(3);
+//    
+//    rand(fc, -1, 1);
+//    
+//    std::cout << fc << std::endl;
+    
     return 0;
 }
 

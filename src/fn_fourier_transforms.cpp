@@ -87,7 +87,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
     }
     
     // Extract bandwidth
-    unsigned int bandwidth = static_cast< unsigned int >(sample.n_cols() / 2);
+    int bandwidth = static_cast< int >(sample.n_cols() / 2);
     
     // Check if Fourier coefficients container dimension matches sample dimension
     if (bandwidth != fc.bandwidth)
@@ -97,8 +97,8 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
     }
     
     // print warinings for serial implementation
-    #ifdef _OPENMP
-    if (threads =! 1)
+    #ifndef _OPENMP
+    if (threads != 1)
     {
         printf("** uzlmath warning: Compiler does not support OpenMP. Since no mulithreading is done, the number of threads has no effect. **\n");
     }
@@ -120,7 +120,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
     double norm = M_PI / (2 * bandwidth * bandwidth);
     
     // defining needed indices
-    unsigned int MMp, i, M, Mp;
+    int MMp, i, M, Mp;
     
     // DWT for M = 0, M' = 0
     for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(0, 0, i);                               }
@@ -348,7 +348,7 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
     }
     
     // Extract bandwidth
-    unsigned int bandwidth = static_cast< unsigned int >(synthesis.n_cols() / 2);
+    int bandwidth = static_cast< int >(synthesis.n_cols() / 2);
     
     // Check if Fourier coefficients container dimension matches sample dimension
     if (bandwidth != fc.bandwidth)
@@ -358,8 +358,8 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
     }
     
     // print warinings for serial implementation
-    #ifdef _OPENMP
-    if (threads =! 1)
+    #ifndef _OPENMP
+    if (threads != 1)
     {
         printf("** uzlmath warning: Compiler does not support OpenMP. Since no mulithreading is done, the number of threads has no effect. **\n");
     }
@@ -377,7 +377,7 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
     double norm = (2 * bandwidth * bandwidth) / M_PI;
     
     // defining needed indices
-    unsigned MMp, i, M, Mp;
+    int MMp, i, M, Mp;
     
     // inverse DWT for M = 0, M' = 0
     for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth - i, 0, 0);           }

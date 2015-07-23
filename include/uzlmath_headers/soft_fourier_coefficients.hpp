@@ -42,18 +42,24 @@ private:
     
 public:
     // public ivars
-    const unsigned int bandwidth;     //!< Bandwidth of function
+    const int bandwidth;              //!< Bandwidth of function
     
-    // constructors/destructor
-                             SOFTFourierCoefficients();
-                             SOFTFourierCoefficients(unsigned int bandlimit);
-                            ~SOFTFourierCoefficients();
+    // constructors
+    SOFTFourierCoefficients();
+    SOFTFourierCoefficients(int bandlimit);
     
-          complex< double >& operator()(const int& l, const int& M, const int& Mp);
-    const complex< double >& operator()(const int& l, const int& M, const int& Mp) const;
+    // destructor
+    ~SOFTFourierCoefficients();
     
-    friend std::ostream&     operator<<(std::ostream& o, const SOFTFourierCoefficients& fc);
+    // methods
+          complex< double >&            operator()(const int& l, const int& M, const int& Mp);
+    const complex< double >&            operator()(const int& l, const int& M, const int& Mp) const;
+    
+    friend std::ostream& operator<<(std::ostream& o, const SOFTFourierCoefficients& fc);
 };
+
+// prototype for the overloaded stream operator
+std::ostream& operator<<(std::ostream& o, const SOFTFourierCoefficients& fc);
 
 /*!
  * @}

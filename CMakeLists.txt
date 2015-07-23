@@ -76,7 +76,7 @@ IF(DEFINED CMAKE_CXX_COMPILER_ID AND DEFINED CMAKE_CXX_COMPILER_VERSION)
         MESSAGE(STATUS "Detected gcc 4.8.1 or later. Added '-std=c++11 -fopenmp' to compiler flags")
         MESSAGE(STATUS "OpenMP support for UZLMathLib enabled.")
 
-        #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
     ENDIF()
 ENDIF()
 
@@ -106,19 +106,19 @@ FILE(GLOB SRCS ${SRCS} ${CMAKE_CURRENT_SOURCE_DIR}/include/uzlmath_headers/*.h $
 FILE(GLOB SRCS ${SRCS} ${CMAKE_CURRENT_SOURCE_DIR}/include/uzlmath )
 
 # Library
-ADD_LIBRARY(           UZLMath SHARED ${SRCS}                                                   )
-TARGET_LINK_LIBRARIES( UZLMath ${UZLMATH_LIBS}                                                  )
+ADD_LIBRARY( UZLMath SHARED ${SRCS} )
+TARGET_LINK_LIBRARIES( UZLMath ${UZLMATH_LIBS} )
 SET_TARGET_PROPERTIES( UZLMath PROPERTIES VERSION ${UZLMATH_VERSION} SOVERSION ${UZLMATH_MAJOR} )
 
 # Benchmarks
-ADD_SUBDIRECTORY( benchmark     )
+ADD_SUBDIRECTORY( benchmark )
     
 # Unit tests
-ADD_SUBDIRECTORY( gtest-1.7.0   )
-ADD_SUBDIRECTORY( test          )
+ADD_SUBDIRECTORY( gtest-1.7.0 )
+ADD_SUBDIRECTORY( test )
 
 # Soft test
-ADD_SUBDIRECTORY( soft          )
+ADD_SUBDIRECTORY( soft )
 
 ####################################################################
 ##  INSTALLATION SECTION                                          ##

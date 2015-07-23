@@ -44,7 +44,7 @@ auto flipud(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT >::result
         for (j = 0; j < mat.n_rows() / 2; ++j)
         {
             // temporary element copy
-            eT tmp                       = mat(j, k);
+            eT tmp = mat(j, k);
             // swap elements
             mat(j, k)                    = mat(mat.n_rows() - j - 1, k);
             mat(mat.n_rows() - j - 1, k) = tmp;
@@ -85,7 +85,7 @@ auto flipud_ne2ndecol(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT 
         for (j = 0; j < mat.n_rows() / 2; ++j)
         {
             // temporary element copy
-            eT tmp                       = mat(j, k);
+            eT tmp = mat(j, k);
             
             // swap elements
             if (k & 1)
@@ -135,7 +135,7 @@ auto flipud_ne2ndocol(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT 
         for (j = 0; j < mat.n_rows() / 2; ++j)
         {
             // temporary element copy
-            eT tmp                       = mat(j, k);
+            eT tmp = mat(j, k);
             
             // swap elements
             if (k & 1)
@@ -183,7 +183,7 @@ auto flipud(matrix< complex< eT > >& mat) -> typename uzl_void_real_num_only< eT
         for (j = 0; j < mat.n_rows() / 2; ++j)
         {
             // temporary element copy
-            complex< eT > tmp            = mat(j, k);
+            complex< eT > tmp = mat(j, k);
             // swap elements
             mat(j, k)                    = mat(mat.n_rows() - j - 1, k);
             mat(mat.n_rows() - j - 1, k) = tmp;

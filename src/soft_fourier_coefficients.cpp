@@ -36,7 +36,7 @@ SOFTFourierCoefficients::SOFTFourierCoefficients()
  * @param[in]       bandlimit The bandlimit of the function which coefficients
  *                  are supposed to be stored in this coefficient container.
  */
-SOFTFourierCoefficients::SOFTFourierCoefficients(unsigned int bandlimit)
+SOFTFourierCoefficients::SOFTFourierCoefficients(int bandlimit)
     : bandwidth(bandlimit)
 {
     mem  = new matrix< complex< double > >[bandlimit];
@@ -127,7 +127,8 @@ std::ostream& operator<<(std::ostream& o, const SOFTFourierCoefficients& fc)
     
     for (int i = 0; i < fc.bandwidth; ++i)
     {
-        o << "SOFTFourierCoefficients[M_{0,1,2,...,-2,-1} x M'_{0,1,2,...,-2,-1}] ~> [l = " << i << "]\n" << fc.mem[i] << std::endl;
+        o << "SOFTFourierCoefficients[M_{0,1,2,...,-2,-1} x M'_{0,1,2,...,-2,-1}] ~> [l = " << i << "]" << std::endl;
+        o << fc.mem[i] << std::endl;
     }
     
     std::cout.flags( f );

@@ -56,7 +56,7 @@ auto quadrature_weights(const int& bandwidth) -> vector< double >
 {
     vector< double > w(2 * bandwidth);
     
-    unsigned int i, k;
+    int i, k;
     for (i = 0; i < bandwidth; ++i)
     {
         double wi  = 2.0 / bandwidth * sin(M_PI * (2.0 * i + 1.0)/(4.0 * bandwidth));
@@ -97,7 +97,7 @@ auto quadrature_weights(const int& bandwidth) -> vector< double >
 auto weighted_wigner_d_matrix(const int& bandwidth, const int& M, const int& Mp, const vector< double >& weights) -> matrix< double >
 {
     // Definition of used indices and the matrix that will be returned
-    unsigned int i, j;
+    int i, j;
     
     int minJ = std::max(abs(M), abs(Mp));
     matrix< double > wig(bandwidth - minJ, 2 * bandwidth);
@@ -229,7 +229,7 @@ auto weighted_wigner_d_matrix(const int& bandwidth, const int& M, const int& Mp,
 auto wigner_d_matrix(const int& bandwidth, const int& M, const int& Mp) -> matrix< double >
 {
     // Definition of used indices and the matrix that will be returned
-    unsigned int i, j;
+    int i, j;
     
     int minJ = std::max(abs(M), abs(Mp));
     matrix< double > wig(bandwidth - minJ, 2 * bandwidth);

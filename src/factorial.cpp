@@ -28,7 +28,7 @@ factorial::factorial(const int& number)
     exponents = new int[number];
     
     // set values in exponents
-    unsigned int i;
+    int i;
     for (i = 0; i < number; ++i)
     {
         exponents[i] = 1;
@@ -99,7 +99,7 @@ factorial factorial::operator*(const factorial& rhs)
     factorial result(n_bigger);
     memcpy(result.exponents, bigger, sizeof(int) * n_bigger);
     
-    unsigned int i;
+    int i;
     for (i = 0; i < n_smaller; ++i)
     {
         result.exponents[i] += smaller[i];
@@ -118,7 +118,7 @@ factorial factorial::operator/(const factorial& rhs)
     memset(result.exponents, 0, sizeof(int) * n_bigger);
     memcpy(result.exponents, exponents, sizeof(int) * value);
     
-    unsigned int i;
+    int i;
     for (i = 0; i < rhs.value; ++i)
     {
         result.exponents[i] -= rhs.exponents[i];
@@ -131,7 +131,7 @@ double factorial::eval() const
 {
     double result = 1;
     
-    unsigned int i;
+    int i;
     for (i = 0; i < value; ++i)
     {
         if (exponents[i] == 1)

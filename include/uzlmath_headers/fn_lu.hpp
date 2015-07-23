@@ -61,6 +61,7 @@ matrix< double > lu(const matrix< eT >& A)
     
     return lu;
      */
+    return matrix< double >();
 }
 
 template< typename eT >
@@ -115,6 +116,7 @@ matrix< double > lu(const matrix< eT >& A, matrix< int >& P)
      
      return lu;
      */
+    return matrix< double >();
 }
 
 template< typename eT >

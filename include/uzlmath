@@ -30,7 +30,7 @@
 #define UZLMATH_END             }
 
 #define UZLMATH_NAMESPACE(a)    namespace uzlmath { namespace a {
-#define UZLMATH_NAMESPACE_END   } }
+#define UZLMATH_NAMESPACE_END   }}
 
 // Define the default number of used threads for multithreaded parts
 #ifdef _OPENMP
@@ -87,8 +87,8 @@
 #include "uzlmath_headers/fn_orthopoly.hpp"
 #include "uzlmath_headers/fn_cx_sqrt.hpp"
 #include "uzlmath_headers/fn_cx_ntrt.hpp"
-#include "uzlmath_headers/fn_matrix_lu.hpp"
-#include "uzlmath_headers/fn_matrix_inv.hpp"
+#include "uzlmath_headers/fn_lu.hpp"
+#include "uzlmath_headers/fn_inv.hpp"
 #include "uzlmath_headers/fn_wigner.hpp"
 #include "uzlmath_headers/fn_dwt.hpp"
 #include "uzlmath_headers/fn_fourier_transforms.hpp"

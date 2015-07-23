@@ -77,6 +77,7 @@ matrix< double > invert(const matrix< eT >& A)
 //    
 //    delete [] WORK;
 //    return inverse;
+    return matrix< double >();
 }
 
 UZLMATH_END
