@@ -145,8 +145,7 @@ vector< complex< eT > >  vector< complex< eT > >::operator+(const vector< eT >& 
 {
     if ( size != v.size || type != v.type)
     {
-        printf("** uzlmath error: size mismatch in complex vector-vector addition. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("size mismatch in complex vector-vector addition.");
     }
     
     vector< complex< eT > > result(size, type);
@@ -166,8 +165,7 @@ vector< complex< eT > > vector< complex< eT > >::operator-(const vector< eT >& v
 {
     if ( size != v.size || type != v.type)
     {
-        printf("** uzlmath error: size mismatch in complex vector-vector subtraction. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("size mismatch in complex vector-vector subtraction.");
     }
     
     vector< complex< eT > > result(size, type);
@@ -187,8 +185,7 @@ matrix< complex< eT > > vector< complex< eT > >::operator*(const vector< eT >& v
 {
     if (type == v.type || (type == vec_type::ROW && size != v.size))
     {
-        printf("** uzlmath error: size mismatch in complex vector-vector multiplication. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("size mismatch in complex vector-vector multiplication.");
     }
     
     int M   = (type   == vec_type::COLUMN ? size   : 1);
@@ -279,8 +276,7 @@ vector< complex< eT > > vector< complex< eT > >::operator/(const vector< eT >& v
 {
     if (type != v.type || size != size)
     {
-        printf("** uzlmath error: type or size mismatch in element-wise complex vector division. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("type or size mismatch in element-wise complex vector division.");
     }
     
     vector< complex< eT > > result(size, type);
@@ -290,8 +286,7 @@ vector< complex< eT > > vector< complex< eT > >::operator/(const vector< eT >& v
     {
         if (v[i] == 0)
         {
-            printf("** uzlmath error: division by zero in element-wise complex vector division. **");
-            exit(EXIT_FAILURE);
+            uzlmath_error("division by zero in element-wise complex vector division.");
         }
         
         result[i] = mem[i] / complex< eT >(v[i], 0);
@@ -306,8 +301,7 @@ vector< complex< eT > > vector< complex< eT > >::operator%(const vector< eT >& v
 {
     if (type != v.type || size != size)
     {
-        printf("** uzlmath error: type or size mismatch in element-wise complex vector multiplication. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("type or size mismatch in element-wise complex vector multiplication.");
     }
     
     vector< complex< eT > > result(size, type);
@@ -327,8 +321,7 @@ vector< complex< eT > > vector< complex< eT > >::operator+(const vector< complex
 {
     if ( size != v.size || type != v.t)
     {
-        printf("** uzlmath error: size mismatch in complex vector-vector addition. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("size mismatch in complex vector-vector addition.");
     }
     
     vector< complex< eT > > result(size, type);
@@ -348,8 +341,7 @@ vector< complex< eT > > vector< complex< eT > >::operator-(const vector< complex
 {
     if ( size != v.size || type != v.type)
     {
-        printf("** uzlmath error: size mismatch in complex vector-vector subtraction. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("size mismatch in complex vector-vector subtraction.");
     }
     
     vector< complex< eT > > result(size, type);
@@ -369,8 +361,7 @@ matrix< complex< eT > > vector< complex< eT > >::operator*(const vector< complex
 {
     if (type == v.type || (type == vec_type::ROW && size != v.size))
     {
-        printf("** uzlmath error: size mismatch in vector-vector multiplication. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("size mismatch in vector-vector multiplication.");
     }
     
     int M   = (type   == vec_type::COLUMN ? size   : 1);
@@ -484,8 +475,7 @@ vector< complex< eT > > vector< complex< eT > >::operator/(const vector< complex
 {
     if (type != v.type || size != size)
     {
-        printf("** uzlmath error: type or size mismatch in element-wise complex vector division. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("type or size mismatch in element-wise complex vector division.");
     }
     
     vector< complex< eT > > result(size, type);
@@ -495,8 +485,7 @@ vector< complex< eT > > vector< complex< eT > >::operator/(const vector< complex
     {
         if (v[i] == 0)
         {
-            printf("** uzlmath error: division by zero in element-wise complex vector division. **");
-            exit(EXIT_FAILURE);
+            uzlmath_error("division by zero in element-wise complex vector division.");
         }
         
         result[i] = mem[i] / v[i];
@@ -511,8 +500,7 @@ vector< complex< eT > > vector< complex< eT > >::operator%(const vector< complex
 {
     if (type != v.type || size != size)
     {
-        printf("** uzlmath error: type or size mismatch in element-wise complex vector multiplication. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("type or size mismatch in element-wise complex vector multiplication.");
     }
     
     vector< complex< eT > > result(size, type);
@@ -577,8 +565,7 @@ vector< complex< eT > > vector< complex< eT > >::operator/(const eT& s)
 {
     if (s == 0)
     {
-        printf("** uzlmath error: division by zero in vector-scalar division. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("division by zero in vector-scalar division.");
     }
     
     vector< complex< eT > > result(size, type);
@@ -643,8 +630,7 @@ vector< complex< eT > > vector< complex< eT > >::operator/(const complex< eT >& 
 {
     if (s.re == 0 && s.im == 0)
     {
-        printf("** uzlmath error: division by zero in vector-scalar division. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("division by zero in vector-scalar division.");
     }
     
     vector< complex< eT > > result(size, type);
@@ -690,8 +676,7 @@ vector< complex< eT > > vector< complex< eT > >::operator*(const matrix< eT >& m
 {
     if ((type == vec_type::ROW && size != mat.rows) || (type == vec_type::COLUMN && mat.rows != 1))
     {
-        printf("** uzlmath error: size mismatch in vector-matrix multiplication. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("size mismatch in vector-matrix multiplication.");
     }
     
     vector< complex< eT > > result(mat.n_cols(), vec_type::ROW);
@@ -783,8 +768,7 @@ vector< complex< eT > > vector< complex< eT > >::operator*(const matrix< complex
 {
     if ((type == vec_type::ROW && size != mat.rows) || (type == vec_type::COLUMN && mat.rows != 1))
     {
-        printf("** uzlmath error: Size mismatch in vector-matrix multiplication. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("size mismatch in vector-matrix multiplication.");
     }
     
     vector< complex< eT > > result(mat.n_cols(), vec_type::ROW);
@@ -941,8 +925,7 @@ const vector< complex< eT > >& vector< complex< eT > >::operator+=(const vector<
 {
     if (size != size || type != v.type)
     {
-        printf("** uzlmath error: dimension or size mismatch in complex vector-vector multiplication. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("dimension or size mismatch in complex vector-vector multiplication.");
     }
     
     size_t i;
@@ -960,8 +943,7 @@ const vector< complex< eT > >& vector< complex< eT > >::operator+=(const vector<
 {
     if (size != size || type != v.type)
     {
-        printf("** uzlmath error: dimension or size mismatch in complex vector-vector multiplication. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("dimension or size mismatch in complex vector-vector multiplication.");
     }
     
     size_t i;
@@ -979,8 +961,7 @@ const vector< complex< eT > >& vector< complex< eT > >::operator-=(const vector<
 {
     if (size != size || type != v.type)
     {
-        printf("** uzlmath error: dimension or size mismatch in complex vector-vector multiplication. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("dimension or size mismatch in complex vector-vector multiplication.");
     }
     
     size_t i;
@@ -998,8 +979,7 @@ const vector< complex< eT > >& vector< complex< eT > >::operator-=(const vector<
 {
     if (size != size || type != v.type)
     {
-        printf("** uzlmath error: dimension or size mismatch in complex vector-vector multiplication. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("dimension or size mismatch in complex vector-vector multiplication.");
     }
     
     size_t i;
@@ -1017,8 +997,7 @@ const vector< complex< eT > >& vector< complex< eT > >::operator/=(const vector<
 {
     if (type != v.type || size != size)
     {
-        printf("** uzlmath error: type or size mismatch in element-wise complex vector division. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("type or size mismatch in element-wise complex vector division.");
     }
     
     size_t i;
@@ -1026,8 +1005,7 @@ const vector< complex< eT > >& vector< complex< eT > >::operator/=(const vector<
     {
         if (v[i] == 0)
         {
-            printf("** uzlmath error: division by zero in element-wise complex vector division. **");
-            exit(EXIT_FAILURE);
+            uzlmath_error("division by zero in element-wise complex vector division.");
         }
         
         mem[i] /= complex< eT >(v[i], 0);
@@ -1042,8 +1020,7 @@ const vector< complex< eT > >& vector< complex< eT > >::operator/=(const vector<
 {
     if (type != v.type || size != size)
     {
-        printf("** uzlmath error: type or size mismatch in element-wise complex vector division. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("type or size mismatch in element-wise complex vector division.");
     }
     
     size_t i;
@@ -1051,8 +1028,7 @@ const vector< complex< eT > >& vector< complex< eT > >::operator/=(const vector<
     {
         if (v[i] == 0)
         {
-            printf("** uzlmath error: division by zero in element-wise complex vector division. **");
-            exit(EXIT_FAILURE);
+            uzlmath_error("division by zero in element-wise complex vector division.");
         }
         
         mem[i] /= v[i];
@@ -1067,8 +1043,7 @@ const vector< complex< eT > >& vector< complex< eT > >::operator%=(const vector<
 {
     if (type != v.type || size != size)
     {
-        printf("** uzlmath error: type or size mismatch in element-wise complex vector multiplication. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("type or size mismatch in element-wise complex vector multiplication.");
     }
     
     size_t i;
@@ -1086,8 +1061,7 @@ const vector< complex< eT > >& vector< complex< eT > >::operator%=(const vector<
 {
     if (type != v.type || size != size)
     {
-        printf("** uzlmath error: type or size mismatch in element-wise complex vector multiplication. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("type or size mismatch in element-wise complex vector multiplication.");
     }
     
     size_t i;
@@ -1105,8 +1079,7 @@ const vector< complex< eT > >& vector< complex< eT > >::operator*=(const vector<
 {
     if (type == v.type || type == vec_type::COLUMN || (type == vec_type::ROW && size != v.size))
     {
-        printf("** uzlmath error: size mismatch or wrong vector type in complex vector-vector multiplication. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("size mismatch or wrong vector type in complex vector-vector multiplication.");
     }
     
     size_t i;
@@ -1129,8 +1102,7 @@ const vector< complex< eT > >& vector< complex< eT > >::operator*=(const vector<
 {
     if (type == v.type || type == vec_type::COLUMN || (type == vec_type::ROW && size != v.size))
     {
-        printf("** uzlmath error: size mismatch or wrong vector type in complex vector-vector multiplication. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("size mismatch or wrong vector type in complex vector-vector multiplication.");
     }
     
     size_t i;
@@ -1192,8 +1164,7 @@ const vector< complex< eT > >& vector< complex< eT > >::operator/=(const eT& s)
 {
     if (s == 0)
     {
-        printf("** uzlmath error: division by zero in complex vector-scalar division. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("division by zero in complex vector-scalar division.");
     }
     
     size_t i;

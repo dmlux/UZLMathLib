@@ -36,8 +36,7 @@ auto randi(matrix< eT >& mat, const int& min, const int& max) -> typename uzl_vo
 {
     if (min > max)
     {
-        printf("** uzlmath error: min value is greater than max value in rand function for SOFTFourierCoefficients. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("min value is greater than max value in rand function for SOFTFourierCoefficients.");
     }
     
     // create timeval object
@@ -89,8 +88,7 @@ auto randi(matrix< complex< eT > >& mat, const int& min, const int& max) -> type
 {
     if (min > max)
     {
-        printf("** uzlmath error: min value is greater than max value in rand function for SOFTFourierCoefficients. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("min value is greater than max value in rand function for SOFTFourierCoefficients.");
     }
     
     // create timeval object
@@ -145,8 +143,7 @@ auto rand(matrix< eT >& mat, const double& min, const double& max) -> typename u
 {
     if (min > max)
     {
-        printf("** uzlmath error: min value is greater than max value in rand function for SOFTFourierCoefficients. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("min value is greater than max value in rand function for SOFTFourierCoefficients.");
     }
     
     // create timeval object
@@ -200,8 +197,7 @@ auto rand(matrix< complex< eT > >& mat, const double& min, const double& max) ->
 {
     if (min > max)
     {
-        printf("** uzlmath error: min value is greater than max value in rand function for SOFTFourierCoefficients. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("min value is greater than max value in rand function for SOFTFourierCoefficients.");
     }
     
     // create timeval object

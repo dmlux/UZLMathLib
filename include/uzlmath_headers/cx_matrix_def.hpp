@@ -197,8 +197,7 @@ matrix< complex< eT > > matrix< complex< eT > >::operator+(const matrix< complex
 {
     if ( rows != A.rows || cols != A.cols )
     {
-        printf("** uzlmath error: Dimension mismatch in matrix-matrix addition. **\n");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Dimension mismatch in matrix-matrix addition.");
     }
     
     matrix< complex< eT > > C(rows, cols);
@@ -231,8 +230,7 @@ matrix< complex< eT > > matrix< complex< eT > >::operator+(const matrix< eT >& A
 {
     if ( rows != A.rows || cols != A.cols )
     {
-        printf("** uzlmath error: Dimension mismatch in matrix-matrix addition. **\n");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Dimension mismatch in matrix-matrix addition.");
     }
     
     matrix< complex< eT > > C(rows, cols);
@@ -265,8 +263,7 @@ matrix< complex< eT > > matrix< complex< eT > >::operator-(const matrix< complex
 {
     if ( rows != A.rows || cols != A.cols )
     {
-        printf("** uzlmath error: Dimension mismatch in matrix-matrix subtraction. **\n");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Dimension mismatch in matrix-matrix subtraction.");
     }
     
     matrix< complex< eT > > C(rows, cols);
@@ -299,8 +296,7 @@ matrix< complex< eT > > matrix< complex< eT > >::operator-(const matrix< eT >& A
 {
     if ( rows != A.rows || cols != A.cols )
     {
-        printf("** uzlmath error: Dimension mismatch in matrix-matrix subtraction. **\n");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Dimension mismatch in matrix-matrix subtraction.");
     }
     
     matrix< complex< eT > > C(rows, cols);
@@ -339,8 +335,7 @@ matrix< complex< eT > > matrix< complex< eT > >::operator*(const matrix< complex
 {
     if ( cols != A.rows )
     {
-        printf("** uzlmath error: Dimension mismatch in matrix-matrix multiplication. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Dimension mismatch in matrix-matrix multiplication.");
     }
     
     size_t n_rows = rows;
@@ -467,8 +462,7 @@ matrix< complex< eT > > matrix< complex< eT > >::operator*(const matrix< eT >& A
 {
     if ( cols != A.rows )
     {
-        printf("** uzlmath error: Dimension mismatch in matrix-matrix multiplication. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Dimension mismatch in matrix-matrix multiplication.");
     }
     
     size_t n_rows = rows;
@@ -746,8 +740,7 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator+=(const matrix<
 {
     if ( rows != A.rows || cols != A.cols )
     {
-        printf("** uzlmath error: Dimension mismatch in matrix-matrix addition. **\n");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Dimension mismatch in matrix-matrix addition.");
     }
     
     size_t i, cap = rows * cols;
@@ -774,8 +767,7 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator+=(const matrix<
 {
     if ( rows != A.rows || cols != A.cols )
     {
-        printf("** uzlmath error: Dimension mismatch in matrix-matrix addition. **\n");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Dimension mismatch in matrix-matrix addition.");
     }
     
     size_t i, cap = rows * cols;
@@ -802,8 +794,7 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator-=(const matrix<
 {
     if ( rows != A.rows || cols != A.cols )
     {
-        printf("** uzlmath error: Dimension mismatch in matrix-matrix subtraction. **\n");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Dimension mismatch in matrix-matrix subtraction.");
     }
     
     size_t i, cap = rows * cols;
@@ -830,8 +821,7 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator-=(const matrix<
 {
     if ( rows != A.rows || cols != A.cols )
     {
-        printf("** uzlmath error: Dimension mismatch in matrix-matrix subtraction. **\n");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Dimension mismatch in matrix-matrix subtraction.");
     }
     
     size_t i, cap = rows * cols;
@@ -858,8 +848,7 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix<
 {
     if ( cols != A.rows )
     {
-        printf("** uzlmath error: Dimension mismatch in matrix-matrix multiplication. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Dimension mismatch in matrix-matrix multiplication.");
     }
     
     size_t n_rows = rows;
@@ -1008,8 +997,7 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix<
 {
     if ( cols != A.rows )
     {
-        printf("** uzlmath error: Dimension mismatch in matrix-matrix multiplication. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Dimension mismatch in matrix-matrix multiplication.");
     }
     
     size_t n_rows = rows;
@@ -1144,8 +1132,7 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const vector<
 {
     if ( v.type == vec_type::ROW || cols != v.n_elements() )
     {
-        printf("** uzlmath error: Dimension mismatch in matrix-matrix multiplication. **\n");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Dimension mismatch in matrix-matrix multiplication.");
     }
     
     // create new memory array
@@ -1452,8 +1439,7 @@ inline matrix< complex< eT > > matrix< complex< eT > >::operator/(const eT& rhs)
 {
     if ( rhs == 0 )
     {
-        printf("** uzlmath error: Division by zero in matrix-scalar division. **\n");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Division by zero in matrix-scalar division.");
     }
     
     matrix< complex< eT > > C(rows, cols);
@@ -1496,8 +1482,7 @@ matrix< complex< eT > > matrix< complex< eT > >::operator/(const complex< eT >& 
 {
     if ( rhs == 0 )
     {
-        printf("** uzlmath error: Division by zero in matrix-scalar division. **\n");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Division by zero in matrix-scalar division.");
     }
     
     matrix< complex< eT > > C(rows, cols);
@@ -1548,8 +1533,7 @@ matrix< complex< eT > > matrix< complex< eT > >::operator^(const unsigned int& e
 {
     if ( rows != cols )
     {
-        printf("** uzlmath error: Dimension mismatch in matrix power operator. **\n");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Dimension mismatch in matrix power operator.");
     }
     
     matrix< complex< eT > > C = *this;
@@ -1696,8 +1680,7 @@ matrix< complex< eT > >& matrix< complex< eT > >::operator/=(const eT& rhs)
 {
     if ( rhs == 0 )
     {
-        printf("** uzlmath error: Division by zero in matrix scalar division. **\n");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Division by zero in matrix scalar division.");
     }
     
     size_t i, cap = rows * cols;
@@ -1722,8 +1705,7 @@ matrix< complex< eT > >& matrix< complex< eT > >::operator/=(const complex< eT >
 {
     if ( rhs == 0 )
     {
-        printf("** uzlmath error: Division by zero in matrix scalar division. **\n");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Division by zero in matrix scalar division.");
     }
     
     size_t i, cap = rows * cols;
@@ -1749,8 +1731,7 @@ matrix< complex< eT > >& matrix< complex< eT > >::operator^=(const unsigned int&
 {
     if ( rows != cols )
     {
-        printf("** uzlmath error: Dimension mismatch in matrix power operator. **\n");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Dimension mismatch in matrix power operator.");
     }
     
     matrix< complex< eT > > C = *this;
@@ -2010,8 +1991,7 @@ const complex<double> matrix< complex< eT > >::determinant()
 {
     if (rows != cols)
     {
-        printf("** uzlmath error: For calculating determinant the matrix must be square. **\n");
-        exit(EXIT_FAILURE);
+        uzlmath_error("For calculating determinant the matrix must be square.");
     }
     
     size_t i, cap = rows * cols;
@@ -2042,8 +2022,7 @@ const complex<double> matrix< complex< eT > >::determinant()
     
     if (INFO < 0)
     {
-        printf("** uzlmath error: LU-Decomposition argument error. Argument number %i was illegal. **\n", INFO);
-        exit(EXIT_FAILURE);
+        uzlmath_error("LU-Decomposition argument error. Argument number %i was illegal.");
     }
     else if (INFO > 0)
     {

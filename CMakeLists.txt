@@ -27,8 +27,8 @@ MESSAGE(STATUS "CMAKE_CXX_COMPILER_VERSION = ${CMAKE_CXX_COMPILER_VERSION}")
 MESSAGE(STATUS "CMAKE_COMPILER_IS_GNUCXX   = ${CMAKE_COMPILER_IS_GNUCXX}"  )
 MESSAGE(STATUS "")
 
-MESSAGE(STATUS "*** Try to find OpenBLAS")
 # Including OpenBLAS
+MESSAGE(STATUS "*** Try to find OpenBLAS")
 INCLUDE(UZLMATH_FindOpenBLAS)
 MESSAGE(STATUS "~> OpenBLAS_FOUND = ${OpenBLAS_FOUND}")
 
@@ -99,6 +99,21 @@ MESSAGE(STATUS "CMAKE_CXX_FLAGS           = ${CMAKE_CXX_FLAGS}"          )
 MESSAGE(STATUS "CMAKE_SHARED_LINKER_FLAGS = ${CMAKE_SHARED_LINKER_FLAGS}")
 MESSAGE(STATUS "CMAKE_REQUIRED_INCLUDES   = ${CMAKE_REQUIRED_INCLUDES}"  )
 MESSAGE(STATUS "")
+
+# configure all neede files. Setting variables
+SET(UZLMATH_DEBUG           1 CACHE BOOL "Show debugging information in console if they occure at execution time.")
+SET(UZLMATH_SHOW_WARNINGS   1 CACHE BOOL "Show warning messages in console if they occure at execution time.")
+SET(UZLMATH_SHOW_ERRORS     1 CACHE BOOL "show error messages in console if they occure at execution time.")
+
+MESSAGE(STATUS "")
+MESSAGE(STATUS "*** Configure the compiler_config.hpp.in file. Filling")
+MESSAGE(STATUS "*** CMake variable contents into the compiler_config.hpp")
+MESSAGE(STATUS "*** header file.")
+MESSAGE(STATUS "")
+CONFIGURE_FILE(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake_aux/ConfigurationFiles/compiler_config.hpp.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/uzlmath_headers/compiler_config.hpp
+)
 
 # define source files
 FILE(GLOB SRCS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp )

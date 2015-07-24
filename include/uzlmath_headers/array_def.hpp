@@ -57,8 +57,7 @@ array< eT >::array(const size_t& s)
     }
     else
     {
-        printf("** uzlmath error: Bad allocation in array allocation. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Bad allocation in array allocation.");
     }
 }
 
@@ -81,8 +80,7 @@ void array< eT >::resize(const size_t& new_size)
         }
         else
         {
-            printf("** uzlmath error: Bad allocation in array resize. **");
-            exit(EXIT_FAILURE);
+            uzlmath_error("Bad allocation in array resize.");
         }
     }
 }
@@ -93,7 +91,6 @@ void array< eT >::fill(const eT& value)
 {
     if (is_complex< eT >::value == true)
     {
-        printf("is complex.\n");
         std::fill(mem, mem + size, value);
     }
     else
@@ -129,8 +126,7 @@ const eT& array< eT >::operator=(const array< eT >& rhs)
     }
     else
     {
-        printf("** uzlmath error: Bad allocation in array allocation. **");
-        exit(EXIT_FAILURE);
+        uzlmath_error("Bad allocation in array allocation.");
     }
     
     if ( size > 0 )

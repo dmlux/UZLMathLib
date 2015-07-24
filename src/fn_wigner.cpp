@@ -171,8 +171,8 @@ auto wigner_d_l2normalized(const int& J, const int& M, const int& Mp, const doub
 {
     if ( !(-J <= abs(M) && abs(Mp) <= J) )
     {
-        printf("** uzlmath error: Illegal arguments for normalized Wigner d-function. Legal arguments are -J <= |M|, |M'| <= J. **");
-        exit(EXIT_FAILURE);
+        uzlmath_warning("Illegal arguments for normalized Wigner d-function. Legal arguments are -J <= |M|, |M'| <= J.");
+        return 0.0;
     }
     return sqrt((2.0 * J + 1.0) / 2.0) * wigner_d(J, M, Mp, beta);
 }
@@ -216,8 +216,8 @@ auto wigner_D(const int& J, const int& M, const int& Mp, const double& alpha, co
 {
     if ( !(-J <= abs(M) && abs(Mp) <= J) )
     {
-        printf("** uzlmath error: Illegal arguments for Wigner D-function. Legal arguments are -J <= |M|, |M'| <= J. **");
-        exit(EXIT_FAILURE);
+        uzlmath_warning("illegal arguments for Wigner D-function. Legal arguments are -J <= |M|, |M'| <= J.");
+        return complex< double >(0.0, 0.0);
     }
     
     complex< double > a, b;
@@ -267,8 +267,8 @@ auto wigner_D_l2normalized(const int& J, const int& M, const int& Mp, const doub
 {
     if ( !(-J <= abs(M) && abs(Mp) <= J) )
     {
-        printf("** uzlmath error: Illegal arguments for L^2 normalized Wigner D-function. Legal arguments are -J <= |M|, |M'| <= J. **");
-        exit(EXIT_FAILURE);
+        uzlmath_warning("illegal arguments for L^2 normalized Wigner D-function. Legal arguments are -J <= |M|, |M'| <= J.");
+        return complex< double  >(0.0, 0.0);
     }
     
     return 1.0 / (2.0 * M_PI) * sqrt((2.0 * J + 1.0) / 2.0) * wigner_D(J, M, Mp, alpha, beta, gamma);

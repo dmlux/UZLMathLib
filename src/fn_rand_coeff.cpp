@@ -33,8 +33,8 @@ auto rand(SOFTFourierCoefficients& fc, const double& min, const double& max) -> 
 {
     if (min > max)
     {
-        printf("** uzlmath error: min value is greater than max value in rand function for SOFTFourierCoefficients. **");
-        exit(EXIT_FAILURE);
+        uzlmath_warning("min value is greater than max value in rand function for SOFTFourierCoefficients.");
+        return;
     }
     
     // create timeval object

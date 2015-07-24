@@ -48,6 +48,12 @@ UZLMATH_NAMESPACE(orthoPoly)
  */
 auto legendre(const int& n, const double& x) -> const double
 {
+    // illegal values
+    if (n < 0)
+    {
+        uzlmath_error("degree of legendre polynomial is negative!");
+    }
+    
     // intialize three-term recurrence
     double preprev  = 1;
     double prev     = x;

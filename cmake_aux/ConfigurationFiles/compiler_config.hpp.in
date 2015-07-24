@@ -1,0 +1,94 @@
+//
+//  compiler.hpp
+//  UZLMathLib
+//
+//  Created by Denis-Michael Lux on 24.07.15.
+//
+//  This software may be modified and distributed under the terms
+//  of the BSD license. See the LICENSE file for details.
+//
+
+#ifndef uzlmath_compiler_hpp
+#define uzlmath_compiler_hpp
+
+// Library version
+#undef  UZLMATH_MAJOR
+#define UZLMATH_MAJOR ${UZLMATH_MAJOR}
+
+#undef  UZLMATH_MINOR
+#define UZLMATH_MINOR ${UZLMATH_MINOR}
+
+#undef  UZLMATH_PATCH
+#define UZLMATH_PATCH ${UZLMATH_PATCH}
+
+// Define the default number of used threads for multithreaded parts
+#ifdef _OPENMP
+
+    // include OpenMP headers for the OpenMP API
+    #include <omp.h>
+
+    // Number of default used threads is the max
+    // number of possible threads
+    #undef  UZL_MAX_THREADS
+    #define UZL_MAX_THREADS omp_get_max_threads()
+#else
+
+    // setting the number of default used threads for
+    // multithreaded parts to 1
+    #undef  UZL_MAX_THREADS
+    #define UZL_MAX_THREADS 1
+#endif
+
+/*- Namespace macros -*/
+// Macro shortcut for standard uzlmath namespace
+#undef  UZLMATH_BEGIN
+#define UZLMATH_BEGIN           namespace uzlmath {
+
+#undef  UZLMATH_END
+#define UZLMATH_END             }
+
+// Macro for nested standard namespace.
+#define UZLMATH_NAMESPACE(a)    namespace uzlmath { namespace a {
+#define UZLMATH_NAMESPACE_END   }}
+
+/*- Debugging messages -*/
+// The debug mode flag is used to determine
+// whether debug messages of methods should
+// be printed or not. What messages get printed
+// depends on the specific flags.
+#undef  UZLMATH_DEBUG
+#cmakedefine01 UZLMATH_DEBUG
+
+// the UZLMATH_SHOW_WARNINGS flag indicates
+// that warning messages should be printed
+// to console if they occure in execution.
+#undef  UZLMATH_SHOW_WARNINGS
+#cmakedefine01 UZLMATH_SHOW_WARNINGS
+
+// The UZLMATH_SHOW_ERRORS flag indicates
+// that error messages should be printed
+// to console if they occure in execution.
+#undef  UZLMATH_SHOW_ERRORS
+#cmakedefine01 UZLMATH_SHOW_ERRORS
+
+/*- Debugging log -*/
+// Printing error message to the stderr console
+#define uzlmath_error(msg)\
+        do {\
+            if(UZLMATH_DEBUG && UZLMATH_SHOW_ERRORS)\
+                fprintf(stderr, "** [UZLMathLib error] %s:%d:%s(): " msg " **\n",\
+                    __FILE__, __LINE__, __func__\
+                );\
+            exit(EXIT_FAILURE);\
+        } while(0)
+
+// printing warning message to the stderr console
+#define uzlmath_warning(msg)\
+        do {\
+            if (UZLMATH_DEBUG && UZLMATH_SHOW_WARNINGS)\
+                fprintf(stderr, "** [UZLMathLib warning] %s:%d:%s(): " msg " **\n",\
+                    __FILE__, __LINE__, __func__\
+                );\
+        } while(0)
+        
+#endif

@@ -57,7 +57,7 @@ auto DFT(vector< eT >& vec, eT scale = eT(1, 0)) -> typename uzl_void_cx_num_onl
 {
     if (vec.n_elements() == 0)
     {
-        printf("** uzlmath error: vector for FFT has no size. **\n");
+        uzlmath_warning("vector for FFT has no size.");
         return;
     }
     
@@ -151,7 +151,7 @@ auto DFT(vector< eT >& vec, complex< double > scale = complex< double >(1, 0)) -
 {
     if (vec.n_elements() == 0)
     {
-        printf("** uzlmath error: vector for FFT has no size. **\n");
+        uzlmath_warning("vector for FFT has no size.");
         return vector< complex< double > >();
     }
     

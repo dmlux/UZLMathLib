@@ -72,8 +72,7 @@ complex< double >& SOFTFourierCoefficients::operator()(const int& l, const int& 
 {
     if (M > l || Mp > l || M < -l || Mp < -l)
     {
-        printf("** uzlmath error: Illegal parameter configuration for SOFTFourierCoefficients access. M > l, M < -l, Mp < -l or Mp > l. **\n");
-        exit(EXIT_FAILURE);
+        uzlmath_error("illegal parameter configuration for SOFTFourierCoefficients access. M > l, M < -l, Mp < -l or Mp > l.");
     }
     
     // if M or Mp are negative count from behind
@@ -99,8 +98,7 @@ const complex< double >& SOFTFourierCoefficients::operator()(const int& l, const
 {
     if (M > l || Mp > l || M < -l || Mp < -l)
     {
-        printf("** uzlmath error: Illegal parameter configuration for SOFTFourierCoefficients access. M > l, M < -l, Mp < -l or Mp > l. **\n");
-        exit(EXIT_FAILURE);
+        uzlmath_error("illegal parameter configuration for SOFTFourierCoefficients access. M > l, M < -l, Mp < -l or Mp > l.");
     }
     
     // if M or Mp are negative count from behind
