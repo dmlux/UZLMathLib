@@ -72,7 +72,7 @@ UZLMATH_NAMESPACE(wigner)
  * @author      Denis-Michael Lux <denis.lux@icloud.com>
  * @date        12.01.15
  */
-auto wigner_d(const int& J, const int& M, const int& Mp, const double& beta) -> const double
+auto wigner_d(const int& J, const int& M, const int& Mp, const double& beta) -> double
 {
     // undefined values
     if (M == 0 && Mp == 0)
@@ -167,7 +167,7 @@ auto wigner_d(const int& J, const int& M, const int& Mp, const double& beta) -> 
  * @author      Denis-Michael Lux <denis.lux@icloud.com>
  * @date        12.01.15
  */
-auto wigner_d_l2normalized(const int& J, const int& M, const int& Mp, const double& beta) -> const double
+auto wigner_d_l2normalized(const int& J, const int& M, const int& Mp, const double& beta) -> double
 {
     if ( !(-J <= abs(M) && abs(Mp) <= J) )
     {

@@ -15,7 +15,7 @@ UZLMATH_BEGIN
 
 template< typename eT >
 inline
-matrix< double > invert(const matrix< eT >& A)
+matrix< double > inv(const matrix< eT >& A)
 {
 //    if ( A.n_rows() != A.n_cols() )
 //    {

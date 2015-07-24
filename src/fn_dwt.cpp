@@ -13,11 +13,6 @@
 
 #include <uzlmath>
 
-// include OpenMP if compiler supports it
-#ifdef _OPENMP
-    #include <omp.h>
-#endif
-
 UZLMATH_NAMESPACE(DWT)
 
 /*!

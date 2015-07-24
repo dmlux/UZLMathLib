@@ -19,6 +19,17 @@ UZLMATH_BEGIN
  * @{
  */
 
+/*!
+ * @brief           The base class is a thin wrapper around any possible
+ *                  object. 
+ * @details         The base class can return return a reference to the object
+ *                  it wraps.
+ *
+ * @since           0.0.1
+ *
+ * @author          Denis-Michael Lux <denis.lux@icloud.com>
+ * @date            24.07.15
+ */
 template< typename derived >
 struct base
 {

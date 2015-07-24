@@ -23,11 +23,6 @@
 /*- including function wrapper    -*/
 #include <uzlmath>
 
-/*- include OpenMP headers if compiler supports OpenMP -*/
-#if _OPENMP
-    #include <omp.h>
-#endif
-
 /*!
  * @brief           The namespace containg all includes of datatypes, functions and 
  *                  other namespaces for mathmatical computation from the **UZLMath**
