@@ -76,7 +76,7 @@
 #define uzlmath_error(msg)\
         do {\
             if(UZLMATH_DEBUG && UZLMATH_SHOW_ERRORS)\
-                fprintf(stderr, "** [UZLMathLib error] %s:%d:%s(): " msg " **\n",\
+                fprintf(stderr, "** [UZLMathLib error]   %s:%d:%s(): " msg " **\n",\
                     __FILE__, __LINE__, __func__\
                 );\
             exit(EXIT_FAILURE);\
