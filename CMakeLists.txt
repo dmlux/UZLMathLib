@@ -76,7 +76,7 @@ IF(DEFINED CMAKE_CXX_COMPILER_ID AND DEFINED CMAKE_CXX_COMPILER_VERSION)
         MESSAGE(STATUS "Detected gcc 4.8.1 or later. Added '-std=c++11 -fopenmp' to compiler flags")
         MESSAGE(STATUS "OpenMP support for UZLMathLib enabled.")
 
-        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+        #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
     ENDIF()
 ENDIF()
 
