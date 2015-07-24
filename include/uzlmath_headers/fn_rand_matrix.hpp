@@ -36,7 +36,8 @@ auto randi(matrix< eT >& mat, const int& min, const int& max) -> typename uzl_vo
 {
     if (min > max)
     {
-        uzlmath_error("min value is greater than max value in rand function for SOFTFourierCoefficients.");
+        uzlmath_warning("%s", "min value is greater than max value in rand function for real matrices.");
+        return;
     }
     
     // create timeval object
@@ -88,7 +89,8 @@ auto randi(matrix< complex< eT > >& mat, const int& min, const int& max) -> type
 {
     if (min > max)
     {
-        uzlmath_error("min value is greater than max value in rand function for SOFTFourierCoefficients.");
+        uzlmath_warning("%s", "min value is greater than max value in rand function for complex matrices.");
+        return;
     }
     
     // create timeval object
@@ -143,7 +145,8 @@ auto rand(matrix< eT >& mat, const double& min, const double& max) -> typename u
 {
     if (min > max)
     {
-        uzlmath_error("min value is greater than max value in rand function for SOFTFourierCoefficients.");
+        uzlmath_warning("%s", "min value is greater than max value in rand function for real matrices.");
+        return;
     }
     
     // create timeval object
@@ -197,7 +200,8 @@ auto rand(matrix< complex< eT > >& mat, const double& min, const double& max) ->
 {
     if (min > max)
     {
-        uzlmath_error("min value is greater than max value in rand function for SOFTFourierCoefficients.");
+        uzlmath_warning("%s", "min value is greater than max value in rand function for complex vectors.");
+        return;
     }
     
     // create timeval object

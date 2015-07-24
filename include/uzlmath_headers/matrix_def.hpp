@@ -146,7 +146,7 @@ matrix< eT >::matrix(const glue< T1, T2 >& X)
     {
         if (ptrs[i]->rows != r || ptrs[i]->cols != c)
         {
-            uzlmath_error("dimension mismatch in matrix-matrix addition.");
+            uzlmath_error("%s", "dimension mismatch in matrix-matrix addition.");
         }
     }
     
@@ -248,7 +248,7 @@ matrix< eT > matrix< eT >::operator-(const matrix< eT >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
-        uzlmath_error("dimension mismatch in matrix-matrix subtraction.");
+        uzlmath_error("%s", "dimension mismatch in matrix-matrix subtraction.");
     }
     
     matrix< eT > C(rows, cols);
@@ -287,7 +287,7 @@ matrix< eT > matrix< eT >::operator*(const matrix< eT >& A)
 {
     if ( cols != A.rows )
     {
-        uzlmath_error("Dimension mismatch in matrix-matrix multiplication.");
+        uzlmath_error("%s", "Dimension mismatch in matrix-matrix multiplication.");
     }
     
     size_t n_rows = rows;
@@ -398,7 +398,7 @@ matrix< complex< eT > > matrix< eT >::operator+(const matrix< complex< eT > >& A
 {
     if ( rows != A.rows || cols != A.cols )
     {
-        uzlmath_error("dimension mismatch in matrix-matrix addition.");
+        uzlmath_error("%s", "dimension mismatch in matrix-matrix addition.");
     }
     
     matrix< complex< eT > > C(rows, cols);
@@ -431,7 +431,7 @@ matrix< complex< eT > > matrix< eT >::operator-(const matrix< complex< eT > >& A
 {
     if ( rows != A.rows || cols != A.cols )
     {
-        uzlmath_error("dimension mismatch in matrix-matrix subtraction.");
+        uzlmath_error("%s", "dimension mismatch in matrix-matrix subtraction.");
     }
     
     matrix< complex< eT > > C(rows, cols);
@@ -470,7 +470,7 @@ matrix< complex< eT > > matrix< eT >::operator*(const matrix< complex< eT > >& A
 {
     if ( cols != A.rows )
     {
-        uzlmath_error("Dimension mismatch in matrix-matrix multiplication.");
+        uzlmath_error("%s", "Dimension mismatch in matrix-matrix multiplication.");
     }
     
     size_t n_rows = rows;
@@ -688,7 +688,7 @@ const matrix< eT >& matrix< eT >::operator=(const glue< T1, T2 >& X)
     {
         if (ptrs[i]->rows != r || ptrs[i]->cols != c)
         {
-            uzlmath_error("dimension mismatch in matrix-matrix addition.");
+            uzlmath_error("%s", "dimension mismatch in matrix-matrix addition.");
         }
     }
     
@@ -779,7 +779,7 @@ const matrix< eT >& matrix< eT >::operator+=(const matrix< eT >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
-        uzlmath_error("dimension mismatch in matrix-matrix addition.");
+        uzlmath_error("%s", "dimension mismatch in matrix-matrix addition.");
     }
     
     size_t i, cap = rows * cols;
@@ -806,7 +806,7 @@ const matrix< eT >& matrix< eT >::operator-=(const matrix< eT >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
-        uzlmath_error("dimension mismatch in matrix-matrix subtraction.");
+        uzlmath_error("%s", "dimension mismatch in matrix-matrix subtraction.");
     }
     
     size_t i, cap = rows * cols;
@@ -833,7 +833,7 @@ const matrix< eT >& matrix< eT >::operator*=(const matrix< eT >& A)
 {
     if ( cols != A.rows )
     {
-        uzlmath_error("dimension mismatch in matrix-matrix multiplication.");
+        uzlmath_error("%s", "dimension mismatch in matrix-matrix multiplication.");
     }
     
     size_t n_rows = rows;
@@ -1119,7 +1119,7 @@ matrix< eT > matrix< eT >::operator/(const eT& rhs)
 {
     if ( rhs == 0 )
     {
-        uzlmath_error("division by zero in matrix-scalar division.");
+        uzlmath_error("%s", "division by zero in matrix-scalar division.");
     }
     
     matrix< eT > C(rows, cols);
@@ -1170,7 +1170,7 @@ matrix< eT > matrix< eT >::operator^(const unsigned int& exp)
 {
     if ( rows != cols )
     {
-        uzlmath_error("dimension mismatch in matrix power operator.");
+        uzlmath_error("%s", "dimension mismatch in matrix power operator.");
     }
     
     matrix< eT > C = *this;
@@ -1316,7 +1316,7 @@ matrix< complex< eT > > matrix< eT >::operator/(const complex< eT >& rhs)
 {
     if ( rhs == 0 )
     {
-        uzlmath_error("division by zero in matrix-scalar division.");
+        uzlmath_error("%s", "division by zero in matrix-scalar division.");
     }
     
     matrix< complex< eT > > C(rows, cols);
@@ -1345,7 +1345,7 @@ vector< complex< eT > > matrix< eT >::operator*(const vector< complex< eT > >& v
 {
     if (cols != v.size || v.type == vec_type::ROW)
     {
-        uzlmath_error("dimension mismatch in matrix-complex vector multiplication.");
+        uzlmath_error("%s", "dimension mismatch in matrix-complex vector multiplication.");
     }
     
     vector< complex< eT > > result(rows, 0, v.type);
@@ -1436,7 +1436,7 @@ matrix< eT >& matrix< eT >::operator/=(const eT& rhs)
 {
     if ( rhs == 0 )
     {
-        uzlmath_error("division by zero in matrix scalar division.");
+        uzlmath_error("%s", "division by zero in matrix scalar division.");
     }
     
     size_t i, cap = rows * cols;
@@ -1462,7 +1462,7 @@ matrix< eT >& matrix< eT >::operator^=(const unsigned int& exp)
 {
     if ( rows != cols )
     {
-        uzlmath_error("dimension mismatch in matrix power operator.");
+        uzlmath_error("%s", "dimension mismatch in matrix power operator.");
     }
     
     matrix< eT > C = *this;
@@ -1691,7 +1691,7 @@ const double matrix< eT >::determinant()
 {
     if (rows != cols)
     {
-        uzlmath_error("for calculating determinant the matrix must be square.");
+        uzlmath_error("%s", "for calculating determinant the matrix must be square.");
     }
     
     size_t i, cap = rows * cols;
@@ -1728,7 +1728,7 @@ const double matrix< eT >::determinant()
     
     if (INFO < 0)
     {
-        uzlmath_error("LU-Decomposition argument error. Argument number %i was illegal.");
+        uzlmath_error("%s", "LU-Decomposition argument error. Argument number %i was illegal.");
     }
     else if (INFO > 0)
     {

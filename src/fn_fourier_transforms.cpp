@@ -75,14 +75,14 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
     // Check if the grid has same size in each dimension
     if (sample.n_rows() != sample.n_cols() || sample.n_rows() != sample.n_lays())
     {
-        uzlmath_warning("all SOFT sample grid dimensions should be equal.");
+        uzlmath_warning("%s", "all SOFT sample grid dimensions should be equal.");
         return;
     }
     
     // Check if grid has odd dimensions
     if (sample.n_rows() & 1)
     {
-        uzlmath_warning("SOFT sample grid dimensions are not even.");
+        uzlmath_warning("%s", "SOFT sample grid dimensions are not even.");
         return;
     }
     
@@ -92,7 +92,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
     // Check if Fourier coefficients container dimension matches sample dimension
     if (bandwidth != fc.bandwidth)
     {
-        uzlmath_warning("SOFT Fourier coefficients container bandwidth does not match to sample grid bandwidth.");
+        uzlmath_warning("%s", "SOFT Fourier coefficients container bandwidth does not match to sample grid bandwidth.");
         return;
     }
     
@@ -100,7 +100,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
     #ifndef _OPENMP
     if (threads != 1)
     {
-        uzlmath_warning("Compiler does not support OpenMP. Since no parallelization for the SOFT is done, changing the number of threads has no effect.");
+        uzlmath_warning("%s", "compiler does not support OpenMP. Since no parallelization for the SOFT is done, changing the number of threads has no effect.");
     }
     #endif
     
@@ -336,14 +336,14 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
     // Check if the grid has same size in each dimension
     if (synthesis.n_rows() != synthesis.n_cols() || synthesis.n_rows() != synthesis.n_lays())
     {
-        uzlmath_warning("all ISOFT synthesis grid dimensions should be equal.");
+        uzlmath_warning("%s", "all ISOFT synthesis grid dimensions should be equal.");
         return;
     }
     
     // Check if grid has odd dimensions
     if (synthesis.n_rows() & 1)
     {
-        uzlmath_warning("ISOFT synthesis grid dimensions are not even.");
+        uzlmath_warning("%s", "ISOFT synthesis grid dimensions are not even.");
         return;
     }
     
@@ -353,7 +353,7 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
     // Check if Fourier coefficients container dimension matches sample dimension
     if (bandwidth != fc.bandwidth)
     {
-        uzlmath_warning("ISOFT Fourier coefficients container bandwidth does not match to synthesis grid bandwidth.");
+        uzlmath_warning("%s", "ISOFT Fourier coefficients container bandwidth does not match to synthesis grid bandwidth.");
         return;
     }
     
@@ -361,7 +361,7 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
     #ifndef _OPENMP
     if (threads != 1)
     {
-        uzlmath_warning("Compiler does not support OpenMP. Since no parallelization for the ISOFT is done, changing the number of threads has no effect.");
+        uzlmath_warning("%s", "compiler does not support OpenMP. Since no parallelization for the ISOFT is done, changing the number of threads has no effect.");
     }
     #endif
     

@@ -29,6 +29,12 @@ template< typename eT >
 inline
 auto randi(vector< eT >& vec, const int& min, const int& max) -> typename uzl_void_real_num_only< eT >::result
 {
+    if (min > max)
+    {
+        uzlmath_warning("%s", "min value is greater than max value in rand function for real vectors.");
+        return;
+    }
+    
     // create timeval object
     struct timeval tv;
     
@@ -54,6 +60,12 @@ template< typename eT >
 inline
 auto randi(vector< complex< eT > >& vec, const int& min, const int& max) -> typename uzl_void_real_num_only< eT >::result
 {
+    if (min > max)
+    {
+        uzlmath_warning("%s", "min value is greater than max value in rand function for complex vectors.");
+        return;
+    }
+    
     // create timeval object
     struct timeval tv;
     
@@ -96,6 +108,12 @@ auto randi(vector< complex< eT > >& vec, const int& min, const int& max) -> type
 template< typename eT >
 auto rand(vector< eT >& vec, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
 {
+    if (min > max)
+    {
+        uzlmath_warning("%s", "min value is greater than max value in rand function for real vectors.");
+        return;
+    }
+    
     // create timeval object
     struct timeval tv;
     
@@ -136,6 +154,12 @@ auto rand(vector< eT >& vec, const double& min, const double& max) -> typename u
 template< typename eT >
 auto rand(vector< complex< eT > >& vec, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
 {
+    if (min > max)
+    {
+        uzlmath_warning("%s", "min value is greater than max value in rand function for complex vectors.");
+        return;
+    }
+    
     // create timeval object
     struct timeval tv;
     

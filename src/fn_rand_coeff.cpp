@@ -33,7 +33,7 @@ auto rand(SOFTFourierCoefficients& fc, const double& min, const double& max) -> 
 {
     if (min > max)
     {
-        uzlmath_warning("min value is greater than max value in rand function for SOFTFourierCoefficients.");
+        uzlmath_warning("%s", "min value is greater than max value in rand function for SOFTFourierCoefficients.");
         return;
     }
     

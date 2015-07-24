@@ -57,7 +57,7 @@ array< eT >::array(const size_t& s)
     }
     else
     {
-        uzlmath_error("Bad allocation in array allocation.");
+        uzlmath_error("%s", "Bad allocation in array allocation.");
     }
 }
 
@@ -80,7 +80,7 @@ void array< eT >::resize(const size_t& new_size)
         }
         else
         {
-            uzlmath_error("Bad allocation in array resize.");
+            uzlmath_error("%s", "Bad allocation in array resize.");
         }
     }
 }
@@ -126,7 +126,7 @@ const eT& array< eT >::operator=(const array< eT >& rhs)
     }
     else
     {
-        uzlmath_error("Bad allocation in array allocation.");
+        uzlmath_error("%s", "Bad allocation in array allocation.");
     }
     
     if ( size > 0 )

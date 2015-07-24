@@ -182,7 +182,7 @@ vector< eT > vector< eT >::operator+(const vector< eT >& v)
 {
     if ( size != v.size || type != v.type)
     {
-        uzlmath_error("size mismatch in vector-vector addition.");
+        uzlmath_error("%s", "size mismatch in vector-vector addition.");
     }
     
     vector< eT > result(size, type);
@@ -214,7 +214,7 @@ vector< eT > vector< eT >::operator-(const vector< eT >& v)
 {
     if ( size != v.size || type != v.type)
     {
-        uzlmath_error("size mismatch in vector-vector subtraction.");
+        uzlmath_error("%s", "size mismatch in vector-vector subtraction.");
     }
     
     vector< eT > result(size, type);
@@ -245,7 +245,7 @@ matrix< eT > vector< eT >::operator*(const vector< eT >& v)
 {
     if (type == v.type || (type == vec_type::ROW && size != v.size))
     {
-        uzlmath_error("size mismatch in vector-vector multiplication.");
+        uzlmath_error("%s", "size mismatch in vector-vector multiplication.");
     }
     
     int M   = (type   == vec_type::COLUMN ? size   : 1);
@@ -354,7 +354,7 @@ vector< eT > vector< eT >::operator/(const vector< eT >& v)
 {
     if (type != v.type || size != size)
     {
-        uzlmath_error("type or size mismatch in element-wise vector division.");
+        uzlmath_error("%s", "type or size mismatch in element-wise vector division.");
     }
     
     vector< eT > result(size, type);
@@ -364,7 +364,7 @@ vector< eT > vector< eT >::operator/(const vector< eT >& v)
     {
         if (v[i] == 0)
         {
-            uzlmath_error("division by zero in element-wise vector division.");
+            uzlmath_error("%s", "division by zero in element-wise vector division.");
         }
         
         result[i] = mem[i] / v[i];
@@ -388,7 +388,7 @@ vector< eT > vector< eT >::operator%(const vector< eT >& v)
 {
     if (type != v.type || size != size)
     {
-        uzlmath_error("type or size mismatch in element-wise vector multiplication.");
+        uzlmath_error("%s", "type or size mismatch in element-wise vector multiplication.");
     }
     
     vector< eT > result(size, type);
@@ -420,7 +420,7 @@ vector< complex< eT > > vector< eT >::operator+(const vector< complex< eT > >& v
 {
     if ( size != v.size || type != v.t)
     {
-        uzlmath_error("size mismatch in vector-vector addition.");
+        uzlmath_error("%s", "size mismatch in vector-vector addition.");
     }
     
     vector< complex< eT > > result(size, type);
@@ -452,7 +452,7 @@ vector< complex< eT > > vector< eT >::operator-(const vector< complex< eT > >& v
 {
     if ( size != v.size || type != v.type)
     {
-        uzlmath_error("size mismatch in vector-vector subtraction.");
+        uzlmath_error("%s", "size mismatch in vector-vector subtraction.");
     }
     
     vector< complex< eT > > result(size, type);
@@ -483,7 +483,7 @@ matrix< complex< eT > > vector< eT >::operator*(const vector< complex< eT > >& v
 {
     if (type == v.type || (type == vec_type::ROW && size != v.size))
     {
-        uzlmath_error("size mismatch in vector-vector multiplication.");
+        uzlmath_error("%s", "size mismatch in vector-vector multiplication.");
     }
     
     int M   = (type   == vec_type::COLUMN ? size   : 1);
@@ -584,7 +584,7 @@ vector< complex< eT > > vector< eT >::operator/(const vector< complex< eT > >& v
 {
     if (type != v.type || size != size)
     {
-        uzlmath_error("type or size mismatch in element-wise vector division.");
+        uzlmath_error("%s", "type or size mismatch in element-wise vector division.");
     }
     
     vector< complex< eT > > result(size, type);
@@ -594,7 +594,7 @@ vector< complex< eT > > vector< eT >::operator/(const vector< complex< eT > >& v
     {
         if (v[i] == 0)
         {
-            uzlmath_error("division by zero in element-wise vector division.");
+            uzlmath_error("%s", "division by zero in element-wise vector division.");
         }
         
         result[i] = complex< eT >(mem[i], 0) / v[i];
@@ -618,7 +618,7 @@ vector< complex< eT > > vector< eT >::operator%(const vector< complex< eT > >& v
 {
     if (type != v.type || size != size)
     {
-        uzlmath_error("type or size mismatch in element-wise vector multiplication.");
+        uzlmath_error("%s", "type or size mismatch in element-wise vector multiplication.");
     }
     
     vector< complex< eT > > result(size, type);
@@ -724,7 +724,7 @@ vector< eT > vector< eT >::operator/(const eT& s)
 {
     if (s == 0)
     {
-        uzlmath_error("division by zero in vector-scalar division.");
+        uzlmath_error("%s", "division by zero in vector-scalar division.");
     }
     
     vector< eT > result(size, type);
@@ -828,7 +828,7 @@ vector< complex< eT > > vector< eT >::operator/(const complex< eT >& s)
 {
     if (s == 0)
     {
-        uzlmath_error("division by zero in vector-scalar division.");
+        uzlmath_error("%s", "division by zero in vector-scalar division.");
     }
     
     vector< complex< eT > > result(size, type);
@@ -896,7 +896,7 @@ vector< eT > vector< eT >::operator*(const matrix< eT >& mat)
 {
     if ((type == vec_type::ROW && size != mat.rows) || (type == vec_type::COLUMN && mat.rows != 1))
     {
-        uzlmath_error("size mismatch in vector-matrix multiplication.");
+        uzlmath_error("%s", "size mismatch in vector-matrix multiplication.");
     }
     
     vector< eT > result(mat.n_cols(), vec_type::ROW);
@@ -1009,7 +1009,7 @@ bool vector< eT >::operator>(const vector< eT >& v)
 {
     if (size != size)
     {
-        uzlmath_error("size mismatch in greater than vector comparison.");
+        uzlmath_error("%s", "size mismatch in greater than vector comparison.");
     }
     
     bool greater = true;
@@ -1048,7 +1048,7 @@ bool vector< eT >::operator<(const vector< eT >& v)
 {
     if (size != size)
     {
-        uzlmath_error("size mismatch in lower than vector comparison.");
+        uzlmath_error("%s", "size mismatch in lower than vector comparison.");
     }
     
     bool lower = true;
@@ -1143,7 +1143,7 @@ const vector< eT >& vector< eT >::operator+=(const vector< eT >& v)
 {
     if (size != size || type != v.type)
     {
-        uzlmath_error("dimension or size mismatch in vector-vector multiplication.");
+        uzlmath_error("%s", "dimension or size mismatch in vector-vector multiplication.");
     }
     
     size_t i;
@@ -1170,7 +1170,7 @@ const vector< eT >& vector< eT >::operator-=(const vector< eT >& v)
 {
     if (size != v.size || type != v.type)
     {
-        uzlmath_error("dimension or size mismatch in vector-vector subtraction.");
+        uzlmath_error("%s", "dimension or size mismatch in vector-vector subtraction.");
     }
     
     size_t i;
@@ -1197,7 +1197,7 @@ const vector< eT >& vector< eT >::operator/=(const vector< eT >& v)
 {
     if (type != v.type || size != size)
     {
-        uzlmath_error("type or size mismatch in element-wise vector division.");
+        uzlmath_error("%s", "type or size mismatch in element-wise vector division.");
     }
     
     size_t i;
@@ -1205,7 +1205,7 @@ const vector< eT >& vector< eT >::operator/=(const vector< eT >& v)
     {
         if (v[i] == 0)
         {
-            uzlmath_error("division by zero in element-wise vector division.");
+            uzlmath_error("%s", "division by zero in element-wise vector division.");
         }
         
         mem[i] /= v[i];
@@ -1229,7 +1229,7 @@ const vector< eT >& vector< eT >::operator%=(const vector< eT >& v)
 {
     if (type != v.type || size != size)
     {
-        uzlmath_error("type or size mismatch in element-wise vector multiplication.");
+        uzlmath_error("%s", "type or size mismatch in element-wise vector multiplication.");
     }
     
     size_t i;
@@ -1325,7 +1325,7 @@ const vector< eT >& vector< eT >::operator/=(const eT& s)
 {
     if (s == 0)
     {
-        uzlmath_error("division by zero in vector-scalar division.");
+        uzlmath_error("%s", "division by zero in vector-scalar division.");
     }
     
     size_t i;
@@ -1402,7 +1402,7 @@ bool vector< eT >::operator>=(const vector< eT >& v)
 {
     if (size != size)
     {
-        uzlmath_error("size mismatch in greater equals vector comparison.");
+        uzlmath_error("%s", "size mismatch in greater equals vector comparison.");
     }
     
     bool geq = true;
@@ -1441,7 +1441,7 @@ bool vector< eT >::operator<=(const vector< eT >& v)
 {
     if (size != size)
     {
-        uzlmath_error("size mismatch in lower than vector comparison.");
+        uzlmath_error("%s", "size mismatch in lower than vector comparison.");
     }
     
     bool leq = true;
