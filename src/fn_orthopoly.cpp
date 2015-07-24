@@ -51,7 +51,8 @@ auto legendre(const int& n, const double& x) -> const double
     // illegal values
     if (n < 0)
     {
-        uzlmath_error("%s", "degree of legendre polynomial is negative!");
+        uzlmath_warning("%s", "degree of legendre polynomial is negative!");
+        return 0.0;
     }
     
     // intialize three-term recurrence

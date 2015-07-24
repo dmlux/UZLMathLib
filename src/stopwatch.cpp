@@ -59,7 +59,7 @@ double stopwatch::toc()
     gettimeofday(&end, NULL);
     
     // calculate difference
-    long elapsed = ((end.tv_sec - start.tv_sec) * 1000000L + end.tv_usec) -start.tv_usec;
+    long elapsed = ((end.tv_sec - start.tv_sec) * 1000000L + end.tv_usec) - start.tv_usec;
     
     // reset time
     start = end;
@@ -83,7 +83,7 @@ double stopwatch::toc_micros()
     gettimeofday(&end, NULL);
     
     // calculate difference
-    long elapsed = ((end.tv_sec - start.tv_sec) * 1000000L + end.tv_usec) -start.tv_usec;
+    long elapsed = ((end.tv_sec - start.tv_sec) * 1000000L + end.tv_usec) - start.tv_usec;
     
     // reset time
     start = end;

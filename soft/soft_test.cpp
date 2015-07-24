@@ -13,11 +13,6 @@
 #include <stdio.h>
 #include <chrono>
 #include <thread>
-#include <fftw3.h>
-
-#if _OPENMP
-    #include <omp.h>
-#endif
 
 using namespace uzlmath;
 
@@ -212,7 +207,7 @@ void for_back(unsigned int bandwidth, bool show_coefs)
                 {
                     // Here the coefficients are printed out on the console
                     printf("l=%4d, M=%4d, M'=%4d: %.4f%s%.4f\n", m,  n, k, coef(m,n,k).re, (coef(m,n,k).im >= 0 ? "+" : ""), coef(m,n,k).im);
-                    printf("%.16f\n", fabs(coef(m,n,k).re - rec_coef(m,n,k).re));
+                    //printf("%.16f\n", fabs(coef(m,n,k).re - rec_coef(m,n,k).re));
                     
                     if (fabs(coef(m,n,k).re - rec_coef(m,n,k).re) > epsilon || fabs(coef(m,n,k).im - rec_coef(m,n,k).im) > epsilon)
                     {
@@ -242,14 +237,6 @@ int main(int argc, const char ** argv)
 //    for_back_file("/Users/dlux/Desktop/soft_files/grid_128_samp.dat", 128, false);
 //    for_back_file("/Users/dlux/Desktop/soft_files/test_series/grid_3_test.dat", 3, true);
     for_back(128, false);
-    
-//    printf("%f\n", orthoPoly::legendre(-5, M_PI_4));
-    
-//    SOFTFourierCoefficients fc(3);
-//    
-//    rand(fc, -1, 1);
-//    
-//    std::cout << fc << std::endl;
     
     return 0;
 }

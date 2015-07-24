@@ -79,7 +79,7 @@ complex< double >& SOFTFourierCoefficients::operator()(const int& l, const int& 
     size_t idx_M  = (M  >= 0 ? M  : mem[l].n_rows() + M );
     size_t idx_Mp = (Mp >= 0 ? Mp : mem[l].n_cols() + Mp);
     
-    return  mem[l](idx_M, idx_Mp);
+    return mem[l](idx_M, idx_Mp);
 }
 
 /*!
@@ -105,7 +105,7 @@ const complex< double >& SOFTFourierCoefficients::operator()(const int& l, const
     size_t idx_M  = (M  >= 0 ? M  : mem[l].n_rows() + M );
     size_t idx_Mp = (Mp >= 0 ? Mp : mem[l].n_cols() + Mp);
     
-    return  mem[l](idx_M, idx_Mp);
+    return mem[l](idx_M, idx_Mp);
 }
 
 /*!

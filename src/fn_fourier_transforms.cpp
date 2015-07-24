@@ -13,9 +13,6 @@
 
 #include <uzlmath>
 
-// SOFT Threshold
-#define SOFT_THRESHOLD 20
-
 UZLMATH_NAMESPACE(FourierTransforms)
         
 /*!
@@ -100,7 +97,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
     #ifndef _OPENMP
     if (threads != 1)
     {
-        uzlmath_warning("%s", "compiler does not support OpenMP. Since no parallelization for the SOFT is done, changing the number of threads has no effect.");
+        uzlmath_warning("%s", "compiler does not support OpenMP. Changing the number of threads for the SOFT has no effect.");
     }
     #endif
     
@@ -361,7 +358,7 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
     #ifndef _OPENMP
     if (threads != 1)
     {
-        uzlmath_warning("%s", "compiler does not support OpenMP. Since no parallelization for the ISOFT is done, changing the number of threads has no effect.");
+        uzlmath_warning("%s", "compiler does not support OpenMP. Changing the number of threads for the ISOFT has no effect.");
     }
     #endif
     
