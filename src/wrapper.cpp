@@ -258,17 +258,17 @@ extern "C"
     
     void uzl_fftw_layer_wise_DFT2_grid3D(int cols, int rows, int lays, double* arr)
     {
-        #if _OPENMP
+        #ifdef _OPENMP
         
         // define indices
-        unsigned int i;
+        int i;
         
         // storage plans
         fftw_plan plans[lays];
         
         // create plans
         // Creating plans and destroying them is not really thread safe
-        // therefore the plans should be created and destoryed sequentially
+        // therefore the plans should be created and destoryed serially
         for (i = 0; i < lays; ++i)
         {
             // get correct layer
@@ -322,17 +322,17 @@ extern "C"
     
     void uzl_fftw_layer_wise_IDFT2_grid3D(int cols, int rows, int lays, double*  arr)
     {
-        #if _OPENMP
+        #ifdef _OPENMP
         
         // define indices
-        unsigned int i;
+        int i;
         
         // storage plans
         fftw_plan plans[lays];
         
         // create plans
         // Creating plans and destroying them is not really thread safe
-        // therefore the plans should be created and destoryed sequentially
+        // therefore the plans should be created and destoryed serially
         for (i = 0; i < lays; ++i)
         {
             // get correct layer

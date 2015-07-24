@@ -21,23 +21,8 @@
 
 #include <random>       // for random C++11 library
 
-#ifdef _OPENMP
-    #include <omp.h>
-#endif
-
-/*- Macros -*/
-#define UZLMATH_BEGIN           namespace uzlmath {
-#define UZLMATH_END             }
-
-#define UZLMATH_NAMESPACE(a)    namespace uzlmath { namespace a {
-#define UZLMATH_NAMESPACE_END   }}
-
-// Define the default number of used threads for multithreaded parts
-#ifdef _OPENMP
-    #define UZL_MAX_THREADS omp_get_max_threads()
-#else
-    #define UZL_MAX_THREADS 1
-#endif
+/*- Compiler configuration       -*/
+#include "uzlmath_headers/compiler_config.hpp"
 
 /*- Forward declarations         -*/
 #include "uzlmath_headers/forward_declarations.hpp"

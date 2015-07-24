@@ -100,7 +100,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
     #ifndef _OPENMP
     if (threads != 1)
     {
-        printf("** uzlmath warning: Compiler does not support OpenMP. Since no mulithreading is done, the number of threads has no effect. **\n");
+        printf("** uzlmath warning: Compiler does not support OpenMP. Since no mulithreading for the SOFT is done, changing the number of threads has no effect. **\n");
     }
     #endif
     
@@ -169,7 +169,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
             // case f_{0,-M}
             for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, 0, i);                 }
             sh = dw * s;
-            for (i = 1; i < sh.n_elements(); i +=2 ){ sh[i] *= -1;                                            }
+            for (i = 1; i < sh.n_elements(); i +=2) { sh[i] *= -1;                                            }
             for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, 0, -M) = norm * sh[sh.n_elements()-i];  }
             
             // get new wigner matrix
@@ -361,7 +361,7 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
     #ifndef _OPENMP
     if (threads != 1)
     {
-        printf("** uzlmath warning: Compiler does not support OpenMP. Since no mulithreading is done, the number of threads has no effect. **\n");
+        printf("** uzlmath warning: Compiler does not support OpenMP. Since no mulithreading for the ISOFT is done, changing the number of threads has no effect. **\n");
     }
     #endif
     
