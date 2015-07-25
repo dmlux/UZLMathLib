@@ -39,6 +39,11 @@
     #define UZL_MAX_THREADS 1
 #endif
 
+/*- SOFT config -*/
+// SOFT Threshold
+#undef  SOFT_THRESHOLD
+#define SOFT_THRESHOLD 20
+
 /*- Namespace macros -*/
 // Macro shortcut for standard uzlmath namespace
 #undef  UZLMATH_BEGIN
