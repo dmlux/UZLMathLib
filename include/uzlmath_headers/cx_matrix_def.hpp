@@ -1,6 +1,6 @@
 //
 //  cx_matrix_def.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 13.05.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_cx_matrix_def_hpp
-#define uzlmath_cx_matrix_def_hpp
+#ifndef UZLMathLib_cx_matrix_def_hpp
+#define UZLMathLib_cx_matrix_def_hpp
 
 UZLMATH_BEGIN
 
@@ -33,10 +33,10 @@ matrix< complex< eT > >::~matrix()
 template< typename eT >
 inline
 matrix< complex< eT > >::matrix()
-    : rows(0)
-    , cols(0)
-    , r_inj(0)
+    : r_inj(0)
     , c_inj(0)
+    , rows(0)
+    , cols(0)
     , mem(nullptr)
 {}
 
@@ -51,10 +51,10 @@ matrix< complex< eT > >::matrix()
 template< typename eT >
 inline
 matrix< complex< eT > >::matrix(const size_t& m, const size_t& n)
-    : rows(m)
-    , cols(n)
-    , r_inj(0)
+    : r_inj(0)
     , c_inj(0)
+    , rows(m)
+    , cols(n)
 {
     size_t cap  = m * n;
     mem         = new complex< eT >[cap];
@@ -663,12 +663,12 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator=(matrix< comple
         return *this;
     }
     
-    rows = A.rows;
-    cols = A.cols;
+    access::rw(rows) = A.rows;
+    access::rw(cols) = A.cols;
     
-    complex< eT >* tmp  = mem;
-    mem                 = A.mem;
-    A.mem               = tmp;
+    const complex< eT >* tmp  = mem;
+    mem                       = A.mem;
+    A.mem                     = tmp;
     
     return *this;
 }
@@ -1762,7 +1762,7 @@ template< typename eT >
 inline
 complex< eT >& matrix< complex< eT > >::operator()(const size_t& i, const size_t& j)
 {
-    return mem[j * rows + i];
+    return access::rw(mem[j * rows + i]);
 }
 
 /*!
@@ -1912,59 +1912,7 @@ void matrix< complex< eT > >::fill(const complex< eT >& value)
     std::fill(mem, mem + rows * cols, value);
 }
 
-/*!
- * @brief           Getter for the number of rows
- * @details         Returning the number of rows of the current matrix
- *
- * @return          The number of rows
- */
-template< typename eT >
-inline
-constexpr size_t matrix< complex< eT > >::n_rows() const
-{
-    return rows;
-}
 
-/*!
- * @brief           Getter for the number of columns
- * @details         Returning the number of rows of the current matrix
- *
- * @return          The number of columns
- */
-template< typename eT >
-inline
-constexpr size_t matrix< complex< eT > >::n_cols() const
-{
-    return cols;
-}
-
-/*!
- * @brief           Getter for the allocated memory of the current matrix
- * @details         Returning the pointer to the dynamic allocated memory of the
- *                  current matrix
- *
- * @return          The pointer to the allocated memory
- */
-template< typename eT >
-inline
-complex< eT >* matrix< complex< eT > >::memptr()
-{
-    return mem;
-}
-
-/*!
- * @brief           Getter for the allocated memory of the current matrix
- * @details         Returning the pointer to the dynamic allocated memory of the
- *                  current matrix
- *
- * @return          The pointer to the allocated memory
- */
-template< typename eT >
-inline
-const complex< eT >* matrix< complex< eT > >::memptr() const
-{
-    return mem;
-}
 
 /*!
  * @brief           Calculates the determinant of the current matrix
@@ -2066,9 +2014,9 @@ std::ostream& operator<<(std::ostream& o, const matrix< complex< eT > >& A)
     
     // check values
     size_t i, j;
-    for (i = 0; i < A.n_rows(); ++i)
+    for (i = 0; i < A.rows; ++i)
     {
-        for (j = 0; j < A.n_cols(); ++j)
+        for (j = 0; j < A.cols; ++j)
         {
             complex< eT > c = A(i, j);
             if (std::abs(c.re) >= 10 || std::abs(c.im) >= 10)
@@ -2107,9 +2055,9 @@ std::ostream& operator<<(std::ostream& o, const matrix< complex< eT > >& A)
     }
     
     // prepare output and print
-    for (i = 0; i < A.n_rows(); ++i)
+    for (i = 0; i < A.rows; ++i)
     {
-        for (j = 0; j < A.n_cols(); ++j)
+        for (j = 0; j < A.cols; ++j)
         {
             // get entry
             complex< eT > c = A(i, j);

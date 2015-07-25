@@ -1,6 +1,6 @@
 //
 //  traits.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 11.01.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_traits_hpp
-#define uzlmath_traits_hpp
+#ifndef UZLMathLib_traits_hpp
+#define UZLMathLib_traits_hpp
 
 UZLMATH_BEGIN
 

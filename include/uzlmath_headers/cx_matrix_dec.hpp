@@ -1,6 +1,6 @@
 //
 //  cx_matrix_dec.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 13.05.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_cx_matrix_dec_hpp
-#define uzlmath_cx_matrix_dec_hpp
+#ifndef UZLMathLib_cx_matrix_dec_hpp
+#define UZLMathLib_cx_matrix_dec_hpp
 
 UZLMATH_BEGIN
 
@@ -37,19 +37,17 @@ UZLMATH_BEGIN
 template< typename eT >
 class matrix< complex< eT > >
 {
-    size_t rows;                //!< Number of matrix rows
-    size_t cols;                //!< Number of matrix columns
-    
     size_t r_inj;               //!< Row injection index
     size_t c_inj;               //!< Column injection index
     
-    complex< eT >* mem;         //!< Matrix memory
-    
-    // Friend classes to grant member access
-    template< typename F > friend class matrix;
-    template< typename F > friend class vector;
-    
 public:
+    // ivars
+    const size_t rows;          //!< Number of matrix rows
+    const size_t cols;          //!< Number of matrix columns
+    
+    const complex< eT >* mem;   //!< Matrix memory
+    
+    // methods
     inline                               ~matrix();
     inline                                matrix();
     
@@ -137,11 +135,6 @@ public:
     inline       void                     fill(const complex< eT >& value);
     inline       void                     diag(const complex< eT >& value);
     inline       void                     diag(const vector< complex< eT > >& vec);
-    
-    inline constexpr size_t               n_rows() const;
-    inline constexpr size_t               n_cols() const;
-    inline       complex< eT >*           memptr();
-    inline const complex< eT >*           memptr() const;
     
     inline const complex< double >        determinant();
 };

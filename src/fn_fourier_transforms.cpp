@@ -1,6 +1,6 @@
 //
 //  fn_fourier_transforms.cpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 18.06.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_fn_fourier_transforms_cpp
-#define uzlmath_fn_fourier_transforms_cpp
+#ifndef UZLMathLib_fn_fourier_transforms_cpp
+#define UZLMathLib_fn_fourier_transforms_cpp
 
 #include <uzlmath>
 
@@ -114,7 +114,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
     vector< complex< double > > s(2 * bandwidth, vec_type::COLUMN);
     
     // defining norm factor
-    double norm = M_PI / (2 * bandwidth * bandwidth);
+    complex< double > norm(M_PI / (2 * bandwidth * bandwidth), 0);
     
     // defining needed indices
     int MMp, i, M, Mp;
@@ -122,7 +122,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
     // DWT for M = 0, M' = 0
     for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(0, 0, i);                               }
     vector< complex< double > > sh = dw * s;
-    for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, 0, 0) = norm * sh[sh.n_elements()-i]; }
+    for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, 0, 0) = norm * sh[sh.size -i];      }
     
     /*****************************************************************
      ** Iterate over all combinations of M and M'                   **
@@ -141,13 +141,13 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
             // case f_{M,0}
             for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(0, M, i);                                 }
             sh = dw * s;
-            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, 0) = norm * sh[sh.n_elements()-i];   }
+            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, M, 0) = norm * sh[sh.size - i];       }
             
             // case f_{0,M}
             for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, 0, i);                                 }
             sh = dw * s;
             if  (M & 1)                             { sh *= -1;                                               }
-            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, 0, M) = norm * sh[sh.n_elements()-i];   }
+            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, 0, M) = norm * sh[sh.size - i];       }
             
             // case f_{-M,0}
             fliplr(dw);
@@ -155,19 +155,19 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
             sh = dw * s;
             if (M & 1)
             {
-                for (i = 0; i < sh.n_elements(); i += 2) { sh[i] *= -1;                                       }
+                for (i = 0; i < sh.size; i += 2)    { sh[i] *= -1;                                            }
             }
             else
             {
-                for (i = 1; i < sh.n_elements(); i += 2) { sh[i] *= -1;                                       }
+                for (i = 1; i < sh.size; i += 2)    { sh[i] *= -1;                                            }
             }
-            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, 0) = norm * sh[sh.n_elements()-i];  }
+            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, -M, 0) = norm * sh[sh.size - i];      }
             
             // case f_{0,-M}
             for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, 0, i);                 }
             sh = dw * s;
-            for (i = 1; i < sh.n_elements(); i +=2) { sh[i] *= -1;                                            }
-            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, 0, -M) = norm * sh[sh.n_elements()-i];  }
+            for (i = 1; i < sh.size; i +=2)         { sh[i] *= -1;                                            }
+            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, 0, -M) = norm * sh[sh.size - i];      }
             
             // get new wigner matrix
             dw = DWT::weighted_wigner_d_matrix(bandwidth, M, M, weights) * -1;
@@ -175,27 +175,27 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
             // case f_{M, M}
             for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, M, i);                                 }
             sh = dw * s;
-            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, M) = norm * sh[sh.n_elements()-i];   }
+            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, M, M) = norm * sh[sh.size - i];       }
             
             // case f_{-M, -M}
             for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, 2 * bandwidth - M, i); }
             sh = dw * s;
-            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, -M) = norm * sh[sh.n_elements()-i]; }
+            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, -M, -M) = norm * sh[sh.size - i];     }
             
             // Modify dw for the last two cases. flip matrix from left to right and negates sign of
-            // every second row with odd row index.
+            // every second row with odd row indices.
             fliplr_ne2ndorow(dw);
             
-            // An little arithmetic error is occuring in the following calculation
+            // A little arithmetic error is occuring in the following calculation... I do not exactly know why
             // case f_{M, -M}
             for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, M, i);                 }
             sh = dw * s;
-            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, -M) = norm * sh[sh.n_elements()-i];  }
+            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, M, -M) = norm * sh[sh.size - i];      }
             
             // case f_{-M, M}
             for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, 2 * bandwidth - M, i);                 }
             sh = dw * s;
-            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, M) = norm * sh[sh.n_elements()-i];  }
+            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, -M, M) = norm * sh[sh.size - i];      }
         }
         
         // Fused two loops per hand
@@ -222,25 +222,25 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
             for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(Mp, M, i);                                          }
             sh  = dw * s;
             sh *= -1;
-            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, Mp) = norm * sh[sh.n_elements()-i];            }
+            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, M, Mp) = norm * sh[sh.size - i];                }
             
             // case f_{Mp, M}
             for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, Mp, i);                                          }
             sh = dw * s;
             if  (!((M - Mp) & 1))                   { sh *= -1;                                                         }
-            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, Mp, M) = norm * sh[sh.n_elements()-i];            }
+            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, Mp, M) = norm * sh[sh.size -  i];               }
             
             // case f_{-M, -Mp}
             for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - Mp, 2 * bandwidth - M, i);          }
             sh = dw * s;
             if  (!((M - Mp) & 1))                   { sh *= -1;                                                         }
-            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, -Mp) = norm * sh[sh.n_elements()-i];          }
+            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, -M, -Mp) = norm * sh[sh.size - i];              }
             
             // case f_{-Mp, -M}
             for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, 2 * bandwidth - Mp, i);          }
             sh  = dw * s;
             sh *= -1;
-            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -Mp, -M) = norm * sh[sh.n_elements()-i];          }
+            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, -Mp, -M) = norm * sh[sh.size - i];              }
             
             // modify wigner d-matrix for next four cases. This just works because the weight
             // function is also symmetric like the wigner-d matrix. flip left-right the dw
@@ -250,32 +250,31 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
             // case f_{Mp, -M}
             for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, Mp, i);                          }
             sh = dw * s;
-            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, Mp, -M) = norm * sh[sh.n_elements()-i];           }
+            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, Mp, -M) = norm * sh[sh.size - i];               }
             
             // case f_{M, -Mp}
             for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - Mp, M, i);                          }
             sh = dw * s;
-            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, M, -Mp) = norm * sh[sh.n_elements()-i];           }
+            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, M, -Mp) = norm * sh[sh.size - i];               }
             
             // alter signs
             if ((M - Mp) & 1)
             {
-                double* dw_mem = dw.memptr();
-                for (i = 0; i < dw.n_rows() * dw.n_cols(); ++i)
+                for (i = 0; i < dw.rows * dw.cols; ++i)
                 {
-                    dw_mem[i] *= -1;
+                    access::rw(dw.mem[i]) *= -1;
                 }
             }
             
             // case f_{-Mp, M}
             for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, 2 * bandwidth - Mp, i);                          }
             sh = dw * s;
-            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -Mp, M) = norm * sh[sh.n_elements()-i];           }
+            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, -Mp, M) = norm * sh[sh.size - i];               }
             
             // case f_{-M, Mp}
             for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(Mp, 2 * bandwidth - M, i);                          }
             sh = dw * s;
-            for (i = 1; i <= sh.n_elements(); ++i)  { fc(bandwidth-i, -M, Mp) = norm * sh[sh.n_elements()-i];           }
+            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, -M, Mp) = norm * sh[sh.size - i];               }
         }
     }
 }
@@ -366,18 +365,18 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
      ** M = 0, M' = 0                                               **
      *****************************************************************/
     matrix< double > d = DWT::wigner_d_matrix(bandwidth, 0, 0) * -1;
-    vector< complex< double > > sh(d.n_rows(), vec_type::COLUMN);
+    vector< complex< double > > sh(d.rows, vec_type::COLUMN);
     
     d.transpose();
     
     // defining norm factor
-    double norm = (2 * bandwidth * bandwidth) / M_PI;
+    complex< double > norm((2 * bandwidth * bandwidth) / M_PI, 0);
     
     // defining needed indices
     int MMp, i, M, Mp;
     
     // inverse DWT for M = 0, M' = 0
-    for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth - i, 0, 0);           }
+    for (i = 1; i <= sh.size; ++i)      { sh[sh.size - i] = norm * fc(bandwidth - i, 0, 0);                     }
     vector< complex< double > > s = d * sh;
     for (i = 0; i < 2 * bandwidth; ++i) { synthesis(0, 0, i) = s[i];                                            }
     
@@ -391,40 +390,40 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
         for (M = 1; M < bandwidth; ++M)
         {
             d  = DWT::wigner_d_matrix(bandwidth, M, 0) * -1;
-            sh = vector< complex< double > >(d.n_rows(), vec_type::COLUMN);
+            sh = vector< complex< double > >(d.rows, vec_type::COLUMN);
             d.transpose();
             
             /*****************************************************************
              ** Make use of symmetries                                      **
              *****************************************************************/
             // case f_{M,0}
-            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i]  = norm * fc(bandwidth-i, M, 0);        }
+            for (i = 1; i <= sh.size; ++i)          { sh[sh.size - i]  = norm * fc(bandwidth - i, M, 0);            }
             s = d * sh;
             for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(0, M, i) = s[i];                                    }
             
             // case f_{0,M}
-            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, 0, M);         }
+            for (i = 1; i <= sh.size; ++i)          { sh[sh.size - i] = norm * fc(bandwidth - i, 0, M);             }
             if  (M & 1) { s = d * (sh * -1);} else  { s = d * sh;                                                   }
             for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(M, 0, i) = s[i];                                    }
             
             // case f_{-M,0}
             flipud(d);
             
-            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -M, 0);        }
+            for (i = 1; i <= sh.size; ++i)          { sh[sh.size - i] = norm * fc(bandwidth - i, -M, 0);            }
             if (M & 1)
             {
-                for (i = 0; i < sh.n_elements(); i += 2) { sh[i] *= -1;                                             }
+                for (i = 0; i < sh.size; i += 2)    { sh[i] *= -1;                                                  }
             }
             else
             {
-                for (i = 1; i < sh.n_elements(); i += 2) { sh[i] *= -1;                                             }
+                for (i = 1; i < sh.size; i += 2)    { sh[i] *= -1;                                                  }
             }
             s = d * sh;
             for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(0, 2 * bandwidth - M, i) = s[i];                    }
             
             // case f_{0,-M}
-            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, 0, -M);        }
-            for (i = 1; i < sh.n_elements(); i += 2){ sh[i] *= -1;                                                  }
+            for (i = 1; i <= sh.size; ++i)          { sh[sh.size - i] = norm * fc(bandwidth - i, 0, -M);            }
+            for (i = 1; i < sh.size; i += 2)        { sh[i] *= -1;                                                  }
             s = d * sh;
             for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, 0, i) = s[i];                    }
             
@@ -433,27 +432,27 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
             d.transpose();
             
             // case f_{M,M}
-            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, M, M);         }
+            for (i = 1; i <= sh.size; ++i)          { sh[sh.size - i] = norm * fc(bandwidth - i, M, M);             }
             s = d * sh;
             for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(M, M, i) = s[i];                                    }
             
             // case f_{-M,-M}
-            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -M, -M);       }
+            for (i = 1; i <= sh.size; ++i)          { sh[sh.size - i] = norm * fc(bandwidth - i, -M, -M);           }
             s = d * sh;
             for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, 2 * bandwidth - M, i) = s[i];    }
             
             // Modify dw for the last two cases. flip matrix from left to right and negate every
-            // second row with odd row index.
+            // second row with odd row indices.
             flipud_ne2ndocol(d);
             
-            // An little arithmetic error is occuring in the following calculation
+            // An little arithmetic error is occuring in the following calculation... I do not exactly know why...
             // case f_{M,-M}
-            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, M, -M);        }
+            for (i = 1; i <= sh.size; ++i)          { sh[sh.size - i] = norm * fc(bandwidth - i, M, -M);            }
             s = d * sh;
             for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, M, i) = s[i];                    }
             
             // case f_{-M,M}
-            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -M, M);        }
+            for (i = 1; i <= sh.size; ++i)          { sh[sh.size - i] = norm * fc(bandwidth - i, -M, M);            }
             s = d * sh;
             for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(M, 2 * bandwidth - M, i) = s[i];                    }
         }
@@ -478,28 +477,28 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
             // get new wigner d-matrix
             d  = DWT::wigner_d_matrix(bandwidth, M, Mp);
             d.transpose();
-            sh = vector< complex< double > >(d.n_cols(), vec_type::COLUMN);
+            sh = vector< complex< double > >(d.cols, vec_type::COLUMN);
             
             // case f_{M,Mp}
-            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, M, Mp);            }
+            for (i = 1; i <= sh.size; ++i)          { sh[sh.size-i] = norm * fc(bandwidth - i, M, Mp);                  }
             sh *= -1;
             s  = d * sh;
             for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(Mp, M, i) = s[i];                                       }
             
             // case f_{Mp,M}
-            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, Mp, M);            }
+            for (i = 1; i <= sh.size; ++i)          { sh[sh.size - i] = norm * fc(bandwidth - i, Mp, M);                }
             if  (!((M - Mp) & 1))                   { sh *= -1;                                                         }
             s = d * sh;
             for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(M, Mp, i) = s[i];                                       }
             
             // case f_{-M,-Mp}
-            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -M, -Mp);          }
+            for (i = 1; i <= sh.size; ++i)          { sh[sh.size - i] = norm * fc(bandwidth - i, -M, -Mp);              }
             if  (!((M - Mp) & 1))                   { sh *= -1;                                                         }
             s = d * sh;
             for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - Mp, 2 * bandwidth - M, i) = s[i];       }
             
             // case f_{-Mp,-M}
-            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -Mp, -M);          }
+            for (i = 1; i <= sh.size; ++i)          { sh[sh.size - i] = norm * fc(bandwidth - i, -Mp, -M);              }
             sh *= -1;
             s  = d * sh;
             for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, 2 * bandwidth - Mp, i) = s[i];       }
@@ -510,32 +509,31 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
             flipud_ne2ndecol(d);
             
             // case f_{Mp,-M}
-            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, Mp, -M);           }
+            for (i = 1; i <= sh.size; ++i)          { sh[sh.size - i] = norm * fc(bandwidth - i, Mp, -M);               }
             s = d * sh;
             for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - M, Mp, i) = s[i];                       }
             
             // case f_{M,-Mp}
-            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, M, -Mp);           }
+            for (i = 1; i <= sh.size; ++i)          { sh[sh.size - i] = norm * fc(bandwidth - i, M, -Mp);               }
             s = d * sh;
             for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(2 * bandwidth - Mp, M, i) = s[i];                       }
             
             // alter signs
             if ((M - Mp) & 1)
             {
-                double* d_mem = d.memptr();
-                for (i = 0; i < d.n_rows() * d.n_cols(); ++i)
+                for (i = 0; i < d.rows * d.cols; ++i)
                 {
-                    d_mem[i] *= -1;
+                    access::rw(d.mem[i]) *= -1;
                 }
             }
             
             // case f_{-Mp,M}
-            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -Mp, M);           }
+            for (i = 1; i <= sh.size; ++i)          { sh[sh.size - i] = norm * fc(bandwidth - i, -Mp, M);               }
             s = d * sh;
             for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(M, 2 * bandwidth - Mp, i) = s[i];                       }
             
             // case f_{-M,Mp}
-            for (i = 1; i <= sh.n_elements(); ++i)  { sh[sh.n_elements()-i] = norm * fc(bandwidth-i, -M, Mp);           }
+            for (i = 1; i <= sh.size; ++i)          { sh[sh.size - i] = norm * fc(bandwidth - i, -M, Mp);               }
             s = d * sh;
             for (i = 0; i < 2 * bandwidth; ++i)     { synthesis(Mp, 2 * bandwidth - M, i) = s[i];                       }
         }

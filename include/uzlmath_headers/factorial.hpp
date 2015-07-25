@@ -1,6 +1,6 @@
 //
 //  factorial_dec.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 01.05.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_factorial_dec_hpp
-#define uzlmath_factorial_dec_hpp
+#ifndef UZLMathLib_factorial_dec_hpp
+#define UZLMathLib_factorial_dec_hpp
 
 UZLMATH_BEGIN
 

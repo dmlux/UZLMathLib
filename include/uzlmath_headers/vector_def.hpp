@@ -1,6 +1,6 @@
 //
 //  vector_tpl_def.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 05.05.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_vector_tpl_def_hpp
-#define uzlmath_vector_tpl_def_hpp
+#ifndef UZLMathLib_vector_tpl_def_hpp
+#define UZLMathLib_vector_tpl_def_hpp
 
 UZLMATH_BEGIN
 
@@ -41,9 +41,9 @@ vector< eT >::vector()
 template< typename eT >
 inline
 vector< eT >::vector(const size_t& s, const vec_type& type)
-    : size(s)
+    : inj(0)
+    , size(s)
     , type(type)
-    , inj(0)
 {
     mem = new eT[s];
 }
@@ -141,13 +141,13 @@ vector< eT >::vector(const vector< eT >& vec, const vec_type& type)
 template< typename eT >
 inline
 vector< eT >::vector(vector< eT >&& vec)
-    : size(vec.size)
+    : inj(vec.inj)
+    , size(vec.size)
     , type(vec.type)
-    , inj(vec.inj)
 {
-    eT* tmp = mem;
-    mem     = vec.mem;
-    vec.mem = tmp;
+    const eT* tmp = mem;
+    mem           = vec.mem;
+    vec.mem       = tmp;
 }
 
 /*!
@@ -1486,7 +1486,7 @@ template< typename eT >
 inline
 eT& vector< eT >::operator[](const size_t& idx)
 {
-    return mem[idx];
+    return access::rw(mem[idx]);
 }
 
 /*!
@@ -1512,9 +1512,9 @@ eT& vector< eT >::operator[](const size_t& idx)
  */
 template< typename eT >
 inline
-constexpr eT& vector< eT >::operator[](const size_t& idx) const
+const eT& vector< eT >::operator[](const size_t& idx) const
 {
-    return mem[idx];
+    return access::rw(mem[idx]);
 }
 
 
@@ -1570,7 +1570,7 @@ eT& vector< eT >::operator()(const size_t& idx)
  */
 template< typename eT >
 inline
-constexpr eT& vector< eT >::operator()(const size_t& idx) const
+const eT& vector< eT >::operator()(const size_t& idx) const
 {
     return mem[idx];
 }
@@ -1637,59 +1637,7 @@ void vector< eT >::fill(const eT& s)
     }
 }
 
-/*!
- * @brief           Getter for the pointer to memory of the current vector.
- * @details         A getter for the RAM location of the memory which is underlaying
- *                  the current vector object.
- *
- * @return          Pointer to the memory location.
- */
-template< typename eT >
-inline
-eT* vector< eT >::memptr()
-{
-    return mem;
-}
 
-/*!
- * @brief           Getter for the pointer to memory of the current vector. (read-only)
- * @details         A getter for the RAM location of the memory which is underlaying
- *                  the current vector object.
- *
- * @return          A constant pointer to the memory location. (read-only)
- */
-template< typename eT >
-inline
-const eT* vector< eT >::memptr() const
-{
-    return mem;
-}
-
-/*!
- * @brief           Getter for the size of the vector.
- * @details         Returns the size of the current vector.
- *
- * @return          The size of the current vector.
- */
-template< typename eT >
-inline
-constexpr size_t vector< eT >::n_elements() const
-{
-    return size;
-}
-
-/*!
- * @brief           Getter for the type of the vector.
- * @details         Returns the type of the current vector.
- *
- * @return          The type of the current vector.
- */
-template< typename eT >
-inline
-vec_type vector< eT >::vecType() const
-{
-    return type;
-}
 
 /*!
  * @brief           Outstream operator overload.

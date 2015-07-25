@@ -1,6 +1,6 @@
 //
 //  fn_dwt.cpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 18.06.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_fn_dwt_cpp
-#define uzlmath_fn_dwt_cpp
+#ifndef UZLMathLib_fn_dwt_cpp
+#define UZLMathLib_fn_dwt_cpp
 
 #include <uzlmath>
 

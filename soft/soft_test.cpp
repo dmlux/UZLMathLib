@@ -18,8 +18,8 @@ using namespace uzlmath;
 
 complex< double > f(const double& alpha, const double& beta, const double& gamma)
 {
-    return -7.31 * wigner::wigner_D_l2normalized(2,  0,  -1, -alpha, -beta, -gamma)
-    + complex<double>(1., -9.731) * wigner::wigner_D_l2normalized(1,  0,  0, -alpha, -beta, -gamma);
+    return complex< double >(-7.31, 0     ) * wigner::wigner_D_l2normalized(2,  0,  -1, -alpha, -beta, -gamma)
+         + complex< double >(1.   , -9.731) * wigner::wigner_D_l2normalized(1,  0,  0, -alpha, -beta, -gamma);
 //        + 13 * wigner::wigner_D_l2normalized(2,  1,  0, -alpha, -beta, -gamma)
 //        - 8.423 * wigner::wigner_D_l2normalized(2,  0,  2, -alpha, -beta, -gamma)
 //        + complex<double>(1.8312, -9.8372) * wigner::wigner_D_l2normalized(2,  0,  0, -alpha, -beta, -gamma);
@@ -231,12 +231,35 @@ void for_back(unsigned int bandwidth, bool show_coefs)
     printf("Correct result: %s\n", (equal ? "Yes" : "No"));
 }
 
+template< typename T >
+inline
+static T& rw(const T& x)
+{
+    return const_cast< T& >(x);
+}
+
+struct A
+{
+    const size_t rows;
+    const size_t cols;
+    
+    A(const size_t& r, const size_t& c) : rows(r) , cols(c) {}
+};
+
 int main(int argc, const char ** argv)
 {
     //createGridSOFT(10);
 //    for_back_file("/Users/dlux/Desktop/soft_files/grid_128_samp.dat", 128, false);
 //    for_back_file("/Users/dlux/Desktop/soft_files/test_series/grid_3_test.dat", 3, true);
     for_back(128, false);
+    
+//    A a(5, 5);
+//    
+//    printf("%zu\n", a.rows);
+//    
+//    rw(a.rows) = 3;
+//    
+//    printf("%zu\n", a.rows);
     
     return 0;
 }

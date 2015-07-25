@@ -1,6 +1,6 @@
 //
 //  fn_rand_vector.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 31.05.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_fn_rand_vector_hpp
-#define uzlmath_fn_rand_vector_hpp
+#ifndef UZLMathLib_fn_rand_vector_hpp
+#define UZLMathLib_fn_rand_vector_hpp
 
 UZLMATH_BEGIN
 

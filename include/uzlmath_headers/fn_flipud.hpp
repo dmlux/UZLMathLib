@@ -37,17 +37,17 @@ auto flipud(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT >::result
     size_t j, k;
     
     // iterate over cols
-    for (k = 0; k < mat.n_cols(); ++k)
+    for (k = 0; k < mat.cols; ++k)
     {
         // iterate over half of rows: Since the matrix is in column major order
         // in memory this is important to get maximum speed!
-        for (j = 0; j < mat.n_rows() / 2; ++j)
+        for (j = 0; j < mat.rows / 2; ++j)
         {
             // temporary element copy
             eT tmp = mat(j, k);
             // swap elements
-            mat(j, k)                    = mat(mat.n_rows() - j - 1, k);
-            mat(mat.n_rows() - j - 1, k) = tmp;
+            mat(j, k)                = mat(mat.rows - j - 1, k);
+            mat(mat.rows - j - 1, k) = tmp;
         }
     }
 }
@@ -78,11 +78,11 @@ auto flipud_ne2ndecol(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT 
     size_t j, k;
     
     // iterate over cols
-    for (k = 0; k < mat.n_cols(); ++k)
+    for (k = 0; k < mat.cols; ++k)
     {
         // iterate over half of rows: Since the matrix is in column major order
         // in memory this is important to get maximum speed!
-        for (j = 0; j < mat.n_rows() / 2; ++j)
+        for (j = 0; j < mat.rows / 2; ++j)
         {
             // temporary element copy
             eT tmp = mat(j, k);
@@ -90,13 +90,13 @@ auto flipud_ne2ndecol(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT 
             // swap elements
             if (k & 1)
             {
-                mat(j, k)                    = mat(mat.n_rows() - j - 1, k);
-                mat(mat.n_rows() - j - 1, k) = tmp;
+                mat(j, k)                = mat(mat.rows - j - 1, k);
+                mat(mat.rows - j - 1, k) = tmp;
             }
             else
             {
-                mat(j, k)                    = -mat(mat.n_rows() - j - 1, k);
-                mat(mat.n_rows() - j - 1, k) = -tmp;
+                mat(j, k)                = -mat(mat.rows - j - 1, k);
+                mat(mat.rows - j - 1, k) = -tmp;
             }
         }
     }
@@ -128,11 +128,11 @@ auto flipud_ne2ndocol(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT 
     size_t j, k;
     
     // iterate over cols
-    for (k = 0; k < mat.n_cols(); ++k)
+    for (k = 0; k < mat.cols; ++k)
     {
         // iterate over half of rows: Since the matrix is in column major order
         // in memory this is important to get maximum speed!
-        for (j = 0; j < mat.n_rows() / 2; ++j)
+        for (j = 0; j < mat.rows / 2; ++j)
         {
             // temporary element copy
             eT tmp = mat(j, k);
@@ -140,13 +140,13 @@ auto flipud_ne2ndocol(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT 
             // swap elements
             if (k & 1)
             {
-                mat(j, k)                    = -mat(mat.n_rows() - j - 1, k);
-                mat(mat.n_rows() - j - 1, k) = -tmp;
+                mat(j, k)                = -mat(mat.rows - j - 1, k);
+                mat(mat.rows - j - 1, k) = -tmp;
             }
             else
             {
-                mat(j, k)                    = mat(mat.n_rows() - j - 1, k);
-                mat(mat.n_rows() - j - 1, k) = tmp;
+                mat(j, k)                = mat(mat.rows - j - 1, k);
+                mat(mat.rows - j - 1, k) = tmp;
             }
         }
     }

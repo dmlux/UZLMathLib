@@ -1,6 +1,6 @@
 //
 //  vector_dec.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 05.05.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_vector_dec_hpp
-#define uzlmath_vector_dec_hpp
+#ifndef UZLMathLib_vector_dec_hpp
+#define UZLMathLib_vector_dec_hpp
 
 UZLMATH_BEGIN
 
@@ -39,20 +39,16 @@ UZLMATH_BEGIN
 template< typename eT >
 class vector
 {
-private:
-    
-    size_t   size;  //!< size of vector
-    vec_type type;  //!< type of vector
-    
-    size_t   inj;   //!< Index for injection
-    
-    eT* mem;        //!< vector data
-    
-    // Friend classes to grant member access
-    template< typename F > friend class vector;
-    template< typename F > friend class matrix;
+    size_t   inj;         //!< Index for injection
     
 public:
+    // ivars
+    const size_t   size;  //!< size of vector
+    const vec_type type;  //!< type of vector
+    
+    const eT* mem;        //!< vector data
+    
+    // methods
     inline                               vector();
     inline                               vector(const size_t& s, const vec_type& t = vec_type::ROW);
     inline                               vector(const size_t& s, const eT& initial, const vec_type& t = vec_type::ROW /*! default type */);
@@ -112,21 +108,15 @@ public:
     inline       bool                    operator<=(const vector< eT >& v);
     
     inline       eT&                     operator[](const size_t& idx);
-    inline constexpr eT&                 operator[](const size_t& idx) const;
+    inline const eT&                     operator[](const size_t& idx) const;
     
     inline       eT&                     operator()(const size_t& idx);
-    inline constexpr eT&                 operator()(const size_t& idx) const;
+    inline const eT&                     operator()(const size_t& idx) const;
     
     inline       void                    ones();
     inline       void                    zeros();
     inline       void                    transpose();
     inline       void                    fill(const eT& s);
-    
-    inline       eT*                     memptr();
-    inline const eT*                     memptr() const;
-    
-    inline constexpr size_t              n_elements() const;
-    inline       vec_type                vecType() const;
     
 };
 

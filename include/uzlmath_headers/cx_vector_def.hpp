@@ -1,6 +1,6 @@
 //
 //  cx_vector_def.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 02.06.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_cx_vector_def_hpp
-#define uzlmath_cx_vector_def_hpp
+#ifndef UZLMathLib_cx_vector_def_hpp
+#define UZLMathLib_cx_vector_def_hpp
 
 UZLMATH_BEGIN
 
@@ -25,9 +25,9 @@ vector< complex< eT > >::vector()
 template< typename eT >
 inline
 vector< complex< eT > >::vector(const size_t& s, const vec_type& type)
-    : size(s)
+    : inj(0)
+    , size(s)
     , type(type)
-    , inj(0)
 {
     mem = new complex< eT >[s];
 }
@@ -35,15 +35,16 @@ vector< complex< eT > >::vector(const size_t& s, const vec_type& type)
 template< typename eT >
 inline
 vector< complex< eT > >::vector(const size_t& s, const eT& initial, const vec_type& type)
-    : size(s)
+    : inj(0)
+    , size(s)
     , type(type)
-    , inj(0)
 {
     mem = new complex< eT >[s];
     
     if (size > 0)
     {
-        std::fill(mem, mem + size, complex< eT >(initial, 0));
+        complex< eT >* fill_mem = const_cast< complex< eT >* >(mem);
+        std::fill(fill_mem, fill_mem + size, complex< eT >(initial, 0));
     }
 }
 
@@ -58,7 +59,8 @@ vector< complex< eT > >::vector(const size_t& s, const complex< eT >& initial, c
     
     if (size > 0)
     {
-        std::fill(mem, mem + size, initial);
+        complex< eT >* fill_mem = const_cast< complex< eT >* >(mem);
+        std::fill(fill_mem, fill_mem + size, initial);
     }
 }
 
@@ -86,7 +88,7 @@ vector< complex< eT > >::vector(const vector< complex< eT > >& vec)
     , inj(vec.inj)
 {
     mem = new complex< eT >[vec.size];
-    memcpy(mem, vec.mem, vec.size * sizeof(complex< eT >));
+    memcpy(access::rwp(mem), access::rwp(vec.mem), vec.size * sizeof(complex< eT >));
 }
 
 template< typename eT >
@@ -116,20 +118,20 @@ vector< complex< eT > >::vector(const vector< complex< eT > >& vec, const vec_ty
     
     if (size > 0)
     {
-        memcpy(mem, vec.mem, size * sizeof(complex< eT >));
+        memcpy(access::rw(mem), access::rw(vec.mem), size * sizeof(complex< eT >));
     }
 }
 
 template< typename eT >
 inline
 vector< complex< eT > >::vector(vector< complex< eT > >&& vec)
-    : size(vec.size)
+    : inj(vec.inj)
+    , size(vec.size)
     , type(vec.type)
-    , inj(vec.inj)
 {
-    complex< eT >* tmp = mem;
-    mem                = vec.mem;
-    vec.mem            = tmp;
+    const complex< eT >* tmp = mem;
+    mem                      = vec.mem;
+    vec.mem                  = tmp;
 }
 
 template< typename eT >
@@ -553,7 +555,7 @@ vector< complex< eT > > vector< complex< eT > >::operator*(const eT& s)
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        result[i] = mem[i] * complex< eT >(s, 0);
+        result[i] = const_cast< complex< double >& >(mem[i]) * complex< eT >(s, 0);
     }
     
     return result;
@@ -649,7 +651,7 @@ inline
 vector< complex< eT > > vector< complex< eT > >::operator+()
 {
     vector< complex< eT > > result(size, type);
-    memcpy(result.mem, mem, size * sizeof(complex< eT >));
+    memcpy(access::rw(mem), access::rw(result.mem), size * sizeof(complex< eT >));
     
     return result;
 }
@@ -893,7 +895,7 @@ const vector< complex< eT > >& vector< complex< eT > >::operator=(const vector< 
     
     if (size > 0)
     {
-        memcpy(mem, v.mem, size * sizeof(complex< eT >));
+        memcpy(access::rw(mem), access::rw(v.mem), size * sizeof(complex< eT >));
     }
     
     return *this;
@@ -908,12 +910,12 @@ const vector< complex< eT > >& vector< complex< eT > >::operator=(vector< comple
         return *this;
     }
     
-    size = v.size;
-    type = v.type;
+    access::rw(size) = v.size;
+    access::rw(type) = v.type;
     
-    complex< eT >* tmp = mem;
-    mem                = v.mem;
-    v.mem              = tmp;
+    const complex< eT >* tmp = mem;
+    mem                      = v.mem;
+    v.mem                    = tmp;
     
     return *this;
 }
@@ -1152,7 +1154,7 @@ const vector< complex< eT > >& vector< complex< eT > >::operator*=(const eT& s)
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        mem[i] *= complex< eT >(s, 0);
+        access::rw(mem[i]) *= complex< eT >(s, 0);
     }
     
     return *this;
@@ -1232,14 +1234,14 @@ template< typename eT >
 inline
 complex< eT >& vector< complex< eT > >::operator[](const size_t& idx)
 {
-    return mem[idx];
+    return access::rw(mem[idx]);
 }
 
 template< typename eT >
 inline
 constexpr complex< eT >& vector< complex< eT > >::operator[](const size_t& idx) const
 {
-    return mem[idx];
+    return access::rw(mem[idx]);
 }
 
 template< typename eT >
@@ -1260,14 +1262,16 @@ template< typename eT >
 inline
 void vector< complex< eT > >::ones()
 {
-    std::fill(mem, mem + size, 1);
+    complex< eT >* fill_mem = const_cast< complex< eT >* >(mem);
+    std::fill(fill_mem, fill_mem + size, complex< eT >(1, 0));
 }
 
 template< typename eT >
 inline
 void vector< complex< eT > >::zeros()
 {
-    std::fill(mem, mem + size, complex< eT >(0, 0));
+    complex< eT >* fill_mem = const_cast< complex< eT >* >(mem);
+    std::fill(fill_mem, fill_mem + size, complex< eT >(0, 0));
 }
 
 template< typename eT >
@@ -1281,36 +1285,11 @@ template< typename eT >
 inline
 void vector< complex< eT > >::fill(const eT& s)
 {
-    std::fill(mem, mem + size, complex< eT >(s, 0));
+    complex< eT >* fill_mem = const_cast< complex< eT >* >(mem);
+    std::fill(fill_mem, fill_mem + size, complex< eT >(s, 0));
 }
 
-template< typename eT >
-inline
-complex< eT >* vector< complex< eT > >::memptr()
-{
-    return mem;
-}
 
-template< typename eT >
-inline
-const complex< eT >* vector< complex< eT > >::memptr() const
-{
-    return mem;
-}
-
-template< typename eT >
-inline
-constexpr size_t vector< complex< eT > >::n_elements() const
-{
-    return size;
-}
-
-template< typename eT >
-inline
-constexpr vec_type vector< complex< eT > >::vecType() const
-{
-    return type;
-}
 
 template< typename S >
 std::ostream& operator<<(std::ostream& o, const vector< complex< S > >& v)

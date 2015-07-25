@@ -1,6 +1,6 @@
 //
-//  fn_matrix_inv.hpp
-//  uzlmath
+//  fn_inv.hpp
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 17.01.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_fn_matrix_inv_hpp
-#define uzlmath_fn_matrix_inv_hpp
+#ifndef UZLMathLib_fn_inv_hpp
+#define UZLMathLib_fn_inv_hpp
 
 UZLMATH_BEGIN
 

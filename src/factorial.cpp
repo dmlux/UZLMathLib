@@ -1,6 +1,6 @@
 //
 //  factorial.cpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 12.01.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_factorial_cpp
-#define uzlmath_factorial_cpp
+#ifndef UZLMathLib_factorial_cpp
+#define UZLMathLib_factorial_cpp
 
 #include <uzlmath>
 

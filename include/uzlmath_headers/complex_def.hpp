@@ -1,6 +1,6 @@
 //
 //  comlex_def.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 12.01.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_comlex_def_hpp
-#define uzlmath_comlex_def_hpp
+#ifndef UZLMathLib_comlex_def_hpp
+#define UZLMathLib_comlex_def_hpp
 
 UZLMATH_BEGIN
 
@@ -756,89 +756,89 @@ const complex< eT >& complex< eT >::operator/=(const T& rhs)
 /*- Additional operators -*/
 
 
-/*!
- * @brief           Multiplication operator for an non-complex value and a complex number.
- * @details         Calculates the product of an non-complex value and a complex number
- *                  by casting the non-complex to a complex number and performing the
- *                  multiplication of two complex numbers.
- *
- * @param[in]       lhs The non-complex value on the left handside of the multiplication
- *                  operator.
- * @param[in]       rhs The complex value on the right handside of the multiplication
- *                  operator.
- *
- * @return          A new complex number containing the result of the multiplication.
- *
- * @sa              complex::operator*
- */
-template<typename eT, typename T>
-complex< eT > operator*(const T& lhs, complex< eT > rhs)
-{
-    return complex< eT >(lhs, 0) * rhs;
-}
-
-/*!
- * @brief           Division operator for an non-complex value and a complex number.
- * @details         Calculates the quotient of an non-complex value and a complex number
- *                  by casting the non-complex to a complex number and performing the
- *                  division of two complex numbers.
- *
- * @param[in]       lhs The non-complex value on the left handside of the division
- *                  operator.
- * @param[in]       rhs The complex value on the right handside of the division
- *                  operator.
- *
- * @return          A new complex number containing the result of the division.
- *
- * @sa              complex::operator/
- */
-template<typename eT, typename T>
-complex< eT > operator/(const T& lhs, complex< eT > rhs)
-{
-    return complex< eT >(lhs, 0) / rhs;
-}
-
-/*!
- * @brief           Addition operator for an non-complex value and a complex number.
- * @details         Calculates the sum of an non-complex value and a complex number
- *                  by casting the non-complex to a complex number and performing the
- *                  addition of two complex numbers.
- *
- * @param[in]       lhs The non-complex value on the left handside of the addition
- *                  operator.
- * @param[in]       rhs The complex value on the right handside of the addition
- *                  operator.
- *
- * @return          A new complex number containing the result of the addition.
- *
- * @sa              complex::operator+
- */
-template<typename eT, typename T>
-complex< eT > operator+(const T& lhs, complex< eT > rhs)
-{
-    return complex< eT >(lhs, 0) + rhs;
-}
-
-/*!
- * @brief           Subtraction operator for an non-complex value and a complex number.
- * @details         Calculates the difference of an non-complex value and a complex number
- *                  by casting the non-complex to a complex number and performing the
- *                  subtraction of two complex numbers.
- *
- * @param[in]       lhs The non-complex value on the left handside of the subtraction
- *                  operator.
- * @param[in]       rhs The complex value on the right handside of the subtraction
- *                  operator.
- *
- * @return          A new complex number containing the result of the subtraction.
- *
- * @sa              complex::operator-
- */
-template<typename eT, typename T>
-complex< eT > operator-(const T& lhs, complex< eT > rhs)
-{
-    return complex< eT >(lhs, 0) - rhs;
-}
+///*!
+// * @brief           Multiplication operator for an non-complex value and a complex number.
+// * @details         Calculates the product of an non-complex value and a complex number
+// *                  by casting the non-complex to a complex number and performing the
+// *                  multiplication of two complex numbers.
+// *
+// * @param[in]       lhs The non-complex value on the left handside of the multiplication
+// *                  operator.
+// * @param[in]       rhs The complex value on the right handside of the multiplication
+// *                  operator.
+// *
+// * @return          A new complex number containing the result of the multiplication.
+// *
+// * @sa              complex::operator*
+// */
+//template<typename eT, typename T>
+//complex< eT > operator*(const T& lhs, complex< eT > rhs)
+//{
+//    return complex< eT >(lhs, 0) * rhs;
+//}
+//
+///*!
+// * @brief           Division operator for an non-complex value and a complex number.
+// * @details         Calculates the quotient of an non-complex value and a complex number
+// *                  by casting the non-complex to a complex number and performing the
+// *                  division of two complex numbers.
+// *
+// * @param[in]       lhs The non-complex value on the left handside of the division
+// *                  operator.
+// * @param[in]       rhs The complex value on the right handside of the division
+// *                  operator.
+// *
+// * @return          A new complex number containing the result of the division.
+// *
+// * @sa              complex::operator/
+// */
+//template<typename eT, typename T>
+//complex< eT > operator/(const T& lhs, complex< eT > rhs)
+//{
+//    return complex< eT >(lhs, 0) / rhs;
+//}
+//
+///*!
+// * @brief           Addition operator for an non-complex value and a complex number.
+// * @details         Calculates the sum of an non-complex value and a complex number
+// *                  by casting the non-complex to a complex number and performing the
+// *                  addition of two complex numbers.
+// *
+// * @param[in]       lhs The non-complex value on the left handside of the addition
+// *                  operator.
+// * @param[in]       rhs The complex value on the right handside of the addition
+// *                  operator.
+// *
+// * @return          A new complex number containing the result of the addition.
+// *
+// * @sa              complex::operator+
+// */
+//template<typename eT, typename T>
+//complex< eT > operator+(const T& lhs, complex< eT > rhs)
+//{
+//    return complex< eT >(lhs, 0) + rhs;
+//}
+//
+///*!
+// * @brief           Subtraction operator for an non-complex value and a complex number.
+// * @details         Calculates the difference of an non-complex value and a complex number
+// *                  by casting the non-complex to a complex number and performing the
+// *                  subtraction of two complex numbers.
+// *
+// * @param[in]       lhs The non-complex value on the left handside of the subtraction
+// *                  operator.
+// * @param[in]       rhs The complex value on the right handside of the subtraction
+// *                  operator.
+// *
+// * @return          A new complex number containing the result of the subtraction.
+// *
+// * @sa              complex::operator-
+// */
+//template<typename eT, typename T>
+//complex< eT > operator-(const T& lhs, complex< eT > rhs)
+//{
+//    return complex< eT >(lhs, 0) - rhs;
+//}
 
 /*!
  * @brief           Outstream operator overload to print the complex number in a nice

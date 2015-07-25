@@ -1,6 +1,6 @@
 //
 //  soft_fourier_coefficients.cpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 18.06.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_SOFTFourierCoefficients_cpp
-#define uzlmath_SOFTFourierCoefficients_cpp
+#ifndef UZLMathLib_SOFTFourierCoefficients_cpp
+#define UZLMathLib_SOFTFourierCoefficients_cpp
 
 #include <uzlmath>
 
@@ -76,8 +76,8 @@ complex< double >& SOFTFourierCoefficients::operator()(const int& l, const int& 
     }
     
     // if M or Mp are negative count from behind
-    size_t idx_M  = (M  >= 0 ? M  : mem[l].n_rows() + M );
-    size_t idx_Mp = (Mp >= 0 ? Mp : mem[l].n_cols() + Mp);
+    size_t idx_M  = (M  >= 0 ? M  : mem[l].rows + M );
+    size_t idx_Mp = (Mp >= 0 ? Mp : mem[l].cols + Mp);
     
     return mem[l](idx_M, idx_Mp);
 }
@@ -102,8 +102,8 @@ const complex< double >& SOFTFourierCoefficients::operator()(const int& l, const
     }
     
     // if M or Mp are negative count from behind
-    size_t idx_M  = (M  >= 0 ? M  : mem[l].n_rows() + M );
-    size_t idx_Mp = (Mp >= 0 ? Mp : mem[l].n_cols() + Mp);
+    size_t idx_M  = (M  >= 0 ? M  : mem[l].rows + M );
+    size_t idx_Mp = (Mp >= 0 ? Mp : mem[l].cols + Mp);
     
     return mem[l](idx_M, idx_Mp);
 }

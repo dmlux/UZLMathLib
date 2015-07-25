@@ -1,6 +1,6 @@
 //
 //  fn_orthopoly.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 12.01.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_fn_orthopoly_hpp
-#define uzlmath_fn_orthopoly_hpp
+#ifndef UZLMathLib_fn_orthopoly_hpp
+#define UZLMathLib_fn_orthopoly_hpp
 
 UZLMATH_NAMESPACE(orthoPoly)
 

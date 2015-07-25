@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_wrapper_cpp
-#define uzlmath_wrapper_cpp
+#ifndef UZLMathLib_wrapper_cpp
+#define UZLMathLib_wrapper_cpp
 
 /*- CBLAS/LAPACK FROM OpenBLAS  -*/
 /*- for linear Algebra puproses -*/

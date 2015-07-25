@@ -1,6 +1,6 @@
 //
 //  fn_dwt.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 03.05.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_fn_dwt_hpp
-#define uzlmath_fn_dwt_hpp
+#ifndef UZLMathLib_fn_dwt_hpp
+#define UZLMathLib_fn_dwt_hpp
 
 UZLMATH_NAMESPACE(DWT)
     

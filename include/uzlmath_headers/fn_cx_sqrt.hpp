@@ -1,6 +1,6 @@
 //
 //  fn_cx_sqrt.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 12.01.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_fn_cx_sqrt_hpp
-#define uzlmath_fn_cx_sqrt_hpp
+#ifndef UZLMathLib_fn_cx_sqrt_hpp
+#define UZLMathLib_fn_cx_sqrt_hpp
 
 UZLMATH_BEGIN
 

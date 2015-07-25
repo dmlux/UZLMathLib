@@ -1,6 +1,6 @@
 //
 //  base_def.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 21.05.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_base_def_hpp
-#define uzlmath_base_def_hpp
+#ifndef UZLMathLib_base_def_hpp
+#define UZLMathLib_base_def_hpp
 
 UZLMATH_BEGIN
 

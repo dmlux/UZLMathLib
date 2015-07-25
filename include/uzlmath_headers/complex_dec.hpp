@@ -1,6 +1,6 @@
 //
 //  comlex_dec.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 11.01.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_complex_dec_hpp
-#define uzlmath_complex_dec_hpp
+#ifndef UZLMathLib_complex_dec_hpp
+#define UZLMathLib_complex_dec_hpp
 
 UZLMATH_BEGIN
 
@@ -91,12 +91,12 @@ public:
 
 /*- Additional operators -*/
 
-template< typename eT, typename T > complex< eT >   operator*(const T& lhs, complex< eT > rhs);
-template< typename eT, typename T > complex< eT >   operator/(const T& lhs, complex< eT > rhs);
-template< typename eT, typename T > complex< eT >   operator+(const T& lhs, complex< eT > rhs);
-template< typename eT, typename T > complex< eT >   operator-(const T& lhs, complex< eT > rhs);
-
-template< typename eT >             complex< eT >   operator+(int lhs, complex< eT > rhs);
+//template< typename eT, typename T > complex< eT >   operator*(const T& lhs, complex< eT > rhs);
+//template< typename eT, typename T > complex< eT >   operator/(const T& lhs, complex< eT > rhs);
+//template< typename eT, typename T > complex< eT >   operator+(const T& lhs, complex< eT > rhs);
+//template< typename eT, typename T > complex< eT >   operator-(const T& lhs, complex< eT > rhs);
+//
+//template< typename eT >             complex< eT >   operator+(int lhs, complex< eT > rhs);
 
 /*- Outstream operator -*/
 

@@ -1,6 +1,6 @@
 //
 //  stop_watch_dec.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 13.01.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_stop_watch_dec_hpp
-#define uzlmath_stop_watch_dec_hpp
+#ifndef UZLMathLib_stop_watch_dec_hpp
+#define UZLMathLib_stop_watch_dec_hpp
 
 UZLMATH_BEGIN
 

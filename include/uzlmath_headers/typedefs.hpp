@@ -1,6 +1,6 @@
 //
 //  typedefs.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 25.05.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_typedefs_hpp
-#define uzlmath_typedefs_hpp
+#ifndef UZLMathLib_typedefs_hpp
+#define UZLMathLib_typedefs_hpp
 
 UZLMATH_BEGIN
 

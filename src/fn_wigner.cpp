@@ -1,6 +1,6 @@
 //
 //  fn_wigner.cpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 17.06.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_fn_wigner_cpp
-#define uzlmath_fn_wigner_cpp
+#ifndef UZLMathLib_fn_wigner_cpp
+#define UZLMathLib_fn_wigner_cpp
 
 #include <uzlmath>
 
@@ -271,7 +271,7 @@ auto wigner_D_l2normalized(const int& J, const int& M, const int& Mp, const doub
         return complex< double  >(0.0, 0.0);
     }
     
-    return 1.0 / (2.0 * M_PI) * sqrt((2.0 * J + 1.0) / 2.0) * wigner_D(J, M, Mp, alpha, beta, gamma);
+    return complex< double >(1.0 / (2.0 * M_PI) * sqrt((2.0 * J + 1.0) / 2.0), 0) * wigner_D(J, M, Mp, alpha, beta, gamma);
 }
 
 UZLMATH_NAMESPACE_END

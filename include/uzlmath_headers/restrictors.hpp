@@ -1,6 +1,6 @@
 //
 //  restrictors.hpp
-//  uzlath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 31.05.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlath_restrictors_hpp
-#define uzlath_restrictors_hpp
+#ifndef UZLMathLib_restrictors_hpp
+#define UZLMathLib_restrictors_hpp
 
 UZLMATH_BEGIN
 

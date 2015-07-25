@@ -1,6 +1,6 @@
 //
 //  fn_fourier_transforms.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 21.04.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_fn_fourier_transforms_hpp
-#define uzlmath_fn_fourier_transforms_hpp
+#ifndef UZLMathLib_fn_fourier_transforms_hpp
+#define UZLMathLib_fn_fourier_transforms_hpp
 
 UZLMATH_NAMESPACE(FourierTransforms)
 
@@ -157,7 +157,7 @@ auto DFT(vector< eT >& vec, complex< double > scale = complex< double >(1, 0)) -
     
     // create FFT data array
     vector< complex< double > > result(vec.n_elements(), vec.vecType());
-    double* inOut = reinterpret_cast< double* >(result.memptr());
+    double* inOut = reinterpret_cast< double* >(const_cast< complex< double >* >(result.mem));
         
     // copy vector elements and store casted values
     size_t i;

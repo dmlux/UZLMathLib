@@ -1,6 +1,6 @@
 //
 //  fn_rand_coeff.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 06.06.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_fn_rand_coeff_hpp
-#define uzlmath_fn_rand_coeff_hpp
+#ifndef UZLMathLib_fn_rand_coeff_hpp
+#define UZLMathLib_fn_rand_coeff_hpp
 
 UZLMATH_BEGIN
 

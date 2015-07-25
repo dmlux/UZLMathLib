@@ -1,6 +1,6 @@
 //
 //  fn_obj2file_soft_coeff.cpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 18.06.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef fn_obj2file_soft_coeff_cpp
-#define fn_obj2file_soft_coeff_cpp
+#ifndef UZLMathLib_fn_obj2file_soft_coeff_cpp
+#define UZLMathLib_fn_obj2file_soft_coeff_cpp
 
 #include <uzlmath>
 

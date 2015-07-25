@@ -1,13 +1,15 @@
 //
 //  fn_rand_matrix.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 01.06.15.
 //
+//  This software may be modified and distributed under the terms
+//  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_fn_rand_matrix_hpp
-#define uzlmath_fn_rand_matrix_hpp
+#ifndef UZLMathLib_fn_rand_matrix_hpp
+#define UZLMathLib_fn_rand_matrix_hpp
 
 UZLMATH_BEGIN
 
@@ -55,9 +57,9 @@ auto randi(matrix< eT >& mat, const int& min, const int& max) -> typename uzl_vo
     
     // fill vector with random integers
     size_t i, j;
-    for (i = 0; i < mat.n_rows(); ++i)
+    for (i = 0; i < mat.rows; ++i)
     {
-        for (j = 0; j < mat.n_cols(); ++j)
+        for (j = 0; j < mat.cols; ++j)
         {
             mat(i, j) = d(e);
         }
@@ -108,9 +110,9 @@ auto randi(matrix< complex< eT > >& mat, const int& min, const int& max) -> type
     
     // fill vector with random complex integers
     size_t i, j;
-    for (i = 0; i < mat.n_rows(); ++i)
+    for (i = 0; i < mat.rows; ++i)
     {
-        for (j = 0; j < mat.n_cols(); ++j)
+        for (j = 0; j < mat.cols; ++j)
         {
             mat(i, j).re = d(e);
             mat(i, j).im = d(e);
@@ -164,9 +166,9 @@ auto rand(matrix< eT >& mat, const double& min, const double& max) -> typename u
     
     // fill vector with randoms
     size_t i, j;
-    for (i = 0; i < mat.n_rows(); ++i)
+    for (i = 0; i < mat.rows; ++i)
     {
-        for (j = 0; j < mat.n_cols(); ++j)
+        for (j = 0; j < mat.cols; ++j)
         {
             mat(i, j) = d(e);
         }
@@ -219,9 +221,9 @@ auto rand(matrix< complex< eT > >& mat, const double& min, const double& max) ->
     
     // fill vector with randoms
     size_t i, j;
-    for (i = 0; i < mat.n_rows(); ++i)
+    for (i = 0; i < mat.rows; ++i)
     {
-        for (j = 0; j < mat.n_cols(); ++j)
+        for (j = 0; j < mat.cols; ++j)
         {
             mat(i, j).re = d(e);
             mat(i, j).im = d(e);

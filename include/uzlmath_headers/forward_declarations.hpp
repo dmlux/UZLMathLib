@@ -1,6 +1,6 @@
 //
 //  forward_declarations.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 25.05.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_forward_declarations_hpp
-#define uzlmath_forward_declarations_hpp
+#ifndef UZLMathLib_forward_declarations_hpp
+#define UZLMathLib_forward_declarations_hpp
 
 UZLMATH_BEGIN
 
@@ -26,6 +26,8 @@ template< typename eT >                 class  vector< complex< eT > >;
 template< typename eT >                 class  grid3D;
 
 template< typename eT >                 class  memory;
+
+                                        class  access;
 
                                         class  factorial;
                                         class  stopwatch;

@@ -1,6 +1,6 @@
 //
 //  fn_fliplr.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 16.06.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_fn_fliplr_hpp
-#define uzlmath_fn_fliplr_hpp
+#ifndef UZLMathLib_fn_fliplr_hpp
+#define UZLMathLib_fn_fliplr_hpp
 
 UZLMATH_BEGIN
 
@@ -37,18 +37,18 @@ auto fliplr(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT >::result
     size_t j, k;
     
     // iterate over half of columns
-    for (j = 0; j < mat.n_cols() / 2; ++j)
+    for (j = 0; j < mat.cols / 2; ++j)
     {
         // iterate over rows: Since the matrix is in column major order
         // in memory this is important to get maximum speed!
-        for (k = 0; k < mat.n_rows(); ++k)
+        for (k = 0; k < mat.rows; ++k)
         {
             // temporary element copy
             eT tmp = mat(k, j);
             
             // swap elements
-            mat(k, j)                    = mat(k, mat.n_cols() - j - 1);
-            mat(k, mat.n_cols() - j - 1) = tmp;
+            mat(k, j)                = mat(k, mat.cols - j - 1);
+            mat(k, mat.cols - j - 1) = tmp;
         }
     }
 }
@@ -79,11 +79,11 @@ auto fliplr_ne2nderow(matrix< eT >& mat) -> typename uzl_void_real_num_only<eT>:
     size_t j, k;
     
     // iterate over half of columns
-    for (j = 0; j < mat.n_cols() / 2; ++j)
+    for (j = 0; j < mat.cols / 2; ++j)
     {
         // iterate over rows: Since the matrix is in column major order
         // in memory this is important to get maximum speed!
-        for (k = 0; k < mat.n_rows(); ++k)
+        for (k = 0; k < mat.rows; ++k)
         {
             // temporary element copy
             eT tmp = mat(k, j);
@@ -91,13 +91,13 @@ auto fliplr_ne2nderow(matrix< eT >& mat) -> typename uzl_void_real_num_only<eT>:
             // swap elements
             if (k & 1)
             {
-                mat(k, j)                    = mat(k, mat.n_cols() - j - 1);
-                mat(k, mat.n_cols() - j - 1) = tmp;
+                mat(k, j)                = mat(k, mat.cols - j - 1);
+                mat(k, mat.cols - j - 1) = tmp;
             }
             else
             {
-                mat(k, j)                    = -mat(k, mat.n_cols() - j - 1);
-                mat(k, mat.n_cols() - j - 1) = -tmp;
+                mat(k, j)                = -mat(k, mat.cols - j - 1);
+                mat(k, mat.cols - j - 1) = -tmp;
             }
         }
     }
@@ -129,11 +129,11 @@ auto fliplr_ne2ndorow(matrix< eT >& mat) -> typename uzl_void_real_num_only<eT>:
     size_t j, k;
     
     // iterate over half of columns
-    for (j = 0; j < mat.n_cols() / 2; ++j)
+    for (j = 0; j < mat.cols / 2; ++j)
     {
         // iterate over rows: Since the matrix is in column major order
         // in memory this is important to get maximum speed!
-        for (k = 0; k < mat.n_rows(); ++k)
+        for (k = 0; k < mat.rows; ++k)
         {
             // temporary element copy
             eT tmp = mat(k, j);
@@ -141,13 +141,13 @@ auto fliplr_ne2ndorow(matrix< eT >& mat) -> typename uzl_void_real_num_only<eT>:
             // swap elements
             if (k & 1)
             {
-                mat(k, j)                    = -mat(k, mat.n_cols() - j - 1);
-                mat(k, mat.n_cols() - j - 1) = -tmp;
+                mat(k, j)                = -mat(k, mat.cols - j - 1);
+                mat(k, mat.cols - j - 1) = -tmp;
             }
             else
             {
-                mat(k, j)                    = mat(k, mat.n_cols() - j - 1);
-                mat(k, mat.n_cols() - j - 1) = tmp;
+                mat(k, j)                = mat(k, mat.cols - j - 1);
+                mat(k, mat.cols - j - 1) = tmp;
             }
         }
     }

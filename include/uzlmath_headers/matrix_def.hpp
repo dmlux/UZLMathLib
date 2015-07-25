@@ -1,6 +1,6 @@
 //
 //  matrix_def.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 13.01.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_matrix_tpl_def_hpp
-#define uzlmath_matrix_tpl_def_hpp
+#ifndef UZLMathLib_matrix_def_hpp
+#define UZLMathLib_matrix_def_hpp
 
 UZLMATH_BEGIN
 
@@ -21,10 +21,10 @@ UZLMATH_BEGIN
 template< typename eT >
 inline
 matrix< eT >::matrix()
-    : rows(0)
-    , cols(0)
-    , r_inj(0)
+    : r_inj(0)
     , c_inj(0)
+    , rows(0)
+    , cols(0)
     , mem(nullptr)
 {}
 
@@ -52,10 +52,10 @@ matrix< eT >::~matrix()
 template< typename eT >
 inline
 matrix< eT >::matrix(const size_t& m, const size_t& n)
-    : rows(m)
-    , cols(n)
-    , r_inj(0)
+    : r_inj(0)
     , c_inj(0)
+    , rows(m)
+    , cols(n)
 {
     size_t cap  = m * n;
     mem         = new eT[cap];
@@ -93,10 +93,10 @@ matrix< eT >::matrix(const size_t& mn)
 template< typename eT >
 inline
 matrix< eT >::matrix(const size_t& m, const size_t& n, const eT& initial)
-    : rows(m)
-    , cols(n)
-    , r_inj(0)
+    : r_inj(0)
     , c_inj(0)
+    , rows(m)
+    , cols(n)
 {
     size_t cap  = m * n;
     mem         = new eT[cap];
@@ -106,11 +106,11 @@ matrix< eT >::matrix(const size_t& m, const size_t& n, const eT& initial)
         if (initial == 0 || initial == -1)
         {
             // fastest possible assembler routine
-            memset(mem, initial, cap * sizeof(eT));
+            memset(access::rwp(mem), initial, cap * sizeof(eT));
         }
         else
         {
-            std::fill(mem, mem + cap, initial);
+            std::fill(access::rwp(mem), access::rwp(mem) + cap, initial);
         }
     }
 }
@@ -128,6 +128,10 @@ template< typename eT >
 template< typename T1, typename T2 >
 inline
 matrix< eT >::matrix(const glue< T1, T2 >& X)
+    : r_inj(0)
+    , c_inj(0)
+    , rows(0)
+    , cols(0)
 {
     // get number of matrices in the BET
     size_t N = 1 + depth_lhs< glue< T1, T2 > >::num;
@@ -151,8 +155,8 @@ matrix< eT >::matrix(const glue< T1, T2 >& X)
     }
     
     mem  = new eT[r * c];
-    rows = r;
-    cols = c;
+    access::rw(rows) = r;
+    access::rw(cols) = c;
     
     for (i = 0; i < r * c; ++i)
     {
@@ -163,7 +167,7 @@ matrix< eT >::matrix(const glue< T1, T2 >& X)
             sum += static_cast< eT >(ptrs[j]->mem[i]);
         }
         
-        mem[i] = sum;
+        access::rw(mem[i]) = sum;
     }
 }
 
@@ -177,17 +181,17 @@ matrix< eT >::matrix(const glue< T1, T2 >& X)
 template< typename eT >
 inline
 matrix< eT >::matrix(const matrix< eT >& A)
-    : rows(A.rows)
-    , cols(A.cols)
-    , r_inj(A.r_inj)
+    : r_inj(A.r_inj)
     , c_inj(A.c_inj)
+    , rows(A.rows)
+    , cols(A.cols)
 {
     size_t cap  = rows * cols;
     mem         = new eT[cap];
     
     if (cap > 0)
     {
-        memcpy(mem, A.mem, cap * sizeof(eT));
+        memcpy(access::rwp(mem), access::rwp(A.mem), cap * sizeof(eT));
     }
 }
 
@@ -204,14 +208,14 @@ matrix< eT >::matrix(const matrix< eT >& A)
 template< typename eT >
 inline
 matrix< eT >::matrix(matrix< eT >&& A)
-    : rows(A.rows)
-    , cols(A.cols)
-    , r_inj(A.r_inj)
+    : r_inj(A.r_inj)
     , c_inj(A.c_inj)
+    , rows(A.rows)
+    , cols(A.cols)
 {
-    eT* tmp = mem;
-    mem     = A.mem;
-    A.mem   = tmp;
+    const eT* tmp = mem;
+    mem           = A.mem;
+    A.mem         = tmp;
 }
 
 
@@ -320,7 +324,7 @@ matrix< eT > matrix< eT >::operator*(const matrix< eT >& A)
         
         for (i = 0; i < cap_c; ++i)
         {
-            result.mem[i] = static_cast< eT >(C[i]);
+            access::rw(result.mem[i]) = static_cast< eT >(C[i]);
         }
         
         delete [] tmp_mem;
@@ -330,9 +334,9 @@ matrix< eT > matrix< eT >::operator*(const matrix< eT >& A)
     else if (is_float< eT >::value == true)
     {
         // Treat pointers as float pointers.
-        float* A_mem_ptr = reinterpret_cast< float* >(mem);
-        float* B_mem_ptr = reinterpret_cast< float* >(A.mem);
-        float* C_mem_ptr = reinterpret_cast< float* >(result.mem);
+        float* A_mem_ptr = reinterpret_cast< float* >(access::rwp(mem));
+        float* B_mem_ptr = reinterpret_cast< float* >(access::rwp(A.mem));
+        float* C_mem_ptr = reinterpret_cast< float* >(access::rwp(result.mem));
         
         uzl_blas_sgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, 1.0,
                       A_mem_ptr, rows, B_mem_ptr, A.rows, 0.0, C_mem_ptr, n_rows);
@@ -340,9 +344,9 @@ matrix< eT > matrix< eT >::operator*(const matrix< eT >& A)
     else if (is_double< eT >::value == true)
     {
         // Treat pointers as double pointers.
-        double* A_mem_ptr = reinterpret_cast< double* >(mem);
-        double* B_mem_ptr = reinterpret_cast< double* >(A.mem);
-        double* C_mem_ptr = reinterpret_cast< double* >(result.mem);
+        double* A_mem_ptr = reinterpret_cast< double* >(access::rwp(mem));
+        double* B_mem_ptr = reinterpret_cast< double* >(access::rwp(A.mem));
+        double* C_mem_ptr = reinterpret_cast< double* >(access::rwp(result.mem));
         
         uzl_blas_dgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, 1.0,
                       A_mem_ptr, rows, B_mem_ptr, A.rows, 0.0, C_mem_ptr, n_rows);
@@ -370,7 +374,7 @@ matrix< eT > matrix< eT >::operator*(const matrix< eT >& A)
         size_t cap_c    = n_rows * n_cols;
         for (i = 0; i < cap_c; ++i)
         {
-            result.mem[i] = static_cast< eT >(C[i]);
+            access::rw(result.mem[i]) = static_cast< eT >(C[i]);
         }
         
         delete [] tmp_mem;
@@ -644,12 +648,12 @@ const matrix< eT >&  matrix< eT >::operator=(matrix< eT >&& A)
         return *this;
     }
     
-    rows = A.rows;
-    cols = A.cols;
+    access::rw(rows) = A.rows;
+    access::rw(cols) = A.cols;
     
-    eT* tmp = mem;
-    mem     = A.mem;
-    A.mem   = tmp;
+    const eT* tmp = mem;
+    mem           = A.mem;
+    A.mem         = tmp;
     
     return *this;
 }
@@ -1084,7 +1088,7 @@ matrix< eT > matrix< eT >::operator*(const eT& rhs)
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
     {
-        C.mem[i] = mem[i] * rhs;
+        access::rw(C.mem[i]) = mem[i] * rhs;
     }
     
     return C;
@@ -1355,7 +1359,7 @@ vector< complex< eT > > matrix< eT >::operator*(const vector< complex< eT > >& v
     {
         for (j = 0; j < rows; ++j)
         {
-            result[j] += mem[i * rows + j] * v[i];
+            result[j] += complex< eT >(mem[i * rows + j], 0) * v[i];
         }
     }
     
@@ -1482,7 +1486,7 @@ inline
 matrix< eT >& matrix< eT >::operator<<(const eT& val)
 {
     // fill matrix with value
-    mem[c_inj * rows + r_inj] = val;
+    access::rw(mem[c_inj * rows + r_inj]) = val;
     
     // adjust injection idices if out of bounds
     c_inj++;
@@ -1533,7 +1537,7 @@ template< typename eT >
 inline
 eT& matrix< eT >::operator()(const size_t& i, const size_t& j)
 {
-    return mem[j * rows + i];
+    return access::rw(mem[j * rows + i]);
 }
 
 /*!
@@ -1548,7 +1552,7 @@ eT& matrix< eT >::operator()(const size_t& i, const size_t& j)
  */
 template< typename eT >
 inline
-constexpr eT& matrix< eT >::operator()(const size_t& i, const size_t& j) const
+const eT& matrix< eT >::operator()(const size_t& i, const size_t& j) const
 {
     return mem[j * rows + i];
 }
@@ -1642,9 +1646,9 @@ void matrix< eT >::transpose()
     }
     
     delete [] mem;
-    rows = tmp_r;
-    cols = tmp_c;
-    mem  = tmp_mem;
+    access::rw(rows) = tmp_r;
+    access::rw(cols) = tmp_c;
+    mem              = tmp_mem;
 }
 
 /*!
@@ -1744,61 +1748,6 @@ const double matrix< eT >::determinant()
     }
     
     return det;
-}
-
-/*!
- * @brief           Getter for the number of rows
- * @details         Returning the number of rows of the current matrix
- *
- * @return          The number of rows
- */
-template< typename eT >
-inline
-constexpr size_t matrix< eT >::n_rows() const
-{
-    return rows;
-}
-
-/*!
- * @brief           Getter for the number of columns
- * @details         Returning the number of rows of the current matrix
- *
- * @return          The number of columns
- */
-template< typename eT >
-inline
-constexpr size_t matrix< eT >::n_cols() const
-{
-    return cols;
-}
-
-/*!
- * @brief           Getter for the allocated memory of the current matrix
- * @details         Returning the pointer to the dynamic allocated memory of the
- *                  current matrix
- *
- * @return          The pointer to the allocated memory
- */
-template< typename eT >
-inline
-eT* matrix< eT >::memptr()
-{
-    return mem;
-}
-
-/*!
- * @brief           Getter for allocated memory by a constant reference
- * @details         Returning the pointer to the dynamic allocated memory of the
- *                  current matrix
- *
- * @return          The constant pointer to the allocated memory
- *
- */
-template< typename eT >
-inline
-const eT* matrix< eT >::memptr() const
-{
-    return mem;
 }
 
 /*!

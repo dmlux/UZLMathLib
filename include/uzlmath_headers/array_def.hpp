@@ -1,6 +1,6 @@
 //
 //  array_def.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 29.05.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_array_def_hpp
-#define uzlmath_array_def_hpp
+#ifndef UZLMathLib_array_def_hpp
+#define UZLMathLib_array_def_hpp
 
 UZLMATH_BEGIN
 

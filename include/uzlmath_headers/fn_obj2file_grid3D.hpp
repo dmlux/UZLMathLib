@@ -1,6 +1,6 @@
 //
 //  fn_obj2file_grid3D.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 16.06.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_fn_to_file_grid3D_hpp
-#define uzlmath_fn_to_file_grid3D_hpp
+#ifndef UZLMathLib_fn_obj2file_grid3D_hpp
+#define UZLMathLib_fn_obj2file_grid3D_hpp
 
 UZLMATH_BEGIN
 

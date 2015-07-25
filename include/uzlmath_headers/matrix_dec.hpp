@@ -1,6 +1,6 @@
 //
 //  matrix_dec.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 13.01.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_matrix_dec_hpp
-#define uzlmath_matrix_dec_hpp
+#ifndef UZLMathLib_matrix_dec_hpp
+#define UZLMathLib_matrix_dec_hpp
 
 UZLMATH_BEGIN
 
@@ -43,19 +43,17 @@ UZLMATH_BEGIN
 template< typename eT >
 class matrix : public base< matrix< eT > > // use static polymorphism
 {
-    size_t rows;                //!< Number of matrix rows
-    size_t cols;                //!< Number of matrix columns
-    
-    size_t r_inj;               //!< Row injection index
-    size_t c_inj;               //!< Column injection index
-    
-    eT* mem;                    //!< Matrix memory
-    
-    // Friend classes to grant member access
-    template< typename F > friend class matrix;
-    template< typename F > friend class vector;
+    size_t r_inj;       //!< Row injection index
+    size_t c_inj;       //!< Column injection index
     
 public:
+    // ivars
+    const size_t rows;  //!< Number of matrix rows
+    const size_t cols;  //!< Number of matrix columns
+    
+    const eT* mem;      //!< Matrix memory
+    
+    // methods
     inline                                         ~matrix();
     inline                                          matrix();
     
@@ -125,7 +123,7 @@ public:
     inline       matrix< eT >&                      operator<<(const mat& T);
     
     inline       eT&                                operator()(const size_t& i, const size_t& j);
-    inline constexpr eT&                            operator()(const size_t& i, const size_t& j) const;
+    inline const eT&                                operator()(const size_t& i, const size_t& j) const;
     
     inline       void                               zeros();
     inline       void                               ones();
@@ -134,11 +132,6 @@ public:
     inline       void                               fill(const eT& value);
     inline       void                               diag(const eT& val);
     inline       void                               diag(const vector< eT >& vec);
-    
-    inline constexpr size_t                         n_rows() const;
-    inline constexpr size_t                         n_cols() const;
-    inline       eT*                                memptr();
-    inline const eT*                                memptr() const;
     
     inline const double                             determinant();
 };

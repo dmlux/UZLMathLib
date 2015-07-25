@@ -1,13 +1,15 @@
 //
 //  cx_grid3D_dec.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 08.06.15.
 //
+//  This software may be modified and distributed under the terms
+//  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_cx_grid3D_dec_hpp
-#define uzlmath_cx_grid3D_dec_hpp
+#ifndef UZLMathLib_cx_grid3D_dec_hpp
+#define UZLMathLib_cx_grid3D_dec_hpp
 
 UZLMATH_BEGIN
 

@@ -10,9 +10,9 @@ TEST(MatrixTest, DefConstructor)
     matrix< double > A;
     
     // check if ivars are initialized correct
-    ASSERT_EQ(A.n_cols(), 0);
-    ASSERT_EQ(A.n_cols(), 0);
-    ASSERT_EQ(A.memptr(), nullptr);
+    ASSERT_EQ(A.cols, 0);
+    ASSERT_EQ(A.cols, 0);
+    ASSERT_EQ(A.mem, nullptr);
 }
 
 // Tests if the constructor for creating a matrix of size mxn
@@ -26,9 +26,9 @@ TEST(MatrixTest, M_N_Constructor)
     matrix< double > A(m, n);
     
     // check if ivars are initialized correct
-    ASSERT_EQ(A.n_rows(), m);
-    ASSERT_EQ(A.n_cols(), n);
-    ASSERT_NE(A.memptr(), nullptr);
+    ASSERT_EQ(A.rows, m);
+    ASSERT_EQ(A.cols, n);
+    ASSERT_NE(A.mem, nullptr);
 }
 
 // Tests if the constructor for creating a square matrix works
@@ -40,10 +40,10 @@ TEST(MatrixTest, MN_Constructor)
     
     matrix< double > A(mn, mn);
     
-    ASSERT_EQ(A.n_rows(), mn);
-    ASSERT_EQ(A.n_cols(), mn);
-    ASSERT_EQ(A.n_cols(), A.n_rows());
-    ASSERT_NE(A.memptr(), nullptr);
+    ASSERT_EQ(A.rows, mn);
+    ASSERT_EQ(A.cols, mn);
+    ASSERT_EQ(A.cols, A.rows);
+    ASSERT_NE(A.mem, nullptr);
 }
 
 // Tests if the constructor with initializing values works
@@ -61,14 +61,14 @@ TEST(MatrixTest, M_N_init_Constructor)
     matrix< eT > A(m, n, initial);
     
     // check bounds
-    ASSERT_EQ(A.n_rows(), m);
-    ASSERT_EQ(A.n_cols(), n);
-    ASSERT_NE(A.memptr(), nullptr);
+    ASSERT_EQ(A.rows, m);
+    ASSERT_EQ(A.cols, n);
+    ASSERT_NE(A.mem, nullptr);
     
     // check values
     for (size_t i = 0; i < m * n; ++i)
     {
-        ASSERT_EQ(A.memptr()[i], initial);
+        ASSERT_EQ(A.mem[i], initial);
     }
 }
 
@@ -85,21 +85,21 @@ TEST(MatrixTest, CopyConstructor)
     srand(0);
     for (size_t i = 0; i < m * n; ++i)
     {
-        A.memptr()[i] = (static_cast< double >(rand()) / (RAND_MAX));
+        access::rw(A.mem[i]) = (static_cast< double >(rand()) / (RAND_MAX));
     }
     
     // create matrix via copy constructor
     matrix< double > B(A);
     
     // check ivars and properties
-    ASSERT_EQ(B.n_rows(), m);
-    ASSERT_EQ(B.n_cols(), n);
-    ASSERT_NE(B.memptr(), nullptr);
+    ASSERT_EQ(B.rows, m);
+    ASSERT_EQ(B.cols, n);
+    ASSERT_NE(B.mem, nullptr);
     
     // check values
     for (size_t i = 0; i < m * n; ++i)
     {
-        ASSERT_EQ(A.memptr()[i], B.memptr()[i]);
+        ASSERT_EQ(A.mem[i], B.mem[i]);
     }
 }
 
@@ -115,22 +115,22 @@ TEST(MatrixTest, MoveConstructor)
     srand(0);
     for (size_t i = 0; i < mn * mn; ++i)
     {
-        A.memptr()[i] = (static_cast< double >(rand()) / (RAND_MAX));
-        B.memptr()[i] = (static_cast< double >(rand()) / (RAND_MAX));
+        access::rw(A.mem[i]) = (static_cast< double >(rand()) / (RAND_MAX));
+        access::rw(B.mem[i]) = (static_cast< double >(rand()) / (RAND_MAX));
     }
     
     // create matrix via assignment and move constructor
     matrix< double > C = A + B;
     
     // check ivars and properties
-    ASSERT_EQ(C.n_rows(), mn);
-    ASSERT_EQ(C.n_cols(), mn);
-    ASSERT_NE(C.memptr(), nullptr);
+    ASSERT_EQ(C.rows, mn);
+    ASSERT_EQ(C.cols, mn);
+    ASSERT_NE(C.mem, nullptr);
     
     // check values
     for (size_t i = 0; i < mn * mn; ++i)
     {
-        ASSERT_EQ(C.memptr()[i], A.memptr()[i] + B.memptr()[i]);
+        ASSERT_EQ(C.mem[i], A.mem[i] + B.mem[i]);
     }
 }
 
@@ -151,24 +151,24 @@ TEST(MatrixTest, MatMatPlusOp)
     // with four matrices
     matrix< double > F = A + B + C + D;
     
-    ASSERT_EQ(D.n_cols(), mn);
-    ASSERT_EQ(D.n_rows(), mn);
-    ASSERT_NE(D.memptr(), nullptr);
+    ASSERT_EQ(D.cols, mn);
+    ASSERT_EQ(D.rows, mn);
+    ASSERT_NE(D.mem, nullptr);
     
-    ASSERT_EQ(E.n_cols(), mn);
-    ASSERT_EQ(E.n_rows(), mn);
-    ASSERT_NE(E.memptr(), nullptr);
+    ASSERT_EQ(E.cols, mn);
+    ASSERT_EQ(E.rows, mn);
+    ASSERT_NE(E.mem, nullptr);
     
-    ASSERT_EQ(F.n_cols(), mn);
-    ASSERT_EQ(F.n_rows(), mn);
-    ASSERT_NE(F.memptr(), nullptr);
+    ASSERT_EQ(F.cols, mn);
+    ASSERT_EQ(F.rows, mn);
+    ASSERT_NE(F.mem, nullptr);
     
     // Check values
     for (size_t i = 0; i < mn * mn; ++i)
     {
-        ASSERT_EQ(D.memptr()[i], 3);
-        ASSERT_EQ(E.memptr()[i], 6);
-        ASSERT_EQ(F.memptr()[i], 9);
+        ASSERT_EQ(D.mem[i], 3);
+        ASSERT_EQ(E.mem[i], 6);
+        ASSERT_EQ(F.mem[i], 9);
     }
     
     // check if unsquare shape has same result
@@ -186,24 +186,24 @@ TEST(MatrixTest, MatMatPlusOp)
     // with four matrices
     matrix< double > FF = AA + BB + CC + DD;
     
-    ASSERT_EQ(DD.n_rows(), m1);
-    ASSERT_EQ(DD.n_cols(), n1);
-    ASSERT_NE(DD.memptr(), nullptr);
+    ASSERT_EQ(DD.rows, m1);
+    ASSERT_EQ(DD.cols, n1);
+    ASSERT_NE(DD.mem, nullptr);
     
-    ASSERT_EQ(EE.n_rows(), m1);
-    ASSERT_EQ(EE.n_cols(), n1);
-    ASSERT_NE(FF.memptr(), nullptr);
+    ASSERT_EQ(EE.rows, m1);
+    ASSERT_EQ(EE.cols, n1);
+    ASSERT_NE(FF.mem, nullptr);
     
-    ASSERT_EQ(FF.n_rows(), m1);
-    ASSERT_EQ(FF.n_cols(), n1);
-    ASSERT_NE(FF.memptr(), nullptr);
+    ASSERT_EQ(FF.rows, m1);
+    ASSERT_EQ(FF.cols, n1);
+    ASSERT_NE(FF.mem, nullptr);
     
     // Check values
     for (size_t i = 0; i < m1 * n1; ++i)
     {
-        ASSERT_EQ(DD.memptr()[i], 3);
-        ASSERT_EQ(EE.memptr()[i], 6);
-        ASSERT_EQ(FF.memptr()[i], 9);
+        ASSERT_EQ(DD.mem[i], 3);
+        ASSERT_EQ(EE.mem[i], 6);
+        ASSERT_EQ(FF.mem[i], 9);
     }
     
     size_t m2 = 5;
@@ -220,24 +220,24 @@ TEST(MatrixTest, MatMatPlusOp)
     // with four matrices
     matrix< double > FFF = AAA + BBB + CCC + DDD;
     
-    ASSERT_EQ(DDD.n_rows(), m2);
-    ASSERT_EQ(DDD.n_cols(), n2);
-    ASSERT_NE(DDD.memptr(), nullptr);
+    ASSERT_EQ(DDD.rows, m2);
+    ASSERT_EQ(DDD.cols, n2);
+    ASSERT_NE(DDD.mem, nullptr);
     
-    ASSERT_EQ(EEE.n_rows(), m2);
-    ASSERT_EQ(EEE.n_cols(), n2);
-    ASSERT_NE(FFF.memptr(), nullptr);
+    ASSERT_EQ(EEE.rows, m2);
+    ASSERT_EQ(EEE.cols, n2);
+    ASSERT_NE(FFF.mem, nullptr);
     
-    ASSERT_EQ(FFF.n_rows(), m2);
-    ASSERT_EQ(FFF.n_cols(), n2);
-    ASSERT_NE(FFF.memptr(), nullptr);
+    ASSERT_EQ(FFF.rows, m2);
+    ASSERT_EQ(FFF.cols, n2);
+    ASSERT_NE(FFF.mem, nullptr);
     
     // Check values
     for (size_t i = 0; i < m2 * n2; ++i)
     {
-        ASSERT_EQ(DDD.memptr()[i], 3);
-        ASSERT_EQ(EEE.memptr()[i], 6);
-        ASSERT_EQ(FFF.memptr()[i], 9);
+        ASSERT_EQ(DDD.mem[i], 3);
+        ASSERT_EQ(EEE.mem[i], 6);
+        ASSERT_EQ(FFF.mem[i], 9);
     }
     
     // extreme big matrix
@@ -249,7 +249,7 @@ TEST(MatrixTest, MatMatPlusOp)
     
     for (size_t i = 0; i < arb_m * arb_n; ++i)
     {
-        ASSERT_EQ(arb_C.memptr()[i], 18);
+        ASSERT_EQ(arb_C.mem[i], 18);
     }
 }
 
@@ -264,14 +264,14 @@ TEST(MatrixTest, MatMatMinusOp)
     // with two matrices
     matrix< double > C = A - B;
     
-    ASSERT_EQ(C.n_rows(), mn);
-    ASSERT_EQ(C.n_cols(), mn);
-    ASSERT_NE(C.memptr(), nullptr);
+    ASSERT_EQ(C.rows, mn);
+    ASSERT_EQ(C.cols, mn);
+    ASSERT_NE(C.mem, nullptr);
     
     // check values
     for (size_t i = 0; i < mn * mn; ++i)
     {
-        ASSERT_EQ(C.memptr()[i], 9);
+        ASSERT_EQ(C.mem[i], 9);
     }
     
     // check if unsquare matrix has same result
@@ -283,13 +283,13 @@ TEST(MatrixTest, MatMatMinusOp)
     // with two matrices
     matrix< double > CC = AA - BB;
     
-    ASSERT_EQ(CC.n_rows(), m);
-    ASSERT_EQ(CC.n_cols(), n);
-    ASSERT_NE(CC.memptr(), nullptr);
+    ASSERT_EQ(CC.rows, m);
+    ASSERT_EQ(CC.cols, n);
+    ASSERT_NE(CC.mem, nullptr);
     
     for (size_t i = 0; i < m * n; ++i)
     {
-        ASSERT_EQ(CC.memptr()[i], 9);
+        ASSERT_EQ(CC.mem[i], 9);
     }
     
     size_t m1 = 5;
@@ -300,13 +300,13 @@ TEST(MatrixTest, MatMatMinusOp)
     // with two matrices
     matrix< double > CCC = AAA - BBB;
     
-    ASSERT_EQ(CCC.n_rows(), m1);
-    ASSERT_EQ(CCC.n_cols(), n1);
-    ASSERT_NE(CCC.memptr(), nullptr);
+    ASSERT_EQ(CCC.rows, m1);
+    ASSERT_EQ(CCC.cols, n1);
+    ASSERT_NE(CCC.mem, nullptr);
     
     for (size_t i = 0; i < m1 * n1; ++i)
     {
-        ASSERT_EQ(CCC.memptr()[i], 9);
+        ASSERT_EQ(CCC.mem[i], 9);
     }
     
     // extreme big matrix
@@ -318,7 +318,7 @@ TEST(MatrixTest, MatMatMinusOp)
     
     for (size_t i = 0; i < arb_m * arb_n; ++i)
     {
-        ASSERT_EQ(arb_C.memptr()[i], 4);
+        ASSERT_EQ(arb_C.mem[i], 4);
     }
 }
 
@@ -346,9 +346,9 @@ TEST(MatrixTest, MatMatMultOp)
     matrix< double > C = A * B;
     
     // check dimensions
-    ASSERT_EQ(C.n_rows(), r);
-    ASSERT_EQ(C.n_cols(), r);
-    ASSERT_NE(C.memptr(), nullptr);
+    ASSERT_EQ(C.rows, r);
+    ASSERT_EQ(C.cols, r);
+    ASSERT_NE(C.mem, nullptr);
     
     // check values
     ASSERT_EQ(C(0, 0), 70 );
@@ -369,9 +369,9 @@ TEST(MatrixTest, MatMatMultOp)
     C = A * B;
     
     // check dimensions
-    ASSERT_EQ(C.n_rows(), c);
-    ASSERT_EQ(C.n_cols(), c);
-    ASSERT_NE(C.memptr(), nullptr);
+    ASSERT_EQ(C.rows, c);
+    ASSERT_EQ(C.cols, c);
+    ASSERT_NE(C.mem, nullptr);
     
     // check values
     ASSERT_EQ(C(0, 0), 38 );

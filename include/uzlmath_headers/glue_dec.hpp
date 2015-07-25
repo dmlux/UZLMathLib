@@ -1,6 +1,6 @@
 //
 //  glue_dec.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 20.05.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_glue_dec_hpp
-#define uzlmath_glue_dec_hpp
+#ifndef UZLMathLib_glue_dec_hpp
+#define UZLMathLib_glue_dec_hpp
 
 UZLMATH_BEGIN
 

@@ -1,6 +1,6 @@
 //
 //  grid3D_dec.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 19.05.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_grid3D_dec_hpp
-#define uzlmath_grid3D_dec_hpp
+#ifndef UZLMathLib_grid3D_dec_hpp
+#define UZLMathLib_grid3D_dec_hpp
 
 UZLMATH_BEGIN
 

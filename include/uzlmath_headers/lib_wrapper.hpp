@@ -1,6 +1,6 @@
 //
 //  blas_wrapper.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 25.05.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_blas_wrapper_hpp
-#define uzlmath_blas_wrapper_hpp
+#ifndef UZLMathLib_blas_wrapper_hpp
+#define UZLMathLib_blas_wrapper_hpp
 
 UZLMATH_BEGIN
 

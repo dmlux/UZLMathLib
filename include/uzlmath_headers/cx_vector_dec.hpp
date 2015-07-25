@@ -1,6 +1,6 @@
 //
 //  cx_vector_dec.hpp
-//  uzlmath
+//  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 02.06.15.
 //
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef uzlmath_cx_vector_dec_hpp
-#define uzlmath_cx_vector_dec_hpp
+#ifndef UZLMathLib_cx_vector_dec_hpp
+#define UZLMathLib_cx_vector_dec_hpp
 
 UZLMATH_BEGIN
 
@@ -37,20 +37,14 @@ UZLMATH_BEGIN
 template< typename eT >
 class vector< complex< eT > >
 {
-private:
-    size_t   size;      //!< size of vector
-    vec_type type;      //!< type of vector
-    
-    size_t   inj;       //!< Index for injection
-    
-    complex< eT >* mem; //!< vector data
-    
-    
-    // Friend classes to grant member access
-    template< typename F > friend class vector;
-    template< typename F > friend class matrix;
+    size_t   inj;             //!< Index for injection
     
 public:
+    const size_t   size;      //!< size of vector
+    const vec_type type;      //!< type of vector
+    
+    const complex< eT >* mem; //!< vector data
+    
     inline                                vector();
     inline                                vector(const size_t& s, const vec_type& type = vec_type::ROW);
     inline                                vector(const size_t& s, const eT& initial, const vec_type& type = vec_type::ROW);
@@ -125,12 +119,6 @@ public:
     inline       void                     zeros();
     inline       void                     transpose();
     inline       void                     fill(const eT& s);
-    
-    inline       complex< eT >*           memptr();
-    inline const complex< eT >*           memptr() const;
-    
-    inline constexpr size_t               n_elements() const;
-    inline constexpr vec_type             vecType() const;
     
 };
 
