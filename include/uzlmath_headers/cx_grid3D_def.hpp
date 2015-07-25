@@ -54,7 +54,7 @@ grid3D< complex< eT > >::grid3D(const size_t& rows, const size_t& cols, const si
     
     if (cap > 0)
     {
-        std::fill(mem, mem + cap, initial);
+        std::fill(access::rwp(mem), access::rwp(mem) + cap, initial);
     }
 }
 
@@ -71,7 +71,7 @@ grid3D< complex< eT > >::grid3D(const size_t& rows, const size_t& cols, const si
     if (cap > 0)
     {
         complex< eT > init(initial, 0);
-        std::fill(mem, mem + cap, init);
+        std::fill(access::rwp(mem), access::rwp(mem) + cap, init);
     }
 }
 
@@ -87,7 +87,7 @@ grid3D< complex< eT > >::grid3D(const size_t& rcl, const complex< eT >& initial)
     
     if (cap > 0)
     {
-        std::fill(mem, mem + cap, initial);
+        std::fill(access::rwp(mem), access::rwp(mem) + cap, initial);
     }
 }
 
@@ -104,7 +104,7 @@ grid3D< complex< eT > >::grid3D(const size_t& rcl, const eT& initial)
     if (cap > 0)
     {
         complex< eT > init(initial, 0);
-        std::fill(mem, mem + cap, init);
+        std::fill(access::rwp(mem), access::rwp(mem) + cap, init);
     }
 }
 
@@ -139,7 +139,7 @@ grid3D< complex< eT > >::grid3D(const grid3D< complex< eT > >& c)
     
     if (cap > 0)
     {
-        memcpy(mem, c.mem, cap * sizeof(complex< eT >));
+        memcpy(access::rwp(mem), access::rwp(c.mem), cap * sizeof(complex< eT >));
     }
 }
 
@@ -200,7 +200,7 @@ const grid3D< complex< eT > >& grid3D< complex< eT > >::operator=(const grid3D< 
     
     if (cap > 0)
     {
-        memcpy(mem, c.mem, rows * cols * lays * sizeof(complex< eT >));
+        memcpy(access::rwp(mem), access::rwp(c.mem), rows * cols * lays * sizeof(complex< eT >));
     }
 }
 
@@ -221,7 +221,7 @@ template< typename eT >
 inline
 complex< eT >& grid3D< complex< eT > >::operator()(const size_t& row, const size_t& col, const size_t& lay)
 {
-    return mem[rows * cols * lay + cols * col + row];
+    return access::rw(mem[rows * cols * lay + cols * col + row]);
 }
 
 template< typename eT >
@@ -231,26 +231,7 @@ const complex< eT >& grid3D< complex< eT > >::operator()(const size_t& row, cons
     return mem[rows * cols * lay + cols * col + row];
 }
 
-template< typename eT >
-inline
-constexpr size_t grid3D< complex< eT > >::n_rows() const
-{
-    return rows;
-}
 
-template< typename eT >
-inline
-constexpr size_t grid3D< complex< eT > >::n_cols() const
-{
-    return cols;
-}
-
-template< typename eT >
-inline
-constexpr size_t grid3D< complex< eT > >::n_lays() const
-{
-    return lays;
-}
 
 template< typename eT >
 inline
@@ -266,7 +247,7 @@ void grid3D< complex< eT > >::layer_wise_DFT2(const complex< double >& scale)
         // If the POD type is double we can just cast the
         // complex array to an double because memory layout
         // is guaranteed by the compiler
-        data = reinterpret_cast< double* >(mem);
+        data = reinterpret_cast< double* >(access::rwp(mem));
     }
     else
     {
@@ -294,14 +275,14 @@ void grid3D< complex< eT > >::layer_wise_DFT2(const complex< double >& scale)
         {
             for (i = 0; i < rows * cols * lays; ++i)
             {
-                mem[i] *= scale;
+                access::rw(mem[i]) *= scale;
             }
         }
         else
         {
             for (i = 0; i < rows * cols * lays; ++i)
             {
-                mem[i] = complex< eT >(data[i * 2], data[i * 2 + 1]) * scale;
+                access::rw(mem[i]) = complex< eT >(data[i * 2], data[i * 2 + 1]) * scale;
             }
         }
     }
@@ -327,7 +308,7 @@ void grid3D< complex< eT > >::layer_wise_IDFT2(const complex< double >& scale)
         // If the POD type is double we can just cast the
         // complex array to an double because memory layout
         // is guaranteed by the compiler
-        data = reinterpret_cast< double* >(mem);
+        data = reinterpret_cast< double* >(access::rwp(mem));
     }
     else
     {
@@ -355,14 +336,14 @@ void grid3D< complex< eT > >::layer_wise_IDFT2(const complex< double >& scale)
         {
             for (i = 0; i < rows * cols * lays; ++i)
             {
-                mem[i] *= scale;
+                access::rw(mem[i]) *= scale;
             }
         }
         else
         {
             for (i = 0; i < rows * cols * lays; ++i)
             {
-                mem[i] = complex< eT >(data[i * 2], data[i * 2 + 1]) * scale;
+                access::rw(mem[i]) = complex< eT >(data[i * 2], data[i * 2 + 1]) * scale;
             }
         }
     }
@@ -372,20 +353,6 @@ void grid3D< complex< eT > >::layer_wise_IDFT2(const complex< double >& scale)
     {
         delete [] data;
     }
-}
-
-template< typename eT >
-inline
-complex< eT >* grid3D< complex< eT > >::memptr()
-{
-    return mem;
-}
-
-template< typename eT >
-inline
-const complex< eT >* grid3D< complex< eT > >::memptr() const
-{
-    return mem;
 }
 
 template< typename S >
@@ -404,11 +371,11 @@ std::ostream& operator<<(std::ostream& o, const grid3D< complex< S > >& c)
     
     // check values
     size_t x, y, z;
-    for (z = 0; z < c.n_lays(); ++z)
+    for (z = 0; z < c.lays; ++z)
     {
-        for (x = 0; x < c.n_rows(); ++x)
+        for (x = 0; x < c.rows; ++x)
         {
-            for (y = 0; y < c.n_cols(); ++y)
+            for (y = 0; y < c.cols; ++y)
             {
                 complex< S > val = c(x, y, z);
                 if (std::abs(val.re) >= 10 || std::abs(val.im) >= 10)
@@ -448,15 +415,15 @@ std::ostream& operator<<(std::ostream& o, const grid3D< complex< S > >& c)
     }
     
     // setting decimal precesion
-    for (z = 0; z < c.n_lays(); ++z)
+    for (z = 0; z < c.lays; ++z)
     {
         // print layer number
         o << "layer[" << z << "]" << std::endl;
         
         // print numbers of layer
-        for (x = 0; x < c.n_rows(); ++x)
+        for (x = 0; x < c.rows; ++x)
         {
-            for (y = 0; y < c.n_cols(); ++y)
+            for (y = 0; y < c.cols; ++y)
             {
                 // get entry
                 complex< S > val = c(x, y, z);

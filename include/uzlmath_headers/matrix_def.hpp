@@ -1776,9 +1776,9 @@ std::ostream& operator<<(std::ostream& o, const matrix<S>& A)
     
     // check values
     size_t i, j;
-    for (i = 0; i < A.n_rows(); ++i)
+    for (i = 0; i < A.rows; ++i)
     {
-        for (j = 0; j < A.n_cols(); ++j)
+        for (j = 0; j < A.cols; ++j)
         {
             S r = A(i, j);
             if (std::abs(r) >= 10)
@@ -1817,9 +1817,9 @@ std::ostream& operator<<(std::ostream& o, const matrix<S>& A)
     }
     
     // setting decimal precesion
-    for (i = 0; i < A.n_rows(); ++i)
+    for (i = 0; i < A.rows; ++i)
     {
-        for (j = 0; j < A.n_cols(); ++j)
+        for (j = 0; j < A.cols; ++j)
         {
             // get entry
             S val = A(i, j);

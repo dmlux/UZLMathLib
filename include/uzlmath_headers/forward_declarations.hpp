@@ -23,11 +23,11 @@ template< typename eT >                 class  matrix< complex< eT > >;
 template< typename eT >                 class  vector;
 template< typename eT >                 class  vector< complex< eT > >;
 
-template< typename eT >                 class  grid3D;
+template< typename eT >                 struct grid3D;
 
 template< typename eT >                 class  memory;
 
-                                        class  access;
+template< typename eT >                 class  array;
 
                                         class  factorial;
                                         class  stopwatch;
@@ -55,7 +55,7 @@ enum class vec_type
  */
 enum class mat
 {
-    nextRow     //!< Represents a token indicating the next row for injection operators
+    NEXT_ROW    //!< Represents a token indicating the next row for injection operators
 };
 
 UZLMATH_END

@@ -55,7 +55,7 @@ template< typename eT >
 inline
 auto DFT(vector< eT >& vec, eT scale = eT(1, 0)) -> typename uzl_void_cx_num_only< eT >::result
 {
-    if (vec.n_elements() == 0)
+    if (vec.size == 0)
     {
         uzlmath_warning("%s", "vector for FFT has no size.");
         return;
@@ -71,15 +71,15 @@ auto DFT(vector< eT >& vec, eT scale = eT(1, 0)) -> typename uzl_void_cx_num_onl
         // If the POD type is double we can just cast the
         // complex array to an double because memory layout
         // is guaranteed by the compiler
-        inOut = reinterpret_cast< double* >(vec.memptr());
+        inOut = reinterpret_cast< double* >(access::rwp(vec.mem));
     }
     else
     {
         // create array
-        inOut = new double[2 * vec.n_elements()];
+        inOut = new double[2 * vec.size];
         
         // copy vector elements and store casted values
-        for (i = 0; i < vec.n_elements(); ++i)
+        for (i = 0; i < vec.size; ++i)
         {
             inOut[i * 2    ] = static_cast< double >(vec[i].re);
             inOut[i * 2 + 1] = static_cast< double >(vec[i].im);
@@ -87,12 +87,12 @@ auto DFT(vector< eT >& vec, eT scale = eT(1, 0)) -> typename uzl_void_cx_num_onl
     }
     
     // call fftw function
-    uzl_fftw_DFT(vec.n_elements(), inOut);
+    uzl_fftw_DFT(vec.size, inOut);
     
     // copy transformed values into given vector
     if (is_double< eT >::value == false)
     {
-        for (i = 0; i < vec.n_elements(); ++i)
+        for (i = 0; i < vec.size; ++i)
         {
             // fill vector with transformed values
             vec[i].re = inOut[i * 2    ];
@@ -106,7 +106,7 @@ auto DFT(vector< eT >& vec, eT scale = eT(1, 0)) -> typename uzl_void_cx_num_onl
     if (scale.re != 1 || scale.im != 0)
     {
         // scale values
-        for (i = 0; i < vec.n_elements(); ++i)
+        for (i = 0; i < vec.size; ++i)
         {
             vec[i] *= scale;
         }
@@ -149,32 +149,32 @@ template< typename eT >
 inline
 auto DFT(vector< eT >& vec, complex< double > scale = complex< double >(1, 0)) -> typename uzl_vec_cx_dbl_real_num_only< eT >::result
 {
-    if (vec.n_elements() == 0)
+    if (vec.size == 0)
     {
         uzlmath_warning("%s", "vector for FFT has no size.");
         return vector< complex< double > >();
     }
     
     // create FFT data array
-    vector< complex< double > > result(vec.n_elements(), vec.vecType());
-    double* inOut = reinterpret_cast< double* >(const_cast< complex< double >* >(result.mem));
+    vector< complex< double > > result(vec.size, vec.type);
+    double* inOut = reinterpret_cast< double* >(const_cast< complex< double >* >(access::rwp(result.mem)));
         
     // copy vector elements and store casted values
     size_t i;
-    for (i = 0; i < vec.n_elements(); ++i)
+    for (i = 0; i < vec.size; ++i)
     {
         inOut[i * 2    ] = static_cast< double >(vec[i]);
         inOut[i * 2 + 1] = static_cast< double >(0);
     }
     
     // call fftw function
-    uzl_fftw_DFT(vec.n_elements(), inOut);
+    uzl_fftw_DFT(vec.size, inOut);
     
     // scale values
     if (scale.re != 1 || scale.im != 0)
     {
         // scale values
-        for (i = 0; i < vec.n_elements(); ++i)
+        for (i = 0; i < vec.size; ++i)
         {
             result[i] *= scale;
         }
@@ -221,23 +221,23 @@ inline
 auto DFT2(matrix< complex< eT > >& mat, complex< eT > scale = complex< eT >(1, 0)) -> typename uzl_void_real_num_only< eT >::result
 {
     // make fft array
-    double* fftInOut = new double[mat.n_rows() * mat.n_cols() * 2];
+    double* fftInOut = new double[mat.rows * mat.cols * 2];
     
     // extract complex values
     size_t i;
-    for (i = 0; i < mat.n_rows() * mat.n_cols(); ++i)
+    for (i = 0; i < mat.rows * mat.cols; ++i)
     {
-        fftInOut[i * 2]     = mat.memptr()[i].re;
-        fftInOut[i * 2 + 1] = mat.memptr()[i].im;
+        fftInOut[i * 2]     = mat.mem[i].re;
+        fftInOut[i * 2 + 1] = mat.mem[i].im;
     }
     
-    uzl_fftw_DFT2(mat.n_cols(), mat.n_rows(), fftInOut);
+    uzl_fftw_DFT2(mat.cols, mat.rows, fftInOut);
     
     // translate back into complex matrix
-    for (i = 0; i < mat.n_rows() * mat.n_cols(); ++i)
+    for (i = 0; i < mat.rows * mat.cols; ++i)
     {
         complex< eT > comp(fftInOut[i * 2], fftInOut[i * 2 + 1]);
-        mat.memptr()[i] = scale * comp;
+        mat.mem[i] = scale * comp;
     }
     
     delete [] fftInOut;
@@ -280,23 +280,23 @@ inline
 auto IDFT2(matrix< complex< eT > >& mat, complex< eT > scale = complex< eT >(1,0)) -> typename uzl_void_real_num_only< eT >::result
 {
     // make fft array
-    double fftInOut[mat.n_rows() * mat.n_cols() * 2];
+    double fftInOut[mat.rows * mat.cols * 2];
     
     // extract complex values
     size_t i;
-    for (i = 0; i < mat.n_rows() * mat.n_cols(); ++i)
+    for (i = 0; i < mat.rows * mat.cols; ++i)
     {
-        fftInOut[i * 2]     = mat.memptr()[i].re;
-        fftInOut[i * 2 + 1] = mat.memptr()[i].im;
+        fftInOut[i * 2]     = mat.mem[i].re;
+        fftInOut[i * 2 + 1] = mat.mem[i].im;
     }
     
-    uzl_fftw_IDFT2(mat.n_cols(), mat.n_rows(), fftInOut);
+    uzl_fftw_IDFT2(mat.cols, mat.rows, fftInOut);
     
     // translate back into complex matrix
-    for (i = 0; i < mat.n_rows() * mat.n_cols(); ++i)
+    for (i = 0; i < mat.rows * mat.cols; ++i)
     {
         complex< eT > comp(fftInOut[i * 2], fftInOut[i * 2 + 1]);
-        mat.memptr()[i] = scale * complex< eT >(1.0 / (mat.n_rows() * mat.n_cols()), 0) * comp;
+        mat.mem[i] = scale * complex< eT >(1.0 / (mat.rows * mat.cols), 0) * comp;
     }
 }
 

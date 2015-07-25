@@ -183,41 +183,6 @@ const eT& grid3D< eT >::operator()(const size_t& r, const size_t& c, const size_
     return mem[rows * cols * l + cols * c + r];
 }
 
-template< typename eT >
-inline
-size_t grid3D< eT >::n_rows() const
-{
-    return rows;
-}
-
-template< typename eT >
-inline
-size_t grid3D< eT >::n_cols() const
-{
-    return cols;
-}
-
-template< typename eT >
-inline
-size_t grid3D< eT >::n_lays() const
-{
-    return lays;
-}
-
-template< typename eT >
-inline
-eT* grid3D< eT >::memptr()
-{
-    return mem;
-}
-
-template< typename eT >
-inline
-const eT* grid3D< eT >::memptr() const
-{
-    return mem;
-}
-
 
 
 template< typename S >
@@ -237,11 +202,11 @@ std::ostream& operator<<(std::ostream& o, const grid3D< S >& c)
     
     // check values for nice formatting
     size_t x, y, z;
-    for (z = 0; z < c.n_lays(); ++z)
+    for (z = 0; z < c.lays; ++z)
     {
-        for (x = 0; x < c.n_rows(); ++x)
+        for (x = 0; x < c.rows; ++x)
         {
-            for (y = 0; y < c.n_cols(); ++y)
+            for (y = 0; y < c.cols; ++y)
             {
                 S val = c(x, y, z);
                 if (UZL_ABS(val) >= 10)
@@ -281,12 +246,12 @@ std::ostream& operator<<(std::ostream& o, const grid3D< S >& c)
     }
     
     // setting decimal precesion
-    for (z = 0; z < c.n_lays(); ++z)
+    for (z = 0; z < c.lays; ++z)
     {
         o << "layer[" << z << "]" << std::endl;
-        for (x = 0; x < c.n_rows(); ++x)
+        for (x = 0; x < c.rows; ++x)
         {
-            for (y = 0; y < c.n_cols(); ++y)
+            for (y = 0; y < c.cols; ++y)
             {
                 // get entry
                 S val = c(x, y, z);

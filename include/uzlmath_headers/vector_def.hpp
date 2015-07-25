@@ -1667,7 +1667,7 @@ std::ostream& operator<<(std::ostream& o, const vector< S >& v)
     
     // check values
     size_t i;
-    for (i = 0; i < v.n_elements(); ++i)
+    for (i = 0; i < v.size; ++i)
     {
         S val = v[i];
         if (UZL_ABS(val) >= 10)
@@ -1706,7 +1706,7 @@ std::ostream& operator<<(std::ostream& o, const vector< S >& v)
     
     if (v.vecType() == vec_type::ROW)
     {
-        for (i = 0; i < v.n_elements(); ++i)
+        for (i = 0; i < v.size; ++i)
         {
             // get entry
             S val = v[i];
@@ -1720,7 +1720,7 @@ std::ostream& operator<<(std::ostream& o, const vector< S >& v)
     }
     else
     {
-        for (i = 0; i < v.n_elements(); ++i)
+        for (i = 0; i < v.size; ++i)
         {
             // get entry
             S val = v[i];

@@ -35,17 +35,14 @@ UZLMATH_BEGIN
  *
  */
 template< typename eT >
-class grid3D
+struct grid3D
 {
     const size_t rows;         //!< number of rows in each layer
     const size_t cols;         //!< number of cols in each layer
     const size_t lays;         //!< number of layers
     
-    eT* mem;                   //!< storage of the 3D grid
+    const eT* mem;             //!< storage of the 3D grid
     
-    template< typename F > friend class grid3D;
-    
-public:
     inline                     grid3D();
     inline                     grid3D(const size_t& rcl);
     inline                     grid3D(const size_t& rcl, const eT& initial);
@@ -60,13 +57,6 @@ public:
     
     inline       eT&           operator()(const size_t& row, const size_t& col, const size_t& lay);
     inline const eT&           operator()(const size_t& row, const size_t& col, const size_t& lay) const;
-    
-    inline       size_t        n_rows() const;
-    inline       size_t        n_cols() const;
-    inline       size_t        n_lays() const;
-    
-    inline       eT*           memptr();
-    inline const eT*           memptr() const;
 };
 
 template< typename S > std::ostream& operator<<(std::ostream& o, const grid3D< S >& c);

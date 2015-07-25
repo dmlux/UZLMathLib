@@ -70,21 +70,21 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
      ** Check parameters                                            **
      *****************************************************************/
     // Check if the grid has same size in each dimension
-    if (sample.n_rows() != sample.n_cols() || sample.n_rows() != sample.n_lays())
+    if (sample.rows != sample.cols || sample.rows != sample.lays)
     {
         uzlmath_warning("%s", "all SOFT sample grid dimensions should be equal.");
         return;
     }
     
     // Check if grid has odd dimensions
-    if (sample.n_rows() & 1)
+    if (sample.rows & 1)
     {
         uzlmath_warning("%s", "SOFT sample grid dimensions are not even.");
         return;
     }
     
     // Extract bandwidth
-    int bandwidth = static_cast< int >(sample.n_cols() / 2);
+    int bandwidth = static_cast< int >(sample.cols / 2);
     
     // Check if Fourier coefficients container dimension matches sample dimension
     if (bandwidth != fc.bandwidth)
@@ -330,21 +330,21 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
      ** Check parameters                                            **
      *****************************************************************/
     // Check if the grid has same size in each dimension
-    if (synthesis.n_rows() != synthesis.n_cols() || synthesis.n_rows() != synthesis.n_lays())
+    if (synthesis.rows != synthesis.cols || synthesis.rows != synthesis.lays)
     {
         uzlmath_warning("%s", "all ISOFT synthesis grid dimensions should be equal.");
         return;
     }
     
     // Check if grid has odd dimensions
-    if (synthesis.n_rows() & 1)
+    if (synthesis.rows & 1)
     {
         uzlmath_warning("%s", "ISOFT synthesis grid dimensions are not even.");
         return;
     }
     
     // Extract bandwidth
-    int bandwidth = static_cast< int >(synthesis.n_cols() / 2);
+    int bandwidth = static_cast< int >(synthesis.cols / 2);
     
     // Check if Fourier coefficients container dimension matches sample dimension
     if (bandwidth != fc.bandwidth)

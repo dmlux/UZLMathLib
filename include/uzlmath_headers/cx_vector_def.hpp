@@ -1308,7 +1308,7 @@ std::ostream& operator<<(std::ostream& o, const vector< complex< S > >& v)
     
     // check values
     size_t i;
-    for (i = 0; i < v.n_elements(); ++i)
+    for (i = 0; i < v.size; ++i)
     {
         complex< S > c = v[i];
         
@@ -1349,7 +1349,7 @@ std::ostream& operator<<(std::ostream& o, const vector< complex< S > >& v)
     // prepare output and print
     if (v.vecType() == vec_type::ROW)
     {
-        for (i = 0; i < v.n_elements(); ++i)
+        for (i = 0; i < v.size; ++i)
         {
             // get entry
             complex< S > c = v[i];
@@ -1371,7 +1371,7 @@ std::ostream& operator<<(std::ostream& o, const vector< complex< S > >& v)
     }
     else
     {
-        for (i = 0; i < v.n_elements(); ++i)
+        for (i = 0; i < v.size; ++i)
         {
             // get entry
             complex< S > c = v[i];
