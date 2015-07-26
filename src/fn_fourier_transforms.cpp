@@ -120,13 +120,13 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
     complex< double > norm(M_PI / (bandwidth * bw2), 0);
     
     // defining needed indices
-    int MMp, i, M, Mp;
+    int MMp, M, Mp;
     
     // defining type for following iterations
     typedef const complex< double >* cx_it;
     
     // DWT for M = 0, M' = 0
-    for (cx_it e = s.mem; e < s.mem + bw2; ++e)           { access::rw(*e) = sample(0, 0, e - s.mem);                   }
+    for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(0, 0, e - s.mem);                   }
     vector< complex< double > > sh = dw * s;
     for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), 0, 0) = norm * (*e); }
     
@@ -161,18 +161,18 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
             sh = dw * s;
             if (M & 1)
             {
-                for (i = 0; i < sh.size; i += 2)                   { sh[i] *= -1;                                                    }
+                for (cx_it e = sh.mem; e < sh.mem + sh.size; e += 2)     { access::rw(*e) *= -1;                                     }
             }
             else
             {
-                for (i = 1; i < sh.size; i += 2)                   { sh[i] *= -1;                                                    }
+                for (cx_it e = sh.mem + 1; e < sh.mem + sh.size; e += 2) { access::rw(*e) *= -1;                                     }
             }
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), -M, 0) = norm * (*e);    }
             
             // case f_{0,-M}
             for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(bw2 - M, 0, e - s.mem);                 }
             sh = dw * s;
-            for (i = 1; i < sh.size; i +=2)                        { sh[i] *= -1;                                                    }
+            for (cx_it e = sh.mem + 1; e < sh.mem + sh.size; e+=2) { access::rw(*e) *= -1;                                           }
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), 0, -M) = norm * (*e);    }
             
             // get new wigner matrix
@@ -227,7 +227,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
             // case f_{M, Mp}
             for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(Mp, M, e - s.mem);                      }
             sh  = dw * s;
-            sh *= -1;
+            for (cx_it e = sh.mem; e < sh.mem + sh.size; ++e)      { access::rw(*e) *= -1;                                           }
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), M, Mp) = norm * (*e);    }
             
             // case f_{Mp, M}
@@ -245,7 +245,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
             // case f_{-Mp, -M}
             for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(bw2 - M, bw2 - Mp, e - s.mem);          }
             sh  = dw * s;
-            sh *= -1;
+            for (cx_it e = sh.mem; e < sh.mem + sh.size; ++e)      { access::rw(*e) *= -1;                                           }
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), -Mp, -M) = norm * (*e);  }
             
             // modify wigner d-matrix for next four cases. This just works because the weight
@@ -266,10 +266,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
             // alter signs
             if ((M - Mp) & 1)
             {
-                for (i = 0; i < dw.rows * dw.cols; ++i)
-                {
-                    access::rw(dw.mem[i]) *= -1;
-                }
+                for (const double* e = dw.mem; e < dw.mem + dw.rows * dw.cols; ++e) { access::rw(*e) *= -1;                          }
             }
             
             // case f_{-Mp, M}
@@ -382,7 +379,7 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
     complex< double > norm((bandwidth * bw2) / M_PI, 0);
     
     // defining needed indices
-    int MMp, i, M, Mp;
+    int MMp, M, Mp;
     
     // defining type for following iterations
     typedef const complex< double >* cx_it;
@@ -424,18 +421,18 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), -M, 0);     }
             if (M & 1)
             {
-                for (i = 0; i < sh.size; i += 2)                   { sh[i] *= -1;                                                               }
+                for (cx_it e = sh.mem; e < sh.mem + sh.size; e+=2)     { access::rw(*e) *= -1;                                                  }
             }
             else
             {
-                for (i = 1; i < sh.size; i += 2)                   { sh[i] *= -1;                                                               }
+                for (cx_it e = sh.mem + 1; e < sh.mem + sh.size; e+=2) { access::rw(*e) *= -1;                                                  }
             }
             s = d * sh;
             for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(0, bw2 - M, e - s.mem) = *e;                                     }
             
             // case f_{0,-M}
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), 0, -M);     }
-            for (i = 1; i < sh.size; i += 2)                       { sh[i] *= -1;                                                               }
+            for (cx_it e = sh.mem + 1; e < sh.mem + sh.size; e+=2) { access::rw(*e) *= -1;                                                      }
             s = d * sh;
             for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(bw2 - M, 0, e - s.mem) = *e;                                     }
             
@@ -493,7 +490,7 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
             
             // case f_{M,Mp}
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), M, Mp);     }
-            sh *= -1;
+            for (cx_it e = sh.mem; e < sh.mem + sh.size; ++e)      { access::rw(*e) *= -1;                                                      }
             s  = d * sh;
             for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(Mp, M, e - s.mem) = *e;                                          }
             
@@ -511,7 +508,7 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
             
             // case f_{-Mp,-M}
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), -Mp, -M);   }
-            sh *= -1;
+            for (cx_it e = sh.mem; e < sh.mem + sh.size; ++e)      { access::rw(*e) *= -1;                                                      }
             s  = d * sh;
             for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(bw2 - M, bw2 - Mp, e - s.mem) = *e;                              }
             
@@ -533,10 +530,7 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
             // alter signs
             if ((M - Mp) & 1)
             {
-                for (i = 0; i < d.rows * d.cols; ++i)
-                {
-                    access::rw(d.mem[i]) *= -1;
-                }
+                for (const double* e = d.mem; e < d.mem + d.rows * d.cols; ++e) { access::rw(*e) *= -1;                                         }
             }
             
             // case f_{-Mp,M}
