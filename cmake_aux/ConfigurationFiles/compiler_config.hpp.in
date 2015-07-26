@@ -39,6 +39,9 @@
     #define UZL_MAX_THREADS 1
 #endif
 
+/*- Processor information -*/
+#define UZLMATH_PROJECT_ARCH "${CMAKE_HOST_SYSTEM_PROCESSOR}"
+
 /*- SOFT config -*/
 // SOFT Threshold
 #undef  SOFT_THRESHOLD
@@ -54,6 +57,8 @@
 
 // Macro for nested standard namespace.
 #define UZLMATH_NAMESPACE(a)    namespace uzlmath { namespace a {
+    
+#undef  UZLMATH_NAMESPACE_END
 #define UZLMATH_NAMESPACE_END   }}
 
 /*- Debugging messages -*/
@@ -96,8 +101,25 @@
                 );\
         } while(0)
       
+/*- Attributes -*/
 // force inlining of function
 #undef  uzlmath_inline
-#define uzlmath_inline inline __attribute__((always_inline))
+#define uzlmath_inline          inline __attribute__((always_inline))
         
+#undef  uzlmath_deprecated
+#define uzlmath_deprecated      __attribute__((deprecated))
+
+#define uzlmath_nonnull(...)    __attribute__((nonnull(__VA_ARGS__)))
+
+//#undef  uzlmath_nonnull
+//#define uzlmath_nonnull         __attribute__((nonnull))
+
+#undef  uzlmath_pure
+#define uzlmath_pure            __attribute__((pure))
+
+#define uzlmath_aligned(n)      __attribute__((aligned((n))))
+
+//#undef  uzlmath_aligned         
+//#define uzlmath_aligned         __attribute__((aligned))
+
 #endif

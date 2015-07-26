@@ -132,6 +132,7 @@ public:
     inline       void                               fill(const eT& value);
     inline       void                               diag(const eT& val);
     inline       void                               diag(const vector< eT >& vec);
+    inline       void                               reshape(const size_t& new_rows, const size_t& new_cols);
     
     inline const double                             determinant();
 };

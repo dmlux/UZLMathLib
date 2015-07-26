@@ -1760,7 +1760,7 @@ const double matrix< eT >::determinant()
  * @return          The reference to the given out-stream.
  */
 template< typename S >
-std::ostream& operator<<(std::ostream& o, const matrix<S>& A)
+std::ostream& operator<<(std::ostream& o, const matrix< S >& A)
 {
     std::ios::fmtflags f( std::cout.flags() );
     o << std::endl;

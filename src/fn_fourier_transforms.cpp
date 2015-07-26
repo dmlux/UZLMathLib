@@ -119,10 +119,13 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
     // defining needed indices
     int MMp, i, M, Mp;
     
+    // precompute the double bandwidth
+    const int bw2 = 2 * bandwidth;
+    
     // DWT for M = 0, M' = 0
-    for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(0, 0, i);                               }
+    for (const complex< double >* e = s.mem; e != s.mem + bw2; ++e) { access::rw(*e) = sample(0, 0, e - s.mem);             }
     vector< complex< double > > sh = dw * s;
-    for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, 0, 0) = norm * sh[sh.size -i];      }
+    for (i = 1; i <= sh.size; ++i)                                  { fc(bandwidth - i, 0, 0) = norm * sh[sh.size - i];     }
     
     /*****************************************************************
      ** Iterate over all combinations of M and M'                   **
@@ -139,48 +142,48 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
              ** Make use of symmetries                                      **
              *****************************************************************/
             // case f_{M,0}
-            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(0, M, i);                                 }
+            for (const complex< double >* e = s.mem; e != s.mem + bw2; ++e) { access::rw(*e) = sample(0, M, e - s.mem);                 }
             sh = dw * s;
-            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, M, 0) = norm * sh[sh.size - i];       }
+            for (i = 1; i <= sh.size; ++i)                                  { fc(bandwidth - i, M, 0) = norm * sh[sh.size - i];         }
             
             // case f_{0,M}
-            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, 0, i);                                 }
+            for (const complex< double >* e = s.mem; e != s.mem + bw2; ++e) { access::rw(*e) = sample(M, 0, e - s.mem);                 }
             sh = dw * s;
-            if  (M & 1)                             { sh *= -1;                                               }
-            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, 0, M) = norm * sh[sh.size - i];       }
+            if  (M & 1)                                                     { sh *= -1;                                                 }
+            for (i = 1; i <= sh.size; ++i)                                  { fc(bandwidth - i, 0, M) = norm * sh[sh.size - i];         }
             
             // case f_{-M,0}
             fliplr(dw);
-            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(0, 2 * bandwidth - M, i);                 }
+            for (const complex< double >* e = s.mem; e != s.mem + bw2; ++e) { access::rw(*e) = sample(0, bw2 - M, e - s.mem);           }
             sh = dw * s;
             if (M & 1)
             {
-                for (i = 0; i < sh.size; i += 2)    { sh[i] *= -1;                                            }
+                for (i = 0; i < sh.size; i += 2)                            { sh[i] *= -1;                                              }
             }
             else
             {
-                for (i = 1; i < sh.size; i += 2)    { sh[i] *= -1;                                            }
+                for (i = 1; i < sh.size; i += 2)                            { sh[i] *= -1;                                              }
             }
-            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, -M, 0) = norm * sh[sh.size - i];      }
+            for (i = 1; i <= sh.size; ++i)                                  { fc(bandwidth - i, -M, 0) = norm * sh[sh.size - i];        }
             
             // case f_{0,-M}
-            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, 0, i);                 }
+            for (const complex< double >* e = s.mem; e != s.mem + bw2; ++e) { access::rw(*e) = sample(bw2 - M, 0, e - s.mem);           }
             sh = dw * s;
-            for (i = 1; i < sh.size; i +=2)         { sh[i] *= -1;                                            }
-            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, 0, -M) = norm * sh[sh.size - i];      }
+            for (i = 1; i < sh.size; i +=2)                                 { sh[i] *= -1;                                              }
+            for (i = 1; i <= sh.size; ++i)                                  { fc(bandwidth - i, 0, -M) = norm * sh[sh.size - i];        }
             
             // get new wigner matrix
             dw = DWT::weighted_wigner_d_matrix(bandwidth, M, M, weights) * -1;
             
             // case f_{M, M}
-            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, M, i);                                 }
+            for (const complex< double >* e = s.mem; e != s.mem + bw2; ++e) { access::rw(*e) = sample(M, M, e - s.mem);                 }
             sh = dw * s;
-            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, M, M) = norm * sh[sh.size - i];       }
+            for (i = 1; i <= sh.size; ++i)                                  { fc(bandwidth - i, M, M) = norm * sh[sh.size - i];         }
             
             // case f_{-M, -M}
-            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, 2 * bandwidth - M, i); }
+            for (const complex< double >* e = s.mem; e != s.mem + bw2; ++e) { access::rw(*e) = sample(bw2 - M, bw2 - M, e - s.mem);     }
             sh = dw * s;
-            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, -M, -M) = norm * sh[sh.size - i];     }
+            for (i = 1; i <= sh.size; ++i)                                  { fc(bandwidth - i, -M, -M) = norm * sh[sh.size - i];       }
             
             // Modify dw for the last two cases. flip matrix from left to right and negates sign of
             // every second row with odd row indices.
@@ -188,14 +191,14 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
             
             // A little arithmetic error is occuring in the following calculation... I do not exactly know why
             // case f_{M, -M}
-            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, M, i);                 }
+            for (const complex< double >* e = s.mem; e != s.mem + bw2; ++e) { access::rw(*e) = sample(bw2 - M, M, e - s.mem);           }
             sh = dw * s;
-            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, M, -M) = norm * sh[sh.size - i];      }
+            for (i = 1; i <= sh.size; ++i)                                  { fc(bandwidth - i, M, -M) = norm * sh[sh.size - i];        }
             
             // case f_{-M, M}
-            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, 2 * bandwidth - M, i);                 }
+            for (const complex< double >* e = s.mem; e != s.mem + bw2; ++e) { access::rw(*e) = sample(M, bw2 - M, e - s.mem);           }
             sh = dw * s;
-            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, -M, M) = norm * sh[sh.size - i];      }
+            for (i = 1; i <= sh.size; ++i)                                  { fc(bandwidth - i, -M, M) = norm * sh[sh.size - i];        }
         }
         
         // Fused two loops per hand
@@ -219,28 +222,28 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
             dw = DWT::weighted_wigner_d_matrix(bandwidth, M, Mp, weights);
             
             // case f_{M, Mp}
-            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(Mp, M, i);                                          }
+            for (const complex< double >* e = s.mem; e != s.mem + bw2; ++e) { access::rw(*e) = sample(Mp, M, e - s.mem);                        }
             sh  = dw * s;
             sh *= -1;
-            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, M, Mp) = norm * sh[sh.size - i];                }
+            for (i = 1; i <= sh.size; ++i)                                  { fc(bandwidth - i, M, Mp) = norm * sh[sh.size - i];                }
             
             // case f_{Mp, M}
-            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, Mp, i);                                          }
+            for (const complex< double >* e = s.mem; e != s.mem + bw2; ++e) { access::rw(*e) = sample(M, Mp, e - s.mem);                        }
             sh = dw * s;
-            if  (!((M - Mp) & 1))                   { sh *= -1;                                                         }
-            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, Mp, M) = norm * sh[sh.size -  i];               }
+            if  (!((M - Mp) & 1))                                           { sh *= -1;                                                         }
+            for (i = 1; i <= sh.size; ++i)                                  { fc(bandwidth - i, Mp, M) = norm * sh[sh.size -  i];               }
             
             // case f_{-M, -Mp}
-            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - Mp, 2 * bandwidth - M, i);          }
+            for (const complex< double >* e = s.mem; e != s.mem + bw2; ++e) { access::rw(*e) = sample(bw2 - Mp, bw2 - M, e - s.mem);            }
             sh = dw * s;
-            if  (!((M - Mp) & 1))                   { sh *= -1;                                                         }
-            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, -M, -Mp) = norm * sh[sh.size - i];              }
+            if  (!((M - Mp) & 1))                                           { sh *= -1;                                                         }
+            for (i = 1; i <= sh.size; ++i)                                  { fc(bandwidth - i, -M, -Mp) = norm * sh[sh.size - i];              }
             
             // case f_{-Mp, -M}
-            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, 2 * bandwidth - Mp, i);          }
+            for (const complex< double >* e = s.mem; e != s.mem + bw2; ++e) { access::rw(*e) = sample(bw2 - M, bw2 - Mp, e - s.mem);            }
             sh  = dw * s;
             sh *= -1;
-            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, -Mp, -M) = norm * sh[sh.size - i];              }
+            for (i = 1; i <= sh.size; ++i)                                  { fc(bandwidth - i, -Mp, -M) = norm * sh[sh.size - i];              }
             
             // modify wigner d-matrix for next four cases. This just works because the weight
             // function is also symmetric like the wigner-d matrix. flip left-right the dw
@@ -248,14 +251,14 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
             fliplr_ne2nderow(dw);
             
             // case f_{Mp, -M}
-            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - M, Mp, i);                          }
+            for (const complex< double >* e = s.mem; e != s.mem + bw2; ++e) { access::rw(*e) = sample(bw2 - M, Mp, e - s.mem);                  }
             sh = dw * s;
-            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, Mp, -M) = norm * sh[sh.size - i];               }
+            for (i = 1; i <= sh.size; ++i)                                  { fc(bandwidth - i, Mp, -M) = norm * sh[sh.size - i];               }
             
             // case f_{M, -Mp}
-            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(2 * bandwidth - Mp, M, i);                          }
+            for (const complex< double >* e = s.mem; e != s.mem + bw2; ++e) { access::rw(*e) = sample(bw2 - Mp, M, e - s.mem);                  }
             sh = dw * s;
-            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, M, -Mp) = norm * sh[sh.size - i];               }
+            for (i = 1; i <= sh.size; ++i)                                  { fc(bandwidth - i, M, -Mp) = norm * sh[sh.size - i];               }
             
             // alter signs
             if ((M - Mp) & 1)
@@ -267,14 +270,14 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
             }
             
             // case f_{-Mp, M}
-            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(M, 2 * bandwidth - Mp, i);                          }
+            for (const complex< double >* e = s.mem; e != s.mem + bw2; ++e) { access::rw(*e) = sample(M, bw2 - Mp, e - s.mem);                  }
             sh = dw * s;
-            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, -Mp, M) = norm * sh[sh.size - i];               }
+            for (i = 1; i <= sh.size; ++i)                                  { fc(bandwidth - i, -Mp, M) = norm * sh[sh.size - i];               }
             
             // case f_{-M, Mp}
-            for (i = 0; i < 2 * bandwidth; ++i)     { s[i] = sample(Mp, 2 * bandwidth - M, i);                          }
+            for (const complex< double >* e = s.mem; e != s.mem + bw2; ++e) { access::rw(*e) = sample(Mp, bw2 - M, e - s.mem);                  }
             sh = dw * s;
-            for (i = 1; i <= sh.size; ++i)          { fc(bandwidth - i, -M, Mp) = norm * sh[sh.size - i];               }
+            for (i = 1; i <= sh.size; ++i)                                  { fc(bandwidth - i, -M, Mp) = norm * sh[sh.size - i];               }
         }
     }
 }

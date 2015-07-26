@@ -16,6 +16,7 @@
 
 using namespace uzlmath;
 
+uzlmath_deprecated
 complex< double > f(const double& alpha, const double& beta, const double& gamma)
 {
     return complex< double >(-7.31, 0     ) * wigner::wigner_D_l2normalized(2,  0,  -1, -alpha, -beta, -gamma)
@@ -181,6 +182,9 @@ void for_back(unsigned int bandwidth, bool show_coefs)
     FourierTransforms::SOFT(sample, rec_coef);
     double time = sw.toc();
     
+//    std::cout << "coef = " << coef << std::endl;
+//    std::cout << "rec_coef = " << rec_coef << std::endl;
+    
     // print Fourier coefficients
     // save outstream flags
     if (show_coefs)
@@ -230,21 +234,6 @@ void for_back(unsigned int bandwidth, bool show_coefs)
     printf("ISOFT:          %.6fs\n", time2);
     printf("Correct result: %s\n", (equal ? "Yes" : "No"));
 }
-
-template< typename T >
-inline
-static T& rw(const T& x)
-{
-    return const_cast< T& >(x);
-}
-
-struct A
-{
-    const size_t rows;
-    const size_t cols;
-    
-    A(const size_t& r, const size_t& c) : rows(r) , cols(c) {}
-};
 
 int main(int argc, const char ** argv)
 {

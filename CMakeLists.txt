@@ -72,6 +72,7 @@ IF(DEFINED CMAKE_CXX_COMPILER_ID AND DEFINED CMAKE_CXX_COMPILER_VERSION)
     IF(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 4.8.1)
         SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
         SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
+        #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wsuggest-attribute=const")
 
         MESSAGE(STATUS "Detected gcc 4.8.1 or later. Added '-std=c++11 -fopenmp' to compiler flags")
         MESSAGE(STATUS "OpenMP support for UZLMathLib enabled.")
@@ -110,6 +111,7 @@ MESSAGE(STATUS "*** Configure the compiler_config.hpp.in file. Filling")
 MESSAGE(STATUS "*** CMake variable contents into the compiler_config.hpp")
 MESSAGE(STATUS "*** header file.")
 MESSAGE(STATUS "")
+
 CONFIGURE_FILE(
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake_aux/ConfigurationFiles/compiler_config.hpp.in
     ${CMAKE_CURRENT_SOURCE_DIR}/include/uzlmath_headers/compiler_config.hpp

@@ -29,6 +29,8 @@ template< typename eT >                 class  memory;
 
 template< typename eT >                 class  array;
 
+                                        class  access;
+
                                         class  factorial;
                                         class  stopwatch;
 
