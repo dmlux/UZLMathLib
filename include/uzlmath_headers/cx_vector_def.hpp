@@ -1151,10 +1151,10 @@ template< typename eT >
 inline
 const vector< complex< eT > >& vector< complex< eT > >::operator*=(const eT& s)
 {
-    size_t i;
-    for (i = 0; i < size; ++i)
+    
+    for (const complex< eT >* e = mem; e != mem + size; ++e)
     {
-        access::rw(mem[i]) *= complex< eT >(s, 0);
+        access::rw(*e) *= complex< eT >(s, 0);
     }
     
     return *this;

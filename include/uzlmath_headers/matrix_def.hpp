@@ -1083,14 +1083,19 @@ template< typename eT >
 inline
 matrix< eT > matrix< eT >::operator*(const eT& rhs)
 {
+    // result matrix
     matrix< eT > C(rows, cols);
     
-    size_t i, cap = rows * cols;
-    for (i = 0; i < cap; ++i)
+    // capacity
+    size_t cap = rows * cols;
+    
+    // iterate over temporary and internal memory and scale data
+    for (const eT *e1 = mem, *e2 = C.mem; e1 != mem + cap; ++e1, ++e2)
     {
-        access::rw(C.mem[i]) = mem[i] * rhs;
+        access::rw(*e2) = *e1 * rhs;
     }
     
+    // return result
     return C;
 }
 
@@ -1418,11 +1423,12 @@ template< typename eT >
 inline
 matrix< eT >& matrix< eT >::operator*=(const eT& rhs)
 {
-    size_t i, cap = rows * cols;
-    for (i = 0; i < cap; ++i)
+    size_t cap = rows * cols;
+    for (const eT* e = mem; e != mem + cap; ++e)
     {
-        mem[i] *= rhs;
+        access::rw(*e) *= rhs;
     }
+    
     return *this;
 }
 
