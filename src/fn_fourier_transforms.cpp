@@ -136,7 +136,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
     #pragma omp parallel default(shared) if(bandwidth >= SOFT_THRESHOLD) num_threads(threads)
     {
         
-        #pragma omp for private(i, M, dw, sh) firstprivate(s) schedule(dynamic) nowait
+        #pragma omp for private(M, dw, sh) firstprivate(s) schedule(dynamic) nowait
         for (M = 1; M < bandwidth; ++M)
         {
             dw = DWT::weighted_wigner_d_matrix(bandwidth, M, 0, weights) * -1;
@@ -210,7 +210,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
         //     for (Mp = 1; Mp < M; ++Mp)
         //
         // which now is equivalent to the following loop
-        #pragma omp for private(i, MMp, M, Mp, dw, sh) schedule(dynamic) firstprivate(s) nowait
+        #pragma omp for private(MMp, M, Mp, dw, sh) schedule(dynamic) firstprivate(s) nowait
         for (MMp = 0; MMp < (bandwidth - 2) * (bandwidth - 1) / 2; ++MMp)
         {
             // reconstructing nested loop indices
@@ -395,7 +395,7 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
     #pragma omp parallel default(shared) if(bandwidth >= SOFT_THRESHOLD) num_threads(threads)
     {
         
-        #pragma omp for private(i, M, d, s, sh) schedule(dynamic) nowait
+        #pragma omp for private(M, d, s, sh) schedule(dynamic) nowait
         for (M = 1; M < bandwidth; ++M)
         {
             d  = DWT::wigner_d_matrix(bandwidth, M, 0) * -1;
@@ -472,7 +472,7 @@ auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synth
         //     for (Mp = 1; Mp < M; ++Mp)
         //
         // which now is equivalent to the following loop
-        #pragma omp for private(i, MMp, M, Mp, d, s, sh) schedule(dynamic) nowait
+        #pragma omp for private(MMp, M, Mp, d, s, sh) schedule(dynamic) nowait
         for (MMp = 0; MMp < (bandwidth - 2) * (bandwidth - 1) / 2; ++MMp)
         {
             // reconstructing indices of the two nested for loops
