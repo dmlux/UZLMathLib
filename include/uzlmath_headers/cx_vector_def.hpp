@@ -1312,7 +1312,7 @@ std::ostream& operator<<(std::ostream& o, const vector< complex< S > >& v)
     {
         complex< S > c = v[i];
         
-        if (UZL_ABS(c.re) >= 10 || UZL_ABS(c.im) >= 10)
+        if (std::abs(c.re) >= 10 || std::abs(c.im) >= 10)
         {
             width   = 22;
             format  = std::fixed;
@@ -1323,7 +1323,7 @@ std::ostream& operator<<(std::ostream& o, const vector< complex< S > >& v)
             }
         }
         
-        if (UZL_ABS(c.re) >= 100 || UZL_ABS(c.im) >= 100)
+        if (std::abs(c.re) >= 100 || std::abs(c.im) >= 100)
         {
             width   = 24;
             format  = std::fixed;
@@ -1334,7 +1334,7 @@ std::ostream& operator<<(std::ostream& o, const vector< complex< S > >& v)
             }
         }
         
-        if (UZL_ABS(c.re) >= 1000 || UZL_ABS(c.im) >= 1000)
+        if (std::abs(c.re) >= 1000 || std::abs(c.im) >= 1000)
         {
             width   = 28;
             format  = std::scientific;
@@ -1347,7 +1347,7 @@ std::ostream& operator<<(std::ostream& o, const vector< complex< S > >& v)
     }
     
     // prepare output and print
-    if (v.vecType() == vec_type::ROW)
+    if (v.type == vec_type::ROW)
     {
         for (i = 0; i < v.size; ++i)
         {
@@ -1359,7 +1359,7 @@ std::ostream& operator<<(std::ostream& o, const vector< complex< S > >& v)
             
             // add real value to string
             val << format << std::setprecision(4) << c.re;
-            val << (c.im < 0 ? " - " : " + ") << (c.im == 0 ?  0 : UZL_ABS(c.im)) << "i";
+            val << (c.im < 0 ? " - " : " + ") << (c.im == 0 ?  0 : std::abs(c.im)) << "i";
             
             // get string from stream
             std::string str = val.str();
@@ -1381,7 +1381,7 @@ std::ostream& operator<<(std::ostream& o, const vector< complex< S > >& v)
             
             // add real value to string
             val << format << std::setprecision(4) << c.re;
-            val << (c.im < 0 ? " - " : " + ") << (c.im == 0 ?  0 : UZL_ABS(c.im)) << "i";
+            val << (c.im < 0 ? " - " : " + ") << (c.im == 0 ?  0 : std::abs(c.im)) << "i";
             
             // get string from stream
             std::string str = val.str();

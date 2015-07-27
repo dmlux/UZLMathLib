@@ -867,7 +867,7 @@ std::ostream& operator<<(std::ostream& o, const complex< eT >& c)
     
     o << std::noshowpos;
     o << c.re;
-    o << (c.im < 0 ? " - " : " + ") << (c.im == 0 ?  0 : UZL_ABS(c.im)) << "i";
+    o << (c.im < 0 ? " - " : " + ") << (c.im == 0 ?  0 : std::abs(c.im)) << "i";
     
     std::cout.flags( f );
     return o << std::fixed;

@@ -83,7 +83,7 @@ int main(int argc, const char** argv)
     fprintf(fp2, "\n");
     
     // run benchmark up to MAX_BW times
-    for (int bandwidth = 2; bandwidth <= MAX_BW; ++bandwidth)
+    for (int bandwidth = 1; bandwidth <= MAX_BW; ++bandwidth)
     {
         
         // create a grid to fill with values
@@ -167,7 +167,7 @@ int main(int argc, const char** argv)
     
     return 0;
 #else
-    printf("Multithreading disabled use another compiler to run this benchmark!");
+    printf("Multithreading disabled. Use another compiler that supports OpenMP to run this benchmark!");
     return 1;
 #endif
 }

@@ -182,8 +182,9 @@ void for_back(unsigned int bandwidth, bool show_coefs)
     FourierTransforms::SOFT(sample, rec_coef);
     double time = sw.toc();
     
-//    std::cout << "coef = " << coef << std::endl;
-//    std::cout << "rec_coef = " << rec_coef << std::endl;
+    std::cout << "coef = " << coef << std::endl;
+    std::cout << "rec_coef = " << rec_coef << std::endl;
+    std::cout << sample << std::endl;
     
     // print Fourier coefficients
     // save outstream flags
@@ -240,15 +241,16 @@ int main(int argc, const char ** argv)
     //createGridSOFT(10);
 //    for_back_file("/Users/dlux/Desktop/soft_files/grid_128_samp.dat", 128, false);
 //    for_back_file("/Users/dlux/Desktop/soft_files/test_series/grid_3_test.dat", 3, true);
-    for_back(128, false);
+    for_back(1, false);
     
-//    A a(5, 5);
+//    SOFTFourierCoefficients fc(1);
 //    
-//    printf("%zu\n", a.rows);
+//    rand(fc, -1, 1);
 //    
-//    rw(a.rows) = 3;
+//    std::cout << "z = " << fc(0, 0, 0) << std::endl;
+//    std::cout << "|z| = " << fc(0, 0, 0).abs() << std::endl;
 //    
-//    printf("%zu\n", a.rows);
+//    std::cout << fc << std::endl;
     
     return 0;
 }

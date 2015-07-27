@@ -32,9 +32,6 @@ int main(int argc, const char** argv)
     for (int i = 0; i < max_procs; i++);
 #endif
     
-    // space for the time values of all LOOP_R runs
-    double times[MAX_BW - 1];
-    
     // write to file
     FILE* fp  = fopen("benchmark_soft_inv.txt", "w");
     FILE* fp2 = fopen("soft_inverse.dat", "w");
@@ -81,10 +78,8 @@ int main(int argc, const char** argv)
 #endif
     
     // loop over all bandwidth up to MAX_BW
-    for (unsigned int bandwidth = 2; bandwidth <= MAX_BW; ++bandwidth)
+    for (unsigned int bandwidth = 1; bandwidth <= MAX_BW; ++bandwidth)
     {
-        // reset times value
-        times[bandwidth - 2] = 0;
         
         // create a grid to fill with values
         grid3D< complex< double > > sample(2 * bandwidth);
@@ -100,6 +95,9 @@ int main(int argc, const char** argv)
         
         // min and max exec tiems
         double min, max;
+        
+        // variable for execution times
+        double times = 0;
         
 #ifdef _OPENMP
         // get reference value of serial implementation
@@ -117,7 +115,7 @@ int main(int argc, const char** argv)
             double time  = sw.toc();
             
             // add to sum of time for current bandwidth
-            times[bandwidth - 2] += time;
+            times += time;
             
             // if first run then set min and max to the
             // first runtime
@@ -138,7 +136,7 @@ int main(int argc, const char** argv)
         }
         
         // get average execution time
-        double avg = times[bandwidth - 2] / LOOP_R;
+        double avg = times / LOOP_R;
         
         // get fastest and slowest run-ratios
         double min_ratio = (avg - min)/avg * 100;
