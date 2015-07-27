@@ -83,9 +83,9 @@ vector< complex< eT > >::vector(const vector< eT >& vec)
 template< typename eT >
 inline
 vector< complex< eT > >::vector(const vector< complex< eT > >& vec)
-    : size(vec.size)
+    : inj(vec.inj)
+    , size(vec.size)
     , type(vec.type)
-    , inj(vec.inj)
 {
     mem = new complex< eT >[vec.size];
     memcpy(access::rwp(mem), access::rwp(vec.mem), vec.size * sizeof(complex< eT >));
@@ -351,7 +351,7 @@ vector< complex< eT > > vector< complex< eT > >::operator-(const vector< complex
     size_t i;
     for (i = 0; i < v.size; ++i)
     {
-        result[i] = mem[i] - v[i];
+        result[i] = v[i] - mem[i];
     }
     
     return result;

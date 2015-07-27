@@ -175,7 +175,7 @@ auto rand(vector< complex< eT > >& vec, const double& min, const double& max) ->
     
     // fill vector with randoms
     size_t i;
-    for (i = 0; i < vec.n_elements(); ++i)
+    for (i = 0; i < vec.size; ++i)
     {
         vec[i].re = d(e);
         vec[i].im = d(e);

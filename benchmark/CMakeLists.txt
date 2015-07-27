@@ -22,3 +22,6 @@ TARGET_LINK_LIBRARIES(  benchmark_soft_inv_speedup UZLMath                      
 
 ADD_EXECUTABLE(         benchmark_soft_inv_efficiency ${PROJECT_SOURCE_DIR}/benchmark/benchmark_soft_inv_efficiency.cpp )
 TARGET_LINK_LIBRARIES(  benchmark_soft_inv_efficiency UZLMath                                                           )
+
+ADD_EXECUTABLE(         benchmark_dwt_accuracy ${PROJECT_SOURCE_DIR}/benchmark/benchmark_dwt_accuracy.cpp               )
+TARGET_LINK_LIBRARIES(  benchmark_dwt_accuracy UZLMath                                                                  )
