@@ -6,8 +6,8 @@
 //
 //
 
-#ifndef SOFT_cpp
-#define SOFT_cpp
+#ifndef SOFFT_cpp
+#define SOFFT_cpp
 
 #include <uzlmath>
 #include <stdio.h>
@@ -117,7 +117,7 @@ void for_back_file(const char* fileName, unsigned int bandwidth, bool show_coefs
     
     // perform forward SOFT transform
     sw = stopwatch::tic();
-    FourierTransforms::SOFT(sample, coef);
+    FourierTransforms::DSOFT(sample, coef);
     time = sw.toc();
     
     // print Fourier coefficients
@@ -151,7 +151,7 @@ void for_back_file(const char* fileName, unsigned int bandwidth, bool show_coefs
     grid3D< complex< double > > grid_rec(2 * bandwidth);
     
     sw = stopwatch::tic();
-    FourierTransforms::ISOFT(coef, grid_rec);
+    FourierTransforms::IDSOFT(coef, grid_rec);
     double time2 = sw.toc();
     
     printf("Bandbreite:   %d\n", bandwidth);
@@ -174,17 +174,17 @@ void for_back(unsigned int bandwidth, bool show_coefs)
     rand(coef, -1, 1);
     
     stopwatch sw = stopwatch::tic();
-    FourierTransforms::ISOFT(coef, sample);
+    FourierTransforms::IDSOFT(coef, sample);
     double time2 = sw.toc();
     
     // perform forward SOFT transform
     sw = stopwatch::tic();
-    FourierTransforms::SOFT(sample, rec_coef);
+    FourierTransforms::DSOFT(sample, rec_coef);
     double time = sw.toc();
     
-    std::cout << "coef = " << coef << std::endl;
-    std::cout << "rec_coef = " << rec_coef << std::endl;
-    std::cout << sample << std::endl;
+//    std::cout << "coef = " << coef << std::endl;
+//    std::cout << "rec_coef = " << rec_coef << std::endl;
+//    std::cout << sample << std::endl;
     
     // print Fourier coefficients
     // save outstream flags
@@ -195,6 +195,7 @@ void for_back(unsigned int bandwidth, bool show_coefs)
     
     bool equal = true;
     double epsilon = 1e-11;
+    int cnt_fc = 0;
     
     for (int m = 0; m < bandwidth; ++m)
     {
@@ -207,6 +208,8 @@ void for_back(unsigned int bandwidth, bool show_coefs)
                 {
                     equal = false;
                 }
+                
+                cnt_fc++;
                 
                 if ( show_coefs )
                 {
@@ -227,6 +230,8 @@ void for_back(unsigned int bandwidth, bool show_coefs)
         printf("\n");
     }
     
+    printf("#coefficients: %d\n", cnt_fc);
+    
     // store coefficients on disk
 //    obj2file(rec_coef, "fc.txt");
     
@@ -238,10 +243,18 @@ void for_back(unsigned int bandwidth, bool show_coefs)
 
 int main(int argc, const char ** argv)
 {
+    if (argc < 2)
+    {
+        printf("usage: ./soft_test <Bandwidth>\n");
+        return 1;
+    }
+    
+    int B = atoi(*(argv + 1));
+        
     //createGridSOFT(10);
 //    for_back_file("/Users/dlux/Desktop/soft_files/grid_128_samp.dat", 128, false);
 //    for_back_file("/Users/dlux/Desktop/soft_files/test_series/grid_3_test.dat", 3, true);
-    for_back(1, false);
+    for_back(B, false);
     
 //    SOFTFourierCoefficients fc(1);
 //    

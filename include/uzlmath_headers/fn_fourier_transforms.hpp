@@ -301,10 +301,10 @@ auto IDFT2(matrix< complex< eT > >& mat, complex< eT > scale = complex< eT >(1,0
 }
 
 // Forward fast Fourier transform on SO(3)
-auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int threads = UZL_MAX_THREADS) -> void;
+auto DSOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int threads = UZL_MAX_THREADS) -> void;
 
 // Inverse fast Fourier transform on SO(3)
-auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis, int threads = UZL_MAX_THREADS) -> void;
+auto IDSOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis, int threads = UZL_MAX_THREADS) -> void;
 
 UZLMATH_NAMESPACE_END
 

@@ -36,12 +36,12 @@ int main(int argc, const char** argv)
     double runtimes[omp_get_max_threads() - 1];
     
     // write to file
-    FILE* fp  = fopen("benchmark_soft_for_efficiency.txt", "w");
-    FILE* fp2 = fopen("soft_forward_efficiency.dat", "w");
+    FILE* fp  = fopen("benchmark_DSOFT_for_efficiency.txt", "w");
+    FILE* fp2 = fopen("DSOFT_forward_efficiency.dat", "w");
     
     // Print to console
     printf("+--------------------------------------------------------------------------------------+\n");
-    printf("|                           SOFT FORWARD EFFICIENCY BENCHMARK                          |\n");
+    printf("|                           DSOFT FORWARD EFFICIENCY BENCHMARK                         |\n");
     printf("+--------------------------------------------------------------------------------------+\n");
     printf("| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
     printf("| PARALLELIZED WITH %d THREADS\n", omp_get_max_threads());
@@ -60,7 +60,7 @@ int main(int argc, const char** argv)
     
     // Print to file
     fprintf(fp, "+--------------------------------------------------------------------------------------+\n");
-    fprintf(fp, "|                           SOFT FORWARD EFFICIENCY BENCHMARK                          |\n");
+    fprintf(fp, "|                           DSOFT FORWARD EFFICIENCY BENCHMARK                         |\n");
     fprintf(fp, "+--------------------------------------------------------------------------------------+\n");
     fprintf(fp, "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
     fprintf(fp, "| PARALLELIZED WITH %d THREADS\n", omp_get_max_threads());
@@ -100,7 +100,7 @@ int main(int argc, const char** argv)
         rand(coef, -1, 1);
         
         // create sample
-        ISOFT(coef, sample);
+        IDSOFT(coef, sample);
         
         // reset times
         for (i = 0; i < omp_get_max_threads(); ++i)
@@ -110,7 +110,7 @@ int main(int argc, const char** argv)
         
         // get reference value of serial implementation
         stopwatch sw = stopwatch::tic();
-        SOFT(sample, rec_coef, 1);  // setting threads explicitly to 1
+        DSOFT(sample, rec_coef, 1);  // setting threads explicitly to 1
         double serial_ref = sw.toc();
         
         // run loop run for all number of available threads
@@ -122,7 +122,7 @@ int main(int argc, const char** argv)
                 // perform forward SOFT transform
                 // and stop time
                 stopwatch sw = stopwatch::tic();
-                SOFT(sample, rec_coef, threads);
+                DSOFT(sample, rec_coef, threads);
                 double time  = sw.toc();
                 
                 runtimes[threads - 2] += time;

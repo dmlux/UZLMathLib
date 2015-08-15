@@ -33,13 +33,13 @@ int main(int argc, const char** argv)
 #endif
     
     // write to file
-    FILE* fp  = fopen("benchmark_soft_inv.txt", "w");
-    FILE* fp2 = fopen("soft_inverse.dat", "w");
+    FILE* fp  = fopen("benchmark_DSOFT_inv.txt", "w");
+    FILE* fp2 = fopen("DSOFT_inverse.dat", "w");
 
     // write output to file "benchmark_soft_inv.txt"
 #ifdef _OPENMP
     printf(     "+-----------------------------------------------------------------------------------------------------------------------------+\n");
-    printf(     "|                                                    SOFT INVERSE BENCHMARK                                                   |\n");
+    printf(     "|                                                    DSOFT INVERSE BENCHMARK                                                  |\n");
     printf(     "+-----------------------------------------------------------------------------------------------------------------------------+\n");
     printf(     "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
     printf(     "| PARALLELIZED WITH %d THREADS\n", omp_get_max_threads());
@@ -48,7 +48,7 @@ int main(int argc, const char** argv)
     printf(     "+=====+===========+===================================+===================================+===========+==========+============+\n");
     
     fprintf(fp, "+-----------------------------------------------------------------------------------------------------------------------------+\n");
-    fprintf(fp, "|                                                    SOFT INVERSE BENCHMARK                                                   |\n");
+    fprintf(fp, "|                                                    DSOFT INVERSE BENCHMARK                                                  |\n");
     fprintf(fp, "+-----------------------------------------------------------------------------------------------------------------------------+\n");
     fprintf(fp, "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
     fprintf(fp, "| PARALLELIZED WITH %d THREADS\n", omp_get_max_threads());
@@ -59,7 +59,7 @@ int main(int argc, const char** argv)
     fprintf(fp2, "bandwidth\truntime\tserial\tspeedup\tefficiency\n");
 #else
     printf(     "+-----------------------------------------------------------------------------------------+\n");
-    printf(     "|                                  SOFT INVERSE BENCHMARK                                 |\n");
+    printf(     "|                                  DSOFT INVERSE BENCHMARK                                |\n");
     printf(     "+-----------------------------------------------------------------------------------------+\n");
     printf(     "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
     printf(     "+=====+===========+===================================+===================================+\n");
@@ -67,7 +67,7 @@ int main(int argc, const char** argv)
     printf(     "+=====+===========+===================================+===================================+\n");
     
     fprintf(fp, "+-----------------------------------------------------------------------------------------+\n");
-    fprintf(fp, "|                                  SOFT INVERSE BENCHMARK                                 |\n");
+    fprintf(fp, "|                                  DSOFT INVERSE BENCHMARK                                |\n");
     fprintf(fp, "+-----------------------------------------------------------------------------------------+\n");
     fprintf(fp, "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
     fprintf(fp, "+=====+===========+===================================+===================================+\n");
@@ -102,7 +102,7 @@ int main(int argc, const char** argv)
 #ifdef _OPENMP
         // get reference value of serial implementation
         stopwatch sw = stopwatch::tic();
-        ISOFT(coef, sample, 1);  // setting threads explicitly to 1
+        IDSOFT(coef, sample, 1);  // setting threads explicitly to 1
         double serial_ref = sw.toc();
 #endif
         
@@ -111,7 +111,7 @@ int main(int argc, const char** argv)
             // perform inverse SOFT transform
             // and stop time
             stopwatch sw = stopwatch::tic();
-            ISOFT(coef, sample);
+            IDSOFT(coef, sample);
             double time  = sw.toc();
             
             // add to sum of time for current bandwidth

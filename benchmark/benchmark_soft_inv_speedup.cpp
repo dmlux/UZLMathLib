@@ -36,12 +36,12 @@ int main(int argc, const char** argv)
     double runtimes[omp_get_max_threads() - 1];
     
     // write to file
-    FILE* fp  = fopen("benchmark_soft_inv_speedup.txt", "w");
-    FILE* fp2 = fopen("soft_inverse_speedup.dat", "w");
+    FILE* fp  = fopen("benchmark_DSOFT_inv_speedup.txt", "w");
+    FILE* fp2 = fopen("DSOFT_inverse_speedup.dat", "w");
     
     // Print to console
     printf("+--------------------------------------------------------------------------------------+\n");
-    printf("|                            SOFT INVERSE SPEEDUP BENCHMARK                            |\n");
+    printf("|                            DSOFT INVERSE SPEEDUP BENCHMARK                           |\n");
     printf("+--------------------------------------------------------------------------------------+\n");
     printf("| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
     printf("| PARALLELIZED WITH %d THREADS\n", omp_get_max_threads());
@@ -60,7 +60,7 @@ int main(int argc, const char** argv)
     
     // Print to file
     fprintf(fp, "+--------------------------------------------------------------------------------------+\n");
-    fprintf(fp, "|                            SOFT INVERSE SPEEDUP BENCHMARK                            |\n");
+    fprintf(fp, "|                            DSOFT INVERSE SPEEDUP BENCHMARK                           |\n");
     fprintf(fp, "+--------------------------------------------------------------------------------------+\n");
     fprintf(fp, "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
     fprintf(fp, "| PARALLELIZED WITH %d THREADS\n", omp_get_max_threads());
@@ -101,7 +101,7 @@ int main(int argc, const char** argv)
         // create sample
         // get reference value of serial implementation
         stopwatch sw = stopwatch::tic();
-        ISOFT(coef, sample, 1);
+        IDSOFT(coef, sample, 1);
         double serial_ref = sw.toc();
         
         // reset times
@@ -119,7 +119,7 @@ int main(int argc, const char** argv)
                 // perform forward SOFT transform
                 // and stop time
                 stopwatch sw = stopwatch::tic();
-                ISOFT(coef, sample, threads);
+                IDSOFT(coef, sample, threads);
                 double time  = sw.toc();
                 
                 runtimes[threads - 2] += time;

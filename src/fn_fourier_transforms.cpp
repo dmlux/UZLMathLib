@@ -64,7 +64,7 @@ UZLMATH_NAMESPACE(FourierTransforms)
  *
  * @since           0.0.1
  */
-auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int threads) -> void
+auto DSOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int threads) -> void
 {
     /*****************************************************************
      ** Check parameters                                            **
@@ -327,7 +327,7 @@ auto SOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int t
  * @author          Denis-Michael Lux <denis.lux@icloud.com>
  * @date            23.05.2015
  */
-auto ISOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis, int threads) -> void
+auto IDSOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis, int threads) -> void
 {
     /*****************************************************************
      ** Check parameters                                            **
