@@ -28,9 +28,9 @@ int main(int argc, const char** argv)
     printf("|                         BENCHMARK DWT ACCURACY                        |\n");
     printf("+-----------------------------------------------------------------------+\n");
     
-    printf("+------+--------------+----------------+\n");
+    printf("+------+--------------+--------------------+\n");
     printf("|  BW  | M=%d, M'=%d    | %d iterations |\n", M, Mp, runs);
-    printf("+------+--------------+----------------+\n");
+    printf("+------+--------------+--------------------+\n");
     
     // run all power of 2 bandwidths
     for (int bw = 2; bw <= B; bw *= 2)
@@ -97,9 +97,9 @@ int main(int argc, const char** argv)
         
         //printf("%e, %e\n", abs_error, abs_exact);
         
-        printf("| %4d | %e | absolute error |\n", bw, abs_error);
-        printf("|      | %e | relative error |\n", abs_error / abs_exact);
-        printf("+------+--------------+----------------+\n");
+        printf("| %4d | %e | absolute error     |\n", bw, abs_error);
+        printf("|      | %e | relative error     |\n", abs_error / abs_exact);
+        printf("+------+--------------+--------------------+\n");
     }
     
     return 0;
