@@ -29,7 +29,7 @@ int main(int argc, const char** argv)
     // To make things fair, we run omp once for startup. This will avoid
     // initialization time later on:
     int max_procs = omp_get_num_procs();
-#pragma omp parallel for num_threads(max_procs)
+    #pragma omp parallel for num_threads(max_procs)
     for (int i = 0; i < max_procs; i++);
     
     // storage for average runtimes and given number of threads

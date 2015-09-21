@@ -210,7 +210,7 @@ auto DSOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int 
         //     for (Mp = 1; Mp < M; ++Mp)
         //
         // which now is equivalent to the following loop
-        #pragma omp for private(MMp, M, Mp, dw, sh) schedule(dynamic) firstprivate(s) nowait
+        #pragma omp for private(MMp, M, Mp, dw, sh) firstprivate(s) schedule(dynamic) nowait
         for (MMp = 0; MMp < (bandwidth - 2) * (bandwidth - 1) / 2; ++MMp)
         {
             // reconstructing nested loop indices

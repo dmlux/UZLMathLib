@@ -41,8 +41,8 @@ int main(int argc, const char** argv)
     
         // create weigthed wigner matrix and wigner matrix
         matrix< double > dw = DWT::weighted_wigner_d_matrix(bw, M, Mp, weights);
-        matrix< double > d  = DWT::wigner_d_matrix(bw, M, Mp);
-        d.transpose();
+        matrix< double > dt = DWT::wigner_d_matrix(bw, M, Mp);
+        dt.transpose();
         
         // absolute average error
         double abs_exact = 0;
@@ -53,11 +53,11 @@ int main(int argc, const char** argv)
         {
             
             // create random coefficients
-            vector< complex< double > > fh(d.cols, vec_type::COLUMN);
+            vector< complex< double > > fh(dt.cols, vec_type::COLUMN);
             rand(fh, -1, 1);
             
             // inverse DWT
-            vector< complex< double > > s = d * fh;
+            vector< complex< double > > s = dt * fh;
             
             // forward DWT
             vector< complex< double > > gh = dw * s;

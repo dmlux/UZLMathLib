@@ -52,7 +52,7 @@ auto randi(matrix< eT >& mat, const int& min, const int& max) -> typename uzl_vo
     unsigned long seed = 1000000L * tv.tv_sec + tv.tv_usec;
     
     // C++11 random numbers uniformly distributed
-    std::default_random_engine e(seed);
+    std::mt19937_64 e(seed);
     std::uniform_int_distribution< typename uzl_int_rand_dist_type< eT >::result > d(min, max);
     
     // fill vector with random integers
@@ -105,7 +105,7 @@ auto randi(matrix< complex< eT > >& mat, const int& min, const int& max) -> type
     unsigned long seed = 1000000L * tv.tv_sec + tv.tv_usec;
 
     // C++11 random numbers uniformly distributed
-    std::default_random_engine e(seed);
+    std::mt19937_64 e(seed);
     std::uniform_int_distribution< typename uzl_int_rand_dist_type< eT >::result > d(min, max);
     
     // fill vector with random complex integers
@@ -161,7 +161,7 @@ auto rand(matrix< eT >& mat, const double& min, const double& max) -> typename u
     unsigned long seed = 1000000L * tv.tv_sec + tv.tv_usec;
     
     // C++11 random numbers uniformly distributed
-    std::default_random_engine e(seed);
+    std::mt19937_64 e(seed);
     std::uniform_real_distribution< eT > d(min, max);
     
     // fill vector with randoms
@@ -216,7 +216,7 @@ auto rand(matrix< complex< eT > >& mat, const double& min, const double& max) ->
     unsigned long seed = 1000000L * tv.tv_sec + tv.tv_usec;
     
     // C++11 random numbers uniformly distributed
-    std::default_random_engine e(seed);
+    std::mt19937_64 e(seed);
     std::uniform_real_distribution< eT > d(min, max);
     
     // fill vector with randoms
