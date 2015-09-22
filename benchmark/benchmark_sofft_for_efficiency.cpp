@@ -1,5 +1,5 @@
 //
-//  benchmark_soft_inv_speedup.cpp
+//  benchmark_sofft_for_efficiency.cpp
 //  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 22.07.15.
@@ -19,7 +19,7 @@ int main(int argc, const char** argv)
 #ifdef _OPENMP
     if (argc < 3)
     {
-        printf("usage: ./benchmark_soft_inv_speedup <MAX BANDWIDTH> <RUNS PER BANDWDITH>\n");
+        printf("usage: ./benchmark_sofft_for_efficiency <MAX BANDWIDTH> <RUNS PER BANDWDITH>\n");
         return 1;
     }
     
@@ -29,52 +29,52 @@ int main(int argc, const char** argv)
     // To make things fair, we run omp once for startup. This will avoid
     // initialization time later on:
     int max_procs = omp_get_num_procs();
-    #pragma omp parallel for num_threads(max_procs)
+#pragma omp parallel for num_threads(max_procs)
     for (int i = 0; i < max_procs; i++);
     
     // storage for average runtimes and given number of threads
     double runtimes[omp_get_max_threads() - 1];
     
     // write to file
-    FILE* fp  = fopen("benchmark_DSOFT_inv_speedup.txt", "w");
-    FILE* fp2 = fopen("DSOFT_inverse_speedup.dat", "w");
+    FILE* fp  = fopen("benchmark_DSOFT_for_efficiency.txt", "w");
+    FILE* fp2 = fopen("DSOFT_forward_efficiency.dat", "w");
     
     // Print to console
     printf("+--------------------------------------------------------------------------------------+\n");
-    printf("|                            DSOFT INVERSE SPEEDUP BENCHMARK                           |\n");
+    printf("|                           DSOFT FORWARD EFFICIENCY BENCHMARK                         |\n");
     printf("+--------------------------------------------------------------------------------------+\n");
     printf("| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
     printf("| PARALLELIZED WITH %d THREADS\n", omp_get_max_threads());
     
     printf("+=====+============+");
-    for (int i = 0; i < omp_get_max_threads() - 1; ++i) { printf("==================+"); }
+    for (int i = 0; i < omp_get_max_threads() - 1; ++i) { printf("====================+"); }
     printf("\n");
     
     printf("|  B  | t (serial) |");
-    for (int i = 0; i < omp_get_max_threads() - 1; ++i) { printf(" speedup %d cores  |", i + 2); }
+    for (int i = 0; i < omp_get_max_threads() - 1; ++i) { printf(" efficiency %d cores |", i + 2); }
     printf("\n");
     
     printf("+=====+============+");
-    for (int i = 0; i < omp_get_max_threads() - 1; ++i) { printf("==================+"); }
+    for (int i = 0; i < omp_get_max_threads() - 1; ++i) { printf("====================+"); }
     printf("\n");
     
     // Print to file
     fprintf(fp, "+--------------------------------------------------------------------------------------+\n");
-    fprintf(fp, "|                            DSOFT INVERSE SPEEDUP BENCHMARK                           |\n");
+    fprintf(fp, "|                           DSOFT FORWARD EFFICIENCY BENCHMARK                         |\n");
     fprintf(fp, "+--------------------------------------------------------------------------------------+\n");
     fprintf(fp, "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
     fprintf(fp, "| PARALLELIZED WITH %d THREADS\n", omp_get_max_threads());
     
     fprintf(fp, "+=====+============+");
-    for (int i = 0; i < omp_get_max_threads() - 1; ++i) { fprintf(fp, "==================+"); }
+    for (int i = 0; i < omp_get_max_threads() - 1; ++i) { fprintf(fp, "====================+"); }
     fprintf(fp, "\n");
     
     fprintf(fp, "|  B  | t (serial) |");
-    for (int i = 0; i < omp_get_max_threads() - 1; ++i) { fprintf(fp, " speedup %d cores  |", i + 2); }
+    for (int i = 0; i < omp_get_max_threads() - 1; ++i) { fprintf(fp, " efficiency %d cores |", i + 2); }
     fprintf(fp, "\n");
     
     fprintf(fp, "+=====+============+");
-    for (int i = 0; i < omp_get_max_threads() - 1; ++i) { fprintf(fp, "==================+"); }
+    for (int i = 0; i < omp_get_max_threads() - 1; ++i) { fprintf(fp, "====================+"); }
     fprintf(fp, "\n");
     
     // print labels to file
@@ -94,21 +94,24 @@ int main(int argc, const char** argv)
         
         // creating fourier coefficients container
         SOFTFourierCoefficients coef(bandwidth);
+        SOFTFourierCoefficients rec_coef(bandwidth);
         
         // generate random coefficients between -1 and 1
         rand(coef, -1, 1);
         
         // create sample
-        // get reference value of serial implementation
-        stopwatch sw = stopwatch::tic();
-        IDSOFT(coef, sample, 1);
-        double serial_ref = sw.toc();
+        IDSOFT(coef, sample);
         
         // reset times
         for (i = 0; i < omp_get_max_threads(); ++i)
         {
             runtimes[i] = 0;
         }
+        
+        // get reference value of serial implementation
+        stopwatch sw = stopwatch::tic();
+        DSOFT(sample, rec_coef, 1);  // setting threads explicitly to 1
+        double serial_ref = sw.toc();
         
         // run loop run for all number of available threads
         for (threads = 2; threads <= omp_get_max_threads(); ++threads)
@@ -119,7 +122,7 @@ int main(int argc, const char** argv)
                 // perform forward SOFT transform
                 // and stop time
                 stopwatch sw = stopwatch::tic();
-                IDSOFT(coef, sample, threads);
+                DSOFT(sample, rec_coef, threads);
                 double time  = sw.toc();
                 
                 runtimes[threads - 2] += time;
@@ -129,7 +132,7 @@ int main(int argc, const char** argv)
         fprintf(fp2, "%3d\t%2.6fs\t", bandwidth, serial_ref);
         for (int i = 0; i < omp_get_max_threads() - 1; ++i)
         {
-            fprintf(fp2, "%2.2f\t%2.6f\t", (serial_ref / (runtimes[i] / LOOP_R)), (runtimes[i] / LOOP_R));
+            fprintf(fp2, "%2.2f\t%2.6f\t", (serial_ref / (threads * runtimes[i] / LOOP_R)), (runtimes[i] / LOOP_R));
         }
         fprintf(fp2, "\n");
         
@@ -137,7 +140,7 @@ int main(int argc, const char** argv)
         printf("| %3d | %2.6fs  | ", bandwidth, serial_ref);
         for (i = 0; i < omp_get_max_threads() - 1; ++i)
         {
-            printf("%2.2f (%2.6fs) | ", (serial_ref / (runtimes[i] / LOOP_R)), (runtimes[i] / LOOP_R));
+            printf(" %2.2f (%2.6fs)  | ", (serial_ref / (threads * runtimes[i] / LOOP_R)), (runtimes[i] / LOOP_R));
         }
         printf("\n");
         
@@ -145,17 +148,17 @@ int main(int argc, const char** argv)
         fprintf(fp, "| %3d | %2.6fs  | ", bandwidth, serial_ref);
         for (i = 0; i < omp_get_max_threads() - 1; ++i)
         {
-            fprintf(fp, "%2.2f (%2.6fs) | ", (serial_ref / (runtimes[i] / LOOP_R)), (runtimes[i] / LOOP_R));
+            fprintf(fp, " %2.2f (%2.6fs)  | ", (serial_ref / (threads * runtimes[i] / LOOP_R)), (runtimes[i] / LOOP_R));
         }
         fprintf(fp, "\n");
     }
     
     printf("+=====+============+");
-    for (int i = 0; i < omp_get_max_threads() - 1; ++i) { printf("==================+"); }
+    for (int i = 0; i < omp_get_max_threads() - 1; ++i) { printf("====================+"); }
     printf("\n");
     
     fprintf(fp, "+=====+============+");
-    for (int i = 0; i < omp_get_max_threads() - 1; ++i) { fprintf(fp, "==================+"); }
+    for (int i = 0; i < omp_get_max_threads() - 1; ++i) { fprintf(fp, "====================+"); }
     fprintf(fp, "\n");
     
     // close files

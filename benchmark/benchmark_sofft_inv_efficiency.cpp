@@ -1,5 +1,5 @@
 //
-//  benchmark_soft_inv_efficiency.cpp
+//  benchmark_sofft_inv_efficiency.cpp
 //  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 22.07.15.
@@ -19,7 +19,7 @@ int main(int argc, const char** argv)
 #ifdef _OPENMP
     if (argc < 3)
     {
-        printf("usage: ./benchmark_soft_inv_efficiency <MAX BANDWIDTH> <RUNS PER BANDWDITH>\n");
+        printf("usage: ./benchmark_sofft_inv_efficiency <MAX BANDWIDTH> <RUNS PER BANDWDITH>\n");
         return 1;
     }
     

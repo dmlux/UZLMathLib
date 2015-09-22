@@ -1,5 +1,5 @@
 //
-//  benchmark_soft_for.cpp
+//  benchmark_sofft_for.cpp
 //  uzlmath
 //
 //  Created by Denis-Michael Lux on 14.06.15.
@@ -17,7 +17,7 @@ int main(int argc, const char** argv)
 {
     if (argc < 3)
     {
-        printf("usage: ./benchmark_soft_for <MAX BANDWIDTH> <RUNS PER BANDWDITH>\n");
+        printf("usage: ./benchmark_sofft_for <MAX BANDWIDTH> <RUNS PER BANDWDITH>\n");
         return 1;
     }
     
@@ -47,7 +47,7 @@ int main(int argc, const char** argv)
     printf(     "|  B  | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  | serial    | speedup  | efficiency |\n");
     printf(     "+=====+===========+===================================+===================================+===========+==========+============+\n");
     
-    // write output to file "benchmark_soft_for.txt"
+    // write output to file "benchmark_sofft_for.txt"
     fprintf(fp, "+-----------------------------------------------------------------------------------------------------------------------------+\n");
     fprintf(fp, "|                                                   DSOFT FORWARD BENCHMARK                                                   |\n");
     fprintf(fp, "+-----------------------------------------------------------------------------------------------------------------------------+\n");

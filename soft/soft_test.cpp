@@ -230,7 +230,7 @@ void for_back(unsigned int bandwidth, bool show_coefs)
         printf("\n");
     }
     
-    printf("#coefficients: %d\n", cnt_fc);
+    printf("#coefficients:  %d\n", cnt_fc);
     
     // store coefficients on disk
 //    obj2file(rec_coef, "fc.txt");
@@ -255,15 +255,6 @@ int main(int argc, const char ** argv)
 //    for_back_file("/Users/dlux/Desktop/soft_files/grid_128_samp.dat", 128, false);
 //    for_back_file("/Users/dlux/Desktop/soft_files/test_series/grid_3_test.dat", 3, true);
     for_back(B, false);
-    
-//    SOFTFourierCoefficients fc(1);
-//    
-//    rand(fc, -1, 1);
-//    
-//    std::cout << "z = " << fc(0, 0, 0) << std::endl;
-//    std::cout << "|z| = " << fc(0, 0, 0).abs() << std::endl;
-//    
-//    std::cout << fc << std::endl;
     
     return 0;
 }

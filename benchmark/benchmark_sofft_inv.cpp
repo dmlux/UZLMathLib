@@ -1,5 +1,5 @@
 //
-//  benchmark_soft_inv.cpp
+//  benchmark_sofft_inv.cpp
 //  uzlmath
 //
 //  Created by Denis-Michael Lux on 14.06.15.
@@ -17,7 +17,7 @@ int main(int argc, const char** argv)
 {
     if (argc < 3)
     {
-        printf("usage: ./benchmark_soft_inv <MAX BANDWIDTH> <RUNS PER BANDWDITH>\n");
+        printf("usage: ./benchmark_sofft_inv <MAX BANDWIDTH> <RUNS PER BANDWDITH>\n");
         return 1;
     }
     
@@ -36,7 +36,7 @@ int main(int argc, const char** argv)
     FILE* fp  = fopen("benchmark_DSOFT_inv.txt", "w");
     FILE* fp2 = fopen("DSOFT_inverse.dat", "w");
 
-    // write output to file "benchmark_soft_inv.txt"
+    // write output to file "benchmark_sofft_inv.txt"
 #ifdef _OPENMP
     printf(     "+-----------------------------------------------------------------------------------------------------------------------------+\n");
     printf(     "|                                                    DSOFT INVERSE BENCHMARK                                                  |\n");

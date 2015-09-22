@@ -1,5 +1,5 @@
 //
-//  benchmark_soft_for.cpp
+//  benchmark_dwt_accuracy.cpp
 //  uzlmath
 //
 //  Created by Denis-Michael Lux on 14.06.15.
@@ -44,9 +44,9 @@ int main(int argc, const char** argv)
         matrix< double > dt = DWT::wigner_d_matrix(bw, M, Mp);
         dt.transpose();
         
-        // absolute average error
-        double abs_exact = 0;
-        double abs_error = 0;
+        // relative and absolute errors
+        double relative = 0;
+        double absolute = 0;
         
         // run several runs and take average values
         for (int i = 0; i < runs; ++i)
@@ -66,39 +66,27 @@ int main(int argc, const char** argv)
             vector< complex< double > > dif = gh - fh;
             
             // get maximum
-            double max_error = dif[0].abs();
-            double max_exact =  fh[0].abs();
+            double max_val = dif[0].abs();
+            int max_idx = 0;
             
-            // getting max inifinity norm
             for (int j = 0; j < dif.size; ++j)
             {
-                // difference vector
-                if (dif[j].abs() > max_error)
+                if (dif[j].abs() > max_val)
                 {
-                    max_error = dif[j].abs();
-                }
-                
-                // exact vector
-                if (fh[j].abs() > max_exact)
-                {
-                    max_exact =  fh[j].abs();
+                    max_val = dif[j].abs();
+                    max_idx = j;
                 }
             }
             
-            // add to absolute error
-            abs_error += max_error;
-            abs_exact += max_exact;
+            relative += max_val / fh[max_idx].abs();
+            absolute += max_val;
         }
         
-        // divide abs by the amount of runs to get average
-        // abs error
-        abs_error /= runs;
-        abs_exact /= runs;
+        relative /= runs;
+        absolute /= runs;
         
-        //printf("%e, %e\n", abs_error, abs_exact);
-        
-        printf("| %4d | %e | absolute error     |\n", bw, abs_error);
-        printf("|      | %e | relative error     |\n", abs_error / abs_exact);
+        printf("| %4d | %e | absolute error     |\n", bw, absolute);
+        printf("|      | %e | relative error     |\n", relative);
         printf("+------+--------------+--------------------+\n");
     }
     
