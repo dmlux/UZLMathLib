@@ -13,24 +13,22 @@ using namespace uzlmath;
 
 int main(int argc, const char** argv)
 {
-    if (argc < 5)
+    if (argc < 3)
     {
-        printf("usage: ./benchmark_dwt_for_accuracy <B> <M> <M'> <RUNS>\n");
+        printf("usage: ./benchmark_dwt_for_accuracy <B> <RUNS>\n");
         return 1;
     }
     
     int B    = atoi(*(argv + 1));
-    int M    = atoi(*(argv + 2));
-    int Mp   = atoi(*(argv + 3));
-    int runs = atoi(*(argv + 4));
+    int runs = atoi(*(argv + 2));
     
     printf("+-----------------------------------------------------------------------+\n");
     printf("|                         BENCHMARK DWT ACCURACY                        |\n");
     printf("+-----------------------------------------------------------------------+\n");
     
-    printf("+------+--------------+--------------------+\n");
-    printf("|  BW  | M=%d, M'=%d    | %d iterations |\n", M, Mp, runs);
-    printf("+------+--------------+--------------------+\n");
+    printf("+------+--------------+--------------+--------------+-----------------+\n");
+    printf("|  BW  | M=0, M'=0    | M=BW/2, M'=0 | M=M'=BW/2    | %d iterations |\n", runs);
+    printf("+------+--------------+--------------+--------------+-----------------+\n");
     
     // run all power of 2 bandwidths
     for (int bw = 2; bw <= B; bw *= 2)
@@ -40,13 +38,20 @@ int main(int argc, const char** argv)
         vector< double > weights = DWT::quadrature_weights(bw);
     
         // create weigthed wigner matrix and wigner matrix
-        matrix< double > dw = DWT::weighted_wigner_d_matrix(bw, M, Mp, weights);
-        matrix< double > dt = DWT::wigner_d_matrix(bw, M, Mp);
+        matrix< double > dw = DWT::weighted_wigner_d_matrix(bw, 0, 0, weights);
+        matrix< double > dt = DWT::wigner_d_matrix(bw, 0, 0);
         dt.transpose();
         
         // relative and absolute errors
-        double relative = 0;
-        double absolute = 0;
+        double relative[3];
+        double absolute[3];
+        
+        // init errors
+        for (int i = 0; i < 3; ++i)
+        {
+            relative[i] = 0;
+            absolute[i] = 0;
+        }
         
         // run several runs and take average values
         for (int i = 0; i < runs; ++i)
@@ -55,6 +60,11 @@ int main(int argc, const char** argv)
             // create random coefficients
             vector< complex< double > > fh(dt.cols, vec_type::COLUMN);
             rand(fh, -1, 1);
+            
+            for (int idx = 0; idx < fh.size; ++idx)
+            {
+                fh[idx].im = 0;
+            }
             
             // inverse DWT
             vector< complex< double > > s = dt * fh;
@@ -78,16 +88,106 @@ int main(int argc, const char** argv)
                 }
             }
             
-            relative += max_val / fh[max_idx].abs();
-            absolute += max_val;
+            relative[0] += max_val / fh[max_idx].abs();
+            absolute[0] += max_val;
         }
         
-        relative /= runs;
-        absolute /= runs;
+        dw = DWT::weighted_wigner_d_matrix(bw, bw/2, 0, weights);
+        dt = DWT::wigner_d_matrix(bw, bw/2, 0);
+        dt.transpose();
         
-        printf("| %4d | %e | absolute error     |\n", bw, absolute);
-        printf("|      | %e | relative error     |\n", relative);
-        printf("+------+--------------+--------------------+\n");
+        // run several runs and take average values
+        for (int i = 0; i < runs; ++i)
+        {
+            
+            // create random coefficients
+            vector< complex< double > > fh(dt.cols, vec_type::COLUMN);
+            rand(fh, -1, 1);
+            
+            for (int idx = 0; idx < fh.size; ++idx)
+            {
+                fh[idx].im = 0;
+            }
+            
+            // inverse DWT
+            vector< complex< double > > s = dt * fh;
+            
+            // forward DWT
+            vector< complex< double > > gh = dw * s;
+            
+            // get difference vector
+            vector< complex< double > > dif = gh - fh;
+            
+            // get maximum
+            double max_val = dif[0].abs();
+            int max_idx = 0;
+            
+            for (int j = 0; j < dif.size; ++j)
+            {
+                if (dif[j].abs() > max_val)
+                {
+                    max_val = dif[j].abs();
+                    max_idx = j;
+                }
+            }
+            
+            relative[1] += max_val / fh[max_idx].abs();
+            absolute[1] += max_val;
+        }
+        
+        dw = DWT::weighted_wigner_d_matrix(bw, bw/2, bw/2, weights);
+        dt = DWT::wigner_d_matrix(bw, bw/2, bw/2);
+        dt.transpose();
+        
+        // run several runs and take average values
+        for (int i = 0; i < runs; ++i)
+        {
+            
+            // create random coefficients
+            vector< complex< double > > fh(dt.cols, vec_type::COLUMN);
+            rand(fh, -1, 1);
+            
+            for (int idx = 0; idx < fh.size; ++idx)
+            {
+                fh[idx].im = 0;
+            }
+            
+            // inverse DWT
+            vector< complex< double > > s = dt * fh;
+            
+            // forward DWT
+            vector< complex< double > > gh = dw * s;
+            
+            // get difference vector
+            vector< complex< double > > dif = gh - fh;
+            
+            // get maximum
+            double max_val = dif[0].abs();
+            int max_idx = 0;
+            
+            for (int j = 0; j < dif.size; ++j)
+            {
+                if (dif[j].abs() > max_val)
+                {
+                    max_val = dif[j].abs();
+                    max_idx = j;
+                }
+            }
+            
+            relative[2] += max_val / fh[max_idx].abs();
+            absolute[2] += max_val;
+        }
+        
+        // get average value
+        for (int i = 0; i < 3; ++i)
+        {
+            relative[i] /= runs;
+            absolute[i] /= runs;
+        }
+        
+        printf("| %4d | %e | %e | %e | absolute error  |\n", bw, absolute[0], absolute[1], absolute[2]);
+        printf("|      | %e | %e | %e | relative error  |\n", relative[0], relative[1], relative[2]);
+        printf("+------+--------------+--------------+--------------+-----------------+\n");
     }
     
     return 0;
