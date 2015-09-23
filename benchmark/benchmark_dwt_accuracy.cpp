@@ -61,11 +61,6 @@ int main(int argc, const char** argv)
             vector< complex< double > > fh(dt.cols, vec_type::COLUMN);
             rand(fh, -1, 1);
             
-            for (int idx = 0; idx < fh.size; ++idx)
-            {
-                fh[idx].im = 0;
-            }
-            
             // inverse DWT
             vector< complex< double > > s = dt * fh;
             
@@ -75,21 +70,18 @@ int main(int argc, const char** argv)
             // get difference vector
             vector< complex< double > > dif = gh - fh;
             
-            // get maximum
-            double max_val = dif[0].abs();
-            int max_idx = 0;
+            // get length of error vector
+            double abs = 0;
+            double org = 0;
             
             for (int j = 0; j < dif.size; ++j)
             {
-                if (dif[j].abs() > max_val)
-                {
-                    max_val = dif[j].abs();
-                    max_idx = j;
-                }
+                abs += dif[j].abs() * dif[j].abs();
+                org += fh[j].abs() * fh[j].abs();
             }
             
-            relative[0] += max_val / fh[max_idx].abs();
-            absolute[0] += max_val;
+            relative[0] += sqrt(abs) / sqrt(org);
+            absolute[0] += sqrt(abs);
         }
         
         dw = DWT::weighted_wigner_d_matrix(bw, bw/2, 0, weights);
@@ -104,11 +96,6 @@ int main(int argc, const char** argv)
             vector< complex< double > > fh(dt.cols, vec_type::COLUMN);
             rand(fh, -1, 1);
             
-            for (int idx = 0; idx < fh.size; ++idx)
-            {
-                fh[idx].im = 0;
-            }
-            
             // inverse DWT
             vector< complex< double > > s = dt * fh;
             
@@ -118,21 +105,17 @@ int main(int argc, const char** argv)
             // get difference vector
             vector< complex< double > > dif = gh - fh;
             
-            // get maximum
-            double max_val = dif[0].abs();
-            int max_idx = 0;
-            
+            // get length of error vector
+            double abs = 0;
+            double org = 0;
             for (int j = 0; j < dif.size; ++j)
             {
-                if (dif[j].abs() > max_val)
-                {
-                    max_val = dif[j].abs();
-                    max_idx = j;
-                }
+                abs += dif[j].abs() * dif[j].abs();
+                org += fh[j].abs() * fh[j].abs();
             }
             
-            relative[1] += max_val / fh[max_idx].abs();
-            absolute[1] += max_val;
+            relative[1] += sqrt(abs) / sqrt(org);
+            absolute[1] += sqrt(abs);
         }
         
         dw = DWT::weighted_wigner_d_matrix(bw, bw/2, bw/2, weights);
@@ -147,11 +130,6 @@ int main(int argc, const char** argv)
             vector< complex< double > > fh(dt.cols, vec_type::COLUMN);
             rand(fh, -1, 1);
             
-            for (int idx = 0; idx < fh.size; ++idx)
-            {
-                fh[idx].im = 0;
-            }
-            
             // inverse DWT
             vector< complex< double > > s = dt * fh;
             
@@ -161,21 +139,17 @@ int main(int argc, const char** argv)
             // get difference vector
             vector< complex< double > > dif = gh - fh;
             
-            // get maximum
-            double max_val = dif[0].abs();
-            int max_idx = 0;
-            
+            // get length of error vector
+            double abs = 0;
+            double org = 0;
             for (int j = 0; j < dif.size; ++j)
             {
-                if (dif[j].abs() > max_val)
-                {
-                    max_val = dif[j].abs();
-                    max_idx = j;
-                }
+                abs += dif[j].abs() * dif[j].abs();
+                org += fh[j].abs() * fh[j].abs();
             }
             
-            relative[2] += max_val / fh[max_idx].abs();
-            absolute[2] += max_val;
+            relative[2] += sqrt(abs) / sqrt(org);
+            absolute[2] += sqrt(abs);
         }
         
         // get average value
