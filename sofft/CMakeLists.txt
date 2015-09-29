@@ -6,7 +6,7 @@
 
 # Creating binary and linking library
 ADD_EXECUTABLE(
-    soft_test
-    ${PROJECT_SOURCE_DIR}/soft/soft_test.cpp
+    sofft_test
+    ${PROJECT_SOURCE_DIR}/sofft/sofft_test.cpp
 )
-TARGET_LINK_LIBRARIES( soft_test UZLMath )
+TARGET_LINK_LIBRARIES( sofft_test UZLMath )

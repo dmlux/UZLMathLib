@@ -135,7 +135,7 @@ ADD_SUBDIRECTORY( gtest-1.7.0 )
 ADD_SUBDIRECTORY( test )
 
 # Soft test
-ADD_SUBDIRECTORY( soft )
+ADD_SUBDIRECTORY( sofft )
 
 ####################################################################
 ##  INSTALLATION SECTION                                          ##
