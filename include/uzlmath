@@ -40,6 +40,7 @@
 #include "uzlmath_headers/restrictors.hpp"
 
 /*- Class prototypes             -*/
+#include "uzlmath_headers/constants.hpp"
 #include "uzlmath_headers/access.hpp"
 #include "uzlmath_headers/array_dec.hpp"
 #include "uzlmath_headers/base_dec.hpp"

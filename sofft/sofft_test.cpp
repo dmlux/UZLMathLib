@@ -182,10 +182,6 @@ void for_back(unsigned int bandwidth, bool show_coefs)
     FourierTransforms::DSOFT(sample, rec_coef);
     double time = sw.toc();
     
-//    std::cout << "coef = " << coef << std::endl;
-//    std::cout << "rec_coef = " << rec_coef << std::endl;
-//    std::cout << sample << std::endl;
-    
     // print Fourier coefficients
     // save outstream flags
     if (show_coefs)
@@ -250,10 +246,6 @@ int main(int argc, const char ** argv)
     }
     
     int B = atoi(*(argv + 1));
-        
-    //createGridSOFT(10);
-//    for_back_file("/Users/dlux/Desktop/soft_files/grid_128_samp.dat", 128, false);
-//    for_back_file("/Users/dlux/Desktop/soft_files/test_series/grid_3_test.dat", 3, true);
     for_back(B, false);
     
     return 0;

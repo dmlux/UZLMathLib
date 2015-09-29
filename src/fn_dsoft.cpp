@@ -100,7 +100,7 @@ auto DSOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int 
     #ifndef _OPENMP
     if (threads != 1)
     {
-        uzlmath_warning("%s", "compiler does not support OpenMP. Changing the number of threads for the SOFT has no effect.");
+        uzlmath_warning("%s", "compiler does not support OpenMP. Changing the number of threads for the DSOFT has no effect.");
     }
     #endif
     
@@ -117,7 +117,7 @@ auto DSOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int 
     vector< complex< double > > s(bw2, vec_type::COLUMN);
     
     // defining norm factor
-    complex< double > norm(M_PI / (bandwidth * bw2), 0);
+    complex< double > norm(constants<double>::pi / (bandwidth * bw2), 0);
     
     // defining needed indices
     int MMp, M, Mp;

@@ -271,7 +271,7 @@ auto wigner_D_l2normalized(const int& J, const int& M, const int& Mp, const doub
         return complex< double  >(0.0, 0.0);
     }
     
-    return complex< double >(1.0 / (2.0 * M_PI) * sqrt((2.0 * J + 1.0) / 2.0), 0) * wigner_D(J, M, Mp, alpha, beta, gamma);
+    return complex< double >(1.0 / (2.0 * constants< double >::pi) * sqrt((2.0 * J + 1.0) / 2.0), 0) * wigner_D(J, M, Mp, alpha, beta, gamma);
 }
 
 UZLMATH_NAMESPACE_END

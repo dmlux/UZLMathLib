@@ -54,11 +54,11 @@ auto quadrature_weights(const int& bandwidth) -> vector< double >
     int i, k;
     for (i = 0; i < bandwidth; ++i)
     {
-        double wi  = 2.0 / bandwidth * sin(M_PI * (2.0 * i + 1.0)/(4.0 * bandwidth));
+        double wi  = 2.0 / bandwidth * sin(constants< double >::pi * (2.0 * i + 1.0)/(4.0 * bandwidth));
         double sum = 0;
         for (k = 0; k < bandwidth; ++k)
         {
-            sum += 1.0 / (2.0 * k + 1.0) * sin((2.0 * i + 1.0) * (2.0 * k + 1.0) * M_PI / (4.0 * bandwidth));
+            sum += 1.0 / (2.0 * k + 1.0) * sin((2.0 * i + 1.0) * (2.0 * k + 1.0) * constants< double >::pi / (4.0 * bandwidth));
         }
         
         wi                      *= sum;
@@ -136,11 +136,11 @@ auto weighted_wigner_d_matrix(const int& bandwidth, const int& M, const int& Mp,
     for (i = 0 ; i < 2*bandwidth; ++i)
     {
         // Getting sin and cos values for the power operator
-        double sinHalfBeta = sin(0.5 * ((2. * i + 1.) * M_PI) / (4.0 * bandwidth));
-        double cosHalfBeta = cos(0.5 * ((2. * i + 1.) * M_PI) / (4.0 * bandwidth));
+        double sinHalfBeta = sin(0.5 * ((2. * i + 1.) * constants< double >::pi) / (4.0 * bandwidth));
+        double cosHalfBeta = cos(0.5 * ((2. * i + 1.) * constants< double >::pi) / (4.0 * bandwidth));
         
         // Store cosine values for reuse in recurrence loop
-        cosBeta[i] = cos(((2. * i + 1.) * M_PI) / (4.0 * bandwidth));
+        cosBeta[i] = cos(((2. * i + 1.) * constants< double >::pi) / (4.0 * bandwidth));
         
         // Computing base wigners. filling the first row in matrix with those values
         wig(0, i)  = normFactor * sinSign * pow(sinHalfBeta, sinPower) * pow(cosHalfBeta, cosPower) * weights[i];
@@ -268,11 +268,11 @@ auto wigner_d_matrix(const int& bandwidth, const int& M, const int& Mp) -> matri
     for (i = 0 ; i < 2*bandwidth; ++i)
     {
         // Getting sin and cos values for the power operator
-        double sinHalfBeta = sin(0.5 * ((2. * i + 1.) * M_PI) / (4.0 * bandwidth));
-        double cosHalfBeta = cos(0.5 * ((2. * i + 1.) * M_PI) / (4.0 * bandwidth));
+        double sinHalfBeta = sin(0.5 * ((2. * i + 1.) * constants< double >::pi) / (4.0 * bandwidth));
+        double cosHalfBeta = cos(0.5 * ((2. * i + 1.) * constants< double >::pi) / (4.0 * bandwidth));
         
         // Store cosine values for reuse in recurrence loop
-        cosBeta[i] = cos(((2. * i + 1.) * M_PI) / (4.0 * bandwidth));
+        cosBeta[i] = cos(((2. * i + 1.) * constants< double >::pi) / (4.0 * bandwidth));
         
         // Computing base wigners
         wig(0, i)  = normFactor * sinSign * pow(sinHalfBeta, sinPower) * pow(cosHalfBeta, cosPower);

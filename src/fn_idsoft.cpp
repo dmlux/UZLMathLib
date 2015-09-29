@@ -109,7 +109,7 @@ auto IDSOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synt
     d.transpose();
     
     // defining norm factor
-    complex< double > norm((bandwidth * bw2) / M_PI, 0);
+    complex< double > norm((bandwidth * bw2) / constants< double >::pi, 0);
     
     // defining needed indices
     int MMp, M, Mp;
