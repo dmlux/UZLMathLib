@@ -100,9 +100,14 @@ int main(int argc, const char** argv)
         
         // create sample
         // get reference value of serial implementation
-        stopwatch sw = stopwatch::tic();
-        IDSOFT(coef, sample, 1);
-        double serial_ref = sw.toc();
+        double serial_ref = 0;
+        for (int i = 0; i < LOOP_R; ++i)
+        {
+            stopwatch sw = stopwatch::tic();
+            IDSOFT(coef, sample, 1);
+            serial_ref += sw.toc();
+        }
+        serial_ref /= LOOP_R;
         
         // reset times
         for (i = 0; i < omp_get_max_threads(); ++i)

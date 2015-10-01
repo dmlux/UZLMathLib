@@ -105,10 +105,14 @@ int main(int argc, const char** argv)
         double times = 0;
         
 #ifdef _OPENMP
-        // get reference value of serial implementation
-        stopwatch sw = stopwatch::tic();
-        DSOFT(sample, rec_coef, 1);  // setting threads explicitly to 1
-        double serial_ref = sw.toc();
+        double serial_ref = 0;
+        for (int i = 0; i < LOOP_R; ++i)
+        {
+            stopwatch sw = stopwatch::tic();
+            DSOFT(sample, rec_coef, 1);  // setting threads explicitly to 1
+            serial_ref += sw.toc();
+        }
+        serial_ref /= LOOP_R;
 #endif
         
         for (i = 0; i < LOOP_R; ++i)

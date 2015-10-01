@@ -117,7 +117,7 @@ auto DSOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int 
     vector< complex< double > > s(bw2, vec_type::COLUMN);
     
     // defining norm factor
-    complex< double > norm(constants<double>::pi / (bandwidth * bw2), 0);
+    complex< double > norm(constants< double >::pi / (bandwidth * bw2), 0);
     
     // defining needed indices
     int MMp, M, Mp;

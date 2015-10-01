@@ -247,6 +247,10 @@ int main(int argc, const char ** argv)
     
     int B = atoi(*(argv + 1));
     for_back(B, false);
+
+//    matrix< double > wig = DWT::wigner_d_matrix(5, 1, 2);
+//    
+//    std::cout << "wig = " << wig << std::endl;
     
     return 0;
 }
