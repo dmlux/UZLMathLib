@@ -21,8 +21,9 @@ int main(int argc, const char** argv)
         return 1;
     }
     
-    int MAX_BW = atoi(argv[1]);
-    int LOOP_R = atoi(argv[2]);
+    int START_BW = atoi(argv[1]);
+    int MAX_BW = atoi(argv[2]);
+    int LOOP_R = atoi(argv[3]);
     
     // To make things fair, we run omp once for startup. This will avoid
     // initialization time later on:
@@ -78,7 +79,7 @@ int main(int argc, const char** argv)
 #endif
     
     // loop over all bandwidth up to MAX_BW
-    for (unsigned int bandwidth = 1; bandwidth <= MAX_BW; ++bandwidth)
+    for (unsigned int bandwidth = START_BW; bandwidth <= MAX_BW; ++bandwidth)
     {
         
         // create a grid to fill with values
