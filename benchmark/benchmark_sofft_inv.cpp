@@ -15,9 +15,9 @@ using namespace FourierTransforms;
 // Main method
 int main(int argc, const char** argv)
 {
-    if (argc < 3)
+    if (argc < 4)
     {
-        printf("usage: ./benchmark_sofft_inv <MAX BANDWIDTH> <RUNS PER BANDWDITH>\n");
+        printf("usage: ./benchmark_sofft_inv <MIN BANDWIDTH> <MAX BANDWIDTH> <RUNS PER BANDWDITH>\n");
         return 1;
     }
     
