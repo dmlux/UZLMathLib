@@ -137,7 +137,7 @@ int main(int argc, const char** argv)
         fprintf(fp2, "%3d\t%2.6fs\t", bandwidth, serial_ref);
         for (int i = 0; i < omp_get_max_threads() - 1; ++i)
         {
-            fprintf(fp2, "%2.2f\t%2.6f\t", (serial_ref / (threads * runtimes[i] / LOOP_R)), (runtimes[i] / LOOP_R));
+            fprintf(fp2, "%2.2f\t%2.6f\t", (serial_ref / ((i+2) * runtimes[i] / LOOP_R)), (runtimes[i] / LOOP_R));
         }
         fprintf(fp2, "\n");
         
@@ -145,7 +145,7 @@ int main(int argc, const char** argv)
         printf("| %3d | %2.6fs  | ", bandwidth, serial_ref);
         for (i = 0; i < omp_get_max_threads() - 1; ++i)
         {
-            printf(" %2.2f (%2.6fs)  | ", (serial_ref / (threads * runtimes[i] / LOOP_R)), (runtimes[i] / LOOP_R));
+            printf(" %2.2f (%2.6fs)  | ", (serial_ref / ((i+2) * runtimes[i] / LOOP_R)), (runtimes[i] / LOOP_R));
         }
         printf("\n");
         
@@ -153,7 +153,7 @@ int main(int argc, const char** argv)
         fprintf(fp, "| %3d | %2.6fs  | ", bandwidth, serial_ref);
         for (i = 0; i < omp_get_max_threads() - 1; ++i)
         {
-            fprintf(fp, " %2.2f (%2.6fs)  | ", (serial_ref / (threads * runtimes[i] / LOOP_R)), (runtimes[i] / LOOP_R));
+            fprintf(fp, " %2.2f (%2.6fs)  | ", (serial_ref / ((i+2) * runtimes[i] / LOOP_R)), (runtimes[i] / LOOP_R));
         }
         fprintf(fp, "\n");
     }
