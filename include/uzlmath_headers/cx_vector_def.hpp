@@ -13,177 +13,177 @@
 
 UZLMATH_BEGIN
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > >::vector()
+vector< complex< T > >::vector()
     : size(0)
     , type(vec_type::ROW)
     , inj(0)
     , mem(nullptr)
 {}
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > >::vector(const size_t& s, const vec_type& type)
+vector< complex< T > >::vector(const size_t& s, const vec_type& type)
     : inj(0)
     , size(s)
     , type(type)
 {
-    mem = new complex< eT >[s];
+    mem = new complex< T >[s];
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > >::vector(const size_t& s, const eT& initial, const vec_type& type)
+vector< complex< T > >::vector(const size_t& s, const T& initial, const vec_type& type)
     : inj(0)
     , size(s)
     , type(type)
 {
-    mem = new complex< eT >[s];
+    mem = new complex< T >[s];
     
     if (size > 0)
     {
-        complex< eT >* fill_mem = const_cast< complex< eT >* >(mem);
-        std::fill(fill_mem, fill_mem + size, complex< eT >(initial, 0));
+        complex< T >* fill_mem = const_cast< complex< T >* >(mem);
+        std::fill(fill_mem, fill_mem + size, complex< T >(initial, 0));
     }
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > >::vector(const size_t& s, const complex< eT >& initial, const vec_type& type)
+vector< complex< T > >::vector(const size_t& s, const complex< T >& initial, const vec_type& type)
     : size(s)
     , type(type)
     , inj(0)
 {
-    mem = new complex< eT >[s];
+    mem = new complex< T >[s];
     
     if (size > 0)
     {
-        complex< eT >* fill_mem = const_cast< complex< eT >* >(mem);
+        complex< T >* fill_mem = const_cast< complex< T >* >(mem);
         std::fill(fill_mem, fill_mem + size, initial);
     }
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > >::vector(const vector< eT >& vec)
+vector< complex< T > >::vector(const vector< T >& vec)
     : size(vec.size)
     , type(vec.type)
     , inj(vec.inj)
 {
-    mem = new complex< eT >[vec.size];
+    mem = new complex< T >[vec.size];
     
     size_t i;
     for (i = 0; i < vec.size; ++i)
     {
-        mem[i] = complex< eT >(vec[i], 0);
+        mem[i] = complex< T >(vec[i], 0);
     }
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > >::vector(const vector< complex< eT > >& vec)
+vector< complex< T > >::vector(const vector< complex< T > >& vec)
     : inj(vec.inj)
     , size(vec.size)
     , type(vec.type)
 {
-    mem = new complex< eT >[vec.size];
-    memcpy(access::rwp(mem), access::rwp(vec.mem), vec.size * sizeof(complex< eT >));
+    mem = new complex< T >[vec.size];
+    memcpy(access::rwp(mem), access::rwp(vec.mem), vec.size * sizeof(complex< T >));
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > >::vector(const vector< eT >& vec, const vec_type& type)
+vector< complex< T > >::vector(const vector< T >& vec, const vec_type& type)
     : size(vec.size)
     , type(type)
     , inj(vec.inj)
 {
-    mem = new complex< eT >[vec.size];
+    mem = new complex< T >[vec.size];
     
     size_t i;
     for (i = 0; i < vec.size; ++i)
     {
-        mem[i] = complex< eT >(vec[i], 0);
+        mem[i] = complex< T >(vec[i], 0);
     }
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > >::vector(const vector< complex< eT > >& vec, const vec_type& t)
+vector< complex< T > >::vector(const vector< complex< T > >& vec, const vec_type& t)
     : size(vec.size)
     , type(type)
     , inj(vec.inj)
 {
-    mem = new complex< eT >[size];
+    mem = new complex< T >[size];
     
     if (size > 0)
     {
-        memcpy(access::rw(mem), access::rw(vec.mem), size * sizeof(complex< eT >));
+        memcpy(access::rw(mem), access::rw(vec.mem), size * sizeof(complex< T >));
     }
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > >::vector(vector< complex< eT > >&& vec)
+vector< complex< T > >::vector(vector< complex< T > >&& vec)
     : inj(vec.inj)
     , size(vec.size)
     , type(vec.type)
 {
-    const complex< eT >* tmp = mem;
+    const complex< T >* tmp = mem;
     mem                      = vec.mem;
     vec.mem                  = tmp;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > >::~vector()
+vector< complex< T > >::~vector()
 {
     delete [] mem;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > >  vector< complex< eT > >::operator+(const vector< eT >& v)
+vector< complex< T > >  vector< complex< T > >::operator+(const vector< T >& v)
 {
     if ( size != v.size || type != v.type)
     {
         uzlmath_error("%s", "size mismatch in complex vector-vector addition.");
     }
     
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < v.size; ++i)
     {
-        result[i] = mem[i] + complex< eT >(v[i], 0);
+        result[i] = mem[i] + complex< T >(v[i], 0);
     }
     
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator-(const vector< eT >& v)
+vector< complex< T > > vector< complex< T > >::operator-(const vector< T >& v)
 {
     if ( size != v.size || type != v.type)
     {
         uzlmath_error("%s", "size mismatch in complex vector-vector subtraction.");
     }
     
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < v.size; ++i)
     {
-        result[i] = mem[i] + complex< eT >(v[i], 0);
+        result[i] = mem[i] + complex< T >(v[i], 0);
     }
     
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > vector< complex< eT > >::operator*(const vector< eT >& v)
+matrix< complex< T > > vector< complex< T > >::operator*(const vector< T >& v)
 {
     if (type == v.type || (type == vec_type::ROW && size != v.size))
     {
@@ -197,10 +197,10 @@ matrix< complex< eT > > vector< complex< eT > >::operator*(const vector< eT >& v
     int LDB = K;
     int LDC = M;
     
-    matrix< complex< eT > > result(M, N);
+    matrix< complex< T > > result(M, N);
     
     // do multiplication
-    if (is_int< eT >::value == true || is_short< eT >::value == true)
+    if ( same_type< T, int >::value || same_type< T, short >::value )
     {
         float* tmp_mem  = new float[2 * size];
         float* tmp_v    = new float[2 * v.size];
@@ -226,8 +226,8 @@ matrix< complex< eT > > vector< complex< eT > >::operator*(const vector< eT >& v
         size_t cap_c = M * N;
         for (i = 0; i < cap_c; ++i)
         {
-            result.mem[i].re = static_cast< eT >(C[i * 2    ]);
-            result.mem[i].im = static_cast< eT >(C[i * 2 + 1]);
+            result.mem[i].re = static_cast< T >(C[i * 2    ]);
+            result.mem[i].im = static_cast< T >(C[i * 2 + 1]);
         }
         
         delete [] tmp_mem;
@@ -260,8 +260,8 @@ matrix< complex< eT > > vector< complex< eT > >::operator*(const vector< eT >& v
         size_t cap_c = M * N;
         for (i = 0; i < cap_c; ++i)
         {
-            result.mem[i].re = static_cast< eT >(C[i * 2    ]);
-            result.mem[i].im = static_cast< eT >(C[i * 2 + 1]);
+            result.mem[i].re = static_cast< T >(C[i * 2    ]);
+            result.mem[i].im = static_cast< T >(C[i * 2 + 1]);
         }
         
         delete [] tmp_mem;
@@ -272,16 +272,16 @@ matrix< complex< eT > > vector< complex< eT > >::operator*(const vector< eT >& v
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator/(const vector< eT >& v)
+vector< complex< T > > vector< complex< T > >::operator/(const vector< T >& v)
 {
     if (type != v.type || size != size)
     {
         uzlmath_error("%s", "type or size mismatch in element-wise complex vector division.");
     }
     
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
@@ -291,42 +291,42 @@ vector< complex< eT > > vector< complex< eT > >::operator/(const vector< eT >& v
             uzlmath_error("%s", "division by zero in element-wise complex vector division.");
         }
         
-        result[i] = mem[i] / complex< eT >(v[i], 0);
+        result[i] = mem[i] / complex< T >(v[i], 0);
     }
     
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator%(const vector< eT >& v)
+vector< complex< T > > vector< complex< T > >::operator%(const vector< T >& v)
 {
     if (type != v.type || size != size)
     {
         uzlmath_error("%s", "type or size mismatch in element-wise complex vector multiplication.");
     }
     
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        result[i] = mem[i] * complex< eT >(v[i], 0);
+        result[i] = mem[i] * complex< T >(v[i], 0);
     }
     
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator+(const vector< complex< eT > >& v)
+vector< complex< T > > vector< complex< T > >::operator+(const vector< complex< T > >& v)
 {
     if ( size != v.size || type != v.t)
     {
         uzlmath_error("%s", "size mismatch in complex vector-vector addition.");
     }
     
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < v.size; ++i)
@@ -337,16 +337,16 @@ vector< complex< eT > > vector< complex< eT > >::operator+(const vector< complex
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator-(const vector< complex< eT > >& v)
+vector< complex< T > > vector< complex< T > >::operator-(const vector< complex< T > >& v)
 {
     if ( size != v.size || type != v.type)
     {
         uzlmath_error("%s", "size mismatch in complex vector-vector subtraction.");
     }
     
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < v.size; ++i)
@@ -357,9 +357,9 @@ vector< complex< eT > > vector< complex< eT > >::operator-(const vector< complex
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > vector< complex< eT > >::operator*(const vector< complex< eT > >& v)
+matrix< complex< T > > vector< complex< T > >::operator*(const vector< complex< T > >& v)
 {
     if (type == v.type || (type == vec_type::ROW && size != v.size))
     {
@@ -373,10 +373,10 @@ matrix< complex< eT > > vector< complex< eT > >::operator*(const vector< complex
     int LDB = K;
     int LDC = M;
     
-    matrix< complex< eT > > result(M, N);
+    matrix< complex< T > > result(M, N);
     
     // do multiplication
-    if (is_int< eT >::value == true || is_short< eT >::value == true || is_float< eT >::value == true)
+    if ( same_type< T, int >::value || same_type< T, short >::value || same_type< T, float >::value )
     {
         
         float* tmp_mem  = new float[2 * size];
@@ -403,15 +403,15 @@ matrix< complex< eT > > vector< complex< eT > >::operator*(const vector< complex
         size_t cap_c = M * N;
         for (i = 0; i < cap_c; ++i)
         {
-            result.mem[i].re = static_cast< eT >(C[i * 2]);
-            result.mem[i].im = static_cast< eT >(C[i * 2 + 1]);
+            result.mem[i].re = static_cast< T >(C[i * 2]);
+            result.mem[i].im = static_cast< T >(C[i * 2 + 1]);
         }
         
         delete [] tmp_mem;
         delete [] tmp_v;
         delete [] C;
     }
-    else if (is_float< eT >::value == true)
+    else if ( same_type< T, float >::value )
     {
         float alpha[2]   = {1, 0};
         float beta[2]    = {0, 0};
@@ -422,7 +422,7 @@ matrix< complex< eT > > vector< complex< eT > >::operator*(const vector< complex
         
         uzl_blas_cgemm(UZLblasNoTrans, UZLblasNoTrans, M, N, K, alpha, A_mem_ptr, LDA, B_mem_ptr, LDB, beta, C_mem_ptr, LDC);
     }
-    else if (is_double< eT >::value == true)
+    else if ( same_type< T, double >::value )
     {
         double alpha[2]   = {1, 0};
         double beta[2]    = {0, 0};
@@ -459,8 +459,8 @@ matrix< complex< eT > > vector< complex< eT > >::operator*(const vector< complex
         size_t cap_c = M * N;
         for (i = 0; i < cap_c; ++i)
         {
-            result.mem[i].re = static_cast< eT >(C[i * 2]);
-            result.mem[i].im = static_cast< eT >(C[i * 2 + 1]);
+            result.mem[i].re = static_cast< T >(C[i * 2]);
+            result.mem[i].im = static_cast< T >(C[i * 2 + 1]);
         }
         
         delete [] tmp_mem;
@@ -471,16 +471,16 @@ matrix< complex< eT > > vector< complex< eT > >::operator*(const vector< complex
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator/(const vector< complex< eT > >& v)
+vector< complex< T > > vector< complex< T > >::operator/(const vector< complex< T > >& v)
 {
     if (type != v.type || size != size)
     {
         uzlmath_error("%s", "type or size mismatch in element-wise complex vector division.");
     }
     
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
@@ -496,16 +496,16 @@ vector< complex< eT > > vector< complex< eT > >::operator/(const vector< complex
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator%(const vector< complex< eT > >& v)
+vector< complex< T > > vector< complex< T > >::operator%(const vector< complex< T > >& v)
 {
     if (type != v.type || size != size)
     {
         uzlmath_error("%s", "type or size mismatch in element-wise complex vector multiplication.");
     }
     
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
@@ -516,76 +516,76 @@ vector< complex< eT > > vector< complex< eT > >::operator%(const vector< complex
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator+(const eT& s)
+vector< complex< T > > vector< complex< T > >::operator+(const T& s)
 {
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        result[i] = mem[i] + complex< eT >(s, 0);
+        result[i] = mem[i] + complex< T >(s, 0);
     }
     
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator-(const eT& s)
+vector< complex< T > > vector< complex< T > >::operator-(const T& s)
 {
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        result[i] = mem[i] - complex< eT >(s, 0);
+        result[i] = mem[i] - complex< T >(s, 0);
     }
     
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator*(const eT& s)
+vector< complex< T > > vector< complex< T > >::operator*(const T& s)
 {
-    vector< complex< eT >>  result(size, type);
+    vector< complex< T >>  result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        result[i] = const_cast< complex< double >& >(mem[i]) * complex< eT >(s, 0);
+        result[i] = const_cast< complex< double >& >(mem[i]) * complex< T >(s, 0);
     }
     
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator/(const eT& s)
+vector< complex< T > > vector< complex< T > >::operator/(const T& s)
 {
     if (s == 0)
     {
         uzlmath_error("%s", "division by zero in vector-scalar division.");
     }
     
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        result[i] = mem[i] / complex< eT >(s, 0);
+        result[i] = mem[i] / complex< T >(s, 0);
     }
     
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator+(const complex< eT >& s)
+vector< complex< T > > vector< complex< T > >::operator+(const complex< T >& s)
 {
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
@@ -596,11 +596,11 @@ vector< complex< eT > > vector< complex< eT > >::operator+(const complex< eT >& 
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator-(const complex< eT >& s)
+vector< complex< T > > vector< complex< T > >::operator-(const complex< T >& s)
 {
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
@@ -611,11 +611,11 @@ vector< complex< eT > > vector< complex< eT > >::operator-(const complex< eT >& 
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator*(const complex< eT >& s)
+vector< complex< T > > vector< complex< T > >::operator*(const complex< T >& s)
 {
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
@@ -626,16 +626,16 @@ vector< complex< eT > > vector< complex< eT > >::operator*(const complex< eT >& 
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator/(const complex< eT >& s)
+vector< complex< T > > vector< complex< T > >::operator/(const complex< T >& s)
 {
     if (s.re == 0 && s.im == 0)
     {
         uzlmath_error("%s", "division by zero in vector-scalar division.");
     }
     
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
@@ -646,21 +646,21 @@ vector< complex< eT > > vector< complex< eT > >::operator/(const complex< eT >& 
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator+()
+vector< complex< T > > vector< complex< T > >::operator+()
 {
-    vector< complex< eT > > result(size, type);
-    memcpy(access::rw(mem), access::rw(result.mem), size * sizeof(complex< eT >));
+    vector< complex< T > > result(size, type);
+    memcpy(access::rw(mem), access::rw(result.mem), size * sizeof(complex< T >));
     
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator-()
+vector< complex< T > > vector< complex< T > >::operator-()
 {
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
@@ -672,16 +672,16 @@ vector< complex< eT > > vector< complex< eT > >::operator-()
 }
 
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator*(const matrix< eT >& mat)
+vector< complex< T > > vector< complex< T > >::operator*(const matrix< T >& mat)
 {
     if ((type == vec_type::ROW && size != mat.rows) || (type == vec_type::COLUMN && mat.rows != 1))
     {
         uzlmath_error("%s", "size mismatch in vector-matrix multiplication.");
     }
     
-    vector< complex< eT > > result(mat.n_cols(), vec_type::ROW);
+    vector< complex< T > > result(mat.n_cols(), vec_type::ROW);
     
     int M   = (type == vec_type::ROW ? 1 : size);
     int N   = mat.n_cols();
@@ -690,7 +690,7 @@ vector< complex< eT > > vector< complex< eT > >::operator*(const matrix< eT >& m
     int LDB = K;
     int LDC = M;
     
-    if (is_int< eT >::value == true || is_short< eT >::value == true)
+    if ( same_type< T, int >::value || same_type< T, short >::value )
     {
         float* tmp_mem  = new float[2 * size];
         float* tmp_mat  = new float[2 * mat.n_cols() * mat.n_rows()];
@@ -717,8 +717,8 @@ vector< complex< eT > > vector< complex< eT > >::operator*(const matrix< eT >& m
         size_t cap_c = M * N;
         for (i = 0; i < cap_c; ++i)
         {
-            result[i].re = static_cast< eT >(C[i * 2    ]);
-            result[i].im = static_cast< eT >(C[i * 2 + 1]);
+            result[i].re = static_cast< T >(C[i * 2    ]);
+            result[i].im = static_cast< T >(C[i * 2 + 1]);
         }
         
         delete [] tmp_mem;
@@ -752,8 +752,8 @@ vector< complex< eT > > vector< complex< eT > >::operator*(const matrix< eT >& m
         size_t cap_c = M * N;
         for (i = 0; i < cap_c; ++i)
         {
-            result[i].re = static_cast< eT >(C[i * 2    ]);
-            result[i].im = static_cast< eT >(C[i * 2 + 1]);
+            result[i].re = static_cast< T >(C[i * 2    ]);
+            result[i].im = static_cast< T >(C[i * 2 + 1]);
         }
         
         delete [] tmp_mem;
@@ -764,16 +764,16 @@ vector< complex< eT > > vector< complex< eT > >::operator*(const matrix< eT >& m
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< complex< eT > >::operator*(const matrix< complex< eT > >& mat)
+vector< complex< T > > vector< complex< T > >::operator*(const matrix< complex< T > >& mat)
 {
     if ((type == vec_type::ROW && size != mat.rows) || (type == vec_type::COLUMN && mat.rows != 1))
     {
         uzlmath_error("%s", "size mismatch in vector-matrix multiplication.");
     }
     
-    vector< complex< eT > > result(mat.n_cols(), vec_type::ROW);
+    vector< complex< T > > result(mat.n_cols(), vec_type::ROW);
     
     int M   = (type == vec_type::ROW ? 1 : size);
     int N   = mat.n_cols();
@@ -782,7 +782,7 @@ vector< complex< eT > > vector< complex< eT > >::operator*(const matrix< complex
     int LDB = K;
     int LDC = M;
     
-    if (is_int< eT >::value == true || is_short< eT >::value == true)
+    if ( same_type< T, int >::value || same_type< T, short >::value )
     {
         float* tmp_mem  = new float[2 * size];
         float* tmp_mat  = new float[2 * mat.n_cols() * mat.n_rows()];
@@ -809,8 +809,8 @@ vector< complex< eT > > vector< complex< eT > >::operator*(const matrix< complex
         size_t cap_c = M * N;
         for (i = 0; i < cap_c; ++i)
         {
-            result[i].re = static_cast< eT >(C[i * 2    ]);
-            result[i].im = static_cast< eT >(C[i * 2 + 1]);
+            result[i].re = static_cast< T >(C[i * 2    ]);
+            result[i].im = static_cast< T >(C[i * 2 + 1]);
         }
         
         delete [] tmp_mem;
@@ -844,8 +844,8 @@ vector< complex< eT > > vector< complex< eT > >::operator*(const matrix< complex
         size_t cap_c = M * N;
         for (i = 0; i < cap_c; ++i)
         {
-            result[i].re = static_cast< eT >(C[i * 2    ]);
-            result[i].im = static_cast< eT >(C[i * 2 + 1]);
+            result[i].re = static_cast< T >(C[i * 2    ]);
+            result[i].im = static_cast< T >(C[i * 2 + 1]);
         }
         
         delete [] tmp_mem;
@@ -856,31 +856,31 @@ vector< complex< eT > > vector< complex< eT > >::operator*(const matrix< complex
     return result;
 }
 
-template< typename eT >
+template< typename T >
 inline
-const vector< complex< eT > >& vector< complex< eT > >::operator=(const vector< eT >& v)
+const vector< complex< T > >& vector< complex< T > >::operator=(const vector< T >& v)
 {
     size = v.size;
     type = v.type;
     
     delete [] mem;
-    mem = new complex< eT >[size];
+    mem = new complex< T >[size];
     
     if (size > 0)
     {
         size_t i;
         for (i = 0; i < size; ++i)
         {
-            mem[i] = complex< eT >(v[i], 0);
+            mem[i] = complex< T >(v[i], 0);
         }
     }
     
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-const vector< complex< eT > >& vector< complex< eT > >::operator=(const vector< complex< eT > >& v)
+const vector< complex< T > >& vector< complex< T > >::operator=(const vector< complex< T > >& v)
 {
     if ( this == &v )
     {
@@ -891,19 +891,19 @@ const vector< complex< eT > >& vector< complex< eT > >::operator=(const vector< 
     type = v.type;
     
     delete [] mem;
-    mem = new complex< eT >[size];
+    mem = new complex< T >[size];
     
     if (size > 0)
     {
-        memcpy(access::rw(mem), access::rw(v.mem), size * sizeof(complex< eT >));
+        memcpy(access::rw(mem), access::rw(v.mem), size * sizeof(complex< T >));
     }
     
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-const vector< complex< eT > >& vector< complex< eT > >::operator=(vector< complex< eT > >&& v)
+const vector< complex< T > >& vector< complex< T > >::operator=(vector< complex< T > >&& v)
 {
     if ( this == &v )
     {
@@ -913,7 +913,7 @@ const vector< complex< eT > >& vector< complex< eT > >::operator=(vector< comple
     access::rw(size) = v.size;
     access::rw(type) = v.type;
     
-    const complex< eT >* tmp = mem;
+    const complex< T >* tmp = mem;
     mem                      = v.mem;
     v.mem                    = tmp;
     
@@ -921,9 +921,9 @@ const vector< complex< eT > >& vector< complex< eT > >::operator=(vector< comple
 }
 
 
-template< typename eT >
+template< typename T >
 inline
-const vector< complex< eT > >& vector< complex< eT > >::operator+=(const vector< eT >& v)
+const vector< complex< T > >& vector< complex< T > >::operator+=(const vector< T >& v)
 {
     if (size != size || type != v.type)
     {
@@ -933,15 +933,15 @@ const vector< complex< eT > >& vector< complex< eT > >::operator+=(const vector<
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        mem[i] += complex< eT >(v[i], 0);
+        mem[i] += complex< T >(v[i], 0);
     }
     
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-const vector< complex< eT > >& vector< complex< eT > >::operator+=(const vector< complex< eT > >& v)
+const vector< complex< T > >& vector< complex< T > >::operator+=(const vector< complex< T > >& v)
 {
     if (size != size || type != v.type)
     {
@@ -957,9 +957,9 @@ const vector< complex< eT > >& vector< complex< eT > >::operator+=(const vector<
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-const vector< complex< eT > >& vector< complex< eT > >::operator-=(const vector< eT >& v)
+const vector< complex< T > >& vector< complex< T > >::operator-=(const vector< T >& v)
 {
     if (size != size || type != v.type)
     {
@@ -969,15 +969,15 @@ const vector< complex< eT > >& vector< complex< eT > >::operator-=(const vector<
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        mem[i] -= complex< eT >(v[i], 0);
+        mem[i] -= complex< T >(v[i], 0);
     }
     
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-const vector< complex< eT > >& vector< complex< eT > >::operator-=(const vector< complex< eT > >& v)
+const vector< complex< T > >& vector< complex< T > >::operator-=(const vector< complex< T > >& v)
 {
     if (size != size || type != v.type)
     {
@@ -993,9 +993,9 @@ const vector< complex< eT > >& vector< complex< eT > >::operator-=(const vector<
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-const vector< complex< eT > >& vector< complex< eT > >::operator/=(const vector< eT >& v)
+const vector< complex< T > >& vector< complex< T > >::operator/=(const vector< T >& v)
 {
     if (type != v.type || size != size)
     {
@@ -1010,15 +1010,15 @@ const vector< complex< eT > >& vector< complex< eT > >::operator/=(const vector<
             uzlmath_error("%s", "division by zero in element-wise complex vector division.");
         }
         
-        mem[i] /= complex< eT >(v[i], 0);
+        mem[i] /= complex< T >(v[i], 0);
     }
     
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-const vector< complex< eT > >& vector< complex< eT > >::operator/=(const vector< complex< eT > >& v)
+const vector< complex< T > >& vector< complex< T > >::operator/=(const vector< complex< T > >& v)
 {
     if (type != v.type || size != size)
     {
@@ -1039,9 +1039,9 @@ const vector< complex< eT > >& vector< complex< eT > >::operator/=(const vector<
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-const vector< complex< eT > >& vector< complex< eT > >::operator%=(const vector< eT >& v)
+const vector< complex< T > >& vector< complex< T > >::operator%=(const vector< T >& v)
 {
     if (type != v.type || size != size)
     {
@@ -1051,15 +1051,15 @@ const vector< complex< eT > >& vector< complex< eT > >::operator%=(const vector<
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        mem[i] *= complex< eT >(v[i], 0);
+        mem[i] *= complex< T >(v[i], 0);
     }
     
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-const vector< complex< eT > >& vector< complex< eT > >::operator%=(const vector< complex< eT > >& v)
+const vector< complex< T > >& vector< complex< T > >::operator%=(const vector< complex< T > >& v)
 {
     if (type != v.type || size != size)
     {
@@ -1075,9 +1075,9 @@ const vector< complex< eT > >& vector< complex< eT > >::operator%=(const vector<
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-const vector< complex< eT > >& vector< complex< eT > >::operator*=(const vector< eT >& v)
+const vector< complex< T > >& vector< complex< T > >::operator*=(const vector< T >& v)
 {
     if (type == v.type || type == vec_type::COLUMN || (type == vec_type::ROW && size != v.size))
     {
@@ -1085,22 +1085,22 @@ const vector< complex< eT > >& vector< complex< eT > >::operator*=(const vector<
     }
     
     size_t i;
-    eT sum = 0;
+    T sum = 0;
     for (i = 0; i < size; ++i)
     {
-        sum += mem[i] * complex< eT >(v[i], 0);
+        sum += mem[i] * complex< T >(v[i], 0);
     }
     
     delete [] mem;
-    mem = new complex< eT >[1];
+    mem = new complex< T >[1];
     mem[0] = sum;
     
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-const vector< complex< eT > >& vector< complex< eT > >::operator*=(const vector< complex< eT > >& v)
+const vector< complex< T > >& vector< complex< T > >::operator*=(const vector< complex< T > >& v)
 {
     if (type == v.type || type == vec_type::COLUMN || (type == vec_type::ROW && size != v.size))
     {
@@ -1108,61 +1108,61 @@ const vector< complex< eT > >& vector< complex< eT > >::operator*=(const vector<
     }
     
     size_t i;
-    eT sum = 0;
+    T sum = 0;
     for (i = 0; i < size; ++i)
     {
         sum += mem[i] * v[i];
     }
     
     delete [] mem;
-    mem = new complex< eT >[1];
+    mem = new complex< T >[1];
     mem[0] = sum;
     
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-const vector< complex< eT > >& vector< complex< eT > >::operator+=(const eT& s)
+const vector< complex< T > >& vector< complex< T > >::operator+=(const T& s)
 {
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        mem[i] += complex< eT >(s, 0);
+        mem[i] += complex< T >(s, 0);
     }
     
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-const vector< complex< eT > >& vector< complex< eT > >::operator-=(const eT& s)
+const vector< complex< T > >& vector< complex< T > >::operator-=(const T& s)
 {
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        mem[i] -= complex< eT >(s, 0);
+        mem[i] -= complex< T >(s, 0);
     }
     
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-const vector< complex< eT > >& vector< complex< eT > >::operator*=(const eT& s)
+const vector< complex< T > >& vector< complex< T > >::operator*=(const T& s)
 {
     
-    for (const complex< eT >* e = mem; e != mem + size; ++e)
+    for (const complex< T >* e = mem; e != mem + size; ++e)
     {
-        access::rw(*e) *= complex< eT >(s, 0);
+        access::rw(*e) *= complex< T >(s, 0);
     }
     
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-const vector< complex< eT > >& vector< complex< eT > >::operator/=(const eT& s)
+const vector< complex< T > >& vector< complex< T > >::operator/=(const T& s)
 {
     if (s == 0)
     {
@@ -1172,22 +1172,22 @@ const vector< complex< eT > >& vector< complex< eT > >::operator/=(const eT& s)
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        mem[i] /= complex< eT >(s, 0);
+        mem[i] /= complex< T >(s, 0);
     }
     
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-bool vector< complex< eT > >::operator==(const vector< eT >& v)
+bool vector< complex< T > >::operator==(const vector< T >& v)
 {
     bool equal = true;
     
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        if (mem[i] != complex< eT >(v[i], 0))
+        if (mem[i] != complex< T >(v[i], 0))
         {
             equal = false;
             break;
@@ -1197,16 +1197,16 @@ bool vector< complex< eT > >::operator==(const vector< eT >& v)
     return equal;
 }
 
-template< typename eT >
+template< typename T >
 inline
-bool vector< complex< eT > >::operator!=(const vector< eT >& v)
+bool vector< complex< T > >::operator!=(const vector< T >& v)
 {
     return !(*this == v);
 }
 
-template< typename eT >
+template< typename T >
 inline
-bool vector< complex< eT > >::operator==(const vector< complex< eT > >& v)
+bool vector< complex< T > >::operator==(const vector< complex< T > >& v)
 {
     bool equal = true;
     
@@ -1223,70 +1223,70 @@ bool vector< complex< eT > >::operator==(const vector< complex< eT > >& v)
     return equal;
 }
 
-template< typename eT >
+template< typename T >
 inline
-bool vector< complex< eT > >::operator!=(const vector< complex< eT > >& v)
+bool vector< complex< T > >::operator!=(const vector< complex< T > >& v)
 {
     return !(*this == v);
 }
 
-template< typename eT >
+template< typename T >
 inline
-complex< eT >& vector< complex< eT > >::operator[](const size_t& idx)
+complex< T >& vector< complex< T > >::operator[](const size_t& idx)
 {
     return access::rw(mem[idx]);
 }
 
-template< typename eT >
+template< typename T >
 inline
-constexpr complex< eT >& vector< complex< eT > >::operator[](const size_t& idx) const
+constexpr complex< T >& vector< complex< T > >::operator[](const size_t& idx) const
 {
     return access::rw(mem[idx]);
 }
 
-template< typename eT >
+template< typename T >
 inline
-complex< eT >& vector< complex< eT > >::operator()(const size_t& idx)
+complex< T >& vector< complex< T > >::operator()(const size_t& idx)
 {
     return mem[idx];
 }
 
-template< typename eT >
+template< typename T >
 inline
-constexpr complex< eT >& vector< complex< eT > >::operator()(const size_t& idx) const
+constexpr complex< T >& vector< complex< T > >::operator()(const size_t& idx) const
 {
     return mem[idx];
 }
 
-template< typename eT >
+template< typename T >
 inline
-void vector< complex< eT > >::ones()
+void vector< complex< T > >::ones()
 {
-    complex< eT >* fill_mem = const_cast< complex< eT >* >(mem);
-    std::fill(fill_mem, fill_mem + size, complex< eT >(1, 0));
+    complex< T >* fill_mem = const_cast< complex< T >* >(mem);
+    std::fill(fill_mem, fill_mem + size, complex< T >(1, 0));
 }
 
-template< typename eT >
+template< typename T >
 inline
-void vector< complex< eT > >::zeros()
+void vector< complex< T > >::zeros()
 {
-    complex< eT >* fill_mem = const_cast< complex< eT >* >(mem);
-    std::fill(fill_mem, fill_mem + size, complex< eT >(0, 0));
+    complex< T >* fill_mem = const_cast< complex< T >* >(mem);
+    std::fill(fill_mem, fill_mem + size, complex< T >(0, 0));
 }
 
-template< typename eT >
+template< typename T >
 inline
-void vector< complex< eT > >::transpose()
+void vector< complex< T > >::transpose()
 {
     type = (type == vec_type::ROW ? vec_type::COLUMN : vec_type::ROW);
 }
 
-template< typename eT >
+template< typename T >
 inline
-void vector< complex< eT > >::fill(const eT& s)
+void vector< complex< T > >::fill(const T& s)
 {
-    complex< eT >* fill_mem = const_cast< complex< eT >* >(mem);
-    std::fill(fill_mem, fill_mem + size, complex< eT >(s, 0));
+    complex< T >* fill_mem = const_cast< complex< T >* >(mem);
+    std::fill(fill_mem, fill_mem + size, complex< T >(s, 0));
 }
 
 
@@ -1301,7 +1301,7 @@ std::ostream& operator<<(std::ostream& o, const vector< complex< S > >& v)
     int width   = 20;
     auto format = std::fixed;
     
-    if (is_float< S >::value == false && is_double< S >::value == false && is_ldouble< S >::value == false)
+    if ( different_type< S, float >::value && different_type< S, double >::value && different_type< S, long double >::value )
     {
         width = 10;
     }
@@ -1317,7 +1317,7 @@ std::ostream& operator<<(std::ostream& o, const vector< complex< S > >& v)
             width   = 22;
             format  = std::fixed;
             
-            if (is_float< S >::value == false && is_double< S >::value == false && is_ldouble< S >::value == false)
+            if ( different_type< S, float >::value && different_type< S, double >::value && different_type< S, long double >::value )
             {
                 width = 12;
             }
@@ -1328,7 +1328,7 @@ std::ostream& operator<<(std::ostream& o, const vector< complex< S > >& v)
             width   = 24;
             format  = std::fixed;
             
-            if (is_float< S >::value == false && is_double< S >::value == false && is_ldouble< S >::value == false)
+            if ( different_type< S, float >::value && different_type< S, double >::value && different_type< S, long double >::value )
             {
                 width = 14;
             }
@@ -1339,7 +1339,7 @@ std::ostream& operator<<(std::ostream& o, const vector< complex< S > >& v)
             width   = 28;
             format  = std::scientific;
             
-            if (is_float< S >::value == false && is_double< S >::value == false && is_ldouble< S >::value == false)
+            if ( different_type< S, float >::value && different_type< S, double >::value && different_type< S, long double >::value )
             {
                 width = 18;
             }

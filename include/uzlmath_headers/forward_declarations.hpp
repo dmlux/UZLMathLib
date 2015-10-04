@@ -15,19 +15,19 @@ UZLMATH_BEGIN
 
 template< typename derived >            struct base;
 template< typename T1, typename T2 >    class  glue;
-template< typename eT >                 class  complex;
+template< typename T >                  class  complex;
 
-template< typename eT >                 class  matrix;
-template< typename eT >                 class  matrix< complex< eT > >;
+template< typename T >                  class  matrix;
+template< typename T >                  class  matrix< complex< T > >;
 
-template< typename eT >                 class  vector;
-template< typename eT >                 class  vector< complex< eT > >;
+template< typename T >                  class  vector;
+template< typename T >                  class  vector< complex< T > >;
 
-template< typename eT >                 struct grid3D;
+template< typename T >                  struct grid3D;
 
-template< typename eT >                 class  memory;
+template< typename T >                  class  memory;
 
-template< typename eT >                 class  array;
+template< typename T >                  class  array;
 
                                         class  access;
 
@@ -35,6 +35,11 @@ template< typename eT >                 class  array;
                                         class  stopwatch;
 
                                         struct SOFTFourierCoefficients;
+
+template< typename pod_type, typename derived > struct randctx;
+template< typename T, typename A = void >       struct uniform_int_distribution;
+template< typename T, typename A = void >       struct uniform_real_distribution;
+template< typename T, typename A = void >       struct normal_distribution;
 
 /*!
  * @brief       Specifing the type a vector can have
@@ -58,6 +63,23 @@ enum class vec_type
 enum class mat
 {
     NEXT_ROW    //!< Represents a token indicating the next row for injection operators
+};
+
+/*!
+ * @brief       A collection of usable random engines
+ */
+enum class random_engine
+{
+    DEFAULT,            //!< Mersenne Twister 64 bit generator
+    MINSTD_RAND,        //!< Minimal Standard generator
+    MINSTD_RAND0,       //!< Minimal Standard 0 generator
+    MERSENNE_TWISTER,   //!< Mersenne Twister generator
+    MERSENNE_TWISTER64, //!< Mersenne Twister 64 bit generator
+    RANLUX24_BASE,      //!< Ranlux 24 Base generator
+    RANLUX48_BASE,      //!< Ranlux 48 Base generator
+    RANLUX24,           //!< Ranlux 24 generator
+    RANLUX48,           //!< Ranlux 48 generator
+    KNUTH_B             //!< Knuth B generator
 };
 
 UZLMATH_END

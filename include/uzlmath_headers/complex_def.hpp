@@ -17,9 +17,9 @@ UZLMATH_BEGIN
  * @brief           Destructor for a complex number.
  * @details         Frees allocated memory
  */
-template<typename eT>
+template< typename T >
 inline
-complex< eT >::~complex()
+complex< T >::~complex()
 {}
 
 /*!
@@ -27,9 +27,9 @@ complex< eT >::~complex()
  * @details         A default complex number contains only a real value
  *                  of 0 and a imaginary value of 0.
  */
-template<typename eT>
+template< typename T >
 inline
-complex< eT >::complex()
+complex< T >::complex()
     : re(0)
     , im(0)
 {}
@@ -45,9 +45,9 @@ complex< eT >::complex()
  * @param[in]       real_imag The real and complex value.
  *
  */
-template<typename eT>
+template< typename T >
 inline
-complex< eT >::complex(const eT real_imag)
+complex< T >::complex(const T real_imag)
     : re(real_imag)
     , im(real_imag)
 {}
@@ -67,9 +67,9 @@ complex< eT >::complex(const eT real_imag)
  *                  to be constructed.
  *
  */
-template<typename eT>
+template< typename T >
 inline
-complex< eT >::complex(const eT real, const eT imag)
+complex< T >::complex(const T real, const T imag)
     : re(real)
     , im(imag)
 {}
@@ -82,9 +82,9 @@ complex< eT >::complex(const eT real, const eT imag)
  * 
  * @param[in]       c The complex number that is supposed to be copied.
  */
-template<typename eT>
+template< typename T >
 inline
-complex< eT >::complex(const complex< eT >& c)
+complex< T >::complex(const complex< T >& c)
     : re(c.re)
     , im(c.im)
 {}
@@ -92,7 +92,8 @@ complex< eT >::complex(const complex< eT >& c)
 /*!
  * @brief           Returns the absolute value of the current complex number.
  * @details         The absolute value of a complex number \f$\underline{z}\f$ 
- *                  is defined as the euclidian norm of real and imaginary.
+ *                  is defined as the euclidian norm of its real and imaginary
+ *                  parts.
  *                  \f[
  *                      |\underline{z}| = \sqrt{\Re{(z)}^2 + \Im{(z)}^2}
  *                  \f]
@@ -100,19 +101,19 @@ complex< eT >::complex(const complex< eT >& c)
  * @return          The absolute value of the current complex number as defined
  *                  in the detailed description.
  */
-template<typename eT>
+template< typename T >
 inline
-const eT complex< eT >::abs() const
+const T complex< T >::abs() const
 {
-    if (is_double< eT >::value == true)
+    if (same_type< T, double >::value)
     {
         return sqrt(re * re + im * im);
     }
-    else if (is_float< eT >::value == true)
+    else if (same_type< T, float >::value)
     {
         return sqrtf(re * re + im * im);
     }
-    else if (is_ldouble< eT >::value == true)
+    else if (same_type< T, long double >::value)
     {
         return sqrtl(re * re + im * im);
     }
@@ -139,19 +140,19 @@ const eT complex< eT >::abs() const
  *
  * @return          The argument of the current complex number
  */
-template<typename eT>
+template< typename T >
 inline
-const eT complex< eT >::arg() const
+const T complex< T >::arg() const
 {
-    if (is_double< eT >::value == true)
+    if ( same_type< T, double >::value )
     {
         return atan2(im, re);
     }
-    else if (is_float< eT >::value == true)
+    else if ( same_type< T, float >::value )
     {
         return atan2f(im, re);
     }
-    else if (is_ldouble< eT >::value == true)
+    else if ( same_type< T, long double >::value )
     {
         return atan2l(im, re);
     }
@@ -171,9 +172,9 @@ const eT complex< eT >::arg() const
  *
  * @return          The norm of the current complex number.
  */
-template<typename eT>
+template< typename T >
 inline
-const eT complex< eT >::norm() const
+const T complex< T >::norm() const
 {
     return re * re + im * im;
 }
@@ -188,9 +189,9 @@ const eT complex< eT >::norm() const
  *                      \rho e^{i\theta\;*} = \rho e^{-i\theta}
  *                  \f]
  */
-template<typename eT>
+template< typename T >
 inline
-void complex< eT >::conj()
+void complex< T >::conj()
 {
     im *= -1;
 }
@@ -210,29 +211,29 @@ void complex< eT >::conj()
  * @param[in]       rho The absolute value of the complex number.
  * @param[in]       theta The argument of the complex number as radiant angle.
  */
-template<typename eT>
+template< typename T >
 inline
-void complex< eT >::polar(const eT& rho, const eT& theta)
+void complex< T >::polar(const T& rho, const T& theta)
 {
-    if (is_double< eT >::value == true)
+    if ( same_type< T, double >::value )
     {
         re = rho * cos(theta);
         im = rho * sin(theta);
     }
-    else if (is_float< eT >::value == true)
+    else if ( same_type< T, float >::value )
     {
         re = rho * cosf(theta);
         im = rho * sinf(theta);
     }
-    else if (is_ldouble< eT >::value == true)
+    else if ( same_type< T, long double >::value )
     {
         re = rho * cosl(theta);
         im = rho * sinl(theta);
     }
     else
     {
-        re = static_cast< eT >(rho * cosf(static_cast< float >(theta)));
-        im = static_cast< eT >(rho * cosf(static_cast< float >(theta)));
+        re = static_cast< T >(rho * cosf(static_cast< float >(theta)));
+        im = static_cast< T >(rho * cosf(static_cast< float >(theta)));
     }
 }
 
@@ -246,11 +247,11 @@ void complex< eT >::polar(const eT& rho, const eT& theta)
  * 
  * @return          The result of the addition.
  */
-template<typename eT>
+template< typename T >
 inline
-complex< eT > complex< eT >::operator+(const complex< eT >& rhs)
+complex< T > complex< T >::operator+(const complex< T >& rhs)
 {
-    return complex< eT >(re + rhs.re, im + rhs.im);
+    return complex< T >(re + rhs.re, im + rhs.im);
 }
 
 /*!
@@ -265,11 +266,11 @@ complex< eT > complex< eT >::operator+(const complex< eT >& rhs)
  *
  * @return          A new complex number containing the result.
  */
-template<typename eT>
+template< typename T >
 inline
-complex< eT > complex< eT >::operator-(const complex< eT >& rhs)
+complex< T > complex< T >::operator-(const complex< T >& rhs)
 {
-    return complex< eT >(re - rhs.re, im - rhs.im);
+    return complex< T >(re - rhs.re, im - rhs.im);
 }
 
 /*!
@@ -290,11 +291,11 @@ complex< eT > complex< eT >::operator-(const complex< eT >& rhs)
  *
  * @return          A new complex number containing the multiplication result.
  */
-template<typename eT>
+template< typename T >
 inline
-complex< eT > complex< eT >::operator*(const complex< eT >& rhs)
+complex< T > complex< T >::operator*(const complex< T >& rhs)
 {
-    return complex< eT >(re * rhs.re - im * rhs.im,   // real value of this number
+    return complex< T >(re * rhs.re - im * rhs.im,   // real value of this number
                          im * rhs.re + re * rhs.im);  // imag value of this number
 }
 
@@ -317,11 +318,11 @@ complex< eT > complex< eT >::operator*(const complex< eT >& rhs)
  *
  * @return          A new complex number containing the division result.
  */
-template<typename eT>
+template< typename T >
 inline
-complex< eT > complex< eT >::operator/(const complex< eT >& rhs)
+complex< T > complex< T >::operator/(const complex< T >& rhs)
 {
-    return complex< eT >((re * rhs.re + im * rhs.im) / rhs.norm(),    // real value
+    return complex< T >((re * rhs.re + im * rhs.im) / rhs.norm(),    // real value
                          (im * rhs.re - re * rhs.im) / rhs.norm());   // imag value
 }
 
@@ -341,29 +342,29 @@ complex< eT > complex< eT >::operator/(const complex< eT >& rhs)
  * @return          A new complex number containing the result of the
  *                  power operator.
  */
-template<typename eT>
+template< typename T >
 inline
-complex< eT > complex< eT >::operator^(const int rhs)
+complex< T > complex< T >::operator^(const int rhs)
 {
-    complex< eT > c;
-    eT t = arg() * rhs;
-    eT r;
+    complex< T > c;
+    T t = arg() * rhs;
+    T r;
     
-    if (is_double< eT >::value == true)
+    if ( same_type< T, double >::value )
     {
         r = pow( abs(), static_cast< double >(rhs));
     }
-    else if (is_float< eT >::value == true)
+    else if ( same_type< T, float >::value )
     {
         r = powf(abs(), static_cast< float >(rhs));
     }
-    else if (is_ldouble< eT >::value == true)
+    else if ( same_type< T, long double >::value )
     {
         r = powl(abs(), static_cast< long double >(rhs));
     }
     else
     {
-        r = static_cast< eT >( pow(static_cast< double >(abs()), static_cast< double >(rhs)) );
+        r = static_cast< T >( pow(static_cast< double >(abs()), static_cast< double >(rhs)) );
     }
     
     c.polar(r, t);
@@ -385,10 +386,10 @@ complex< eT > complex< eT >::operator^(const int rhs)
  * 
  * @sa              complex::operator+
  */
-template<typename eT>
-complex< eT > operator+(int lhs, complex< eT > rhs)
+template< typename T >
+complex< T > operator+(int lhs, complex< T > rhs)
 {
-    return complex< eT >(lhs, 0) + rhs;
+    return complex< T >(lhs, 0) + rhs;
 }
 
 /*!
@@ -404,12 +405,12 @@ complex< eT > operator+(int lhs, complex< eT > rhs)
  *
  * @sa              complex::operator+
  */
-template<typename eT>
-template<typename T>
+template< typename T >
+template< typename U >
 inline
-complex< eT > complex< eT >::operator+(const T& rhs)
+complex< T > complex< T >::operator+(const U& rhs)
 {
-    complex< eT > c(rhs, 0);
+    complex< T > c(rhs, 0);
     return *this + c;
 }
 
@@ -426,12 +427,12 @@ complex< eT > complex< eT >::operator+(const T& rhs)
  *
  * @sa              complex::operator-
  */
-template<typename eT>
-template<typename T>
+template< typename T >
+template< typename U >
 inline
-complex< eT > complex< eT >::operator-(const T& rhs)
+complex< T > complex< T >::operator-(const U& rhs)
 {
-    complex< eT > c(rhs, 0);
+    complex< T > c(rhs, 0);
     return *this - c;
 }
 
@@ -448,12 +449,12 @@ complex< eT > complex< eT >::operator-(const T& rhs)
  *
  * @sa              complex::operator*
  */
-template<typename eT>
-template<typename T>
+template< typename T >
+template< typename U >
 inline
-complex< eT > complex< eT >::operator*(const T& rhs)
+complex< T > complex< T >::operator*(const U& rhs)
 {
-    complex< eT > c(rhs, 0);
+    complex< T > c(rhs, 0);
     return *this * c;
 }
 
@@ -470,12 +471,12 @@ complex< eT > complex< eT >::operator*(const T& rhs)
  *
  * @sa              complex::operator/
  */
-template<typename eT>
-template<typename T>
+template< typename T >
+template< typename U >
 inline
-complex< eT > complex< eT >::operator/(const T& rhs)
+complex< T > complex< T >::operator/(const U& rhs)
 {
-    complex< eT > c(rhs, 0);
+    complex< T > c(rhs, 0);
     return *this / c;
 }
 
@@ -495,9 +496,9 @@ complex< eT > complex< eT >::operator/(const T& rhs)
  * @sa              For further information on how to add two complex numbers
  *                  see complex::operator+
  */
-template<typename eT>
+template< typename T >
 inline
-const complex< eT >& complex< eT >::operator+=(const complex< eT >& rhs)
+const complex< T >& complex< T >::operator+=(const complex< T >& rhs)
 {
     re += rhs.re;
     im += rhs.im;
@@ -518,9 +519,9 @@ const complex< eT >& complex< eT >::operator+=(const complex< eT >& rhs)
  * @sa              For further information on how to subtract two complex numbers
  *                  see complex::operator-
  */
-template<typename eT>
+template< typename T >
 inline
-const complex< eT >& complex< eT >::operator-=(const complex< eT >& rhs)
+const complex< T >& complex< T >::operator-=(const complex< T >& rhs)
 {
     re -= rhs.re;
     im -= rhs.im;
@@ -541,11 +542,11 @@ const complex< eT >& complex< eT >::operator-=(const complex< eT >& rhs)
  * @sa              For further information on how to multiply two complex numbers
  *                  see complex::operator*
  */
-template<typename eT>
+template< typename T >
 inline
-const complex< eT >& complex< eT >::operator*=(const complex< eT >& rhs)
+const complex< T >& complex< T >::operator*=(const complex< T >& rhs)
 {
-    complex< eT > c = *this * rhs;
+    complex< T > c = *this * rhs;
     re = c.re;
     im = c.im;
     return *this;
@@ -565,11 +566,11 @@ const complex< eT >& complex< eT >::operator*=(const complex< eT >& rhs)
  * @sa              For further information on how to divide two complex numbers
  *                  see complex::operator/
  */
-template<typename eT>
+template< typename T >
 inline
-const complex< eT >& complex< eT >::operator/=(const complex< eT >& rhs)
+const complex< T >& complex< T >::operator/=(const complex< T >& rhs)
 {
-    complex< eT > c = *this / rhs;
+    complex< T > c = *this / rhs;
     re = c.re;
     im = c.im;
     return *this;
@@ -588,28 +589,28 @@ const complex< eT >& complex< eT >::operator/=(const complex< eT >& rhs)
  * @sa              For further information on how to multiply two complex numbers
  *                  see complex::operator*
  */
-template<typename eT>
+template< typename T >
 inline
-const complex< eT >& complex< eT >::operator^=(const int rhs)
+const complex< T >& complex< T >::operator^=(const int rhs)
 {
-    eT t = arg() * rhs;
-    eT r;
+    T t = arg() * rhs;
+    T r;
     
-    if (is_double< eT >::value == true)
+    if ( same_type< T, double >::value )
     {
         r = pow( abs(), static_cast< double >(rhs));
     }
-    else if (is_float< eT >::value == true)
+    else if ( same_type< T, float >::value )
     {
         r = powf(abs(), static_cast< float >(rhs));
     }
-    else if (is_ldouble< eT >::value == true)
+    else if ( same_type< T, long double >::value )
     {
         r = powl(abs(), static_cast< long double >(rhs));
     }
     else
     {
-        r = static_cast< eT >(powf(static_cast< float >(abs()), rhs));
+        r = static_cast< T >(powf(static_cast< float >(abs()), rhs));
     }
     
     polar(r, t);
@@ -633,18 +634,18 @@ const complex< eT >& complex< eT >::operator^=(const int rhs)
  * @sa              For further information on how to add two complex numbers
  *                  see complex::operator+
  */
-template<typename eT>
-template<typename T>
+template< typename T >
+template< typename U >
 inline
-const complex< eT >& complex< eT >::operator+=(const T& rhs)
+const complex< T >& complex< T >::operator+=(const U& rhs)
 {
-    if (is_complex< T >::value == true)
+    if ( is_complex< U >::value )
     {
         *this += rhs;
     }
     else
     {
-        complex< eT > c(rhs, 0);
+        complex< T > c(rhs, 0);
         *this += c;
     }
     return *this;
@@ -667,18 +668,18 @@ const complex< eT >& complex< eT >::operator+=(const T& rhs)
  * @sa              For further information on how to subtract two complex numbers
  *                  see complex::operator-
  */
-template<typename eT>
-template<typename T>
+template< typename T >
+template< typename U >
 inline
-const complex< eT >& complex< eT >::operator-=(const T& rhs)
+const complex< T >& complex< T >::operator-=(const U& rhs)
 {
-    if (is_complex< T >::value == true)
+    if (is_complex< U >::value == true)
     {
         *this -= rhs;
     }
     else
     {
-        complex< eT > c(rhs, 0);
+        complex< T > c(rhs, 0);
         *this -= c;
     }
     return *this;
@@ -701,18 +702,18 @@ const complex< eT >& complex< eT >::operator-=(const T& rhs)
  * @sa              For further information on how to multiply two complex numbers
  *                  see complex::operator*
  */
-template<typename eT>
-template<typename T>
+template< typename T >
+template< typename U >
 inline
-const complex< eT >& complex< eT >::operator*=(const T& rhs)
+const complex< T >& complex< T >::operator*=(const U& rhs)
 {
-    if (is_complex< T >::value == true)
+    if (is_complex< U >::value == true)
     {
         *this *= rhs;
     }
     else
     {
-        complex< eT > c(rhs, 0);
+        complex< T > c(rhs, 0);
         *this *= c;
     }
     return *this;
@@ -735,18 +736,18 @@ const complex< eT >& complex< eT >::operator*=(const T& rhs)
  * @sa              For further information on how to divide two complex numbers
  *                  see complex::operator/
  */
-template<typename eT>
-template<typename T>
+template< typename T >
+template< typename U >
 inline
-const complex< eT >& complex< eT >::operator/=(const T& rhs)
+const complex< T >& complex< T >::operator/=(const U& rhs)
 {
-    if (is_complex< T >::value == true)
+    if (is_complex< U >::value == true)
     {
         *this /= rhs;
     }
     else
     {
-        complex< eT > c(rhs, 0);
+        complex< T > c(rhs, 0);
         *this /= c;
     }
     return *this;
@@ -855,12 +856,12 @@ const complex< eT >& complex< eT >::operator/=(const T& rhs)
  *
  * @param[in]       o The outstream object.
  * @param[in]       c The complex number that is supposed to be printed.
- * @tparam          eT The template type of the given complex number.
+ * @tparam          T The template type of the given complex number.
  *
  * @return          The reference to the outstream object.
  */
-template<typename eT>
-std::ostream& operator<<(std::ostream& o, const complex< eT >& c)
+template< typename T >
+std::ostream& operator<<(std::ostream& o, const complex< T >& c)
 {
     std::ios::fmtflags f( std::cout.flags() );
     o << std::scientific << std::setprecision(4);

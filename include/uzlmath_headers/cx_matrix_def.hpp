@@ -18,9 +18,9 @@ UZLMATH_BEGIN
  *                  RAM.
  * @details         Deletes the complex matrix and frees its allocated dynamic mamemory.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > >::~matrix()
+matrix< complex< T > >::~matrix()
 {
     delete [] mem;
 }
@@ -30,9 +30,9 @@ matrix< complex< eT > >::~matrix()
  * @details         Constructs a complex matrix that has no columns and rows and is declared
  *                  as not initialized.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > >::matrix()
+matrix< complex< T > >::matrix()
     : r_inj(0)
     , c_inj(0)
     , rows(0)
@@ -48,16 +48,16 @@ matrix< complex< eT > >::matrix()
  * @param[in]       m Number of rows in the constructed complex matrix
  * @param[in]       n Number of columns in the constructed complex matrix
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > >::matrix(const size_t& m, const size_t& n)
+matrix< complex< T > >::matrix(const size_t& m, const size_t& n)
     : r_inj(0)
     , c_inj(0)
     , rows(m)
     , cols(n)
 {
     size_t cap  = m * n;
-    mem         = new complex< eT >[cap];
+    mem         = new complex< T >[cap];
 }
 
 /*!
@@ -67,16 +67,16 @@ matrix< complex< eT > >::matrix(const size_t& m, const size_t& n)
  *
  * @param[in]       mn Number of rows and columns in the constructed complex matrix
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > >::matrix(const size_t& mn)
+matrix< complex< T > >::matrix(const size_t& mn)
     : rows(mn)
     , cols(mn)
     , r_inj(0)
     , c_inj(0)
 {
     size_t cap  = mn * mn;
-    mem         = new complex< eT >[cap];
+    mem         = new complex< T >[cap];
 }
 
 /*!
@@ -88,16 +88,16 @@ matrix< complex< eT > >::matrix(const size_t& mn)
  * @param[in]       n Number of columns in the constructed complex matrix
  * @param[in]       initial Initial value for each complex matrix element
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > >::matrix(const size_t& m, const size_t& n, const complex< eT >& initial)
+matrix< complex< T > >::matrix(const size_t& m, const size_t& n, const complex< T >& initial)
     : rows(m)
     , cols(n)
     , r_inj(0)
     , c_inj(0)
 {
     size_t cap  = m * n;
-    mem         = new complex< eT >[cap];
+    mem         = new complex< T >[cap];
     
     if (cap > 0)
     {
@@ -115,20 +115,20 @@ matrix< complex< eT > >::matrix(const size_t& m, const size_t& n, const complex<
  *
  * @param[in]       A The complex matrix that is supposed to be copied.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > >::matrix(const matrix< complex< eT > >& A)
+matrix< complex< T > >::matrix(const matrix< complex< T > >& A)
     : rows(A.rows)
     , cols(A.cols)
     , r_inj(A.r_inj)
     , c_inj(A.c_inj)
 {
     size_t cap  = rows * cols;
-    mem         = new complex< eT >[cap];
+    mem         = new complex< T >[cap];
     
     if (cap > 0)
     {
-        memcpy(mem, A.mem, cap * sizeof(complex< eT >));
+        memcpy(mem, A.mem, cap * sizeof(complex< T >));
     }
 }
 
@@ -139,20 +139,20 @@ matrix< complex< eT > >::matrix(const matrix< complex< eT > >& A)
  *
  * @param[in]       A The matrix that is supposed to be copied.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > >::matrix(const matrix< eT >& A)
+matrix< complex< T > >::matrix(const matrix< T >& A)
     : rows(A.rows)
     , cols(A.cols)
     , r_inj(A.r_inj)
     , c_inj(A.c_inj)
 {
     size_t cap  = rows * cols;
-    mem         = new complex< eT >[cap];
+    mem         = new complex< T >[cap];
     
     for (int i = 0; i < cap; ++i)
     {
-        mem[i] = complex< eT >(A.mem[i], 0);
+        mem[i] = complex< T >(A.mem[i], 0);
     }
 }
 
@@ -166,15 +166,15 @@ matrix< complex< eT > >::matrix(const matrix< eT >& A)
  * @param[in,out]   A The r-value complex matrix \f$A\f$ which content should be moved to a
  *                  new complex matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > >::matrix(matrix< complex< eT > >&& A)
+matrix< complex< T > >::matrix(matrix< complex< T > >&& A)
     : rows(A.rows)
     , cols(A.cols)
     , r_inj(A.r_inj)
     , c_inj(A.c_inj)
 {
-    complex< eT >* tmp = mem;
+    complex< T >* tmp = mem;
     mem                = A.mem;
     A.mem              = tmp;
 }
@@ -191,16 +191,16 @@ matrix< complex< eT > >::matrix(matrix< complex< eT > >&& A)
  *
  * @return          A new complex matrix containing the result of the addition.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< complex< eT > >::operator+(const matrix< complex< eT > >& A)
+matrix< complex< T > > matrix< complex< T > >::operator+(const matrix< complex< T > >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
         uzlmath_error("%s", "Dimension mismatch in matrix-matrix addition.");
     }
     
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     size_t i, j;
     
     for (i = 0; i < rows; ++i)
@@ -224,23 +224,23 @@ matrix< complex< eT > > matrix< complex< eT > >::operator+(const matrix< complex
  *
  * @return          A new complex matrix containing the result of the addition.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< complex< eT > >::operator+(const matrix< eT >& A)
+matrix< complex< T > > matrix< complex< T > >::operator+(const matrix< T >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
         uzlmath_error("%s", "Dimension mismatch in matrix-matrix addition.");
     }
     
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     size_t i, j;
     
     for (i = 0; i < rows; ++i)
     {
         for (j = 0; j < cols; ++j)
         {
-            C(i, j) = mem[j * rows + i] + complex< eT >(A(i, j), 0);
+            C(i, j) = mem[j * rows + i] + complex< T >(A(i, j), 0);
         }
     }
     
@@ -257,16 +257,16 @@ matrix< complex< eT > > matrix< complex< eT > >::operator+(const matrix< eT >& A
  *
  * @return          A new complex matrix containing the result of the subtraction
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< complex< eT > >::operator-(const matrix< complex< eT > >& A)
+matrix< complex< T > > matrix< complex< T > >::operator-(const matrix< complex< T > >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
         uzlmath_error("%s", "Dimension mismatch in matrix-matrix subtraction.");
     }
     
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     size_t i, j;
     
     for (i = 0; i < rows; ++i)
@@ -290,23 +290,23 @@ matrix< complex< eT > > matrix< complex< eT > >::operator-(const matrix< complex
  *
  * @return          A new complex matrix containing the result of the subtraction
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< complex< eT > >::operator-(const matrix< eT >& A)
+matrix< complex< T > > matrix< complex< T > >::operator-(const matrix< T >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
         uzlmath_error("%s", "Dimension mismatch in matrix-matrix subtraction.");
     }
     
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     size_t i, j;
     
     for (i = 0; i < rows; ++i)
     {
         for (j = 0; j < cols; ++j)
         {
-            C(i, j) = mem[j * rows + i] - complex< eT >(A(i, j), 0);
+            C(i, j) = mem[j * rows + i] - complex< T >(A(i, j), 0);
         }
     }
     
@@ -329,9 +329,9 @@ matrix< complex< eT > > matrix< complex< eT > >::operator-(const matrix< eT >& A
  *
  * @return          A new complex matrix containing the result of the multiplication
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< complex< eT > >::operator*(const matrix< complex< eT > >& A)
+matrix< complex< T > > matrix< complex< T > >::operator*(const matrix< complex< T > >& A)
 {
     if ( cols != A.rows )
     {
@@ -341,9 +341,9 @@ matrix< complex< eT > > matrix< complex< eT > >::operator*(const matrix< complex
     size_t n_rows = rows;
     size_t n_cols = A.cols;
     
-    matrix< complex< eT > > result(n_rows, n_cols);
+    matrix< complex< T > > result(n_rows, n_cols);
     
-    if (is_int< eT >::value == true || is_short< eT >::value == true)
+    if ( same_type< T, int >::value || same_type< T, short >::value )
     {
         
         float* tmp_mem  = new float[2 * rows * cols];
@@ -371,14 +371,14 @@ matrix< complex< eT > > matrix< complex< eT > >::operator*(const matrix< complex
         
         for (i = 0; i < cap_c; ++i)
         {
-            result.mem[i] = complex< eT >(C[i * 2], C[i * 2 +1]);
+            result.mem[i] = complex< T >(C[i * 2], C[i * 2 +1]);
         }
         
         delete [] tmp_mem;
         delete [] tmp_A;
         delete [] C;
     }
-    else if (is_double< eT >::value == true)
+    else if ( same_type< T, double >::value )
     {
         // Treat pointers as double pointers.
         double* A_mem_ptr = reinterpret_cast< double* >(mem);
@@ -390,7 +390,7 @@ matrix< complex< eT > > matrix< complex< eT > >::operator*(const matrix< complex
         uzlblas_zgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, alpha,
                       A_mem_ptr, rows, B_mem_ptr, A.rows, beta, C_mem_ptr, n_rows);
     }
-    else if (is_float< eT >::value == true)
+    else if ( same_type< T, float >::value )
     {
         // Treat pointers as float pointers.
         float* A_mem_ptr = reinterpret_cast< float* >(mem);
@@ -429,7 +429,7 @@ matrix< complex< eT > > matrix< complex< eT > >::operator*(const matrix< complex
         
         for (i = 0; i < cap_c; ++i)
         {
-            result.mem[i] = complex< eT >(C[i * 2], C[i * 2 + 1]);
+            result.mem[i] = complex< T >(C[i * 2], C[i * 2 + 1]);
         }
         
         delete [] tmp_mem;
@@ -456,9 +456,9 @@ matrix< complex< eT > > matrix< complex< eT > >::operator*(const matrix< complex
  *
  * @return          A new complex matrix containing the result of the multiplication
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< complex< eT > >::operator*(const matrix< eT >& A)
+matrix< complex< T > > matrix< complex< T > >::operator*(const matrix< T >& A)
 {
     if ( cols != A.rows )
     {
@@ -468,9 +468,9 @@ matrix< complex< eT > > matrix< complex< eT > >::operator*(const matrix< eT >& A
     size_t n_rows = rows;
     size_t n_cols = A.cols;
     
-    matrix< complex< eT > > result(n_rows, n_cols);
+    matrix< complex< T > > result(n_rows, n_cols);
     
-    if (is_int< eT >::value == true || is_long< eT >::value == true || is_short< eT >::value == true)
+    if ( same_type< T, int >::value || same_type< T, long >::value || same_type< T, short >::value )
     {
         
         float* tmp_mem  = new float[2 * rows * cols];
@@ -498,14 +498,14 @@ matrix< complex< eT > > matrix< complex< eT > >::operator*(const matrix< eT >& A
         
         for (i = 0; i < cap_c; ++i)
         {
-            result.mem[i] = complex< eT >(C[i * 2], C[i * 2 +1]);
+            result.mem[i] = complex< T >(C[i * 2], C[i * 2 +1]);
         }
         
         delete [] tmp_mem;
         delete [] tmp_A;
         delete [] C;
     }
-    else if (is_double< eT >::value == true)
+    else if ( same_type< T, double >::value )
     {
         double* tmp_mem = reinterpret_cast< double* >(mem);
         double* tmp_A   = new double[2 * A.rows * A.cols];
@@ -524,7 +524,7 @@ matrix< complex< eT > > matrix< complex< eT > >::operator*(const matrix< eT >& A
         
         delete [] tmp_A;
     }
-    else if (is_float< eT >::value == true)
+    else if ( same_type< T, float >::value )
     {
         float* tmp_mem = reinterpret_cast< float* >(mem);
         float* tmp_A   = new float[2 * A.rows * A.cols];
@@ -570,7 +570,7 @@ matrix< complex< eT > > matrix< complex< eT > >::operator*(const matrix< eT >& A
         
         for (i = 0; i < cap_c; ++i)
         {
-            result.mem[i] = complex< eT >(C[i * 2], C[i * 2 + 1]);
+            result.mem[i] = complex< T >(C[i * 2], C[i * 2 + 1]);
         }
         
         delete [] tmp_mem;
@@ -590,22 +590,22 @@ matrix< complex< eT > > matrix< complex< eT > >::operator*(const matrix< eT >& A
  * @return          A new matrix that has the same state than \f$A\f$ and containing
  *                  the same values.
  */
-template< typename eT >
+template< typename T >
 inline
-const matrix< complex< eT > >& matrix< complex< eT > >::operator=(const matrix< eT >& A)
+const matrix< complex< T > >& matrix< complex< T > >::operator=(const matrix< T >& A)
 {
     rows = A.rows;
     cols = A.cols;
     size_t cap = rows * cols;
     
     delete [] mem;
-    mem = new complex< eT >[cap];
+    mem = new complex< T >[cap];
     
     if (cap > 0)
     {
         for (int i = 0; i < cap; ++i)
         {
-            mem[i] = complex< eT >(A.mem[i], 0);
+            mem[i] = complex< T >(A.mem[i], 0);
         }
     }
     
@@ -621,9 +621,9 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator=(const matrix< 
  * @return          A new complex matrix that has the same state than \f$A\f$ and containing
  *                  the same values.
  */
-template< typename eT >
+template< typename T >
 inline
-const matrix< complex< eT > >& matrix< complex< eT > >::operator=(const matrix< complex< eT > >& A)
+const matrix< complex< T > >& matrix< complex< T > >::operator=(const matrix< complex< T > >& A)
 {
     if ( this == &A )
     {
@@ -635,11 +635,11 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator=(const matrix< 
     size_t cap = rows * cols;
     
     delete [] mem;
-    mem = new complex< eT >[cap];
+    mem = new complex< T >[cap];
     
     if (cap > 0)
     {
-        memcpy(mem, A.mem, cap * sizeof(complex< eT >));
+        memcpy(mem, A.mem, cap * sizeof(complex< T >));
     }
         
     return *this;
@@ -654,9 +654,9 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator=(const matrix< 
  * @return          A new matrix that has the same state than \f$A\f$ and containing
  *                  the same values.
  */
-template< typename eT >
+template< typename T >
 inline
-const matrix< complex< eT > >& matrix< complex< eT > >::operator=(matrix< complex< eT > >&& A)
+const matrix< complex< T > >& matrix< complex< T > >::operator=(matrix< complex< T > >&& A)
 {
     if ( this == &A )
     {
@@ -666,7 +666,7 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator=(matrix< comple
     access::rw(rows) = A.rows;
     access::rw(cols) = A.cols;
     
-    const complex< eT >* tmp  = mem;
+    const complex< T >* tmp  = mem;
     mem                       = A.mem;
     A.mem                     = tmp;
     
@@ -685,9 +685,9 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator=(matrix< comple
  *
  * @return          True if both matrices are equal, false else.
  */
-template< typename eT >
+template< typename T >
 inline
-bool matrix< complex< eT > >::operator==(const matrix< complex< eT > >& A)
+bool matrix< complex< T > >::operator==(const matrix< complex< T > >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -716,9 +716,9 @@ bool matrix< complex< eT > >::operator==(const matrix< complex< eT > >& A)
  *
  * @return          True if both matrices are unequal, false else.
  */
-template< typename eT >
+template< typename T >
 inline
-bool matrix< complex< eT > >::operator!=(const matrix< complex< eT > >& A)
+bool matrix< complex< T > >::operator!=(const matrix< complex< T > >& A)
 {
     return !(*this == A);
 }
@@ -734,9 +734,9 @@ bool matrix< complex< eT > >::operator!=(const matrix< complex< eT > >& A)
  *
  * @return          The reference to the current matrix that contains the result.
  */
-template< typename eT >
+template< typename T >
 inline
-const matrix< complex< eT > >& matrix< complex< eT > >::operator+=(const matrix< eT >& A)
+const matrix< complex< T > >& matrix< complex< T > >::operator+=(const matrix< T >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -746,7 +746,7 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator+=(const matrix<
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
     {
-        mem[i] += complex< eT >(A.mem[i], 0);
+        mem[i] += complex< T >(A.mem[i], 0);
     }
     
     return *this;
@@ -761,9 +761,9 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator+=(const matrix<
  *
  * @return          The reference to the current matrix that contains the result.
  */
-template< typename eT >
+template< typename T >
 inline
-const matrix< complex< eT > >& matrix< complex< eT > >::operator+=(const matrix< complex< eT > >& A)
+const matrix< complex< T > >& matrix< complex< T > >::operator+=(const matrix< complex< T > >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -788,9 +788,9 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator+=(const matrix<
  *
  * @return          The reference to the current matrix that contains the result.
  */
-template< typename eT >
+template< typename T >
 inline
-const matrix< complex< eT > >& matrix< complex< eT > >::operator-=(const matrix< eT >& A)
+const matrix< complex< T > >& matrix< complex< T > >::operator-=(const matrix< T >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -800,7 +800,7 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator-=(const matrix<
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
     {
-        mem[i] -= complex< eT >(A.mem[i], 0);
+        mem[i] -= complex< T >(A.mem[i], 0);
     }
     
     return *this;
@@ -815,9 +815,9 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator-=(const matrix<
  *
  * @return          The reference to the current matrix that contains the result.
  */
-template< typename eT >
+template< typename T >
 inline
-const matrix< complex< eT > >& matrix< complex< eT > >::operator-=(const matrix< complex< eT > >& A)
+const matrix< complex< T > >& matrix< complex< T > >::operator-=(const matrix< complex< T > >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -842,9 +842,9 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator-=(const matrix<
  *
  * @return          The reference to the current matrix that contains the result.
  */
-template< typename eT >
+template< typename T >
 inline
-const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix< eT >& A)
+const matrix< complex< T > >& matrix< complex< T > >::operator*=(const matrix< T >& A)
 {
     if ( cols != A.rows )
     {
@@ -854,7 +854,7 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix<
     size_t n_rows = rows;
     size_t n_cols = A.cols();
     
-    if (is_int< eT >::value == true || is_long< eT >::value == true || is_short< eT >::value == true)
+    if ( same_type< T, int >::value || same_type< T, long >::value || same_type< T, short >::value )
     {
         float* tmp_mem  = new float[2 * rows * cols];
         float* tmp_A    = new float[2 * A.rows * A.cols];
@@ -878,19 +878,19 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix<
         uzlblas_cgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, alpha, tmp_mem, rows, tmp_A, A.rows, beta, C, n_rows);
         
         delete [] mem;
-        mem = new complex< eT >[n_rows * n_cols];
+        mem = new complex< T >[n_rows * n_cols];
         
         size_t cap_c = n_rows * n_cols;
         for (i = 0; i < cap_c; ++i)
         {
-            mem[i] = complex< eT >(C[i * 2], C[i * 2 + 1]);
+            mem[i] = complex< T >(C[i * 2], C[i * 2 + 1]);
         }
         
         delete [] tmp_mem;
         delete [] tmp_A;
         delete [] C;
     }
-    else if (is_float< eT >::value == true)
+    else if ( same_type< T, float >::value )
     {
         float* tmp_mem  = reinterpret_cast< float* >(mem);
         float* tmp_A    = new float[2 * A.rows * A.cols];
@@ -908,7 +908,7 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix<
         uzlblas_cgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, alpha, tmp_mem, rows, tmp_A, A.rows, beta, C, n_rows);
         
         delete [] mem;
-        mem = new complex< eT >[n_rows * n_cols];
+        mem = new complex< T >[n_rows * n_cols];
         
         size_t cap_c = 2 * n_rows * n_cols;
         memcpy(mem, C, cap_c * sizeof(float));
@@ -916,7 +916,7 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix<
         delete [] tmp_A;
         delete [] C;
     }
-    else if (is_double< eT >::value == true)
+    else if ( same_type< T, double >::value )
     {
         double* tmp_mem = reinterpret_cast< double* >(mem);
         double* tmp_A   = new double[2 * A.rows * A.cols];
@@ -934,7 +934,7 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix<
         uzlblas_zgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, alpha, tmp_mem, rows, tmp_A, A.rows, beta, C, n_rows);
         
         delete [] mem;
-        mem = new complex< eT >[n_rows * n_cols];
+        mem = new complex< T >[n_rows * n_cols];
         
         size_t cap_c = 2 * n_rows * n_cols;
         memcpy(mem, C, cap_c * sizeof(double));
@@ -966,12 +966,12 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix<
         uzlblas_zgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, alpha, tmp_mem, rows, tmp_A, A.rows, beta, C, n_rows);
         
         delete [] mem;
-        mem = new complex< eT >[n_rows * n_cols];
+        mem = new complex< T >[n_rows * n_cols];
         
         size_t cap_c = n_rows * n_cols;
         for (i = 0; i < cap_c; ++i)
         {
-            mem[i] = complex< eT >(C[i * 2], C[i * 2 + 1]);
+            mem[i] = complex< T >(C[i * 2], C[i * 2 + 1]);
         }
         
         delete [] tmp_mem;
@@ -991,9 +991,9 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix<
  *
  * @return          The reference to the current matrix that contains the result.
  */
-template< typename eT >
+template< typename T >
 inline
-const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix< complex< eT > >& A)
+const matrix< complex< T > >& matrix< complex< T > >::operator*=(const matrix< complex< T > >& A)
 {
     if ( cols != A.rows )
     {
@@ -1003,7 +1003,7 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix<
     size_t n_rows = rows;
     size_t n_cols = A.cols();
     
-    if (is_int< eT >::value == true || is_long< eT >::value == true || is_short< eT >::value == true)
+    if ( same_type< T, int >::value || same_type< T, long >::value || same_type< T, short >::value )
     {
         float* tmp_mem  = new float[2 * rows * cols];
         float* tmp_A    = new float[2 * A.rows * A.cols];
@@ -1027,19 +1027,19 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix<
         uzlblas_cgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, alpha, tmp_mem, rows, tmp_A, A.rows, beta, C, n_rows);
         
         delete [] mem;
-        mem = new complex< eT >[n_rows * n_cols];
+        mem = new complex< T >[n_rows * n_cols];
         
         size_t cap_c = n_rows * n_cols;
         for (i = 0; i < cap_c; ++i)
         {
-            mem[i] = complex< eT >(C[i * 2], C[i * 2 + 1]);
+            mem[i] = complex< T >(C[i * 2], C[i * 2 + 1]);
         }
         
         delete [] tmp_mem;
         delete [] tmp_A;
         delete [] C;
     }
-    if (is_float< eT >::value == true)
+    if ( same_type< T, float >::value )
     {
         float* tmp_mem = reinterpret_cast< float* >(mem);
         float* tmp_A   = reinterpret_cast< float* >(A.mem);
@@ -1050,14 +1050,14 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix<
         uzlblas_cgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, alpha, tmp_mem, rows, tmp_A, A.rows, beta, C, n_rows);
         
         delete [] mem;
-        mem = new complex< eT >[n_rows * n_cols];
+        mem = new complex< T >[n_rows * n_cols];
         
         size_t cap_c = 2 * n_rows * n_cols;
         memcpy(mem, C, cap_c * sizeof(float));
         
         delete [] C;
     }
-    if (is_double< eT >::value == true)
+    if ( same_type< T, double >::value )
     {
         double* tmp_mem = reinterpret_cast< double* >(mem);
         double* tmp_A   = reinterpret_cast< double* >(A.mem);
@@ -1068,7 +1068,7 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix<
         uzlblas_zgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, alpha, tmp_mem, rows, tmp_A, A.rows, beta, C, n_rows);
         
         delete [] mem;
-        mem = new complex< eT >[n_rows * n_cols];
+        mem = new complex< T >[n_rows * n_cols];
         
         size_t cap_c = 2 * n_rows * n_cols;
         memcpy(mem, C, cap_c * sizeof(float));
@@ -1099,12 +1099,12 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix<
         uzlblas_zgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, alpha, tmp_mem, rows, tmp_A, A.rows, beta, C, n_rows);
         
         delete [] mem;
-        mem = new complex< eT >[n_rows * n_cols];
+        mem = new complex< T >[n_rows * n_cols];
         
         size_t cap_c = n_rows * n_cols;
         for (i = 0; i < cap_c; ++i)
         {
-            mem[i] = complex< eT >(C[i * 2], C[i * 2 + 1]);
+            mem[i] = complex< T >(C[i * 2], C[i * 2 + 1]);
         }
         
         delete [] tmp_mem;
@@ -1126,20 +1126,20 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const matrix<
  *
  * @return          The reference to the current matrix that contains the result.
  */
-template< typename eT >
+template< typename T >
 inline
-const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const vector< complex< eT > >& v)
+const matrix< complex< T > >& matrix< complex< T > >::operator*=(const vector< complex< T > >& v)
 {
-    if ( v.type == vec_type::ROW || cols != v.n_elements() )
+    if ( v.type == vec_type::ROW || cols != v.size )
     {
-        uzlmath_error("%s", "Dimension mismatch in matrix-matrix multiplication.");
+        uzlmath_error("%s", "Dimension mismatch in complex matrix-vector multiplication.");
     }
     
     // create new memory array
-    complex< eT >* new_mem = new complex< eT >[rows];
+    complex< T >* new_mem = new complex< T >[rows];
     
     // set each value to 0
-    memset(new_mem, 0, 2 * rows * sizeof(eT));
+    memset(new_mem, 0, 2 * rows * sizeof(T));
     
     // do multiplication
     size_t i, j;
@@ -1147,7 +1147,7 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const vector<
     {
         for (i = 0; i < rows; ++i)
         {
-            new_mem[i] +=  mem[j * rows + i] * v[j];
+            new_mem[i] +=  access::rw(mem[j * rows + i]) * v[j];
         }
     }
     
@@ -1155,8 +1155,8 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const vector<
     delete [] mem;
     
     // adjust size and memory
-    cols = 1;
-    mem = new_mem;
+    access::rw(cols) = 1;
+    access::rw(mem)  = new_mem;
     
     // return reference to the current matrix
     return *this;
@@ -1171,12 +1171,12 @@ const matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const vector<
  *
  * @return          A matrix containing a copy of the current matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< complex< eT > >::operator+()
+matrix< complex< T > > matrix< complex< T > >::operator+()
 {
-    matrix< complex< eT > > C(rows, cols);
-    memcpy(C.mem, mem, rows * cols * sizeof(complex< eT >));
+    matrix< complex< T > > C(rows, cols);
+    memcpy(C.mem, mem, rows * cols * sizeof(complex< T >));
     
     return C;
 }
@@ -1190,11 +1190,11 @@ matrix< complex< eT > > matrix< complex< eT > >::operator+()
  *
  * @return          A matrix containing the negative values of the current matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< complex< eT > >::operator-()
+matrix< complex< T > > matrix< complex< T > >::operator-()
 {
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1223,16 +1223,16 @@ matrix< complex< eT > > matrix< complex< eT > >::operator-()
  *                      \end{array}\right)
  *                  \f}
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< complex< eT > >::operator+(const eT& rhs)
+matrix< complex< T > > matrix< complex< T > >::operator+(const T& rhs)
 {
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
     {
-        C.mem[i] = mem[i] + complex< eT >(rhs, 0);
+        C.mem[i] = mem[i] + complex< T >(rhs, 0);
     }
     
     return C;
@@ -1256,11 +1256,11 @@ matrix< complex< eT > > matrix< complex< eT > >::operator+(const eT& rhs)
  *                      \end{array}\right)
  *                  \f}
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< complex< eT > >::operator+(const complex< eT >& rhs)
+matrix< complex< T > > matrix< complex< T > >::operator+(const complex< T >& rhs)
 {
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1289,16 +1289,16 @@ matrix< complex< eT > > matrix< complex< eT > >::operator+(const complex< eT >& 
  *                      \end{array}\right)
  *                  \f}
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< complex< eT > >::operator-(const eT& rhs)
+matrix< complex< T > > matrix< complex< T > >::operator-(const T& rhs)
 {
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
     {
-        C.mem[i] = mem[i] - complex< eT >(rhs, 0);
+        C.mem[i] = mem[i] - complex< T >(rhs, 0);
     }
     
     return C;
@@ -1322,11 +1322,11 @@ matrix< complex< eT > > matrix< complex< eT > >::operator-(const eT& rhs)
  *                      \end{array}\right)
  *                  \f}
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< complex< eT > >::operator-(const complex< eT >& rhs)
+matrix< complex< T > > matrix< complex< T > >::operator-(const complex< T >& rhs)
 {
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1360,15 +1360,15 @@ matrix< complex< eT > > matrix< complex< eT > >::operator-(const complex< eT >& 
  *                      \end{array}\right)
  *                  \f}
  */
-template< typename eT >
-inline matrix< complex< eT > > matrix< complex< eT > >::operator*(const eT& rhs)
+template< typename T >
+inline matrix< complex< T > > matrix< complex< T > >::operator*(const T& rhs)
 {
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
     {
-        C.mem[i] = mem[i] * complex< eT >(rhs, 0);
+        C.mem[i] = mem[i] * complex< T >(rhs, 0);
     }
     
     return C;
@@ -1397,10 +1397,10 @@ inline matrix< complex< eT > > matrix< complex< eT > >::operator*(const eT& rhs)
  *                      \end{array}\right)
  *                  \f}
  */
-template< typename eT >
-inline matrix< complex< eT > > matrix< complex< eT > >::operator*(const complex< eT >& rhs)
+template< typename T >
+inline matrix< complex< T > > matrix< complex< T > >::operator*(const complex< T >& rhs)
 {
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1434,20 +1434,20 @@ inline matrix< complex< eT > > matrix< complex< eT > >::operator*(const complex<
  *                      \end{array}\right)
  *                  \f}
  */
-template< typename eT >
-inline matrix< complex< eT > > matrix< complex< eT > >::operator/(const eT& rhs)
+template< typename T >
+inline matrix< complex< T > > matrix< complex< T > >::operator/(const T& rhs)
 {
     if ( rhs == 0 )
     {
         uzlmath_error("%s", "Division by zero in matrix-scalar division.");
     }
     
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
     {
-        C.mem[i] = mem[i] / complex< eT >(rhs, 0);
+        C.mem[i] = mem[i] / complex< T >(rhs, 0);
     }
     
     return C;
@@ -1476,16 +1476,16 @@ inline matrix< complex< eT > > matrix< complex< eT > >::operator/(const eT& rhs)
  *                      \end{array}\right)
  *                  \f}
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< complex< eT > >::operator/(const complex< eT >& rhs)
+matrix< complex< T > > matrix< complex< T > >::operator/(const complex< T >& rhs)
 {
     if ( rhs == 0 )
     {
         uzlmath_error("%s", "Division by zero in matrix-scalar division.");
     }
     
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1527,16 +1527,16 @@ matrix< complex< eT > > matrix< complex< eT > >::operator/(const complex< eT >& 
  *                      }_{n}
  *                  \f}
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< complex< eT > >::operator^(const unsigned int& exp)
+matrix< complex< T > > matrix< complex< T > >::operator^(const unsigned int& exp)
 {
     if ( rows != cols )
     {
         uzlmath_error("%s", "Dimension mismatch in matrix power operator.");
     }
     
-    matrix< complex< eT > > C = *this;
+    matrix< complex< T > > C = *this;
     unsigned int i = 0;
     for (i = 0; i < exp - 1; ++i)
     {
@@ -1556,14 +1556,14 @@ matrix< complex< eT > > matrix< complex< eT > >::operator^(const unsigned int& e
  *
  * @return          The reference to the current matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > >& matrix< complex< eT > >::operator+=(const eT& rhs)
+matrix< complex< T > >& matrix< complex< T > >::operator+=(const T& rhs)
 {
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
     {
-        mem[i] += complex< eT >(rhs, 0);
+        mem[i] += complex< T >(rhs, 0);
     }
     return *this;
 }
@@ -1576,8 +1576,8 @@ matrix< complex< eT > >& matrix< complex< eT > >::operator+=(const eT& rhs)
  *
  * @return          The reference to the current matrix.
  */
-template< typename eT >
-inline matrix< complex< eT > >& matrix< complex< eT > >::operator+=(const complex< eT >& rhs)
+template< typename T >
+inline matrix< complex< T > >& matrix< complex< T > >::operator+=(const complex< T >& rhs)
 {
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1595,14 +1595,14 @@ inline matrix< complex< eT > >& matrix< complex< eT > >::operator+=(const comple
  *
  * @return          The reference to the current matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > >& matrix< complex< eT > >::operator-=(const eT& rhs)
+matrix< complex< T > >& matrix< complex< T > >::operator-=(const T& rhs)
 {
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
     {
-        mem[i] -= complex< eT >(rhs, 0);
+        mem[i] -= complex< T >(rhs, 0);
     }
     return *this;
 }
@@ -1615,8 +1615,8 @@ matrix< complex< eT > >& matrix< complex< eT > >::operator-=(const eT& rhs)
  *
  * @return          The reference to the current matrix.
  */
-template< typename eT >
-inline matrix< complex< eT > >& matrix< complex< eT > >::operator-=(const complex< eT >& rhs)
+template< typename T >
+inline matrix< complex< T > >& matrix< complex< T > >::operator-=(const complex< T >& rhs)
 {
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1634,14 +1634,14 @@ inline matrix< complex< eT > >& matrix< complex< eT > >::operator-=(const comple
  *
  * @return          The reference to the current matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const eT& rhs)
+matrix< complex< T > >& matrix< complex< T > >::operator*=(const T& rhs)
 {
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
     {
-        mem[i] *= complex< eT >(rhs, 0);
+        mem[i] *= complex< T >(rhs, 0);
     }
     return *this;
 }
@@ -1654,9 +1654,9 @@ matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const eT& rhs)
  *
  * @return          The reference to the current matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const complex< eT >& rhs)
+matrix< complex< T > >& matrix< complex< T > >::operator*=(const complex< T >& rhs)
 {
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1674,9 +1674,9 @@ matrix< complex< eT > >& matrix< complex< eT > >::operator*=(const complex< eT >
  *
  * @return          The reference to the current matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > >& matrix< complex< eT > >::operator/=(const eT& rhs)
+matrix< complex< T > >& matrix< complex< T > >::operator/=(const T& rhs)
 {
     if ( rhs == 0 )
     {
@@ -1686,7 +1686,7 @@ matrix< complex< eT > >& matrix< complex< eT > >::operator/=(const eT& rhs)
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
     {
-        mem[i] /= complex< eT >(rhs, 0);
+        mem[i] /= complex< T >(rhs, 0);
     }
     return *this;
 }
@@ -1699,9 +1699,9 @@ matrix< complex< eT > >& matrix< complex< eT > >::operator/=(const eT& rhs)
  *
  * @return          The reference to the current matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > >& matrix< complex< eT > >::operator/=(const complex< eT >& rhs)
+matrix< complex< T > >& matrix< complex< T > >::operator/=(const complex< T >& rhs)
 {
     if ( rhs == 0 )
     {
@@ -1725,16 +1725,16 @@ matrix< complex< eT > >& matrix< complex< eT > >::operator/=(const complex< eT >
  *
  * @return          The reference to the current matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > >& matrix< complex< eT > >::operator^=(const unsigned int& exp)
+matrix< complex< T > >& matrix< complex< T > >::operator^=(const unsigned int& exp)
 {
     if ( rows != cols )
     {
         uzlmath_error("%s", "Dimension mismatch in matrix power operator.");
     }
     
-    matrix< complex< eT > > C = *this;
+    matrix< complex< T > > C = *this;
     unsigned int i;
     for (i = 0; i < exp; ++i)
     {
@@ -1745,8 +1745,8 @@ matrix< complex< eT > >& matrix< complex< eT > >::operator^=(const unsigned int&
 }
 
 
-//inline matrix< complex< eT > >& operator<<(const eT& val);
-//inline matrix< complex< eT > >& operator<<(const complex< eT >& val);
+//inline matrix< complex< T > >& operator<<(const T& val);
+//inline matrix< complex< T > >& operator<<(const complex< T >& val);
 
 /*!
  * @brief           Indexing operator to access the specif matrix element.
@@ -1758,9 +1758,9 @@ matrix< complex< eT > >& matrix< complex< eT > >::operator^=(const unsigned int&
  *
  * @return          The pointer to matrix element in row \f$i\f$ and column \f$j\f$ (\f$a_{ij}\f$).
  */
-template< typename eT >
+template< typename T >
 inline
-complex< eT >& matrix< complex< eT > >::operator()(const size_t& i, const size_t& j)
+complex< T >& matrix< complex< T > >::operator()(const size_t& i, const size_t& j)
 {
     return access::rw(mem[j * rows + i]);
 }
@@ -1775,9 +1775,9 @@ complex< eT >& matrix< complex< eT > >::operator()(const size_t& i, const size_t
  *
  * @return          The matrix element in row \f$i\f$ and column \f$j\f$ (\f$a_{ij}\f$).
  */
-template< typename eT >
+template< typename T >
 inline
-const complex< eT >& matrix< complex< eT > >::operator()(const size_t& i, const size_t& j) const
+const complex< T >& matrix< complex< T > >::operator()(const size_t& i, const size_t& j) const
 {
     return mem[j * rows + i];
 }
@@ -1792,13 +1792,13 @@ const complex< eT >& matrix< complex< eT > >::operator()(const size_t& i, const 
  *                  \f}
  *                  where \f$A\f$ is a \f$M\times N\f$ matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-void matrix< complex< eT > >::zeros()
+void matrix< complex< T > >::zeros()
 {
     for (int i = 0; i < rows * cols; ++i)
     {
-        mem[i] = complex< eT >(0, 0);
+        mem[i] = complex< T >(0, 0);
     }
 }
 
@@ -1810,13 +1810,13 @@ void matrix< complex< eT > >::zeros()
  *                  \f}
  *                  where \f$A\f$ is a \f$M\times N\f$ matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-void matrix< complex< eT > >::ones()
+void matrix< complex< T > >::ones()
 {
     for (int i = 0; i < rows * cols; ++i)
     {
-        mem[i] = complex< eT >(1, 0);
+        mem[i] = complex< T >(1, 0);
     }
 }
 
@@ -1840,16 +1840,16 @@ void matrix< complex< eT > >::ones()
  *                  \f]
  *                  where \f$A\f$ is a \f$M\times N\f$ matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-void matrix< complex< eT > >::eye()
+void matrix< complex< T > >::eye()
 {
     zeros();
     
     size_t i, el = (rows < cols) ? rows : cols;
     for (i = 0; i < el; ++i)
     {
-        mem[i * rows + i] = complex< eT >(1, 0);
+        mem[i * rows + i] = complex< T >(1, 0);
     }
 }
 
@@ -1861,11 +1861,11 @@ void matrix< complex< eT > >::eye()
  *                  \f]
  * @todo            Implement in-place transposing
  */
-template< typename eT >
+template< typename T >
 inline
-void matrix< complex< eT > >::transpose()
+void matrix< complex< T > >::transpose()
 {
-    complex< eT >* tmp_mem = new complex< eT >[rows * cols];
+    complex< T >* tmp_mem = new complex< T >[rows * cols];
     size_t tmp_r = cols;
     size_t tmp_c = rows;
     
@@ -1889,14 +1889,14 @@ void matrix< complex< eT > >::transpose()
  * @details         Each entry of the current matrix gets overwritten with the
  *                  given scalar value.
  */
-template< typename eT >
+template< typename T >
 inline
-void matrix< complex< eT > >::fill(const eT& value)
+void matrix< complex< T > >::fill(const T& value)
 {
     size_t i;
     for (i = 0; i < rows * cols; ++i)
     {
-        mem[i] = complex< eT >(value, 0);
+        mem[i] = complex< T >(value, 0);
     }
 }
 
@@ -1905,9 +1905,9 @@ void matrix< complex< eT > >::fill(const eT& value)
  * @details         Each entry of the current matrix gets overwritten with the
  *                  given scalar value.
  */
-template< typename eT >
+template< typename T >
 inline
-void matrix< complex< eT > >::fill(const complex< eT >& value)
+void matrix< complex< T > >::fill(const complex< T >& value)
 {
     std::fill(mem, mem + rows * cols, value);
 }
@@ -1933,9 +1933,9 @@ void matrix< complex< eT > >::fill(const complex< eT >& value)
  *
  * @return          The value of the determinant
  */
-template< typename eT >
+template< typename T >
 inline
-const complex<double> matrix< complex< eT > >::determinant()
+const complex<double> matrix< complex< T > >::determinant()
 {
     if (rows != cols)
     {
@@ -1977,7 +1977,7 @@ const complex<double> matrix< complex< eT > >::determinant()
         return 0;
     }
     
-    double det  = complex< eT >(1, 0);
+    double det  = complex< T >(1, 0);
     int n       = (cols < rows) ? cols : rows;
     for (i = 0; i < n; ++i)
     {
@@ -1998,8 +1998,8 @@ const complex<double> matrix< complex< eT > >::determinant()
  *
  * @ingroup         matrix
  */
-template< typename eT >
-std::ostream& operator<<(std::ostream& o, const matrix< complex< eT > >& A)
+template< typename T >
+std::ostream& operator<<(std::ostream& o, const matrix< complex< T > >& A)
 {
     std::ios::fmtflags f( std::cout.flags() );
     o << std::endl;
@@ -2007,7 +2007,7 @@ std::ostream& operator<<(std::ostream& o, const matrix< complex< eT > >& A)
     int width   = 20;
     auto format = std::fixed;
     
-    if (is_float< eT >::value == false && is_double< eT >::value == false && is_ldouble< eT >::value == false)
+    if ( different_type< T, float >::value && different_type< T, double >::value && different_type< T, long double >::value )
     {
         width = 10;
     }
@@ -2018,13 +2018,13 @@ std::ostream& operator<<(std::ostream& o, const matrix< complex< eT > >& A)
     {
         for (j = 0; j < A.cols; ++j)
         {
-            complex< eT > c = A(i, j);
+            complex< T > c = A(i, j);
             if (std::abs(c.re) >= 10 || std::abs(c.im) >= 10)
             {
                 width   = 22;
                 format  = std::fixed;
                 
-                if (is_float< eT >::value == false && is_double< eT >::value == false && is_ldouble< eT >::value == false)
+                if ( different_type< T, float >::value && different_type< T, double >::value && different_type< T, long double >::value )
                 {
                     width = 12;
                 }
@@ -2035,7 +2035,7 @@ std::ostream& operator<<(std::ostream& o, const matrix< complex< eT > >& A)
                 width   = 24;
                 format  = std::fixed;
                 
-                if (is_float< eT >::value == false && is_double< eT >::value == false && is_ldouble< eT >::value == false)
+                if ( different_type< T, float >::value && different_type< T, double >::value && different_type< T, long double >::value )
                 {
                     width = 14;
                 }
@@ -2046,7 +2046,7 @@ std::ostream& operator<<(std::ostream& o, const matrix< complex< eT > >& A)
                 width   = 28;
                 format  = std::scientific;
                 
-                if (is_float< eT >::value == false && is_double< eT >::value == false && is_ldouble< eT >::value == false)
+                if ( different_type< T, float >::value && different_type< T, double >::value && different_type< T, long double >::value )
                 {
                     width = 18;
                 }
@@ -2060,7 +2060,7 @@ std::ostream& operator<<(std::ostream& o, const matrix< complex< eT > >& A)
         for (j = 0; j < A.cols; ++j)
         {
             // get entry
-            complex< eT > c = A(i, j);
+            complex< T > c = A(i, j);
             
             // create string
             std::ostringstream val;

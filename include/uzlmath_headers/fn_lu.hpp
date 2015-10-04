@@ -21,9 +21,9 @@ UZLMATH_BEGIN
  * @author  Denis-Michael Lux <denis.lux@icloud.com>
  * @date    17.01.15
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< double > lu(const matrix< eT >& A)
+matrix< double > lu(const matrix< T >& A)
 {
     /*
      * INFO     = 0:  successful exit
@@ -64,9 +64,9 @@ matrix< double > lu(const matrix< eT >& A)
     return matrix< double >();
 }
 
-template< typename eT >
+template< typename T >
 inline
-matrix< double > lu(const matrix< eT >& A, matrix< int >& P)
+matrix< double > lu(const matrix< T >& A, matrix< int >& P)
 {
     /*
      * INFO     = 0:  successful exit
@@ -108,7 +108,7 @@ matrix< double > lu(const matrix< eT >& A, matrix< int >& P)
      {
      for (j = 0; j < P.n_cols(); ++j)
      {
-     eT tmp = P(i, j);
+     T tmp = P(i, j);
      P(i, j) = P(IPIV[i] - 1, j);
      P(IPIV[i] - 1, j) = tmp;
      }
@@ -119,9 +119,9 @@ matrix< double > lu(const matrix< eT >& A, matrix< int >& P)
     return matrix< double >();
 }
 
-template< typename eT >
+template< typename T >
 inline
-void lu(const matrix< eT >& A, matrix< float >& LU, matrix< int >& P)
+void lu(const matrix< T >& A, matrix< float >& LU, matrix< int >& P)
 {
     /*
      * INFO     = 0:  successful exit
@@ -163,7 +163,7 @@ void lu(const matrix< eT >& A, matrix< float >& LU, matrix< int >& P)
      {
      for (j = 0; j < P.n_cols(); ++j)
      {
-     eT tmp = P(i, j);
+     T tmp = P(i, j);
      P(i, j) = P(IPIV[i] - 1, j);
      P(IPIV[i] - 1, j) = tmp;
      }
@@ -171,16 +171,16 @@ void lu(const matrix< eT >& A, matrix< float >& LU, matrix< int >& P)
      */
 }
 
-template< typename eT >
+template< typename T >
 inline
-void lu(const matrix< eT >& A, matrix< double >& LU, matrix< int >& P)
+void lu(const matrix< T >& A, matrix< double >& LU, matrix< int >& P)
 {
     
 }
 
-template< typename eT >
+template< typename T >
 inline
-void lu(const matrix< eT >& A, matrix< float >& L , matrix< float >& U, matrix< double >& P)
+void lu(const matrix< T >& A, matrix< float >& L , matrix< float >& U, matrix< double >& P)
 {
     /*
      * INFO     = 0:  successful exit
@@ -223,7 +223,7 @@ void lu(const matrix< eT >& A, matrix< float >& L , matrix< float >& U, matrix< 
      {
      for (j = 0; j < P.n_cols(); ++j)
      {
-     eT tmp = P(i, j);
+     T tmp = P(i, j);
      P(i, j) = P(IPIV[i] - 1, j);
      P(IPIV[i] - 1, j) = tmp;
      }
@@ -264,9 +264,9 @@ void lu(const matrix< eT >& A, matrix< float >& L , matrix< float >& U, matrix< 
      */
 }
 
-template< typename eT >
+template< typename T >
 inline
-void lu(const matrix< eT >& A, matrix< double >& L , matrix< double >& U, matrix< double >& P)
+void lu(const matrix< T >& A, matrix< double >& L , matrix< double >& U, matrix< double >& P)
 {
     
 }

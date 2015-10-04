@@ -19,9 +19,9 @@ UZLMATH_BEGIN
  *                  The memory is not initialized and can contain random
  *                  contents!
  */
-template< typename eT >
+template< typename T >
 inline
-vector< eT >::vector()
+vector< T >::vector()
     : size(0)
     , type(vec_type::ROW)
     , inj(0)
@@ -38,14 +38,14 @@ vector< eT >::vector()
  * @param[in]       type Type of the created vector where \f$t\f$ can be
  *                  either vec_type::ROW or vec_type::COLUMN
  */
-template< typename eT >
+template< typename T >
 inline
-vector< eT >::vector(const size_t& s, const vec_type& type)
+vector< T >::vector(const size_t& s, const vec_type& type)
     : inj(0)
     , size(s)
     , type(type)
 {
-    mem = new eT[s];
+    mem = new T[s];
 }
 
 /*!
@@ -59,20 +59,20 @@ vector< eT >::vector(const size_t& s, const vec_type& type)
  * @param[in]       type Type of the created vector where \f$t\f$ can be
  *                  either vec_type::ROW or vec_type::COLUMN
  */
-template< typename eT >
+template< typename T >
 inline
-vector< eT >::vector(const size_t& s, const eT& initial, const vec_type& type)
+vector< T >::vector(const size_t& s, const T& initial, const vec_type& type)
     : size(s)
     , type(type)
     , inj(0)
 {
-    mem = new eT[s];
+    mem = new T[s];
     
     if (s > 0)
     {
         if (initial == 0 || initial == -1)
         {
-            memset(mem, initial, size * sizeof(eT));
+            memset(mem, initial, size * sizeof(T));
         }
         else
         {
@@ -89,18 +89,18 @@ vector< eT >::vector(const size_t& s, const eT& initial, const vec_type& type)
  *
  * @param[in]       vec The vector that is supposed to be copied.
  */
-template< typename eT >
+template< typename T >
 inline
-vector< eT >::vector(const vector< eT >& vec)
+vector< T >::vector(const vector< T >& vec)
     : size(vec.size)
     , type(vec.type)
     , inj(vec.inj)
 {
-    mem = new eT[size];
+    mem = new T[size];
     
     if (size > 0)
     {
-        memcpy(mem, vec.mem, size * sizeof(eT));
+        memcpy(mem, vec.mem, size * sizeof(T));
     }
 }
 
@@ -115,18 +115,18 @@ vector< eT >::vector(const vector< eT >& vec)
  * @param[in]       type The new type of the new vector which can either be
  *                  vec_type::ROW or vec_type::COlUMN.
  */
-template< typename eT >
+template< typename T >
 inline
-vector< eT >::vector(const vector< eT >& vec, const vec_type& type)
+vector< T >::vector(const vector< T >& vec, const vec_type& type)
     : size(vec.size)
     , type(type)
     , inj(vec.inj)
 {
-    mem = new eT[size];
+    mem = new T[size];
     
     if (size > 0)
     {
-        memcpy(mem, vec.mem, size * sizeof(eT));
+        memcpy(mem, vec.mem, size * sizeof(T));
     }
 }
 
@@ -138,14 +138,14 @@ vector< eT >::vector(const vector< eT >& vec, const vec_type& type)
  * 
  * @param[in, out]  vec The vector that is supposed to be copied.
  */
-template< typename eT >
+template< typename T >
 inline
-vector< eT >::vector(vector< eT >&& vec)
+vector< T >::vector(vector< T >&& vec)
     : inj(vec.inj)
     , size(vec.size)
     , type(vec.type)
 {
-    const eT* tmp = mem;
+    const T* tmp = mem;
     mem           = vec.mem;
     vec.mem       = tmp;
 }
@@ -155,9 +155,9 @@ vector< eT >::vector(vector< eT >&& vec)
  * @details         Frees the allocated memory of the vector and preparing
  *                  the object to be released safely.
  */
-template< typename eT >
+template< typename T >
 inline
-vector< eT >::~vector()
+vector< T >::~vector()
 {
     delete [] mem;
 }
@@ -176,16 +176,16 @@ vector< eT >::~vector()
  * @return          A new vector which contains the element-wise sum of both 
  *                  vectors.
  */
-template< typename eT >
+template< typename T >
 inline
-vector< eT > vector< eT >::operator+(const vector< eT >& v)
+vector< T > vector< T >::operator+(const vector< T >& v)
 {
     if ( size != v.size || type != v.type)
     {
         uzlmath_error("%s", "size mismatch in vector-vector addition.");
     }
     
-    vector< eT > result(size, type);
+    vector< T > result(size, type);
     
     size_t i;
     for (i = 0; i < v.size; ++i)
@@ -208,16 +208,16 @@ vector< eT > vector< eT >::operator+(const vector< eT >& v)
  * @return          A new vector which contains the element-wise difference of
  *                  both vectors.
  */
-template< typename eT >
+template< typename T >
 inline
-vector< eT > vector< eT >::operator-(const vector< eT >& v)
+vector< T > vector< T >::operator-(const vector< T >& v)
 {
     if ( size != v.size || type != v.type)
     {
         uzlmath_error("%s", "size mismatch in vector-vector subtraction.");
     }
     
-    vector< eT > result(size, type);
+    vector< T > result(size, type);
     
     size_t i;
     for (i = 0; i < v.size; ++i)
@@ -239,9 +239,9 @@ vector< eT > vector< eT >::operator-(const vector< eT >& v)
  * 
  * @result          The resulting matrix containg the product of both vectors.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT > vector< eT >::operator*(const vector< eT >& v)
+matrix< T > vector< T >::operator*(const vector< T >& v)
 {
     if (type == v.type || (type == vec_type::ROW && size != v.size))
     {
@@ -255,10 +255,10 @@ matrix< eT > vector< eT >::operator*(const vector< eT >& v)
     int LDB = K;
     int LDC = M;
     
-    matrix< eT > result(M, N);
+    matrix< T > result(M, N);
     
     // do multiplication
-    if (is_int< eT >::value == true || is_short< eT >::value == true)
+    if ( same_type< T, int >::value || same_type< T, short >::value )
     {
         
         float* tmp_mem  = new float[size];
@@ -281,14 +281,14 @@ matrix< eT > vector< eT >::operator*(const vector< eT >& v)
         size_t cap_c = M * N;
         for (i = 0; i < cap_c; ++i)
         {
-            result.mem[i] = static_cast< eT >(C[i]);
+            result.mem[i] = static_cast< T >(C[i]);
         }
         
         delete [] tmp_mem;
         delete [] tmp_v;
         delete [] C;
     }
-    else if (is_float< eT >::value == true)
+    else if ( same_type< T, float >::value )
     {
         // Treat pointers as float pointers
         float* A_mem_ptr = reinterpret_cast< float* >(mem);
@@ -297,7 +297,7 @@ matrix< eT > vector< eT >::operator*(const vector< eT >& v)
         
         uzl_blas_sgemm(UZLblasNoTrans, UZLblasNoTrans, M, N, K, 1.0, A_mem_ptr, LDA, v_mem_ptr, LDB, 0.0, C_mem_ptr, LDC);
     }
-    else if (is_double< eT >::value == true)
+    else if ( same_type< T, double >::value )
     {
         // Treat pointers as double pointers.
         double* A_mem_ptr = reinterpret_cast< double* >(mem);
@@ -328,7 +328,7 @@ matrix< eT > vector< eT >::operator*(const vector< eT >& v)
         size_t cap_c = M * N;
         for (i = 0; i < cap_c; ++i)
         {
-            result.mem[i] = static_cast< eT >(C[i]);
+            result.mem[i] = static_cast< T >(C[i]);
         }
         
         delete [] tmp_mem;
@@ -348,16 +348,16 @@ matrix< eT > vector< eT >::operator*(const vector< eT >& v)
  *
  * @return          The result of element wise division
  */
-template< typename eT >
+template< typename T >
 inline
-vector< eT > vector< eT >::operator/(const vector< eT >& v)
+vector< T > vector< T >::operator/(const vector< T >& v)
 {
     if (type != v.type || size != size)
     {
         uzlmath_error("%s", "type or size mismatch in element-wise vector division.");
     }
     
-    vector< eT > result(size, type);
+    vector< T > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
@@ -382,16 +382,16 @@ vector< eT > vector< eT >::operator/(const vector< eT >& v)
  * 
  * @return          The result of element wise division
  */
-template< typename eT >
+template< typename T >
 inline
-vector< eT > vector< eT >::operator%(const vector< eT >& v)
+vector< T > vector< T >::operator%(const vector< T >& v)
 {
     if (type != v.type || size != size)
     {
         uzlmath_error("%s", "type or size mismatch in element-wise vector multiplication.");
     }
     
-    vector< eT > result(size, type);
+    vector< T > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
@@ -414,21 +414,21 @@ vector< eT > vector< eT >::operator%(const vector< eT >& v)
  * @return          A new complex vector containing the result of element-wise
  *                  addition of the current and the given vector.
  */
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< eT >::operator+(const vector< complex< eT > >& v)
+vector< complex< T > > vector< T >::operator+(const vector< complex< T > >& v)
 {
     if ( size != v.size || type != v.t)
     {
         uzlmath_error("%s", "size mismatch in vector-vector addition.");
     }
     
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < v.size; ++i)
     {
-        result[i] = complex< eT >(mem[i], 0) + v[i];
+        result[i] = complex< T >(mem[i], 0) + v[i];
     }
     
     return result;
@@ -446,21 +446,21 @@ vector< complex< eT > > vector< eT >::operator+(const vector< complex< eT > >& v
  * @return          A new vector which contains the element-wise difference of
  *                  both vectors.
  */
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< eT >::operator-(const vector< complex< eT > >& v)
+vector< complex< T > > vector< T >::operator-(const vector< complex< T > >& v)
 {
     if ( size != v.size || type != v.type)
     {
         uzlmath_error("%s", "size mismatch in vector-vector subtraction.");
     }
     
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < v.size; ++i)
     {
-        result[i] = complex< eT >(mem[i], 0) - v[i];
+        result[i] = complex< T >(mem[i], 0) - v[i];
     }
     
     return result;
@@ -477,9 +477,9 @@ vector< complex< eT > > vector< eT >::operator-(const vector< complex< eT > >& v
  *
  * @result          The resulting matrix containg the product of both vectors.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > vector< eT >::operator*(const vector< complex< eT > >& v)
+matrix< complex< T > > vector< T >::operator*(const vector< complex< T > >& v)
 {
     if (type == v.type || (type == vec_type::ROW && size != v.size))
     {
@@ -493,10 +493,10 @@ matrix< complex< eT > > vector< eT >::operator*(const vector< complex< eT > >& v
     int LDB = K;
     int LDC = M;
     
-    matrix< complex< eT > > result(M, N);
+    matrix< complex< T > > result(M, N);
     
     // do multiplication
-    if (is_int< eT >::value == true || is_short< eT >::value == true || is_float< eT >::value == true)
+    if ( same_type< T, int >::value || same_type< T, short >::value || same_type< T, float >::value )
     {
         
         float* tmp_mem  = new float[2 * size];
@@ -523,8 +523,8 @@ matrix< complex< eT > > vector< eT >::operator*(const vector< complex< eT > >& v
         size_t cap_c = M * N;
         for (i = 0; i < cap_c; ++i)
         {
-            result.mem[i].re = static_cast< eT >(C[i * 2]);
-            result.mem[i].im = static_cast< eT >(C[i * 2 + 1]);
+            result.mem[i].re = static_cast< T >(C[i * 2]);
+            result.mem[i].im = static_cast< T >(C[i * 2 + 1]);
         }
         
         delete [] tmp_mem;
@@ -557,8 +557,8 @@ matrix< complex< eT > > vector< eT >::operator*(const vector< complex< eT > >& v
         size_t cap_c = M * N;
         for (i = 0; i < cap_c; ++i)
         {
-            result.mem[i].re = static_cast< eT >(C[i * 2]);
-            result.mem[i].im = static_cast< eT >(C[i * 2 + 1]);
+            result.mem[i].re = static_cast< T >(C[i * 2]);
+            result.mem[i].im = static_cast< T >(C[i * 2 + 1]);
         }
         
         delete [] tmp_mem;
@@ -578,16 +578,16 @@ matrix< complex< eT > > vector< eT >::operator*(const vector< complex< eT > >& v
  *
  * @return          The result of element wise division.
  */
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< eT >::operator/(const vector< complex< eT > >& v)
+vector< complex< T > > vector< T >::operator/(const vector< complex< T > >& v)
 {
     if (type != v.type || size != size)
     {
         uzlmath_error("%s", "type or size mismatch in element-wise vector division.");
     }
     
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
@@ -597,7 +597,7 @@ vector< complex< eT > > vector< eT >::operator/(const vector< complex< eT > >& v
             uzlmath_error("%s", "division by zero in element-wise vector division.");
         }
         
-        result[i] = complex< eT >(mem[i], 0) / v[i];
+        result[i] = complex< T >(mem[i], 0) / v[i];
     }
     
     return result;
@@ -612,21 +612,21 @@ vector< complex< eT > > vector< eT >::operator/(const vector< complex< eT > >& v
  *
  * @return          The result of element wise division
  */
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< eT >::operator%(const vector< complex< eT > >& v)
+vector< complex< T > > vector< T >::operator%(const vector< complex< T > >& v)
 {
     if (type != v.type || size != size)
     {
         uzlmath_error("%s", "type or size mismatch in element-wise vector multiplication.");
     }
     
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        result[i] = complex< eT >(mem[i], 0) * v[i];
+        result[i] = complex< T >(mem[i], 0) * v[i];
     }
     
     return result;
@@ -643,11 +643,11 @@ vector< complex< eT > > vector< eT >::operator%(const vector< complex< eT > >& v
  * @return          A new vector containing the sum of the scalar and each 
  *                  vector entry
  */
-template< typename eT >
+template< typename T >
 inline
-vector< eT > vector< eT >::operator+(const eT& s)
+vector< T > vector< T >::operator+(const T& s)
 {
-    vector< eT > result(size, type);
+    vector< T > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
@@ -668,11 +668,11 @@ vector< eT > vector< eT >::operator+(const eT& s)
  * @return          A new vector containing the differences of each vector element
  *                  and the scalar.
  */
-template< typename eT >
+template< typename T >
 inline
-vector< eT > vector< eT >::operator-(const eT& s)
+vector< T > vector< T >::operator-(const T& s)
 {
-    vector< eT > result(size, type);
+    vector< T > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
@@ -693,11 +693,11 @@ vector< eT > vector< eT >::operator-(const eT& s)
  * @return          A new vector containing the product of each vector element
  *                  and the scalar.
  */
-template< typename eT >
+template< typename T >
 inline
-vector< eT > vector< eT >::operator*(const eT& s)
+vector< T > vector< T >::operator*(const T& s)
 {
-    vector< eT > result(size, type);
+    vector< T > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
@@ -718,16 +718,16 @@ vector< eT > vector< eT >::operator*(const eT& s)
  * @return          A new vector containing the quotient of each vector element
  *                  and the scalar.
  */
-template< typename eT >
+template< typename T >
 inline
-vector< eT > vector< eT >::operator/(const eT& s)
+vector< T > vector< T >::operator/(const T& s)
 {
     if (s == 0)
     {
         uzlmath_error("%s", "division by zero in vector-scalar division.");
     }
     
-    vector< eT > result(size, type);
+    vector< T > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
@@ -748,16 +748,16 @@ vector< eT > vector< eT >::operator/(const eT& s)
  * @return          A complex vector containing the sum of each element
  *                  and the given scalar.
  */
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< eT >::operator+(const complex< eT >& s)
+vector< complex< T > > vector< T >::operator+(const complex< T >& s)
 {
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        result[i] = complex< eT >(mem[i], 0) + s;
+        result[i] = complex< T >(mem[i], 0) + s;
     }
     
     return result;
@@ -773,16 +773,16 @@ vector< complex< eT > > vector< eT >::operator+(const complex< eT >& s)
  * @return          A complex vector containing the difference of each 
  *                  vector element and the scalar value.
  */
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< eT >::operator-(const complex< eT >& s)
+vector< complex< T > > vector< T >::operator-(const complex< T >& s)
 {
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        result[i] = complex< eT >(mem[i], 0) + s;
+        result[i] = complex< T >(mem[i], 0) + s;
     }
     
     return result;
@@ -798,16 +798,16 @@ vector< complex< eT > > vector< eT >::operator-(const complex< eT >& s)
  * @return          A complex vector containing the product of each
  *                  vector element and the scalar value.
  */
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< eT >::operator*(const complex< eT >& s)
+vector< complex< T > > vector< T >::operator*(const complex< T >& s)
 {
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        result[i] = complex< eT >(mem[i], 0) * s;
+        result[i] = complex< T >(mem[i], 0) * s;
     }
     
     return result;
@@ -822,21 +822,21 @@ vector< complex< eT > > vector< eT >::operator*(const complex< eT >& s)
  *
  * @return
  */
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > vector< eT >::operator/(const complex< eT >& s)
+vector< complex< T > > vector< T >::operator/(const complex< T >& s)
 {
     if (s == 0)
     {
         uzlmath_error("%s", "division by zero in vector-scalar division.");
     }
     
-    vector< complex< eT > > result(size, type);
+    vector< complex< T > > result(size, type);
     
     size_t i;
     for (i = 0; i < size; ++i)
     {
-        result[i] = complex< eT >(mem[i], 0) / s;
+        result[i] = complex< T >(mem[i], 0) / s;
     }
     
     return result;
@@ -850,12 +850,12 @@ vector< complex< eT > > vector< eT >::operator/(const complex< eT >& s)
  *
  * @return          returns the vector as it is
  */
-template< typename eT >
+template< typename T >
 inline
-vector< eT > vector< eT >::operator+()
+vector< T > vector< T >::operator+()
 {
-    vector< eT > result;
-    memcpy(result.mem, mem, size * sizeof(eT));
+    vector< T > result;
+    memcpy(result.mem, mem, size * sizeof(T));
     
     return result;
 }
@@ -866,11 +866,11 @@ vector< eT > vector< eT >::operator+()
  *
  * @return          A vector where each element is negated.
  */
-template< typename eT >
+template< typename T >
 inline
-vector< eT > vector< eT >::operator-()
+vector< T > vector< T >::operator-()
 {
-    vector< eT > result;
+    vector< T > result;
     
     size_t i;
     for (i = 0; i < size; ++i)
@@ -890,16 +890,16 @@ vector< eT > vector< eT >::operator-()
  * @return          A vector of type vec_type::ROW containing the product
  *                  of the vector and the matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-vector< eT > vector< eT >::operator*(const matrix< eT >& mat)
+vector< T > vector< T >::operator*(const matrix< T >& mat)
 {
     if ((type == vec_type::ROW && size != mat.rows) || (type == vec_type::COLUMN && mat.rows != 1))
     {
         uzlmath_error("%s", "size mismatch in vector-matrix multiplication.");
     }
     
-    vector< eT > result(mat.n_cols(), vec_type::ROW);
+    vector< T > result(mat.n_cols(), vec_type::ROW);
     
     int M   = (type == vec_type::ROW ? 1 : size);
     int N   = mat.n_cols();
@@ -908,7 +908,7 @@ vector< eT > vector< eT >::operator*(const matrix< eT >& mat)
     int LDB = K;
     int LDC = M;
     
-    if (is_int< eT >::value == true || is_short< eT >::value == true)
+    if ( same_type< T, int >::value || same_type< T, short >::value )
     {
         float* tmp_mem  = new float[size];
         float* tmp_mat  = new float[mat.n_cols() * mat.n_rows()];
@@ -930,14 +930,14 @@ vector< eT > vector< eT >::operator*(const matrix< eT >& mat)
         size_t cap_c = M * N;
         for (i = 0; i < cap_c; ++i)
         {
-            result[i] = static_cast< eT >(C[i]);
+            result[i] = static_cast< T >(C[i]);
         }
         
         delete [] tmp_mem;
         delete [] tmp_mat;
         delete [] C;
     }
-    else if (is_float< eT >::value == true)
+    else if ( same_type< T, float >::value )
     {
         float* A_mem_ptr = reinterpret_cast< float* >(mem);
         float* B_mem_ptr = reinterpret_cast< float* >(mat.mem);
@@ -945,7 +945,7 @@ vector< eT > vector< eT >::operator*(const matrix< eT >& mat)
         
         uzl_blas_sgemm(UZLblasNoTrans, UZLblasNoTrans, M, N, K, 1.0, A_mem_ptr, LDA, B_mem_ptr, LDB, 0.0, C_mem_ptr, LDC);
     }
-    else if (is_double< eT >::value == true)
+    else if ( same_type< T, double >::value )
     {
         double* A_mem_ptr = reinterpret_cast< double* >(mem);
         double* B_mem_ptr = reinterpret_cast< double* >(mat.mem);
@@ -975,7 +975,7 @@ vector< eT > vector< eT >::operator*(const matrix< eT >& mat)
         size_t cap_c = M * N;
         for (i = 0; i < cap_c; ++i)
         {
-            result[i] = static_cast< eT >(C[i]);
+            result[i] = static_cast< T >(C[i]);
         }
         
         delete [] tmp_mem;
@@ -1003,9 +1003,9 @@ vector< eT > vector< eT >::operator*(const matrix< eT >& mat)
  *                  corresponding element in the given vector, false
  *                  else.
  */
-template< typename eT >
+template< typename T >
 inline
-bool vector< eT >::operator>(const vector< eT >& v)
+bool vector< T >::operator>(const vector< T >& v)
 {
     if (size != size)
     {
@@ -1042,9 +1042,9 @@ bool vector< eT >::operator>(const vector< eT >& v)
  *                  corresponding element in the given vector, false
  *                  else.
  */
-template< typename eT >
+template< typename T >
 inline
-bool vector< eT >::operator<(const vector< eT >& v)
+bool vector< T >::operator<(const vector< T >& v)
 {
     if (size != size)
     {
@@ -1078,9 +1078,9 @@ bool vector< eT >::operator<(const vector< eT >& v)
  *
  * @return          A reference to the current vector.
  */
-template< typename eT >
+template< typename T >
 inline
-const vector< eT >& vector< eT >::operator=(const vector< eT >& v)
+const vector< T >& vector< T >::operator=(const vector< T >& v)
 {
     if ( this == &v )
     {
@@ -1091,11 +1091,11 @@ const vector< eT >& vector< eT >::operator=(const vector< eT >& v)
     type = v.type;
     
     delete [] mem;
-    mem = new eT[size];
+    mem = new T[size];
     
     if (size > 0)
     {
-        memcpy(mem, v.mem, size * sizeof(eT));
+        memcpy(mem, v.mem, size * sizeof(T));
     }
         
     return *this;
@@ -1107,9 +1107,9 @@ const vector< eT >& vector< eT >::operator=(const vector< eT >& v)
  *                  which is a rvalue vector, by moving its contents
  *                  to the current vector object.
  */
-template< typename eT >
+template< typename T >
 inline
-const vector< eT >& vector< eT >::operator=(vector< eT >&& v)
+const vector< T >& vector< T >::operator=(vector< T >&& v)
 {
     if ( this == &v )
     {
@@ -1119,7 +1119,7 @@ const vector< eT >& vector< eT >::operator=(vector< eT >&& v)
     size = v.size;
     type = v.type;
     
-    eT* tmp = mem;
+    T* tmp = mem;
     mem     = v.mem;
     v.mem   = tmp;
     
@@ -1137,9 +1137,9 @@ const vector< eT >& vector< eT >::operator=(vector< eT >&& v)
  *
  * @return          A reference to the current vector object.
  */
-template< typename eT >
+template< typename T >
 inline
-const vector< eT >& vector< eT >::operator+=(const vector< eT >& v)
+const vector< T >& vector< T >::operator+=(const vector< T >& v)
 {
     if (size != size || type != v.type)
     {
@@ -1164,9 +1164,9 @@ const vector< eT >& vector< eT >::operator+=(const vector< eT >& v)
  *
  * @return          A reference to the current vector object.
  */
-template< typename eT >
+template< typename T >
 inline
-const vector< eT >& vector< eT >::operator-=(const vector< eT >& v)
+const vector< T >& vector< T >::operator-=(const vector< T >& v)
 {
     if (size != v.size || type != v.type)
     {
@@ -1191,9 +1191,9 @@ const vector< eT >& vector< eT >::operator-=(const vector< eT >& v)
  *
  * @return          A reference to the current vector object.
  */
-template< typename eT >
+template< typename T >
 inline
-const vector< eT >& vector< eT >::operator/=(const vector< eT >& v)
+const vector< T >& vector< T >::operator/=(const vector< T >& v)
 {
     if (type != v.type || size != size)
     {
@@ -1223,9 +1223,9 @@ const vector< eT >& vector< eT >::operator/=(const vector< eT >& v)
  *
  * @return          A reference to the current vector object.
  */
-template< typename eT >
+template< typename T >
 inline
-const vector< eT >& vector< eT >::operator%=(const vector< eT >& v)
+const vector< T >& vector< T >::operator%=(const vector< T >& v)
 {
     if (type != v.type || size != size)
     {
@@ -1252,9 +1252,9 @@ const vector< eT >& vector< eT >::operator%=(const vector< eT >& v)
  * 
  * @return          The reference to the current vector.
  */
-template< typename eT >
+template< typename T >
 inline
-const vector< eT >& vector< eT >::operator+=(const eT& s)
+const vector< T >& vector< T >::operator+=(const T& s)
 {
     size_t i;
     for (i = 0; i < size; ++i)
@@ -1275,9 +1275,9 @@ const vector< eT >& vector< eT >::operator+=(const eT& s)
  *
  * @return          The reference to the current vector.
  */
-template< typename eT >
+template< typename T >
 inline
-const vector< eT >& vector< eT >::operator-=(const eT& s)
+const vector< T >& vector< T >::operator-=(const T& s)
 {
     size_t i;
     for (i = 0; i < size; ++i)
@@ -1297,9 +1297,9 @@ const vector< eT >& vector< eT >::operator-=(const eT& s)
  *
  * @return          The reference to the current vector.
  */
-template< typename eT >
+template< typename T >
 inline
-const vector< eT >& vector< eT >::operator*=(const eT& s)
+const vector< T >& vector< T >::operator*=(const T& s)
 {
     size_t i;
     for (i = 0; i < size; ++i)
@@ -1319,9 +1319,9 @@ const vector< eT >& vector< eT >::operator*=(const eT& s)
  * 
  * @return          The reference to the current vector.
  */
-template< typename eT >
+template< typename T >
 inline
-const vector< eT >& vector< eT >::operator/=(const eT& s)
+const vector< T >& vector< T >::operator/=(const T& s)
 {
     if (s == 0)
     {
@@ -1347,9 +1347,9 @@ const vector< eT >& vector< eT >::operator/=(const eT& s)
  *
  * @return          True if both vectors are element-wise equal, else false.
  */
-template< typename eT >
+template< typename T >
 inline
-bool vector< eT >::operator==(const vector< eT >& v)
+bool vector< T >::operator==(const vector< T >& v)
 {
     bool equal = true;
     
@@ -1374,9 +1374,9 @@ bool vector< eT >::operator==(const vector< eT >& v)
  *
  * @return          True if both vectors are element-wise unequal, else true.
  */
-template< typename eT >
+template< typename T >
 inline
-bool vector< eT >::operator!=(const vector< eT >& v)
+bool vector< T >::operator!=(const vector< T >& v)
 {
     return !(*this == v);
 }
@@ -1396,9 +1396,9 @@ bool vector< eT >::operator!=(const vector< eT >& v)
  *                  corresponding element in the given vector, false
  *                  else.
  */
-template< typename eT >
+template< typename T >
 inline
-bool vector< eT >::operator>=(const vector< eT >& v)
+bool vector< T >::operator>=(const vector< T >& v)
 {
     if (size != size)
     {
@@ -1435,9 +1435,9 @@ bool vector< eT >::operator>=(const vector< eT >& v)
  *                  corresponding element in the given vector, false
  *                  else.
  */
-template< typename eT >
+template< typename T >
 inline
-bool vector< eT >::operator<=(const vector< eT >& v)
+bool vector< T >::operator<=(const vector< T >& v)
 {
     if (size != size)
     {
@@ -1482,9 +1482,9 @@ bool vector< eT >::operator<=(const vector< eT >& v)
  * 
  * @return          The reference to element at index idx
  */
-template< typename eT >
+template< typename T >
 inline
-eT& vector< eT >::operator[](const size_t& idx)
+T& vector< T >::operator[](const size_t& idx)
 {
     return access::rw(mem[idx]);
 }
@@ -1510,9 +1510,9 @@ eT& vector< eT >::operator[](const size_t& idx)
  *
  * @return          The element at index idx
  */
-template< typename eT >
+template< typename T >
 inline
-const eT& vector< eT >::operator[](const size_t& idx) const
+const T& vector< T >::operator[](const size_t& idx) const
 {
     return access::rw(mem[idx]);
 }
@@ -1540,9 +1540,9 @@ const eT& vector< eT >::operator[](const size_t& idx) const
  *
  * @return          The reference to element at index idx
  */
-template< typename eT >
+template< typename T >
 inline
-eT& vector< eT >::operator()(const size_t& idx)
+T& vector< T >::operator()(const size_t& idx)
 {
     return mem[idx];
 }
@@ -1568,9 +1568,9 @@ eT& vector< eT >::operator()(const size_t& idx)
  *
  * @return          The element at index idx
  */
-template< typename eT >
+template< typename T >
 inline
-const eT& vector< eT >::operator()(const size_t& idx) const
+const T& vector< T >::operator()(const size_t& idx) const
 {
     return mem[idx];
 }
@@ -1581,9 +1581,9 @@ const eT& vector< eT >::operator()(const size_t& idx) const
  * @brief           Filling the vector with one on each entry.
  * @details         Each entry of the current vector gets overwritten with 1.
  */
-template< typename eT >
+template< typename T >
 inline
-void vector< eT >::ones()
+void vector< T >::ones()
 {
     std::fill(mem, mem + size, 1);
 }
@@ -1592,11 +1592,11 @@ void vector< eT >::ones()
  * @brief           Filling the vector with zeros on each entry.
  * @details         Each entry of the current vector gets overwritten with 0.
  */
-template< typename eT >
+template< typename T >
 inline
-void vector< eT >::zeros()
+void vector< T >::zeros()
 {
-    memset(mem, 0, size * sizeof(eT));
+    memset(mem, 0, size * sizeof(T));
 }
 
 /*!
@@ -1604,9 +1604,9 @@ void vector< eT >::zeros()
  * @details         Switching vector type from vec_type::ROW to vec_type::COLUMN or
  *                  from vec_type::COLUMN to vec_type::ROW
  */
-template< typename eT >
+template< typename T >
 inline
-void vector< eT >::transpose()
+void vector< T >::transpose()
 {
     if (type == vec_type::ROW)
     {
@@ -1623,13 +1623,13 @@ void vector< eT >::transpose()
  * @details         Each entry of the current vector gets overwritten with the
  *                  given scalar value.
  */
-template< typename eT >
+template< typename T >
 inline
-void vector< eT >::fill(const eT& s)
+void vector< T >::fill(const T& s)
 {
     if (s == 0 || s == -1)
     {
-        memset(mem, s, size * sizeof(eT));
+        memset(mem, s, size * sizeof(T));
     }
     else
     {
@@ -1660,7 +1660,7 @@ std::ostream& operator<<(std::ostream& o, const vector< S >& v)
     auto format = std::fixed;
     
     // reduce size for integers
-    if (is_float< S >::value == false && is_double< S >::value == false && is_ldouble< S >::value == false)
+    if ( different_type< S, float >::value && different_type< S, double >::value && different_type< S, long double >::value )
     {
         width = 5;
     }
@@ -1675,7 +1675,7 @@ std::ostream& operator<<(std::ostream& o, const vector< S >& v)
             width   = 11;
             format  = std::fixed;
             
-            if (is_float< S >::value == false && is_double< S >::value == false && is_ldouble< S >::value == false)
+            if ( different_type< S, float >::value && different_type< S, double >::value && different_type< S, long double >::value )
             {
                 width = 6;
             }
@@ -1686,7 +1686,7 @@ std::ostream& operator<<(std::ostream& o, const vector< S >& v)
             width   = 12;
             format  = std::fixed;
             
-            if (is_float< S >::value == false && is_double< S >::value == false && is_ldouble< S >::value == false)
+            if ( different_type< S, float >::value && different_type< S, double >::value && different_type< S, long double >::value )
             {
                 width = 7;
             }
@@ -1697,7 +1697,7 @@ std::ostream& operator<<(std::ostream& o, const vector< S >& v)
             width   = 14;
             format  = std::scientific;
             
-            if (is_float< S >::value == false && is_double< S >::value == false && is_ldouble< S >::value == false)
+            if ( different_type< S, float >::value && different_type< S, double >::value && different_type< S, long double >::value )
             {
                 width = 10;
             }

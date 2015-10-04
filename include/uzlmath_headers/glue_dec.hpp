@@ -76,12 +76,12 @@ struct depth_lhs< glue< T1, T2 > >
  * @author          Denis-Michael Lux <denis.lux@icloud.com>
  * @since           0.1.1
  */
-template< typename T1, typename eT >
+template< typename T1, typename T >
 struct mat_ptrs
 {
     static const int num = 0;   //!< Variable representing the \f$N\f$-th element in expression
     
-    inline static void get_ptrs(const matrix< eT >** ptrs, const T1& X);
+    inline static void get_ptrs(const matrix< T >** ptrs, const T1& X);
 };
 
 /*!
@@ -94,12 +94,12 @@ struct mat_ptrs
  * @author          Denis-Michael Lux <denis.lux@icloud.com>
  * @since           0.1.1
  */
-template< typename T1, typename T2, typename eT >
-struct mat_ptrs< glue< T1, T2 >, eT >
+template< typename T1, typename T2, typename T >
+struct mat_ptrs< glue< T1, T2 >, T >
 {
-    static const int num = 1 + mat_ptrs< T1, eT >::num; //!< Variable representing the \f$N\f$-th element in expression.
+    static const int num = 1 + mat_ptrs< T1, T >::num; //!< Variable representing the \f$N\f$-th element in expression.
     
-    inline static void get_ptrs(const matrix< eT >**in_ptrs, const glue< T1, T2 >& X);
+    inline static void get_ptrs(const matrix< T >**in_ptrs, const glue< T1, T2 >& X);
 };
 
 /*!

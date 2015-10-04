@@ -44,7 +44,7 @@ int main(int argc, const char** argv)
     printf("+--------------------------------------------------------------------------------------+\n");
     printf("|                           DSOFT FORWARD EFFICIENCY BENCHMARK                         |\n");
     printf("+--------------------------------------------------------------------------------------+\n");
-    printf("| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
+    printf("| FROM BANDWIDTH %i TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", START_BW, MAX_BW, LOOP_R);
     printf("| PARALLELIZED WITH %d THREADS\n", omp_get_max_threads());
     
     printf("+=====+============+");
@@ -63,7 +63,7 @@ int main(int argc, const char** argv)
     fprintf(fp, "+--------------------------------------------------------------------------------------+\n");
     fprintf(fp, "|                           DSOFT FORWARD EFFICIENCY BENCHMARK                         |\n");
     fprintf(fp, "+--------------------------------------------------------------------------------------+\n");
-    fprintf(fp, "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
+    fprintf(fp, "| FROM BANDWIDTH %i TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", START_BW, MAX_BW, LOOP_R);
     fprintf(fp, "| PARALLELIZED WITH %d THREADS\n", omp_get_max_threads());
     
     fprintf(fp, "+=====+============+");

@@ -29,9 +29,9 @@ UZLMATH_BEGIN
  *
  * @ingroup         matrix
  */
-template< typename eT >
+template< typename T >
 inline
-auto fliplr(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT >::result
+auto fliplr(matrix< T >& mat) -> typename uzl_void_real_num_only< T >::result
 {
     // define indices
     size_t j, k;
@@ -44,7 +44,7 @@ auto fliplr(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT >::result
         for (k = 0; k < mat.rows; ++k)
         {
             // temporary element copy
-            eT tmp = mat(k, j);
+            T tmp = mat(k, j);
             
             // swap elements
             mat(k, j)                = mat(k, mat.cols - j - 1);
@@ -71,9 +71,9 @@ auto fliplr(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT >::result
  *
  * @ingroup         matrix
  */
-template< typename eT >
+template< typename T >
 inline
-auto fliplr_ne2nderow(matrix< eT >& mat) -> typename uzl_void_real_num_only<eT>::result
+auto fliplr_ne2nderow(matrix< T >& mat) -> typename uzl_void_real_num_only< T >::result
 {
     // define indices
     size_t j, k;
@@ -86,7 +86,7 @@ auto fliplr_ne2nderow(matrix< eT >& mat) -> typename uzl_void_real_num_only<eT>:
         for (k = 0; k < mat.rows; ++k)
         {
             // temporary element copy
-            eT tmp = mat(k, j);
+            T tmp = mat(k, j);
             
             // swap elements
             if (k & 1)
@@ -121,9 +121,9 @@ auto fliplr_ne2nderow(matrix< eT >& mat) -> typename uzl_void_real_num_only<eT>:
  *
  * @ingroup         matrix
  */
-template< typename eT >
+template< typename T >
 inline
-auto fliplr_ne2ndorow(matrix< eT >& mat) -> typename uzl_void_real_num_only<eT>::result
+auto fliplr_ne2ndorow(matrix< T >& mat) -> typename uzl_void_real_num_only< T >::result
 {
     // define indices
     size_t j, k;
@@ -136,7 +136,7 @@ auto fliplr_ne2ndorow(matrix< eT >& mat) -> typename uzl_void_real_num_only<eT>:
         for (k = 0; k < mat.rows; ++k)
         {
             // temporary element copy
-            eT tmp = mat(k, j);
+            T tmp = mat(k, j);
             
             // swap elements
             if (k & 1)
@@ -169,9 +169,9 @@ auto fliplr_ne2ndorow(matrix< eT >& mat) -> typename uzl_void_real_num_only<eT>:
  *
  * @ingroup         matrix
  */
-template< typename eT >
+template< typename T >
 inline
-auto fliplr(matrix< complex< eT > >& mat) -> typename uzl_void_real_num_only< eT >::result
+auto fliplr(matrix< complex< T > >& mat) -> typename uzl_void_real_num_only< T >::result
 {
     // define indices
     size_t j, k;
@@ -184,7 +184,7 @@ auto fliplr(matrix< complex< eT > >& mat) -> typename uzl_void_real_num_only< eT
         for (k = 0; k < mat.n_rows(); ++k)
         {
             // temporary element copy
-            complex< eT > tmp = mat(k, j);
+            complex< T > tmp = mat(k, j);
             // swap elements
             mat(k, j)                    = mat(k, mat.n_cols() - j - 1);
             mat(k, mat.n_cols() - j - 1) = tmp;

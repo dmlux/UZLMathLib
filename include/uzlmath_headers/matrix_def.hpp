@@ -18,9 +18,9 @@ UZLMATH_BEGIN
  * @details         Constructs a matrix that has no columns and rows and is declared
  *                  as not initialized.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT >::matrix()
+matrix< T >::matrix()
     : r_inj(0)
     , c_inj(0)
     , rows(0)
@@ -33,9 +33,9 @@ matrix< eT >::matrix()
  *                  RAM.
  * @details         Deletes the matrix and frees its allocated dynamic mamemory.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT >::~matrix()
+matrix< T >::~matrix()
 {
     delete [] mem;
 }
@@ -49,16 +49,16 @@ matrix< eT >::~matrix()
  * @param[in]       m Number of rows in the constructed matrix
  * @param[in]       n Number of columns in the constructed matrix
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT >::matrix(const size_t& m, const size_t& n)
+matrix< T >::matrix(const size_t& m, const size_t& n)
     : r_inj(0)
     , c_inj(0)
     , rows(m)
     , cols(n)
 {
     size_t cap  = m * n;
-    mem         = new eT[cap];
+    mem         = new T[cap];
 }
 
 /*!
@@ -69,16 +69,16 @@ matrix< eT >::matrix(const size_t& m, const size_t& n)
  *
  * @param[in]       mn Number of rows and columns in the constructed matrix
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT >::matrix(const size_t& mn)
+matrix< T >::matrix(const size_t& mn)
     : rows(mn)
     , cols(mn)
     , r_inj(0)
     , c_inj(0)
 {
     size_t cap  = mn * mn;
-    mem         = new eT[cap];
+    mem         = new T[cap];
 }
 
 /*!
@@ -90,23 +90,23 @@ matrix< eT >::matrix(const size_t& mn)
  * @param[in]       n Number of columns in the constructed matrix
  * @param[in]       initial Initial value for each matrix element
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT >::matrix(const size_t& m, const size_t& n, const eT& initial)
+matrix< T >::matrix(const size_t& m, const size_t& n, const T& initial)
     : r_inj(0)
     , c_inj(0)
     , rows(m)
     , cols(n)
 {
     size_t cap  = m * n;
-    mem         = new eT[cap];
+    mem         = new T[cap];
     
     if (cap > 0)
     {
         if (initial == 0 || initial == -1)
         {
             // fastest possible assembler routine
-            memset(access::rwp(mem), initial, cap * sizeof(eT));
+            memset(access::rwp(mem), initial, cap * sizeof(T));
         }
         else
         {
@@ -124,10 +124,10 @@ matrix< eT >::matrix(const size_t& m, const size_t& n, const eT& initial)
  *
  * @param[in]       X The binary tree expression which is supposed to be evaluated.
  */
-template< typename eT >
+template< typename T >
 template< typename T1, typename T2 >
 inline
-matrix< eT >::matrix(const glue< T1, T2 >& X)
+matrix< T >::matrix(const glue< T1, T2 >& X)
     : r_inj(0)
     , c_inj(0)
     , rows(0)
@@ -137,10 +137,10 @@ matrix< eT >::matrix(const glue< T1, T2 >& X)
     size_t N = 1 + depth_lhs< glue< T1, T2 > >::num;
     
     // matrices
-    const matrix< eT >* ptrs[N];
+    const matrix< T >* ptrs[N];
     
     // extract pointers
-    mat_ptrs< glue< T1, T2 >, eT >::get_ptrs(ptrs, X);
+    mat_ptrs< glue< T1, T2 >, T >::get_ptrs(ptrs, X);
     
     int r = ptrs[0]->rows;
     int c = ptrs[0]->cols;
@@ -154,17 +154,17 @@ matrix< eT >::matrix(const glue< T1, T2 >& X)
         }
     }
     
-    mem  = new eT[r * c];
+    mem  = new T[r * c];
     access::rw(rows) = r;
     access::rw(cols) = c;
     
     for (i = 0; i < r * c; ++i)
     {
-        eT sum = ptrs[0]->mem[i];
+        T sum = ptrs[0]->mem[i];
         
         for (j = 1; j < N; ++j)
         {
-            sum += static_cast< eT >(ptrs[j]->mem[i]);
+            sum += static_cast< T >(ptrs[j]->mem[i]);
         }
         
         access::rw(mem[i]) = sum;
@@ -178,20 +178,20 @@ matrix< eT >::matrix(const glue< T1, T2 >& X)
  *
  * @param[in]       A The matrix that is supposed to be copied.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT >::matrix(const matrix< eT >& A)
+matrix< T >::matrix(const matrix< T >& A)
     : r_inj(A.r_inj)
     , c_inj(A.c_inj)
     , rows(A.rows)
     , cols(A.cols)
 {
     size_t cap  = rows * cols;
-    mem         = new eT[cap];
+    mem         = new T[cap];
     
     if (cap > 0)
     {
-        memcpy(access::rwp(mem), access::rwp(A.mem), cap * sizeof(eT));
+        memcpy(access::rwp(mem), access::rwp(A.mem), cap * sizeof(T));
     }
 }
 
@@ -205,15 +205,15 @@ matrix< eT >::matrix(const matrix< eT >& A)
  * @param[in,out]   A The r-value matrix \f$A\f$ which content should be moved to a
  *                  new matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT >::matrix(matrix< eT >&& A)
+matrix< T >::matrix(matrix< T >&& A)
     : r_inj(A.r_inj)
     , c_inj(A.c_inj)
     , rows(A.rows)
     , cols(A.cols)
 {
-    const eT* tmp = mem;
+    const T* tmp = mem;
     mem           = A.mem;
     A.mem         = tmp;
 }
@@ -229,11 +229,11 @@ matrix< eT >::matrix(matrix< eT >&& A)
  *
  * @return          A new matrix containing the result of the addition.
  */
-template< typename eT >
+template< typename T >
 inline
-glue< matrix< eT >, matrix< eT > > matrix< eT >::operator+(const matrix< eT >& A)
+glue< matrix< T >, matrix< T > > matrix< T >::operator+(const matrix< T >& A)
 {
-    return glue< matrix< eT >, matrix< eT > >(*this, A);
+    return glue< matrix< T >, matrix< T > >(*this, A);
 }
 
 /*!
@@ -246,16 +246,16 @@ glue< matrix< eT >, matrix< eT > > matrix< eT >::operator+(const matrix< eT >& A
  *
  * @return          A new matrix containing the result of the subtraction
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT > matrix< eT >::operator-(const matrix< eT >& A)
+matrix< T > matrix< T >::operator-(const matrix< T >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
         uzlmath_error("%s", "dimension mismatch in matrix-matrix subtraction.");
     }
     
-    matrix< eT > C(rows, cols);
+    matrix< T > C(rows, cols);
     size_t i, j;
     
     for (i = 0; i < rows; ++i)
@@ -285,9 +285,9 @@ matrix< eT > matrix< eT >::operator-(const matrix< eT >& A)
  * 
  * @return          A new matrix containing the result of the multiplication
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT > matrix< eT >::operator*(const matrix< eT >& A)
+matrix< T > matrix< T >::operator*(const matrix< T >& A)
 {
     if ( cols != A.rows )
     {
@@ -297,9 +297,9 @@ matrix< eT > matrix< eT >::operator*(const matrix< eT >& A)
     size_t n_rows = rows;
     size_t n_cols = A.cols;
     
-    matrix< eT > result(n_rows, n_cols);
+    matrix< T > result(n_rows, n_cols);
     
-    if (is_int< eT >::value == true || is_short< eT >::value == true)
+    if ( same_type< T, int >::value || same_type< T, short >::value )
     {
         
         float* tmp_mem = new float[rows * cols];
@@ -324,14 +324,14 @@ matrix< eT > matrix< eT >::operator*(const matrix< eT >& A)
         
         for (i = 0; i < cap_c; ++i)
         {
-            access::rw(result.mem[i]) = static_cast< eT >(C[i]);
+            access::rw(result.mem[i]) = static_cast< T >(C[i]);
         }
         
         delete [] tmp_mem;
         delete [] tmp_A;
         delete [] C;
     }
-    else if (is_float< eT >::value == true)
+    else if (same_type< T, float >::value )
     {
         // Treat pointers as float pointers.
         float* A_mem_ptr = reinterpret_cast< float* >(access::rwp(mem));
@@ -341,7 +341,7 @@ matrix< eT > matrix< eT >::operator*(const matrix< eT >& A)
         uzl_blas_sgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, 1.0,
                       A_mem_ptr, rows, B_mem_ptr, A.rows, 0.0, C_mem_ptr, n_rows);
     }
-    else if (is_double< eT >::value == true)
+    else if (same_type< T, double >::value )
     {
         // Treat pointers as double pointers.
         double* A_mem_ptr = reinterpret_cast< double* >(access::rwp(mem));
@@ -374,7 +374,7 @@ matrix< eT > matrix< eT >::operator*(const matrix< eT >& A)
         size_t cap_c    = n_rows * n_cols;
         for (i = 0; i < cap_c; ++i)
         {
-            access::rw(result.mem[i]) = static_cast< eT >(C[i]);
+            access::rw(result.mem[i]) = static_cast< T >(C[i]);
         }
         
         delete [] tmp_mem;
@@ -396,23 +396,23 @@ matrix< eT > matrix< eT >::operator*(const matrix< eT >& A)
  *
  * @return          A new matrix containing the result of the addition.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< eT >::operator+(const matrix< complex< eT > >& A)
+matrix< complex< T > > matrix< T >::operator+(const matrix< complex< T > >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
         uzlmath_error("%s", "dimension mismatch in matrix-matrix addition.");
     }
     
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     size_t i, j;
     
     for (i = 0; i < rows; ++i)
     {
         for (j = 0; j < cols; ++j)
         {
-            C(i, j) = complex< eT >(mem[j * rows + i], 0) + A(i, j);
+            C(i, j) = complex< T >(mem[j * rows + i], 0) + A(i, j);
         }
     }
     
@@ -429,23 +429,23 @@ matrix< complex< eT > > matrix< eT >::operator+(const matrix< complex< eT > >& A
  *
  * @return          A new matrix containing the result of the subtraction
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< eT >::operator-(const matrix< complex< eT > >& A)
+matrix< complex< T > > matrix< T >::operator-(const matrix< complex< T > >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
         uzlmath_error("%s", "dimension mismatch in matrix-matrix subtraction.");
     }
     
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     size_t i, j;
     
     for (i = 0; i < rows; ++i)
     {
         for (j = 0; j < cols; ++j)
         {
-            C(i, j) = complex< eT >(mem[j * rows + i], 0) - A(i, j);
+            C(i, j) = complex< T >(mem[j * rows + i], 0) - A(i, j);
         }
     }
     
@@ -468,9 +468,9 @@ matrix< complex< eT > > matrix< eT >::operator-(const matrix< complex< eT > >& A
  *
  * @return          A new matrix containing the result of the multiplication
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< eT >::operator*(const matrix< complex< eT > >& A)
+matrix< complex< T > > matrix< T >::operator*(const matrix< complex< T > >& A)
 {
     if ( cols != A.rows )
     {
@@ -480,9 +480,9 @@ matrix< complex< eT > > matrix< eT >::operator*(const matrix< complex< eT > >& A
     size_t n_rows = rows;
     size_t n_cols = A.cols;
     
-    matrix< complex< eT > > result(n_rows, n_cols);
+    matrix< complex< T > > result(n_rows, n_cols);
     
-    if (is_int< eT >::value == true || is_short< eT >::value == true)
+    if (same_type< T, int >::value || same_type< T, short >::value )
     {
         
         float* tmp_mem  = new float[2 * rows * cols];
@@ -510,14 +510,14 @@ matrix< complex< eT > > matrix< eT >::operator*(const matrix< complex< eT > >& A
         size_t cap_c   = n_rows * n_cols;
         for (i = 0; i < cap_c; ++i)
         {
-            result.mem[i] = complex< eT >(C[i * 2], C[i * 2 + 1]);
+            result.mem[i] = complex< T >(C[i * 2], C[i * 2 + 1]);
         }
         
         delete [] tmp_mem;
         delete [] tmp_A;
         delete [] C;
     }
-    else if (is_float< eT >::value == true)
+    else if (same_type< T, float >::value )
     {
         float* tmp_mem  = new float[2 * rows * cols];
         float* tmp_A    = reinterpret_cast< float* >(A.mem);
@@ -537,7 +537,7 @@ matrix< complex< eT > > matrix< eT >::operator*(const matrix< complex< eT > >& A
         
         delete [] tmp_mem;
     }
-    else if (is_double< eT >::value == true)
+    else if ( same_type< T, double >::value )
     {
         double* tmp_mem = new double[2 * rows * cols];
         double* tmp_A   = reinterpret_cast< double* >(A.mem);
@@ -583,7 +583,7 @@ matrix< complex< eT > > matrix< eT >::operator*(const matrix< complex< eT > >& A
         size_t cap_c    = n_rows * n_cols;
         for (i = 0; i < cap_c; ++i)
         {
-            result.mem[i] = complex< eT >(C[i * 2], C[i * 2 + 1]);;
+            result.mem[i] = complex< T >(C[i * 2], C[i * 2 + 1]);;
         }
         
         delete [] tmp_mem;
@@ -605,9 +605,9 @@ matrix< complex< eT > > matrix< eT >::operator*(const matrix< complex< eT > >& A
  * @return          A new matrix that has the same state than \f$A\f$ and containing
  *                  the same values.
  */
-template< typename eT >
+template< typename T >
 inline
-const matrix< eT >&  matrix< eT >::operator=(const matrix< eT >& A)
+const matrix< T >&  matrix< T >::operator=(const matrix< T >& A)
 {
     if ( this == &A )
     {
@@ -620,11 +620,11 @@ const matrix< eT >&  matrix< eT >::operator=(const matrix< eT >& A)
     
     delete [] mem;
         
-    mem = new eT[cap];
+    mem = new T[cap];
     
     if (cap > 0)
     {
-        memcpy(mem, A.mem, cap * sizeof(eT));
+        memcpy(mem, A.mem, cap * sizeof(T));
     }
         
     return *this;
@@ -639,9 +639,9 @@ const matrix< eT >&  matrix< eT >::operator=(const matrix< eT >& A)
  * @return          A new matrix that has the same state than \f$A\f$ and containing
  *                  the same values.
  */
-template< typename eT >
+template< typename T >
 inline
-const matrix< eT >&  matrix< eT >::operator=(matrix< eT >&& A)
+const matrix< T >&  matrix< T >::operator=(matrix< T >&& A)
 {
     if ( this == &A )
     {
@@ -651,7 +651,7 @@ const matrix< eT >&  matrix< eT >::operator=(matrix< eT >&& A)
     access::rw(rows) = A.rows;
     access::rw(cols) = A.cols;
     
-    const eT* tmp = mem;
+    const T* tmp = mem;
     mem           = A.mem;
     A.mem         = tmp;
     
@@ -671,18 +671,18 @@ const matrix< eT >&  matrix< eT >::operator=(matrix< eT >&& A)
  *
  * @return          The referenc to the current matrix.
  */
-template< typename eT >
+template< typename T >
 template< typename T1, typename T2 >
-const matrix< eT >& matrix< eT >::operator=(const glue< T1, T2 >& X)
+const matrix< T >& matrix< T >::operator=(const glue< T1, T2 >& X)
 {
     // get number of matrices in the BET
     int N = 1 + depth_lhs< glue< T1, T2 > >::num;
     
     // matrices
-    const matrix< eT >* ptrs[N];
+    const matrix< T >* ptrs[N];
     
     // extract pointers
-    mat_ptrs< glue< T1, T2 >, eT >::get_ptrs(ptrs, X);
+    mat_ptrs< glue< T1, T2 >, T >::get_ptrs(ptrs, X);
     
     int r = ptrs[0]->rows;
     int c = ptrs[0]->cols;
@@ -699,17 +699,17 @@ const matrix< eT >& matrix< eT >::operator=(const glue< T1, T2 >& X)
     // if memory was already allocated
     delete [] mem;
     
-    mem  = new eT[r * c];
+    mem  = new T[r * c];
     rows = r;
     cols = c;
     
     for (i = 0; i < r * c; ++i)
     {
-        eT sum = ptrs[0]->mem[i];
+        T sum = ptrs[0]->mem[i];
         
         for (j = 1; j < N; ++j)
         {
-            sum += static_cast< eT >(ptrs[j]->mem[i]);
+            sum += static_cast< T >(ptrs[j]->mem[i]);
         }
         
         mem[i] = sum;
@@ -730,9 +730,9 @@ const matrix< eT >& matrix< eT >::operator=(const glue< T1, T2 >& X)
  *
  * @return          True if both matrices are equal, false else.
  */
-template< typename eT >
+template< typename T >
 inline
-bool matrix< eT >::operator==(const matrix< eT >& A)
+bool matrix< T >::operator==(const matrix< T >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -761,9 +761,9 @@ bool matrix< eT >::operator==(const matrix< eT >& A)
  *
  * @return          True if both matrices are unequal, false else.
  */
-template< typename eT >
+template< typename T >
 inline
-bool matrix< eT >::operator!=(const matrix< eT >& A)
+bool matrix< T >::operator!=(const matrix< T >& A)
 {
     return !(*this == A);
 }
@@ -777,9 +777,9 @@ bool matrix< eT >::operator!=(const matrix< eT >& A)
  *
  * @return          The reference to the current matrix that contains the result.
  */
-template< typename eT >
+template< typename T >
 inline
-const matrix< eT >& matrix< eT >::operator+=(const matrix< eT >& A)
+const matrix< T >& matrix< T >::operator+=(const matrix< T >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -804,9 +804,9 @@ const matrix< eT >& matrix< eT >::operator+=(const matrix< eT >& A)
  *
  * @return          The reference to the current matrix that contains the result.
  */
-template< typename eT >
+template< typename T >
 inline
-const matrix< eT >& matrix< eT >::operator-=(const matrix< eT >& A)
+const matrix< T >& matrix< T >::operator-=(const matrix< T >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -831,9 +831,9 @@ const matrix< eT >& matrix< eT >::operator-=(const matrix< eT >& A)
  *
  * @return          The reference to the current matrix that contains the result.
  */
-template< typename eT >
+template< typename T >
 inline
-const matrix< eT >& matrix< eT >::operator*=(const matrix< eT >& A)
+const matrix< T >& matrix< T >::operator*=(const matrix< T >& A)
 {
     if ( cols != A.rows )
     {
@@ -843,7 +843,7 @@ const matrix< eT >& matrix< eT >::operator*=(const matrix< eT >& A)
     size_t n_rows = rows;
     size_t n_cols = A.cols;
     
-    if (is_int< eT >::value == true || is_short< eT >::value == true)
+    if ( same_type< T, int >::value || same_type< T, short >::value )
     {
         float* tmp_mem = new float[rows * cols];
         float* tmp_A   = new float[A.rows * A.cols];
@@ -863,19 +863,19 @@ const matrix< eT >& matrix< eT >::operator*=(const matrix< eT >& A)
         uzl_blas_sgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, 1.0, tmp_mem, rows, tmp_A, A.rows, 0.0, C, n_rows);
         
         delete [] mem;
-        mem = new eT[n_rows * n_cols];
+        mem = new T[n_rows * n_cols];
         
         size_t cap_c = n_rows * n_cols;
         for (i = 0; i < cap_c; ++i)
         {
-            mem[i] = static_cast< eT >(C[i]);
+            mem[i] = static_cast< T >(C[i]);
         }
         
         delete [] tmp_mem;
         delete [] tmp_A;
         delete [] C;
     }
-    else if (is_float< eT >::value == true)
+    else if ( same_type< T, float >::value )
     {
         // Treat pointers as float pointers
         float* A_mem_ptr = reinterpret_cast< float* >(mem);
@@ -885,14 +885,14 @@ const matrix< eT >& matrix< eT >::operator*=(const matrix< eT >& A)
         uzl_blas_sgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, 1.0, A_mem_ptr, rows, B_mem_ptr, A.rows, 0.0, C, n_rows);
         
         delete [] mem;
-        mem = new eT[n_rows * n_cols];
+        mem = new T[n_rows * n_cols];
         
         size_t cap_c = n_rows * n_cols;
         memcpy(mem, C, cap_c * sizeof(float));
         
         delete [] C;
     }
-    else if (is_double< eT >::value == true)
+    else if ( same_type< T, double >::value )
     {
         // Treat pointers as double pointers
         double* A_mem_ptr = reinterpret_cast< double* >(mem);
@@ -902,7 +902,7 @@ const matrix< eT >& matrix< eT >::operator*=(const matrix< eT >& A)
         uzl_blas_dgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, 1.0, A_mem_ptr, rows, B_mem_ptr, A.rows, 0.0, C, n_rows);
         
         delete [] mem;
-        mem = new eT[n_rows * n_cols];
+        mem = new T[n_rows * n_cols];
         
         size_t cap_c = n_rows * n_cols;
         memcpy(mem, C, cap_c * sizeof(double));
@@ -929,12 +929,12 @@ const matrix< eT >& matrix< eT >::operator*=(const matrix< eT >& A)
         uzl_blas_dgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, 1.0, tmp_mem, rows, tmp_A, A.rows, 0.0, C, n_rows);
         
         delete [] mem;
-        mem = new eT[n_rows * n_cols];
+        mem = new T[n_rows * n_cols];
         
         size_t cap_c = n_rows * n_cols;
         for (i = 0; i < cap_c; ++i)
         {
-            mem[i] = static_cast< eT >(C[i]);
+            mem[i] = static_cast< T >(C[i]);
         }
         
         delete [] tmp_mem;
@@ -956,12 +956,12 @@ const matrix< eT >& matrix< eT >::operator*=(const matrix< eT >& A)
  *
  * @return          A matrix containing a copy of the current matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT > matrix< eT >::operator+()
+matrix< T > matrix< T >::operator+()
 {
-    matrix< eT > C(rows, cols);
-    memcpy(C.mem, mem, rows * cols * sizeof(eT));
+    matrix< T > C(rows, cols);
+    memcpy(C.mem, mem, rows * cols * sizeof(T));
     
     return C;
 }
@@ -975,11 +975,11 @@ matrix< eT > matrix< eT >::operator+()
  *
  * @return          A matrix containing the negative values of the current matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT > matrix< eT >::operator-()
+matrix< T > matrix< T >::operator-()
 {
-    matrix< eT > C(rows, cols);
+    matrix< T > C(rows, cols);
     
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1008,11 +1008,11 @@ matrix< eT > matrix< eT >::operator-()
  *                      \end{array}\right)
  *                  \f}
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT > matrix< eT >::operator+(const eT& rhs)
+matrix< T > matrix< T >::operator+(const T& rhs)
 {
-    matrix< eT > C(rows, cols);
+    matrix< T > C(rows, cols);
     
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1041,11 +1041,11 @@ matrix< eT > matrix< eT >::operator+(const eT& rhs)
  *                      \end{array}\right)
  *                  \f}
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT > matrix< eT >::operator-(const eT& rhs)
+matrix< T > matrix< T >::operator-(const T& rhs)
 {
-    matrix< eT > C(rows, cols);
+    matrix< T > C(rows, cols);
     
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1079,18 +1079,18 @@ matrix< eT > matrix< eT >::operator-(const eT& rhs)
  *                      \end{array}\right)
  *                  \f}
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT > matrix< eT >::operator*(const eT& rhs)
+matrix< T > matrix< T >::operator*(const T& rhs)
 {
     // result matrix
-    matrix< eT > C(rows, cols);
+    matrix< T > C(rows, cols);
     
     // capacity
     size_t cap = rows * cols;
     
     // iterate over temporary and internal memory and scale data
-    for (const eT *e1 = mem, *e2 = C.mem; e1 != mem + cap; ++e1, ++e2)
+    for (const T *e1 = mem, *e2 = C.mem; e1 != mem + cap; ++e1, ++e2)
     {
         access::rw(*e2) = *e1 * rhs;
     }
@@ -1122,16 +1122,16 @@ matrix< eT > matrix< eT >::operator*(const eT& rhs)
  *                      \end{array}\right)
  *                  \f}
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT > matrix< eT >::operator/(const eT& rhs)
+matrix< T > matrix< T >::operator/(const T& rhs)
 {
     if ( rhs == 0 )
     {
         uzlmath_error("%s", "division by zero in matrix-scalar division.");
     }
     
-    matrix< eT > C(rows, cols);
+    matrix< T > C(rows, cols);
     
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1173,16 +1173,16 @@ matrix< eT > matrix< eT >::operator/(const eT& rhs)
  *                      }_{n}
  *                  \f}
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT > matrix< eT >::operator^(const unsigned int& exp)
+matrix< T > matrix< T >::operator^(const unsigned int& exp)
 {
     if ( rows != cols )
     {
         uzlmath_error("%s", "dimension mismatch in matrix power operator.");
     }
     
-    matrix< eT > C = *this;
+    matrix< T > C = *this;
     unsigned int i = 0;
     for (i = 0; i < exp - 1; ++i)
     {
@@ -1210,16 +1210,16 @@ matrix< eT > matrix< eT >::operator^(const unsigned int& exp)
  *                      \end{array}\right)
  *                  \f}
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< eT >::operator+(const complex< eT >& rhs)
+matrix< complex< T > > matrix< T >::operator+(const complex< T >& rhs)
 {
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
     {
-        C.mem[i] = complex< eT >(mem[i], 0) + rhs;
+        C.mem[i] = complex< T >(mem[i], 0) + rhs;
     }
     
     return C;
@@ -1243,16 +1243,16 @@ matrix< complex< eT > > matrix< eT >::operator+(const complex< eT >& rhs)
  *                      \end{array}\right)
  *                  \f}
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< eT >::operator-(const complex< eT >& rhs)
+matrix< complex< T > > matrix< T >::operator-(const complex< T >& rhs)
 {
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
     {
-        C.mem[i] = complex< eT >(mem[i], 0) - rhs;
+        C.mem[i] = complex< T >(mem[i], 0) - rhs;
     }
     
     return C;
@@ -1281,16 +1281,16 @@ matrix< complex< eT > > matrix< eT >::operator-(const complex< eT >& rhs)
  *                      \end{array}\right)
  *                  \f}
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< eT >::operator*(const complex< eT >& rhs)
+matrix< complex< T > > matrix< T >::operator*(const complex< T >& rhs)
 {
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
     {
-        C.mem = complex< eT >(mem[i], 0) * rhs;
+        C.mem = complex< T >(mem[i], 0) * rhs;
     }
     
     return C;
@@ -1319,21 +1319,21 @@ matrix< complex< eT > > matrix< eT >::operator*(const complex< eT >& rhs)
  *                      \end{array}\right)
  *                  \f}
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< complex< eT > > matrix< eT >::operator/(const complex< eT >& rhs)
+matrix< complex< T > > matrix< T >::operator/(const complex< T >& rhs)
 {
     if ( rhs == 0 )
     {
         uzlmath_error("%s", "division by zero in matrix-scalar division.");
     }
     
-    matrix< complex< eT > > C(rows, cols);
+    matrix< complex< T > > C(rows, cols);
     
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
     {
-        C.mem = complex< eT >(mem[i], 0) / rhs;
+        C.mem = complex< T >(mem[i], 0) / rhs;
     }
     
     return C;
@@ -1348,23 +1348,23 @@ matrix< complex< eT > > matrix< eT >::operator/(const complex< eT >& rhs)
  * 
  * @return          The result of the mutliplication
  */
-template< typename eT >
+template< typename T >
 inline
-vector< complex< eT > > matrix< eT >::operator*(const vector< complex< eT > >& v)
+vector< complex< T > > matrix< T >::operator*(const vector< complex< T > >& v)
 {
     if (cols != v.size || v.type == vec_type::ROW)
     {
         uzlmath_error("%s", "dimension mismatch in matrix-complex vector multiplication.");
     }
     
-    vector< complex< eT > > result(rows, 0, v.type);
+    vector< complex< T > > result(rows, 0, v.type);
     
     size_t i, j;
     for (i = 0; i < cols; ++i)
     {
         for (j = 0; j < rows; ++j)
         {
-            result[j] += complex< eT >(mem[i * rows + j], 0) * v[i];
+            result[j] += complex< T >(mem[i * rows + j], 0) * v[i];
         }
     }
     
@@ -1379,9 +1379,9 @@ vector< complex< eT > > matrix< eT >::operator*(const vector< complex< eT > >& v
  *
  * @return          The reference to the current matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT >& matrix< eT >::operator+=(const eT& rhs)
+matrix< T >& matrix< T >::operator+=(const T& rhs)
 {
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1399,9 +1399,9 @@ matrix< eT >& matrix< eT >::operator+=(const eT& rhs)
  * 
  * @return          The reference to the current matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT >& matrix< eT >::operator-=(const eT& rhs)
+matrix< T >& matrix< T >::operator-=(const T& rhs)
 {
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1419,12 +1419,12 @@ matrix< eT >& matrix< eT >::operator-=(const eT& rhs)
  *
  * @return          The reference to the current matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT >& matrix< eT >::operator*=(const eT& rhs)
+matrix< T >& matrix< T >::operator*=(const T& rhs)
 {
     size_t cap = rows * cols;
-    for (const eT* e = mem; e != mem + cap; ++e)
+    for (const T* e = mem; e != mem + cap; ++e)
     {
         access::rw(*e) *= rhs;
     }
@@ -1440,9 +1440,9 @@ matrix< eT >& matrix< eT >::operator*=(const eT& rhs)
  *
  * @return          The reference to the current matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT >& matrix< eT >::operator/=(const eT& rhs)
+matrix< T >& matrix< T >::operator/=(const T& rhs)
 {
     if ( rhs == 0 )
     {
@@ -1466,16 +1466,16 @@ matrix< eT >& matrix< eT >::operator/=(const eT& rhs)
  *
  * @return          The reference to the current matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-matrix< eT >& matrix< eT >::operator^=(const unsigned int& exp)
+matrix< T >& matrix< T >::operator^=(const unsigned int& exp)
 {
     if ( rows != cols )
     {
         uzlmath_error("%s", "dimension mismatch in matrix power operator.");
     }
     
-    matrix< eT > C = *this;
+    matrix< T > C = *this;
     unsigned int i;
     for (i = 0; i < exp; ++i)
     {
@@ -1487,9 +1487,9 @@ matrix< eT >& matrix< eT >::operator^=(const unsigned int& exp)
 
 
 
-template< typename eT >
+template< typename T >
 inline
-matrix< eT >& matrix< eT >::operator<<(const eT& val)
+matrix< T >& matrix< T >::operator<<(const T& val)
 {
     // fill matrix with value
     access::rw(mem[c_inj * rows + r_inj]) = val;
@@ -1512,9 +1512,9 @@ matrix< eT >& matrix< eT >::operator<<(const eT& val)
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-matrix< eT >& matrix< eT >::operator<<(const mat& T)
+matrix< T >& matrix< T >::operator<<(const mat& token)
 {
     // start position of next col
     c_inj = 0;
@@ -1539,9 +1539,9 @@ matrix< eT >& matrix< eT >::operator<<(const mat& T)
  *
  * @return      The pointer to matrix element in row \f$i\f$ and column \f$j\f$ (\f$a_{ij}\f$).
  */
-template< typename eT >
+template< typename T >
 inline
-eT& matrix< eT >::operator()(const size_t& i, const size_t& j)
+T& matrix< T >::operator()(const size_t& i, const size_t& j)
 {
     return access::rw(mem[j * rows + i]);
 }
@@ -1556,9 +1556,9 @@ eT& matrix< eT >::operator()(const size_t& i, const size_t& j)
  *
  * @return          The matrix element in row \f$i\f$ and column \f$j\f$ (\f$a_{ij}\f$).
  */
-template< typename eT >
+template< typename T >
 inline
-const eT& matrix< eT >::operator()(const size_t& i, const size_t& j) const
+const T& matrix< T >::operator()(const size_t& i, const size_t& j) const
 {
     return mem[j * rows + i];
 }
@@ -1571,11 +1571,11 @@ const eT& matrix< eT >::operator()(const size_t& i, const size_t& j) const
  *                  \f}
  *                  where \f$A\f$ is a \f$M\times N\f$ matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-void matrix< eT >::zeros()
+void matrix< T >::zeros()
 {
-    memset(mem, 0, rows * cols * sizeof(eT));
+    memset(mem, 0, rows * cols * sizeof(T));
 }
 
 /*!
@@ -1586,9 +1586,9 @@ void matrix< eT >::zeros()
  *                  \f}
  *                  where \f$A\f$ is a \f$M\times N\f$ matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-void matrix< eT >::ones()
+void matrix< T >::ones()
 {
     std::fill(mem, mem + rows * cols, 1);
 }
@@ -1613,11 +1613,11 @@ void matrix< eT >::ones()
  *                  \f]
  *                  where \f$A\f$ is a \f$M\times N\f$ matrix.
  */
-template< typename eT >
+template< typename T >
 inline
-void matrix< eT >::eye()
+void matrix< T >::eye()
 {
-    memset(mem, 0, rows * cols * sizeof(eT));
+    memset(mem, 0, rows * cols * sizeof(T));
     
     size_t i, el = (rows < cols) ? rows : cols;
     for (i = 0; i < el; ++i)
@@ -1634,11 +1634,11 @@ void matrix< eT >::eye()
  *                  \f]
  * @todo            Implement in-place transpose
  */
-template< typename eT >
+template< typename T >
 inline
-void matrix< eT >::transpose()
+void matrix< T >::transpose()
 {
-    eT *tmp_mem  = new eT[rows * cols];
+    T *tmp_mem  = new T[rows * cols];
     size_t tmp_r = cols;
     size_t tmp_c = rows;
     
@@ -1662,13 +1662,13 @@ void matrix< eT >::transpose()
  * @details         Each entry of the current matrix gets overwritten with the
  *                  given scalar value.
  */
-template< typename eT >
+template< typename T >
 inline
-void matrix< eT >::fill(const eT& value)
+void matrix< T >::fill(const T& value)
 {
     if (value == 0 || value == -1)
     {
-        memset(mem, value, rows * cols * sizeof(eT));
+        memset(mem, value, rows * cols * sizeof(T));
     }
     else
     {
@@ -1695,9 +1695,9 @@ void matrix< eT >::fill(const eT& value)
  *
  * @return          The value of the determinant
  */
-template< typename eT >
+template< typename T >
 inline
-const double matrix< eT >::determinant()
+const double matrix< T >::determinant()
 {
     if (rows != cols)
     {
@@ -1707,7 +1707,7 @@ const double matrix< eT >::determinant()
     size_t i, cap = rows * cols;
     
     double A[cap];
-    if (is_double< eT >::value == true)
+    if ( same_type< T, double >::value )
     {
         for (i = 0; i < cap; ++i)
         {
@@ -1775,7 +1775,7 @@ std::ostream& operator<<(std::ostream& o, const matrix< S >& A)
     auto format = std::fixed;
     
     // reduce size for integers
-    if (is_float< S >::value == false && is_double< S >::value == false && is_ldouble< S >::value == false)
+    if ( different_type< S, float >::value == false && different_type< S, double >::value && different_type< S, long double >::value )
     {
         width = 5;
     }
@@ -1792,7 +1792,7 @@ std::ostream& operator<<(std::ostream& o, const matrix< S >& A)
                 width   = 11;
                 format  = std::fixed;
                 
-                if (is_float< S >::value == false && is_double< S >::value == false && is_ldouble< S >::value == false)
+                if ( different_type< S, float >::value == false && different_type< S, double >::value && different_type< S, long double >::value )
                 {
                     width = 6;
                 }
@@ -1803,7 +1803,7 @@ std::ostream& operator<<(std::ostream& o, const matrix< S >& A)
                 width   = 12;
                 format  = std::fixed;
                 
-                if (is_float< S >::value == false && is_double< S >::value == false && is_ldouble< S >::value == false)
+                if ( different_type< S, float >::value == false && different_type< S, double >::value && different_type< S, long double >::value )
                 {
                     width = 7;
                 }
@@ -1814,7 +1814,7 @@ std::ostream& operator<<(std::ostream& o, const matrix< S >& A)
                 width   = 14;
                 format  = std::scientific;
                 
-                if (is_float< S >::value == false && is_double< S >::value == false && is_ldouble< S >::value == false)
+                if ( different_type< S, float >::value == false && different_type< S, double >::value && different_type< S, long double >::value )
                 {
                     width = 10;
                 }

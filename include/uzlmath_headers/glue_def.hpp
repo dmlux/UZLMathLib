@@ -32,11 +32,11 @@ glue< T1, T2 >::glue(const T1& in_A, const T2& in_B)
  * @details         This function represents the base case where only two matrices are existing in
  *                  In the current binary expression.
  */
-template< typename T1, typename eT >
+template< typename T1, typename T >
 inline
-void mat_ptrs< T1, eT >::get_ptrs(const matrix< eT >** ptrs, const T1& X)
+void mat_ptrs< T1, T >::get_ptrs(const matrix< T >** ptrs, const T1& X)
 {
-    ptrs[0] = reinterpret_cast< const matrix< eT >* >(&X);
+    ptrs[0] = reinterpret_cast< const matrix< T >* >(&X);
 }
 
 
@@ -49,15 +49,15 @@ void mat_ptrs< T1, eT >::get_ptrs(const matrix< eT >** ptrs, const T1& X)
  * @param[in]       in_ptrs The matrix pointer array to store the matrix reference.
  * @param[in]       X The current expression in the tree
  */
-template< typename T1, typename T2, typename eT >
+template< typename T1, typename T2, typename T >
 inline
-void mat_ptrs< glue< T1, T2 >, eT >::get_ptrs(const matrix< eT >**in_ptrs, const glue< T1, T2 >& X)
+void mat_ptrs< glue< T1, T2 >, T >::get_ptrs(const matrix< T >**in_ptrs, const glue< T1, T2 >& X)
 {
     // traverse left nodes
-    mat_ptrs< T1, eT >::get_ptrs(in_ptrs, X.A);
+    mat_ptrs< T1, T >::get_ptrs(in_ptrs, X.A);
     
     // get address of the matrix on the right
-    in_ptrs[num] = reinterpret_cast< const matrix< eT >* >(&X.B);
+    in_ptrs[num] = reinterpret_cast< const matrix< T >* >(&X.B);
 }
 
 UZLMATH_END

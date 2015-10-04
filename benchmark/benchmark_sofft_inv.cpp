@@ -42,7 +42,7 @@ int main(int argc, const char** argv)
     printf(     "+-----------------------------------------------------------------------------------------------------------------------------+\n");
     printf(     "|                                                    DSOFT INVERSE BENCHMARK                                                  |\n");
     printf(     "+-----------------------------------------------------------------------------------------------------------------------------+\n");
-    printf(     "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
+    printf(     "| FROM BANDWIDTH %i TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", START_BW, MAX_BW, LOOP_R);
     printf(     "| PARALLELIZED WITH %d THREADS\n", omp_get_max_threads());
     printf(     "+=====+===========+===================================+===================================+===========+==========+============+\n");
     printf(     "|  B  | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  | serial    | speedup  | efficiency |\n");
@@ -51,7 +51,7 @@ int main(int argc, const char** argv)
     fprintf(fp, "+-----------------------------------------------------------------------------------------------------------------------------+\n");
     fprintf(fp, "|                                                    DSOFT INVERSE BENCHMARK                                                  |\n");
     fprintf(fp, "+-----------------------------------------------------------------------------------------------------------------------------+\n");
-    fprintf(fp, "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
+    fprintf(fp, "| FROM BANDWIDTH %i TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", START_BW, MAX_BW, LOOP_R);
     fprintf(fp, "| PARALLELIZED WITH %d THREADS\n", omp_get_max_threads());
     fprintf(fp, "+=====+===========+===================================+===================================+===========+==========+============+\n");
     fprintf(fp, "|  B  | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  | serial    | speedup  | efficiency |\n");
@@ -62,7 +62,7 @@ int main(int argc, const char** argv)
     printf(     "+-----------------------------------------------------------------------------------------+\n");
     printf(     "|                                  DSOFT INVERSE BENCHMARK                                |\n");
     printf(     "+-----------------------------------------------------------------------------------------+\n");
-    printf(     "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
+    printf(     "| FROM BANDWIDTH %i TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", START_BW, MAX_BW, LOOP_R);
     printf(     "+=====+===========+===================================+===================================+\n");
     printf(     "|  B  | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  |\n");
     printf(     "+=====+===========+===================================+===================================+\n");
@@ -70,7 +70,7 @@ int main(int argc, const char** argv)
     fprintf(fp, "+-----------------------------------------------------------------------------------------+\n");
     fprintf(fp, "|                                  DSOFT INVERSE BENCHMARK                                |\n");
     fprintf(fp, "+-----------------------------------------------------------------------------------------+\n");
-    fprintf(fp, "| FROM BANDWIDTH 2 TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", MAX_BW, LOOP_R);
+    fprintf(fp, "| FROM BANDWIDTH %i TO %i WITH %i LOOP RUNS PER BANDWIDTH\n", START_BW, MAX_BW, LOOP_R);
     fprintf(fp, "+=====+===========+===================================+===================================+\n");
     fprintf(fp, "|  B  | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  |\n");
     fprintf(fp, "+=====+===========+===================================+===================================+\n");

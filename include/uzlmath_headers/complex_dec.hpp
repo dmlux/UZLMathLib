@@ -33,7 +33,7 @@ UZLMATH_BEGIN
  *          operators the calculation between PODs and a complex number are 
  *          implemented to.
  *
- * @tparam  eT An element type which represents a number that provides all common
+ * @tparam  T An element type which represents a number that provides all common
  *          mathmatical operations.
  *
  * @since   0.0.1
@@ -44,63 +44,63 @@ UZLMATH_BEGIN
  * @author  Denis-Michael Lux <denis.lux@icloud.com>
  * @date    11.01.15
  */
-template< typename eT >
+template< typename T >
 class complex
 {
 public:
-    eT re;   //!< The real part of the complex number
-    eT im;   //!< The imaginary part of the complex number
+    T re;   //!< The real part of the complex number
+    T im;   //!< The imaginary part of the complex number
     
     inline                     ~complex();
     inline                      complex();
     
-    inline                      complex(const eT real_imag);
-    inline                      complex(const eT real, const eT imag);
+    inline                      complex(const T real_imag);
+    inline                      complex(const T real, const T imag);
     
-    inline                      complex(const complex< eT >& c);
+    inline                      complex(const complex< T >& c);
     
-    inline const eT             abs() const;
-    inline const eT             arg() const;
-    inline const eT             norm() const;
+    inline const T              abs() const;
+    inline const T              arg() const;
+    inline const T              norm() const;
     
     inline       void           conj();
-    inline       void           polar(const eT& rho, const eT& theta = 0);
+    inline       void           polar(const T& rho, const T& theta = 0);
     
-    inline       complex< eT >  operator+(const complex< eT >& rhs);
-    inline       complex< eT >  operator-(const complex< eT >& rhs);
-    inline       complex< eT >  operator*(const complex< eT >& rhs);
-    inline       complex< eT >  operator/(const complex< eT >& rhs);
-    inline       complex< eT >  operator^(const int rhs);
+    inline       complex< T >   operator+(const complex< T >& rhs);
+    inline       complex< T >   operator-(const complex< T >& rhs);
+    inline       complex< T >   operator*(const complex< T >& rhs);
+    inline       complex< T >   operator/(const complex< T >& rhs);
+    inline       complex< T >   operator^(const int rhs);
     
-    inline const complex< eT >& operator+=(const complex< eT >& rhs);
-    inline const complex< eT >& operator-=(const complex< eT >& rhs);
-    inline const complex< eT >& operator*=(const complex< eT >& rhs);
-    inline const complex< eT >& operator/=(const complex< eT >& rhs);
-    inline const complex< eT >& operator^=(const int rhs);
+    inline const complex< T >&  operator+=(const complex< T >& rhs);
+    inline const complex< T >&  operator-=(const complex< T >& rhs);
+    inline const complex< T >&  operator*=(const complex< T >& rhs);
+    inline const complex< T >&  operator/=(const complex< T >& rhs);
+    inline const complex< T >&  operator^=(const int rhs);
     
-    template< typename T > inline       complex< eT >  operator+(const T& rhs);
-    template< typename T > inline       complex< eT >  operator-(const T& rhs);
-    template< typename T > inline       complex< eT >  operator*(const T& rhs);
-    template< typename T > inline       complex< eT >  operator/(const T& rhs);
+    template< typename U > inline       complex< T >  operator+(const U& rhs);
+    template< typename U > inline       complex< T >  operator-(const U& rhs);
+    template< typename U > inline       complex< T >  operator*(const U& rhs);
+    template< typename U > inline       complex< T >  operator/(const U& rhs);
     
-    template< typename T > inline const complex< eT >& operator+=(const T& rhs);
-    template< typename T > inline const complex< eT >& operator-=(const T& rhs);
-    template< typename T > inline const complex< eT >& operator*=(const T& rhs);
-    template< typename T > inline const complex< eT >& operator/=(const T& rhs);
+    template< typename U > inline const complex< T >& operator+=(const U& rhs);
+    template< typename U > inline const complex< T >& operator-=(const U& rhs);
+    template< typename U > inline const complex< T >& operator*=(const U& rhs);
+    template< typename U > inline const complex< T >& operator/=(const U& rhs);
 };
 
 /*- Additional operators -*/
 
-//template< typename eT, typename T > complex< eT >   operator*(const T& lhs, complex< eT > rhs);
-//template< typename eT, typename T > complex< eT >   operator/(const T& lhs, complex< eT > rhs);
-//template< typename eT, typename T > complex< eT >   operator+(const T& lhs, complex< eT > rhs);
-//template< typename eT, typename T > complex< eT >   operator-(const T& lhs, complex< eT > rhs);
+//template< typename eT, typename T > complex< T >   operator*(const T& lhs, complex< T > rhs);
+//template< typename eT, typename T > complex< T >   operator/(const T& lhs, complex< T > rhs);
+//template< typename eT, typename T > complex< T >   operator+(const T& lhs, complex< T > rhs);
+//template< typename eT, typename T > complex< T >   operator-(const T& lhs, complex< T > rhs);
 //
-//template< typename eT >             complex< eT >   operator+(int lhs, complex< eT > rhs);
+//template< typename T >             complex< T >   operator+(int lhs, complex< T > rhs);
 
 /*- Outstream operator -*/
 
-template< typename eT >             std::ostream&   operator<<(std::ostream& o, const complex< eT >& c);
+template< typename T >             std::ostream&   operator<<(std::ostream& o, const complex< T >& c);
 
 /*!
  * @}

@@ -24,7 +24,7 @@ UZLMATH_BEGIN
  * @details     The grid3D is a 3D data structure that uses matrices in
  *              several layers.
  *
- * @tparam      eT The type of data the grid is holding
+ * @tparam      T The type of data the grid is holding
  *
  * @since       0.0.1
  *
@@ -32,38 +32,38 @@ UZLMATH_BEGIN
  * @author      Denis-Michael Lux <denis.lux@icloud.com>
  *
  */
-template< typename eT >
-struct grid3D< complex< eT > >
+template< typename T >
+struct grid3D< complex< T > >
 {
     // ivars
     const size_t rows;                    //!< number of rows in each layer
     const size_t cols;                    //!< number of cols in each layer
     const size_t lays;                    //!< number of layers
     
-    const complex< eT >* mem;             //!< storage of the 3D grid
+    const complex< T >* mem;             //!< storage of the 3D grid
     
     // methods
     inline                                grid3D();
     inline                                grid3D(const size_t& rcl);
-    inline                                grid3D(const size_t& rcl, const complex< eT >& initial);
-    inline                                grid3D(const size_t& rcl, const eT& initial);
+    inline                                grid3D(const size_t& rcl, const complex< T >& initial);
+    inline                                grid3D(const size_t& rcl, const T& initial);
     inline                                grid3D(const size_t& rows, const size_t& cols, const size_t& lays);
-    inline                                grid3D(const size_t& rows, const size_t& cols, const size_t& lays, const complex< eT >& initial);
-    inline                                grid3D(const size_t& rows, const size_t& cols, const size_t& lays, const eT& initial);
-    inline                                grid3D(const grid3D< eT >& c);
-    inline                                grid3D(const grid3D< complex< eT > >& c);
-    inline                                grid3D(grid3D< complex< eT > >&& c);
+    inline                                grid3D(const size_t& rows, const size_t& cols, const size_t& lays, const complex< T >& initial);
+    inline                                grid3D(const size_t& rows, const size_t& cols, const size_t& lays, const T& initial);
+    inline                                grid3D(const grid3D< T >& c);
+    inline                                grid3D(const grid3D< complex< T > >& c);
+    inline                                grid3D(grid3D< complex< T > >&& c);
     inline                               ~grid3D();
     
-    inline const grid3D< complex< eT > >& operator=(const grid3D< eT >& c);
-    inline const grid3D< complex< eT > >& operator=(const grid3D< complex< eT > >& c);
-    inline const grid3D< complex< eT > >& operator=(grid3D< complex< eT > >&& c);
+    inline const grid3D< complex< T > >&  operator=(const grid3D< T >& c);
+    inline const grid3D< complex< T > >&  operator=(const grid3D< complex< T > >& c);
+    inline const grid3D< complex< T > >&  operator=(grid3D< complex< T > >&& c);
     
-    inline       complex< eT >&           operator()(const size_t& row, const size_t& col, const size_t& lay);
-    inline const complex< eT >&           operator()(const size_t& row, const size_t& col, const size_t& lay) const;
+    inline       complex< T >&            operator()(const size_t& row, const size_t& col, const size_t& lay);
+    inline const complex< T >&            operator()(const size_t& row, const size_t& col, const size_t& lay) const;
     
-    inline       void                     layer_wise_DFT2(const complex< double >& scale = complex< eT >(1, 0));
-    inline       void                     layer_wise_IDFT2(const complex< double >& scale = complex< eT >(1, 0));
+    inline       void                     layer_wise_DFT2(const complex< double >& scale = complex< T >(1, 0));
+    inline       void                     layer_wise_IDFT2(const complex< double >& scale = complex< T >(1, 0));
 };
 
 template< typename S > std::ostream& operator<<(std::ostream& o, const grid3D< complex< S > >& c);

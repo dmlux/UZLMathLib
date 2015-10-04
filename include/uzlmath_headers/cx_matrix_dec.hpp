@@ -21,7 +21,7 @@ UZLMATH_BEGIN
  *              order to provide interchangability with the BLAS and LAPACK
  *              Fortran libraries.
  *
- * @tparam      eT An element type which represents a number that provides all common
+ * @tparam      T An element type which represents a number that provides all common
  *              mathmatical operations.
  *
  * @since       0.0.1
@@ -34,8 +34,8 @@ UZLMATH_BEGIN
  *
  * @ingroup     matrix
  */
-template< typename eT >
-class matrix< complex< eT > >
+template< typename T >
+class matrix< complex< T > >
 {
     size_t r_inj;               //!< Row injection index
     size_t c_inj;               //!< Column injection index
@@ -45,7 +45,7 @@ public:
     const size_t rows;          //!< Number of matrix rows
     const size_t cols;          //!< Number of matrix columns
     
-    const complex< eT >* mem;   //!< Matrix memory
+    const complex< T >* mem;   //!< Matrix memory
     
     // methods
     inline                               ~matrix();
@@ -53,93 +53,93 @@ public:
     
     inline                                matrix(const size_t& m, const size_t& n);
     inline                                matrix(const size_t& mn);
-    inline                                matrix(const size_t& m, const size_t& n, const complex< eT >& initial);
+    inline                                matrix(const size_t& m, const size_t& n, const complex< T >& initial);
     
-    inline                                matrix(const matrix< complex< eT > >& A);
-    inline                                matrix(const matrix< eT >& A);
-    inline                                matrix(matrix< complex< eT > >&& A);
+    inline                                matrix(const matrix< complex< T > >& A);
+    inline                                matrix(const matrix< T >& A);
+    inline                                matrix(matrix< complex< T > >&& A);
     
-    inline                                matrix(const vector< eT >& v);
-    inline                                matrix(const vector< complex< eT > >& v);
+    inline                                matrix(const vector< T >& v);
+    inline                                matrix(const vector< complex< T > >& v);
     
-    inline       matrix< complex< eT > >  operator+(const matrix< complex< eT > >& A);
-    inline       matrix< complex< eT > >  operator+(const matrix< eT >& A);
-    inline       matrix< complex< eT > >  operator-(const matrix< complex< eT > >& A);
-    inline       matrix< complex< eT > >  operator-(const matrix< eT >& A);
-    inline       matrix< complex< eT > >  operator*(const matrix< complex< eT > >& A);
-    inline       matrix< complex< eT > >  operator*(const matrix< eT >& A);
-    inline       matrix< complex< eT > >  operator%(const matrix< complex< eT > >& A);
-    inline       matrix< complex< eT > >  operator%(const matrix< eT >& A);
-    inline       matrix< complex< eT > >  operator/(const matrix< complex< eT > >& A);
-    inline       matrix< complex< eT > >  operator/(const matrix< eT >& A);
+    inline       matrix< complex< T > >   operator+(const matrix< complex< T > >& A);
+    inline       matrix< complex< T > >   operator+(const matrix< T >& A);
+    inline       matrix< complex< T > >   operator-(const matrix< complex< T > >& A);
+    inline       matrix< complex< T > >   operator-(const matrix< T >& A);
+    inline       matrix< complex< T > >   operator*(const matrix< complex< T > >& A);
+    inline       matrix< complex< T > >   operator*(const matrix< T >& A);
+    inline       matrix< complex< T > >   operator%(const matrix< complex< T > >& A);
+    inline       matrix< complex< T > >   operator%(const matrix< T >& A);
+    inline       matrix< complex< T > >   operator/(const matrix< complex< T > >& A);
+    inline       matrix< complex< T > >   operator/(const matrix< T >& A);
     
-    inline const matrix< complex< eT > >& operator=(const matrix< eT >& A);
-    inline const matrix< complex< eT > >& operator=(const matrix< complex< eT > >& A);
-    inline const matrix< complex< eT > >& operator=(matrix< complex< eT > >&& A);
+    inline const matrix< complex< T > >&  operator=(const matrix< T >& A);
+    inline const matrix< complex< T > >&  operator=(const matrix< complex< T > >& A);
+    inline const matrix< complex< T > >&  operator=(matrix< complex< T > >&& A);
     
-    inline       bool                     operator==(const matrix< complex< eT > >& A);
-    inline       bool                     operator!=(const matrix< complex< eT > >& A);
+    inline       bool                     operator==(const matrix< complex< T > >& A);
+    inline       bool                     operator!=(const matrix< complex< T > >& A);
     
-    inline const matrix< complex< eT > >& operator+=(const matrix< eT >& A);
-    inline const matrix< complex< eT > >& operator+=(const matrix< complex< eT > >& A);
-    inline const matrix< complex< eT > >& operator-=(const matrix< eT >& A);
-    inline const matrix< complex< eT > >& operator-=(const matrix< complex< eT > >& A);
-    inline const matrix< complex< eT > >& operator*=(const matrix< eT >& A);
-    inline const matrix< complex< eT > >& operator*=(const matrix< complex< eT > >& A);
-    inline const matrix< complex< eT > >& operator%=(const matrix< eT >& A);
-    inline const matrix< complex< eT > >& operator%=(const matrix< complex< eT > >& A);
-    inline const matrix< complex< eT > >& operator/=(const matrix< eT >& A);
-    inline const matrix< complex< eT > >& operator/=(const matrix< complex< eT > >& A);
+    inline const matrix< complex< T > >&  operator+=(const matrix< T >& A);
+    inline const matrix< complex< T > >&  operator+=(const matrix< complex< T > >& A);
+    inline const matrix< complex< T > >&  operator-=(const matrix< T >& A);
+    inline const matrix< complex< T > >&  operator-=(const matrix< complex< T > >& A);
+    inline const matrix< complex< T > >&  operator*=(const matrix< T >& A);
+    inline const matrix< complex< T > >&  operator*=(const matrix< complex< T > >& A);
+    inline const matrix< complex< T > >&  operator%=(const matrix< T >& A);
+    inline const matrix< complex< T > >&  operator%=(const matrix< complex< T > >& A);
+    inline const matrix< complex< T > >&  operator/=(const matrix< T >& A);
+    inline const matrix< complex< T > >&  operator/=(const matrix< complex< T > >& A);
     
-    inline const matrix< complex< eT > >& operator*=(const vector< eT >& v);
-    inline const matrix< complex< eT > >& operator*=(const vector< complex< eT > >& v);
+    inline const matrix< complex< T > >&  operator*=(const vector< T >& v);
+    inline const matrix< complex< T > >&  operator*=(const vector< complex< T > >& v);
     
-    inline       matrix< complex< eT > >  operator+();
-    inline       matrix< complex< eT > >  operator-();
+    inline       matrix< complex< T > >   operator+();
+    inline       matrix< complex< T > >   operator-();
     
-    inline       matrix< complex< eT > >  operator+(const eT& rhs);
-    inline       matrix< complex< eT > >  operator+(const complex< eT >& rhs);
-    inline       matrix< complex< eT > >  operator-(const eT& rhs);
-    inline       matrix< complex< eT > >  operator-(const complex< eT >& rhs);
-    inline       matrix< complex< eT > >  operator*(const eT& rhs);
-    inline       matrix< complex< eT > >  operator*(const complex< eT >& rhs);
-    inline       matrix< complex< eT > >  operator/(const eT& rhs);
-    inline       matrix< complex< eT > >  operator/(const complex< eT >& rhs);
-    inline       matrix< complex< eT > >  operator^(const unsigned int& exp);
+    inline       matrix< complex< T > >   operator+(const T& rhs);
+    inline       matrix< complex< T > >   operator+(const complex< T >& rhs);
+    inline       matrix< complex< T > >   operator-(const T& rhs);
+    inline       matrix< complex< T > >   operator-(const complex< T >& rhs);
+    inline       matrix< complex< T > >   operator*(const T& rhs);
+    inline       matrix< complex< T > >   operator*(const complex< T >& rhs);
+    inline       matrix< complex< T > >   operator/(const T& rhs);
+    inline       matrix< complex< T > >   operator/(const complex< T >& rhs);
+    inline       matrix< complex< T > >   operator^(const unsigned int& exp);
     
-    inline       vector< complex< eT > >  operator*(const vector< eT >& v);
-    inline       vector< complex< eT > >  operator*(const vector< complex< eT > >& v);
+    inline       vector< complex< T > >   operator*(const vector< T >& v);
+    inline       vector< complex< T > >   operator*(const vector< complex< T > >& v);
     
-    inline       matrix< complex< eT > >& operator+=(const eT& rhs);
-    inline       matrix< complex< eT > >& operator+=(const complex< eT >& rhs);
-    inline       matrix< complex< eT > >& operator-=(const eT& rhs);
-    inline       matrix< complex< eT > >& operator-=(const complex< eT >& rhs);
-    inline       matrix< complex< eT > >& operator*=(const eT& rhs);
-    inline       matrix< complex< eT > >& operator*=(const complex< eT >& rhs);
-    inline       matrix< complex< eT > >& operator/=(const eT& rhs);
-    inline       matrix< complex< eT > >& operator/=(const complex< eT >& rhs);
-    inline       matrix< complex< eT > >& operator^=(const unsigned int& exp);
+    inline       matrix< complex< T > >&  operator+=(const T& rhs);
+    inline       matrix< complex< T > >&  operator+=(const complex< T >& rhs);
+    inline       matrix< complex< T > >&  operator-=(const T& rhs);
+    inline       matrix< complex< T > >&  operator-=(const complex< T >& rhs);
+    inline       matrix< complex< T > >&  operator*=(const T& rhs);
+    inline       matrix< complex< T > >&  operator*=(const complex< T >& rhs);
+    inline       matrix< complex< T > >&  operator/=(const T& rhs);
+    inline       matrix< complex< T > >&  operator/=(const complex< T >& rhs);
+    inline       matrix< complex< T > >&  operator^=(const unsigned int& exp);
     
-    inline       matrix< complex< eT > >& operator<<(const eT& val);
-    inline       matrix< complex< eT > >& operator<<(const complex< eT >& val);
-    //inline matrix< eT >& operator<<(const tok& T);
+    inline       matrix< complex< T > >&  operator<<(const T& val);
+    inline       matrix< complex< T > >&  operator<<(const complex< T >& val);
+    //inline matrix< T >& operator<<(const tok& T);
     
-    inline       complex< eT >&           operator()(const size_t& i, const size_t& j);
-    inline const complex< eT >&           operator()(const size_t& i, const size_t& j) const;
+    inline       complex< T >&            operator()(const size_t& i, const size_t& j);
+    inline const complex< T >&            operator()(const size_t& i, const size_t& j) const;
     
     inline       void                     zeros();
     inline       void                     ones();
     inline       void                     eye();
     inline       void                     transpose();
-    inline       void                     fill(const eT& value);
-    inline       void                     fill(const complex< eT >& value);
-    inline       void                     diag(const complex< eT >& value);
-    inline       void                     diag(const vector< complex< eT > >& vec);
+    inline       void                     fill(const T& value);
+    inline       void                     fill(const complex< T >& value);
+    inline       void                     diag(const complex< T >& value);
+    inline       void                     diag(const vector< complex< T > >& vec);
     
     inline const complex< double >        determinant();
 };
 
-template<typename eT> std::ostream& operator<<(std::ostream& o, const matrix< complex< eT > >& A);
+template<typename T> std::ostream& operator<<(std::ostream& o, const matrix< complex< T > >& A);
 
 UZLMATH_END
 

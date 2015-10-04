@@ -22,7 +22,7 @@ UZLMATH_BEGIN
  *                  values.
  * @param[in]       max The max value for the random co-domain.
  * @param[in]       min The min value for the random co-domain.
- * @tparam          eT The element type of the matrix. The type can be any
+ * @tparam          T The element type of the matrix. The type can be any
  *                  number type.
  *
  * @since           0.1.1
@@ -32,9 +32,9 @@ UZLMATH_BEGIN
  *
  * @ingroup         matrix
  */
-template< typename eT >
+template< typename T >
 inline
-auto randi(matrix< eT >& mat, const int& min, const int& max) -> typename uzl_void_real_num_only< eT >::result
+auto randi(matrix< T >& mat, const int& min, const int& max) -> typename uzl_void_real_num_only< T >::result
 {
     if (min > max)
     {
@@ -53,7 +53,7 @@ auto randi(matrix< eT >& mat, const int& min, const int& max) -> typename uzl_vo
     
     // C++11 random numbers uniformly distributed
     std::mt19937_64 e(seed);
-    std::uniform_int_distribution< typename uzl_int_rand_dist_type< eT >::result > d(min, max);
+    std::uniform_int_distribution< typename uzl_int_rand_dist_type< T >::result > d(min, max);
     
     // fill vector with random integers
     size_t i, j;
@@ -75,7 +75,7 @@ auto randi(matrix< eT >& mat, const int& min, const int& max) -> typename uzl_vo
  *                  random values.
  * @param[in]       max The max value for the random co-domain.
  * @param[in]       min The min value for the random co-domain.
- * @tparam          eT The element type of the matrix. The type can be any
+ * @tparam          T The element type of the matrix. The type can be any
  *                  number type.
  *
  * @since           0.1.1
@@ -85,9 +85,9 @@ auto randi(matrix< eT >& mat, const int& min, const int& max) -> typename uzl_vo
  *
  * @ingroup         matrix
  */
-template< typename eT >
+template< typename T >
 inline
-auto randi(matrix< complex< eT > >& mat, const int& min, const int& max) -> typename uzl_void_real_num_only< eT >::result
+auto randi(matrix< complex< T > >& mat, const int& min, const int& max) -> typename uzl_void_real_num_only< T >::result
 {
     if (min > max)
     {
@@ -106,7 +106,7 @@ auto randi(matrix< complex< eT > >& mat, const int& min, const int& max) -> type
 
     // C++11 random numbers uniformly distributed
     std::mt19937_64 e(seed);
-    std::uniform_int_distribution< typename uzl_int_rand_dist_type< eT >::result > d(min, max);
+    std::uniform_int_distribution< typename uzl_int_rand_dist_type< T >::result > d(min, max);
     
     // fill vector with random complex integers
     size_t i, j;
@@ -129,7 +129,7 @@ auto randi(matrix< complex< eT > >& mat, const int& min, const int& max) -> type
  *                  values.
  * @param[in]       min The min value for the random co-domain.
  * @param[in]       max The max value for the random co-domain.
- * @tparam          eT The element type of the matrix. The type has to be a floating
+ * @tparam          T The element type of the matrix. The type has to be a floating
  *                  point type (float, double or long double).
  *
  * @note            Only available for matrices of type float, double or long double!
@@ -141,9 +141,9 @@ auto randi(matrix< complex< eT > >& mat, const int& min, const int& max) -> type
  *
  * @ingroup         matrix
  */
-template< typename eT >
+template< typename T >
 inline
-auto rand(matrix< eT >& mat, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
+auto rand(matrix< T >& mat, const double& min, const double& max) -> typename uzl_void_real_only< T >::result
 {
     if (min > max)
     {
@@ -162,7 +162,7 @@ auto rand(matrix< eT >& mat, const double& min, const double& max) -> typename u
     
     // C++11 random numbers uniformly distributed
     std::mt19937_64 e(seed);
-    std::uniform_real_distribution< eT > d(min, max);
+    std::uniform_real_distribution< T > d(min, max);
     
     // fill vector with randoms
     size_t i, j;
@@ -184,7 +184,7 @@ auto rand(matrix< eT >& mat, const double& min, const double& max) -> typename u
  *                  values.
  * @param[in]       min The min value for the random co-domain.
  * @param[in]       max The max value for the random co-domain.
- * @tparam          eT The element type of the matrix. The type has to be a floating
+ * @tparam          T The element type of the matrix. The type has to be a floating
  *                  point type (float, double or long double).
  *
  * @note            Only available for matrices of type float, double or long double!
@@ -196,9 +196,9 @@ auto rand(matrix< eT >& mat, const double& min, const double& max) -> typename u
  *
  * @ingroup         matrix
  */
-template< typename eT >
+template< typename T >
 inline
-auto rand(matrix< complex< eT > >& mat, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
+auto rand(matrix< complex< T > >& mat, const double& min, const double& max) -> typename uzl_void_real_only< T >::result
 {
     if (min > max)
     {
@@ -217,7 +217,7 @@ auto rand(matrix< complex< eT > >& mat, const double& min, const double& max) ->
     
     // C++11 random numbers uniformly distributed
     std::mt19937_64 e(seed);
-    std::uniform_real_distribution< eT > d(min, max);
+    std::uniform_real_distribution< T > d(min, max);
     
     // fill vector with randoms
     size_t i, j;

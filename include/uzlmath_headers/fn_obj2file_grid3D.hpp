@@ -33,9 +33,9 @@ UZLMATH_BEGIN
  *
  * @ingroup         grid3D
  */
-template< typename eT >
+template< typename T >
 inline
-auto obj2file(const grid3D< complex< eT > >& grid, const std::string& fileName) -> typename uzl_void_real_num_only< eT >::result
+auto obj2file(const grid3D< complex< T > >& grid, const std::string& fileName) -> typename uzl_void_real_num_only< T >::result
 {
     // create file and open it with write flag
     FILE* fp = fopen(fileName.c_str(), "w");
@@ -81,9 +81,9 @@ auto obj2file(const grid3D< complex< eT > >& grid, const std::string& fileName) 
  *
  * @ingroup         grid3D
  */
-template< typename eT >
+template< typename T >
 inline
-auto obj2file(const grid3D< eT >& grid, const std::string& fileName) -> typename uzl_void_real_num_only< eT >::result
+auto obj2file(const grid3D< T >& grid, const std::string& fileName) -> typename uzl_void_real_num_only< T >::result
 {
     // create file and open it with write flag
     FILE* fp = fopen(fileName.c_str(), "w");

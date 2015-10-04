@@ -21,60 +21,26 @@ UZLMATH_BEGIN
  * @{
  */
 
-/*! @brief Trait that contains false value for each type that is not float. */
-template< typename T > struct is_float                    { static const bool value = false; /*!< "is type of" flag */ };
-/*! @brief Trait that contains true value for type float. */
-template<>             struct is_float< float >           { static const bool value = true;  /*!< "is type of" flag */ };
+// check for same type
+template< typename T, typename U > struct same_type                     { static const bool value = false;  };
+template< typename T >             struct same_type< T, T >             { static const bool value = true;   };
 
-/*! @brief Trait that contains false value for each type that is not double. */
-template< typename T > struct is_double                   { static const bool value = false; /*!< "is type of" flag */ };
-/*! @brief Trait that contains true value for type double. */
-template<>             struct is_double< double >         { static const bool value = true;  /*!< "is type of" flag */ };
+// check for different types
+template< typename T, typename U > struct different_type                { static const bool value = true;   };
+template< typename T >             struct different_type< T, T >        { static const bool value = false;  };
 
-/*! @brief Trait that contains false value for each type that is not long double. */
-template< typename T > struct is_ldouble                  { static const bool value = false; /*!< "is type of" flag */ };
-/*! @brief Trait that contains true value for type long double. */
-template<>             struct is_ldouble< long double >   { static const bool value = true;  /*!< "is type of" flag */ };
-
-/*! @brief Trait that contains false value for each type that is not short. */
-template< typename T > struct is_short                    { static const bool value = false; /*!< "is type of" flag */ };
-/*! @brief Trait that contains true value for type short. */
-template<>             struct is_short< short >           { static const bool value = true;  /*!< "is type of" flag */ };
-
-/*! @brief Trait that contains false value for each type that is not int. */
-template< typename T > struct is_int                      { static const bool value = false; /*!< "is type of" flag */ };
-/*! @brief Trait that contains true value for type int. */
-template<>             struct is_int< int >               { static const bool value = true;  /*!< "is type of" flag */ };
-
-/*! @brief Trait that contains false value for each type that is not long. */
-template< typename T > struct is_long                     { static const bool value = false; /*!< "is type of" flag */ };
-/*! @brief Trait that contains true value for type long. */
-template<>             struct is_long< long >             { static const bool value = true;  /*!< "is type of" flag */ };
-
-/*! @brief Trait that contains false value for each type that is not unsigned short. */
-template< typename T > struct is_ushort                   { static const bool value = false; /*!< "is type of" flag */ };
-/*! @brief Trait that contains true value for type unsigned short. */
-template<>             struct is_ushort< unsigned short > { static const bool value = true;  /*!< "is type of" flag */ };
-
-/*! @brief Trait that contains false value for each type that is not unsigned int. */
-template< typename T > struct is_uint                     { static const bool value = false; /*!< "is type of" flag */ };
-/*! @brief Trait that contains true value for type unsigned int. */
-template<>             struct is_uint< unsigned int >     { static const bool value = true;  /*!< "is type of" flag */ };
-
-/*! @brief Trait that contains false value for each type that is not unsigned long. */
-template< typename T > struct is_ulong                    { static const bool value = false; /*!< "is type of" flag */ };
-/*! @brief Trait that contains true value for type unsigned long. */
-template<>             struct is_ulong< unsigned long >   { static const bool value = true;  /*!< "is type of" flag */ };
-
-/*! @brief Trait that contains false value for each type that is not long long. */
-template< typename T > struct is_llong                    { static const bool value = false; /*!< "is type of" flag */ };
-/*! @brief Trait that contains true value for type long long. */
-template<>             struct is_llong< long long >       { static const bool value = true;  /*!< "is type of" flag */ };
-
-/*! @brief Trait that contains false value for each type that is not complex. */
-template< typename T > struct is_complex                  { static const bool value = false; /*!< "is type of" flag */ };
-/*! @brief Trait that contains true value for type complex. */
-template< typename T > struct is_complex< complex< T > >  { static const bool value = true;  /*!< "is type of" flag */ };
+// check if type is complex number
+template< typename T > struct is_complex                                { static const bool value = false;  };
+template<>             struct is_complex< complex< short > >            { static const bool value = true;   };
+template<>             struct is_complex< complex< int > >              { static const bool value = true;   };
+template<>             struct is_complex< complex< long > >             { static const bool value = true;   };
+template<>             struct is_complex< complex< long long > >        { static const bool value = true;   };
+template<>             struct is_complex< complex< unsigned short > >   { static const bool value = true;   };
+template<>             struct is_complex< complex< unsigned int > >     { static const bool value = true;   };
+template<>             struct is_complex< complex< unsigned long > >    { static const bool value = true;   };
+template<>             struct is_complex< complex< float > >            { static const bool value = true;   };
+template<>             struct is_complex< complex< double > >           { static const bool value = true;   };
+template<>             struct is_complex< complex< long double > >      { static const bool value = true;   };
 
 /*!
  * @}

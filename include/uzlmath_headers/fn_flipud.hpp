@@ -29,9 +29,9 @@ UZLMATH_BEGIN
  *
  * @ingroup         matrix
  */
-template< typename eT >
+template< typename T >
 inline
-auto flipud(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT >::result
+auto flipud(matrix< T >& mat) -> typename uzl_void_real_num_only< T >::result
 {
     // define indices
     size_t j, k;
@@ -44,7 +44,7 @@ auto flipud(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT >::result
         for (j = 0; j < mat.rows / 2; ++j)
         {
             // temporary element copy
-            eT tmp = mat(j, k);
+            T tmp = mat(j, k);
             // swap elements
             mat(j, k)                = mat(mat.rows - j - 1, k);
             mat(mat.rows - j - 1, k) = tmp;
@@ -70,9 +70,9 @@ auto flipud(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT >::result
  *
  * @ingroup         matrix
  */
-template< typename eT >
+template< typename T >
 inline
-auto flipud_ne2ndecol(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT >::result
+auto flipud_ne2ndecol(matrix< T >& mat) -> typename uzl_void_real_num_only< T >::result
 {
     // define indices
     size_t j, k;
@@ -85,7 +85,7 @@ auto flipud_ne2ndecol(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT 
         for (j = 0; j < mat.rows / 2; ++j)
         {
             // temporary element copy
-            eT tmp = mat(j, k);
+            T tmp = mat(j, k);
             
             // swap elements
             if (k & 1)
@@ -120,9 +120,9 @@ auto flipud_ne2ndecol(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT 
  *
  * @ingroup         matrix
  */
-template< typename eT >
+template< typename T >
 inline
-auto flipud_ne2ndocol(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT >::result
+auto flipud_ne2ndocol(matrix< T >& mat) -> typename uzl_void_real_num_only< T >::result
 {
     // define indices
     size_t j, k;
@@ -135,7 +135,7 @@ auto flipud_ne2ndocol(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT 
         for (j = 0; j < mat.rows / 2; ++j)
         {
             // temporary element copy
-            eT tmp = mat(j, k);
+            T tmp = mat(j, k);
             
             // swap elements
             if (k & 1)
@@ -168,9 +168,9 @@ auto flipud_ne2ndocol(matrix< eT >& mat) -> typename uzl_void_real_num_only< eT 
  *
  * @ingroup         matrix
  */
-template< typename eT >
+template< typename T >
 inline
-auto flipud(matrix< complex< eT > >& mat) -> typename uzl_void_real_num_only< eT >::result
+auto flipud(matrix< complex< T > >& mat) -> typename uzl_void_real_num_only< T >::result
 {
     // define indices
     size_t j, k;
@@ -183,7 +183,7 @@ auto flipud(matrix< complex< eT > >& mat) -> typename uzl_void_real_num_only< eT
         for (j = 0; j < mat.n_rows() / 2; ++j)
         {
             // temporary element copy
-            complex< eT > tmp = mat(j, k);
+            complex< T > tmp = mat(j, k);
             // swap elements
             mat(j, k)                    = mat(mat.n_rows() - j - 1, k);
             mat(mat.n_rows() - j - 1, k) = tmp;

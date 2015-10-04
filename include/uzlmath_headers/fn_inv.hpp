@@ -13,9 +13,9 @@
 
 UZLMATH_BEGIN
 
-template< typename eT >
+template< typename T >
 inline
-matrix< double > inv(const matrix< eT >& A)
+matrix< double > inv(const matrix< T >& A)
 {
 //    if ( A.n_rows() != A.n_cols() )
 //    {
@@ -50,7 +50,7 @@ matrix< double > inv(const matrix< eT >& A)
 //    }
 //    else
 //    {
-//        const eT* tmp_A = A.memptr();
+//        const T* tmp_A = A.memptr();
 //        size_t i, cap = M * N;
 //        for(i = 0; i < cap; ++i)
 //        {

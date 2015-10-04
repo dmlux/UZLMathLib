@@ -25,9 +25,9 @@ UZLMATH_BEGIN
  *
  * @ingroup         vector
  */
-template< typename eT >
+template< typename T >
 inline
-auto randi(vector< eT >& vec, const int& min, const int& max) -> typename uzl_void_real_num_only< eT >::result
+auto randi(vector< T >& vec, const int& min, const int& max) -> typename uzl_void_real_num_only< T >::result
 {
     if (min > max)
     {
@@ -46,7 +46,7 @@ auto randi(vector< eT >& vec, const int& min, const int& max) -> typename uzl_vo
     
     // C++11 random numbers uniformly distributed
     std::default_random_engine e(seed);
-    std::uniform_int_distribution< typename uzl_int_rand_dist_type< eT >::result > d(min, max);
+    std::uniform_int_distribution< typename uzl_int_rand_dist_type< T >::result > d(min, max);
     
     // fill vector with randoms
     size_t i;
@@ -56,9 +56,9 @@ auto randi(vector< eT >& vec, const int& min, const int& max) -> typename uzl_vo
     }
 }
 
-template< typename eT >
+template< typename T >
 inline
-auto randi(vector< complex< eT > >& vec, const int& min, const int& max) -> typename uzl_void_real_num_only< eT >::result
+auto randi(vector< complex< T > >& vec, const int& min, const int& max) -> typename uzl_void_real_num_only< T >::result
 {
     if (min > max)
     {
@@ -77,7 +77,7 @@ auto randi(vector< complex< eT > >& vec, const int& min, const int& max) -> type
     
     // C++11 random numbers uniformly distributed
     std::default_random_engine e(seed);
-    std::uniform_int_distribution< typename uzl_int_rand_dist_type< eT >::result > d(min, max);
+    std::uniform_int_distribution< typename uzl_int_rand_dist_type< T >::result > d(min, max);
     
     // fill vector with randoms
     size_t i;
@@ -98,15 +98,15 @@ auto randi(vector< complex< eT > >& vec, const int& min, const int& max) -> type
  *                  values.
  * @param[in]       min The min value for the random co-domain.
  * @param[in]       max The max value for the random co-domain.
- * @tparam          eT The element type of the vector. The type has to be a floating 
+ * @tparam          T The element type of the vector. The type has to be a floating 
  *                  point type (float, double or long double).
  *
  * @note            Only available for vectors of type float, double or long double!
  *
  * @ingroup         vector
  */
-template< typename eT >
-auto rand(vector< eT >& vec, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
+template< typename T >
+auto rand(vector< T >& vec, const double& min, const double& max) -> typename uzl_void_real_only< T >::result
 {
     if (min > max)
     {
@@ -125,11 +125,11 @@ auto rand(vector< eT >& vec, const double& min, const double& max) -> typename u
     
     // C++11 random numbers uniformly distributed
     std::default_random_engine e(seed);
-    std::uniform_real_distribution< eT > d(min, max);
+    std::uniform_real_distribution< T > d(min, max);
     
     // fill vector with randoms
     size_t i;
-    for (i = 0; i < vec.n_elements(); ++i)
+    for (i = 0; i < vec.size; ++i)
     {
         vec[i] = d(e);
     }
@@ -144,15 +144,15 @@ auto rand(vector< eT >& vec, const double& min, const double& max) -> typename u
  *                  values.
  * @param[in]       min The min value for the random co-domain.
  * @param[in]       max The max value for the random co-domain.
- * @tparam          eT The element type of the vector. The type has to be a floating
+ * @tparam          T The element type of the vector. The type has to be a floating
  *                  point type (float, double or long double).
  *
  * @note            Only available for vectors of type float, double or long double!
  *
  * @ingroup         vector
  */
-template< typename eT >
-auto rand(vector< complex< eT > >& vec, const double& min, const double& max) -> typename uzl_void_real_only< eT >::result
+template< typename T >
+auto rand(vector< complex< T > >& vec, const double& min, const double& max) -> typename uzl_void_real_only< T >::result
 {
     if (min > max)
     {
@@ -171,7 +171,7 @@ auto rand(vector< complex< eT > >& vec, const double& min, const double& max) ->
     
     // C++11 random numbers uniformly distributed
     std::default_random_engine e(seed);
-    std::uniform_real_distribution< eT > d(min, max);
+    std::uniform_real_distribution< T > d(min, max);
     
     // fill vector with randoms
     size_t i;

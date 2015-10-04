@@ -26,7 +26,7 @@ UZLMATH_BEGIN
  *              mathematical purposes.
  *
  *
- * @tparam      eT An element type which represents a number that provides all common
+ * @tparam      T An element type which represents a number that provides all common
  *              mathmatical operations.
  *
  * @since       0.1.1
@@ -34,8 +34,8 @@ UZLMATH_BEGIN
  * @author      Denis-Michael Lux <denis.lux@icloud.com>
  * @date        30.05.15
  */
-template< typename eT >
-class vector< complex< eT > >
+template< typename T >
+class vector< complex< T > >
 {
     size_t   inj;             //!< Index for injection
     
@@ -43,82 +43,82 @@ public:
     const size_t   size;      //!< size of vector
     const vec_type type;      //!< type of vector
     
-    const complex< eT >* mem; //!< vector data
+    const complex< T >* mem; //!< vector data
     
     inline                                vector();
     inline                                vector(const size_t& s, const vec_type& type = vec_type::ROW);
-    inline                                vector(const size_t& s, const eT& initial, const vec_type& type = vec_type::ROW);
-    inline                                vector(const size_t& s, const complex< eT >& initial, const vec_type& type = vec_type::ROW);
-    inline                                vector(const vector< eT >& vec);
-    inline                                vector(const vector< complex< eT > >& vec);
-    inline                                vector(const vector< eT >& vec, const vec_type& type);
-    inline                                vector(const vector< complex< eT > >& vec, const vec_type& type);
-    inline                                vector(vector< complex< eT > >&& vec);
+    inline                                vector(const size_t& s, const T& initial, const vec_type& type = vec_type::ROW);
+    inline                                vector(const size_t& s, const complex< T >& initial, const vec_type& type = vec_type::ROW);
+    inline                                vector(const vector< T >& vec);
+    inline                                vector(const vector< complex< T > >& vec);
+    inline                                vector(const vector< T >& vec, const vec_type& type);
+    inline                                vector(const vector< complex< T > >& vec, const vec_type& type);
+    inline                                vector(vector< complex< T > >&& vec);
     inline                               ~vector();
     
-    inline       vector< complex< eT > >  operator+(const vector< eT >& v);
-    inline       vector< complex< eT > >  operator-(const vector< eT >& v);
-    inline       matrix< complex< eT > >  operator*(const vector< eT >& v);
-    inline       vector< complex< eT > >  operator/(const vector< eT >& v);
-    inline       vector< complex< eT > >  operator%(const vector< eT >& v);
+    inline       vector< complex< T > >   operator+(const vector< T >& v);
+    inline       vector< complex< T > >   operator-(const vector< T >& v);
+    inline       matrix< complex< T > >   operator*(const vector< T >& v);
+    inline       vector< complex< T > >   operator/(const vector< T >& v);
+    inline       vector< complex< T > >   operator%(const vector< T >& v);
     
-    inline       vector< complex< eT > >  operator+(const vector< complex< eT > >& v);
-    inline       vector< complex< eT > >  operator-(const vector< complex< eT > >& v);
-    inline       matrix< complex< eT > >  operator*(const vector< complex< eT > >& v);
-    inline       vector< complex< eT > >  operator/(const vector< complex< eT > >& v);
-    inline       vector< complex< eT > >  operator%(const vector< complex< eT > >& v);
+    inline       vector< complex< T > >   operator+(const vector< complex< T > >& v);
+    inline       vector< complex< T > >   operator-(const vector< complex< T > >& v);
+    inline       matrix< complex< T > >   operator*(const vector< complex< T > >& v);
+    inline       vector< complex< T > >   operator/(const vector< complex< T > >& v);
+    inline       vector< complex< T > >   operator%(const vector< complex< T > >& v);
     
-    inline       vector< complex< eT > >  operator+(const eT& s);
-    inline       vector< complex< eT > >  operator-(const eT& s);
-    inline       vector< complex< eT > >  operator*(const eT& s);
-    inline       vector< complex< eT > >  operator/(const eT& s);
+    inline       vector< complex< T > >   operator+(const T& s);
+    inline       vector< complex< T > >   operator-(const T& s);
+    inline       vector< complex< T > >   operator*(const T& s);
+    inline       vector< complex< T > >   operator/(const T& s);
     
-    inline       vector< complex< eT > >  operator+(const complex< eT >& s);
-    inline       vector< complex< eT > >  operator-(const complex< eT >& s);
-    inline       vector< complex< eT > >  operator*(const complex< eT >& s);
-    inline       vector< complex< eT > >  operator/(const complex< eT >& s);
+    inline       vector< complex< T > >   operator+(const complex< T >& s);
+    inline       vector< complex< T > >   operator-(const complex< T >& s);
+    inline       vector< complex< T > >   operator*(const complex< T >& s);
+    inline       vector< complex< T > >   operator/(const complex< T >& s);
     
-    inline       vector< complex< eT > >  operator+();
-    inline       vector< complex< eT > >  operator-();
+    inline       vector< complex< T > >   operator+();
+    inline       vector< complex< T > >   operator-();
     
-    inline       vector< complex< eT > >  operator*(const matrix< eT >& mat);
-    inline       vector< complex< eT > >  operator*(const matrix< complex< eT > >& mat);
+    inline       vector< complex< T > >   operator*(const matrix< T >& mat);
+    inline       vector< complex< T > >   operator*(const matrix< complex< T > >& mat);
     
-    inline const vector< complex< eT > >& operator=(const vector< eT >& v);
-    inline const vector< complex< eT > >& operator=(const vector< complex< eT > >& v);
-    inline const vector< complex< eT > >& operator=(vector< complex< eT > >&& v);
+    inline const vector< complex< T > >&  operator=(const vector< T >& v);
+    inline const vector< complex< T > >&  operator=(const vector< complex< T > >& v);
+    inline const vector< complex< T > >&  operator=(vector< complex< T > >&& v);
     
-    inline const vector< complex< eT > >& operator+=(const vector< eT >& v);
-    inline const vector< complex< eT > >& operator+=(const vector< complex< eT > >& v);
-    inline const vector< complex< eT > >& operator-=(const vector< eT >& v);
-    inline const vector< complex< eT > >& operator-=(const vector< complex< eT > >& v);
-    inline const vector< complex< eT > >& operator/=(const vector< eT >& v);
-    inline const vector< complex< eT > >& operator/=(const vector< complex< eT > >& v);
-    inline const vector< complex< eT > >& operator%=(const vector< eT >& v);
-    inline const vector< complex< eT > >& operator%=(const vector< complex< eT > >& v);
-    inline const vector< complex< eT > >& operator*=(const vector< eT >& v);
-    inline const vector< complex< eT > >& operator*=(const vector< complex< eT > >& v);
+    inline const vector< complex< T > >&  operator+=(const vector< T >& v);
+    inline const vector< complex< T > >&  operator+=(const vector< complex< T > >& v);
+    inline const vector< complex< T > >&  operator-=(const vector< T >& v);
+    inline const vector< complex< T > >&  operator-=(const vector< complex< T > >& v);
+    inline const vector< complex< T > >&  operator/=(const vector< T >& v);
+    inline const vector< complex< T > >&  operator/=(const vector< complex< T > >& v);
+    inline const vector< complex< T > >&  operator%=(const vector< T >& v);
+    inline const vector< complex< T > >&  operator%=(const vector< complex< T > >& v);
+    inline const vector< complex< T > >&  operator*=(const vector< T >& v);
+    inline const vector< complex< T > >&  operator*=(const vector< complex< T > >& v);
     
-    inline const vector< complex< eT > >& operator+=(const eT& s);
-    inline const vector< complex< eT > >& operator-=(const eT& s);
-    inline const vector< complex< eT > >& operator*=(const eT& s);
-    inline const vector< complex< eT > >& operator/=(const eT& s);
+    inline const vector< complex< T > >&  operator+=(const T& s);
+    inline const vector< complex< T > >&  operator-=(const T& s);
+    inline const vector< complex< T > >&  operator*=(const T& s);
+    inline const vector< complex< T > >&  operator/=(const T& s);
     
-    inline       bool                     operator==(const vector< eT >& v);
-    inline       bool                     operator!=(const vector< eT >& v);
-    inline       bool                     operator==(const vector< complex< eT > >& v);
-    inline       bool                     operator!=(const vector< complex< eT > >& v);
+    inline       bool                     operator==(const vector< T >& v);
+    inline       bool                     operator!=(const vector< T >& v);
+    inline       bool                     operator==(const vector< complex< T > >& v);
+    inline       bool                     operator!=(const vector< complex< T > >& v);
     
-    inline       complex< eT >&           operator[](const size_t& idx);
-    inline constexpr complex< eT >&       operator[](const size_t& idx) const;
+    inline       complex< T >&            operator[](const size_t& idx);
+    inline constexpr complex< T >&        operator[](const size_t& idx) const;
     
-    inline       complex< eT >&           operator()(const size_t& idx);
-    inline constexpr complex< eT >&       operator()(const size_t& idx) const;
+    inline       complex< T >&            operator()(const size_t& idx);
+    inline constexpr complex< T >&        operator()(const size_t& idx) const;
     
     inline       void                     ones();
     inline       void                     zeros();
     inline       void                     transpose();
-    inline       void                     fill(const eT& s);
+    inline       void                     fill(const T& s);
     
 };
 

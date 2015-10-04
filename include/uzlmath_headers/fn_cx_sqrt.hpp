@@ -18,7 +18,7 @@ UZLMATH_BEGIN
  *              allows to calculate the square root of negative real numbers.
  *
  * @param[in]   n A real number that can be positive as well as negative.
- * @tparam      eT An element type which represents a number that provides all common
+ * @tparam      T An element type which represents a number that provides all common
  *              mathmatical operations.
  * @return      The square root as an complex numbers. To provide the
  *              possibility of calculating the square root of negative
@@ -33,48 +33,48 @@ UZLMATH_BEGIN
  *
  * @ingroup     complex
  */
-template< typename eT >
+template< typename T >
 inline
-complex< eT > cx_sqrt(const eT n)
+complex< T > cx_sqrt(const T n)
 {
-    complex< eT > c;
+    complex< T > c;
     
     if (n < 0)
     {
-        if (is_double< eT >::value == true)
+        if ( same_type< T, double >::value )
         {
             c.im = sqrt(-n);
         }
-        else if (is_float< eT >::value == true)
+        else if ( same_type< T, float >::value )
         {
             c.im = sqrtf(-n);
         }
-        else if (is_ldouble< eT >::value == true)
+        else if ( same_type< T, long double >::value )
         {
             c.im = sqrtl(-n);
         }
         else
         {
-            c.im = static_cast< eT >(sqrt(static_cast< double >(-n)));
+            c.im = static_cast< T >(sqrt(static_cast< double >(-n)));
         }
     }
     else
     {
-        if (is_double< eT >::value == true)
+        if ( same_type< T, double >::value )
         {
             c.re = sqrt(n);
         }
-        else if (is_float< eT >::value == true)
+        else if ( same_type< T, float >::value )
         {
             c.re = sqrtf(n);
         }
-        else if (is_ldouble< eT >::value == true)
+        else if ( same_type< T, long double >::value )
         {
             c.re = sqrtl(n);
         }
         else
         {
-            c.re = static_cast< eT >(sqrt(static_cast< double >(n)));
+            c.re = static_cast< T >(sqrt(static_cast< double >(n)));
         }
     }
     
@@ -84,7 +84,7 @@ complex< eT > cx_sqrt(const eT n)
 /*!
  * @brief       Calculates the square root of a given complex number.
  *
- * @tparam      eT An element type which represents a number that provides all common
+ * @tparam      T An element type which represents a number that provides all common
  *              mathmatical operations.
  * @param[in]   c A complex number.
  * @return      The square root as an complex numbers.
@@ -96,37 +96,37 @@ complex< eT > cx_sqrt(const eT n)
  *
  * @ingroup     complex
  */
-template< typename eT >
+template< typename T >
 inline
-complex< eT > cx_sqrt(const complex< eT >& c)
+complex< T > cx_sqrt(const complex< T >& c)
 {
     if (c.im == 0)
     {
         return c_sqrt(c.re);
     }
     
-    complex< eT > com;
+    complex< T > com;
     short sgn = (c.im < 0 ? -1 : (c.im > 0 ? 1 : 0));
     
-    if (is_double< eT >::value == true)
+    if ( same_type< T, double >::value )
     {
         com.re =       sqrt(( c.re + sqrt(c.re * c.re + c.im * c.im)) / 2.)  ;
         com.im = sgn * sqrt((-c.re + sqrt(c.re * c.re + c.im * c.im)) / 2.)  ;
     }
-    else if (is_float< eT >::value == true)
+    else if ( same_type< T, float >::value )
     {
         com.re =       sqrtf(( c.re + sqrtf(c.re * c.re + c.im * c.im)) / 2.);
         com.im = sgn * sqrtf((-c.re + sqrtf(c.re * c.re + c.im * c.im)) / 2.);
     }
-    else if (is_ldouble< eT >::value == true)
+    else if ( same_type< T, long double >::value )
     {
         com.re =       sqrtl(( c.re + sqrtl(c.re * c.re + c.im * c.im)) / 2.);
         com.im = sgn * sqrtl((-c.re + sqrtl(c.re * c.re + c.im * c.im)) / 2.);
     }
     else
     {
-        com.re = static_cast< eT >(sqrt(static_cast< double >(c.re + sqrt(static_cast< double >(c.re * c.re + c.im * c.im))) / 2));
-        com.im = static_cast< eT >(sgn * sqrt(static_cast< double >(-c.re + sqrt(c.re * c.re + c.im * c.im)) / 2));
+        com.re = static_cast< T >(sqrt(static_cast< double >(c.re + sqrt(static_cast< double >(c.re * c.re + c.im * c.im))) / 2));
+        com.im = static_cast< T >(sgn * sqrt(static_cast< double >(-c.re + sqrt(c.re * c.re + c.im * c.im)) / 2));
     }
     
     return com;

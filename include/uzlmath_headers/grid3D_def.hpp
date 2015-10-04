@@ -13,50 +13,50 @@
 
 UZLMATH_BEGIN
 
-template< typename eT >
+template< typename T >
 inline
-grid3D< eT >::grid3D()
+grid3D< T >::grid3D()
     : rows(0)
     , cols(0)
     , lays(0)
     , mem(nullptr)
 {}
 
-template< typename eT >
+template< typename T >
 inline
-grid3D< eT >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays)
+grid3D< T >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays)
     : rows(rows)
     , cols(cols)
     , lays(lays)
 {
-    mem = new eT[rows * cols * lays];
+    mem = new T[rows * cols * lays];
 }
 
-template< typename eT >
+template< typename T >
 inline
-grid3D< eT >::grid3D(const size_t& rcl)
+grid3D< T >::grid3D(const size_t& rcl)
     : rows(rcl)
     , cols(rcl)
     , lays(rcl)
 {
-    mem = new eT[rows * cols * lays];
+    mem = new T[rows * cols * lays];
 }
 
-template< typename eT >
+template< typename T >
 inline
-grid3D< eT >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays, const eT& initial)
+grid3D< T >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays, const T& initial)
     : rows(rows)
     , cols(cols)
     , lays(lays)
 {
     size_t cap  = rows * cols * lays;
-    mem         = new eT[cap];
+    mem         = new T[cap];
     
     if (cap > 0)
     {
         if (initial == 0 || initial == -1)
         {
-            memset(mem, initial, cap * sizeof(eT));
+            memset(mem, initial, cap * sizeof(T));
         }
         else
         {
@@ -65,21 +65,21 @@ grid3D< eT >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays,
     }
 }
 
-template< typename eT >
+template< typename T >
 inline
-grid3D< eT >::grid3D(const size_t& rcl, const eT& initial)
+grid3D< T >::grid3D(const size_t& rcl, const T& initial)
     : rows(rcl)
     , cols(rcl)
     , lays(rcl)
 {
     size_t cap  = rows * cols * lays;
-    mem         = new eT[cap];
+    mem         = new T[cap];
     
     if (cap > 0)
     {
         if (initial == 0 || initial == -1)
         {
-            memset(mem, initial, cap * sizeof(eT));
+            memset(mem, initial, cap * sizeof(T));
         }
         else
         {
@@ -88,44 +88,44 @@ grid3D< eT >::grid3D(const size_t& rcl, const eT& initial)
     }
 }
 
-template< typename eT >
+template< typename T >
 inline
-grid3D< eT >::grid3D(const grid3D< eT >& c)
+grid3D< T >::grid3D(const grid3D< T >& c)
     : rows(c.rows)
     , cols(c.cols)
     , lays(c.lays)
 {
     size_t cap  = rows * cols * lays;
-    mem         = new eT[cap];
+    mem         = new T[cap];
     
     if (cap > 0)
     {
-        memcpy(mem, c.mem, c.rows * c.cols * c.lays * sizeof(eT));
+        memcpy(mem, c.mem, c.rows * c.cols * c.lays * sizeof(T));
     }
 }
 
-template< typename eT >
+template< typename T >
 inline
-grid3D< eT >::grid3D(grid3D< eT >&& c)
+grid3D< T >::grid3D(grid3D< T >&& c)
     : rows(c.rows)
     , cols(c.cols)
     , lays(c.lays)
 {
-    eT* tmp = mem;
+    T* tmp = mem;
     mem     = c.mem;
     c.mem   = tmp;
 }
 
-template< typename eT >
+template< typename T >
 inline
-grid3D< eT >::~grid3D()
+grid3D< T >::~grid3D()
 {
     delete [] mem;
 }
 
-template< typename eT >
+template< typename T >
 inline
-const grid3D< eT >& grid3D< eT >::operator=(const grid3D< eT >& c)
+const grid3D< T >& grid3D< T >::operator=(const grid3D< T >& c)
 {
     if ( *this == &c )
     {
@@ -139,19 +139,19 @@ const grid3D< eT >& grid3D< eT >::operator=(const grid3D< eT >& c)
     delete [] mem;
     
     size_t cap  = rows * cols * lays;
-    mem         = new eT[cap];
+    mem         = new T[cap];
     
     if (cap > 0)
     {
-        memcpy(mem, c.mem, cap * sizeof(eT));
+        memcpy(mem, c.mem, cap * sizeof(T));
     }
     
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-const grid3D< eT >& grid3D< eT >::operator=(grid3D< eT >&& c)
+const grid3D< T >& grid3D< T >::operator=(grid3D< T >&& c)
 {
     if ( *this == &c )
     {
@@ -162,23 +162,23 @@ const grid3D< eT >& grid3D< eT >::operator=(grid3D< eT >&& c)
     cols = c.cols;
     lays = c.lays;
     
-    eT* tmp = mem;
+    T* tmp = mem;
     mem     = c.mem;
     c.mem   = tmp;
     
     return *this;
 }
 
-template< typename eT >
+template< typename T >
 inline
-eT& grid3D< eT >::operator()(const size_t& r, const size_t& c, const size_t& l)
+T& grid3D< T >::operator()(const size_t& r, const size_t& c, const size_t& l)
 {
     return mem[rows * cols * l + cols * c + r];
 }
 
-template< typename eT >
+template< typename T >
 inline
-const eT& grid3D< eT >::operator()(const size_t& r, const size_t& c, const size_t& l) const
+const T& grid3D< T >::operator()(const size_t& r, const size_t& c, const size_t& l) const
 {
     return mem[rows * cols * l + cols * c + r];
 }
@@ -195,7 +195,7 @@ std::ostream& operator<<(std::ostream& o, const grid3D< S >& c)
     auto format = std::fixed;
     
     // reduce size for integers
-    if (is_float< S >::value == false && is_double< S >::value == false && is_ldouble< S >::value == false)
+    if ( !same_type< S, float >::value && !same_type< S, double >::value && !same_type< S, long double >::value )
     {
         width = 5;
     }
@@ -214,7 +214,7 @@ std::ostream& operator<<(std::ostream& o, const grid3D< S >& c)
                     width   = 11;
                     format  = std::fixed;
                     
-                    if (is_float< S >::value == false && is_double< S >::value == false && is_ldouble< S >::value == false)
+                    if ( !same_type< S, float >::value && !same_type< S, double >::value && !same_type< S, long double >::value )
                     {
                         width = 6;
                     }
@@ -225,7 +225,7 @@ std::ostream& operator<<(std::ostream& o, const grid3D< S >& c)
                     width   = 12;
                     format  = std::fixed;
                     
-                    if (is_float< S >::value == false && is_double< S >::value == false && is_ldouble< S >::value == false)
+                    if ( !same_type< S, float >::value && !same_type< S, double >::value && !same_type< S, long double >::value )
                     {
                         width = 7;
                     }
@@ -236,7 +236,7 @@ std::ostream& operator<<(std::ostream& o, const grid3D< S >& c)
                     width   = 14;
                     format  = std::scientific;
                     
-                    if (is_float< S >::value == false && is_double< S >::value == false && is_ldouble< S >::value == false)
+                    if ( !same_type< S, float >::value && !same_type< S, double >::value && !same_type< S, long double >::value )
                     {
                         width = 10;
                     }

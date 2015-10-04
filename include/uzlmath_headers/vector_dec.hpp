@@ -28,7 +28,7 @@ UZLMATH_BEGIN
  *              mathematical purposes.
  *
  *
- * @tparam      eT An element type which represents a number that provides all common
+ * @tparam      T An element type which represents a number that provides all common
  *              mathmatical operations.
  *
  * @since       0.1.1
@@ -36,7 +36,7 @@ UZLMATH_BEGIN
  * @author      Denis-Michael Lux <denis.lux@icloud.com>
  * @date        30.05.15
  */
-template< typename eT >
+template< typename T >
 class vector
 {
     size_t   inj;         //!< Index for injection
@@ -46,77 +46,77 @@ public:
     const size_t   size;  //!< size of vector
     const vec_type type;  //!< type of vector
     
-    const eT* mem;        //!< vector data
+    const T* mem;        //!< vector data
     
     // methods
     inline                               vector();
     inline                               vector(const size_t& s, const vec_type& t = vec_type::ROW);
-    inline                               vector(const size_t& s, const eT& initial, const vec_type& t = vec_type::ROW /*! default type */);
-    inline                               vector(const vector< eT >& vec);
-    inline                               vector(const vector< eT >& vec, const vec_type& t);
-    inline                               vector(vector< eT >&& vec);
+    inline                               vector(const size_t& s, const T& initial, const vec_type& t = vec_type::ROW /*! default type */);
+    inline                               vector(const vector< T >& vec);
+    inline                               vector(const vector< T >& vec, const vec_type& t);
+    inline                               vector(vector< T >&& vec);
     inline                              ~vector();
     
-    inline       vector< eT >            operator+(const vector< eT >& v);
-    inline       vector< eT >            operator-(const vector< eT >& v);
-    inline       matrix< eT >            operator*(const vector< eT >& v);
-    inline       vector< eT >            operator/(const vector< eT >& v);
-    inline       vector< eT >            operator%(const vector< eT >& v);
+    inline       vector< T >             operator+(const vector< T >& v);
+    inline       vector< T >             operator-(const vector< T >& v);
+    inline       matrix< T >             operator*(const vector< T >& v);
+    inline       vector< T >             operator/(const vector< T >& v);
+    inline       vector< T >             operator%(const vector< T >& v);
     
-    inline       vector< complex< eT > > operator+(const vector< complex< eT > >& v);
-    inline       vector< complex< eT > > operator-(const vector< complex< eT > >& v);
-    inline       matrix< complex< eT > > operator*(const vector< complex< eT > >& v);
-    inline       vector< complex< eT > > operator/(const vector< complex< eT > >& v);
-    inline       vector< complex< eT > > operator%(const vector< complex< eT > >& v);
+    inline       vector< complex< T > >  operator+(const vector< complex< T > >& v);
+    inline       vector< complex< T > >  operator-(const vector< complex< T > >& v);
+    inline       matrix< complex< T > >  operator*(const vector< complex< T > >& v);
+    inline       vector< complex< T > >  operator/(const vector< complex< T > >& v);
+    inline       vector< complex< T > >  operator%(const vector< complex< T > >& v);
     
-    inline       vector< eT >            operator+(const eT& s);
-    inline       vector< eT >            operator-(const eT& s);
-    inline       vector< eT >            operator*(const eT& s);
-    inline       vector< eT >            operator/(const eT& s);
+    inline       vector< T >             operator+(const T& s);
+    inline       vector< T >             operator-(const T& s);
+    inline       vector< T >             operator*(const T& s);
+    inline       vector< T >             operator/(const T& s);
     
-    inline       vector< complex< eT > > operator+(const complex< eT >& s);
-    inline       vector< complex< eT > > operator-(const complex< eT >& s);
-    inline       vector< complex< eT > > operator*(const complex< eT >& s);
-    inline       vector< complex< eT > > operator/(const complex< eT >& s);
+    inline       vector< complex< T > >  operator+(const complex< T >& s);
+    inline       vector< complex< T > >  operator-(const complex< T >& s);
+    inline       vector< complex< T > >  operator*(const complex< T >& s);
+    inline       vector< complex< T > >  operator/(const complex< T >& s);
     
-    inline       vector< eT >            operator+();
-    inline       vector< eT >            operator-();
+    inline       vector< T >             operator+();
+    inline       vector< T >             operator-();
     
-    inline       vector< eT >            operator*(const matrix< eT >& mat);
-    inline       vector< complex< eT > > operator*(const matrix< complex< eT > >& mat);
+    inline       vector< T >             operator*(const matrix< T >& mat);
+    inline       vector< complex< T > >  operator*(const matrix< complex< T > >& mat);
     
-    inline       bool                    operator>(const vector< eT >& v);
-    inline       bool                    operator<(const vector< eT >& v);
+    inline       bool                    operator>(const vector< T >& v);
+    inline       bool                    operator<(const vector< T >& v);
     
-    inline const vector< eT >&           operator=(const vector< eT >& v);
-    inline const vector< eT >&           operator=(vector< eT >&& v);
+    inline const vector< T >&            operator=(const vector< T >& v);
+    inline const vector< T >&            operator=(vector< T >&& v);
     
-    inline const vector< eT >&           operator+=(const vector< eT >& v);
-    inline const vector< eT >&           operator-=(const vector< eT >& v);
-    inline const vector< eT >&           operator/=(const vector< eT >& v);
-    inline const vector< eT >&           operator%=(const vector< eT >& v);
-    inline const vector< eT >&           operator*=(const vector< eT >& v);
+    inline const vector< T >&            operator+=(const vector< T >& v);
+    inline const vector< T >&            operator-=(const vector< T >& v);
+    inline const vector< T >&            operator/=(const vector< T >& v);
+    inline const vector< T >&            operator%=(const vector< T >& v);
+    inline const vector< T >&            operator*=(const vector< T >& v);
     
-    inline const vector< eT >&           operator+=(const eT& s);
-    inline const vector< eT >&           operator-=(const eT& s);
-    inline const vector< eT >&           operator*=(const eT& s);
-    inline const vector< eT >&           operator/=(const eT& s);
+    inline const vector< T >&            operator+=(const T& s);
+    inline const vector< T >&            operator-=(const T& s);
+    inline const vector< T >&            operator*=(const T& s);
+    inline const vector< T >&            operator/=(const T& s);
     
-    inline       bool                    operator==(const vector< eT >& v);
-    inline       bool                    operator!=(const vector< eT >& v);
-    inline       bool                    operator>=(const vector< eT >& v);
-    inline       bool                    operator<=(const vector< eT >& v);
+    inline       bool                    operator==(const vector< T >& v);
+    inline       bool                    operator!=(const vector< T >& v);
+    inline       bool                    operator>=(const vector< T >& v);
+    inline       bool                    operator<=(const vector< T >& v);
     
-    inline       eT&                     operator[](const size_t& idx);
-    inline const eT&                     operator[](const size_t& idx) const;
+    inline       T&                      operator[](const size_t& idx);
+    inline const T&                      operator[](const size_t& idx) const;
     
-    inline       eT&                     operator()(const size_t& idx);
-    inline const eT&                     operator()(const size_t& idx) const;
+    inline       T&                      operator()(const size_t& idx);
+    inline const T&                      operator()(const size_t& idx) const;
     
     inline       void                    ones();
     inline       void                    zeros();
     inline       void                    transpose();
-    inline       void                    fill(const eT& s);
+    inline       void                    fill(const T& s);
     
 };
 

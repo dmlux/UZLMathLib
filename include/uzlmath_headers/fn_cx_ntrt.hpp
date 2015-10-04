@@ -27,7 +27,7 @@ UZLMATH_BEGIN
  * @param[in]   c A complex number, that can represent a real number by specifing 
  *              only the real part of the complex number.
  * @param[in]   n The \f$n\f$-th root is calculated.
- * @tparam      eT An element type which represents a number that provides all common
+ * @tparam      T An element type which represents a number that provides all common
  *              mathmatical operations.
  *
  * @return      The \f$n\f$-th root as an complex numbers.
@@ -39,30 +39,30 @@ UZLMATH_BEGIN
  *
  * @ingroup     complex
  */
-template< typename eT >
+template< typename T >
 inline
-complex< eT > cx_ntrt(const complex< eT >& c, const int n)
+complex< T > cx_ntrt(const complex< T >& c, const int n)
 {
-    complex< eT > com;
+    complex< T > com;
     
-    eT r = c.abs();
-    eT t = c.arg();
+    T r = c.abs();
+    T t = c.arg();
     
-    if (is_double< eT >::value == true)
+    if ( same_type< T, double >::value )
     {
         com.polar(pow( r, 1/static_cast< double >(n)), t/static_cast< double >(n));
     }
-    else if (is_float< eT >::value == true)
+    else if ( same_type< T, float >::value )
     {
         com.polar(powf(r, 1/static_cast< float >(n)), t/static_cast< float >(n));
     }
-    else if (is_ldouble< eT >::value == true)
+    else if ( same_type< T, long double >::value )
     {
         com.polar(powl(r, 1/static_cast< long double >(n)), t/static_cast< long double >(n));
     }
     else
     {
-        com.polar(static_cast< eT >(pow(r, 1/static_cast< double >(n))), static_cast< eT >(t/static_cast< double >(n)));
+        com.polar(static_cast< T >(pow(r, 1/static_cast< double >(n))), static_cast< T >(t/static_cast< double >(n)));
     }
     
     return com;

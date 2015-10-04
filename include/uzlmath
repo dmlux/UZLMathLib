@@ -42,7 +42,6 @@
 /*- Class prototypes             -*/
 #include "uzlmath_headers/constants.hpp"
 #include "uzlmath_headers/access.hpp"
-#include "uzlmath_headers/array_dec.hpp"
 #include "uzlmath_headers/base_dec.hpp"
 #include "uzlmath_headers/complex_dec.hpp"
 #include "uzlmath_headers/grid3D_dec.hpp"
@@ -55,9 +54,10 @@
 #include "uzlmath_headers/soft_fourier_coefficients.hpp"
 #include "uzlmath_headers/stopwatch.hpp"
 #include "uzlmath_headers/vector_dec.hpp"
+#include "uzlmath_headers/rand_dist.hpp"
+#include "uzlmath_headers/random.hpp"
 
 /*- Class implementations        -*/
-#include "uzlmath_headers/array_def.hpp"
 #include "uzlmath_headers/base_def.hpp"
 #include "uzlmath_headers/complex_def.hpp"
 #include "uzlmath_headers/grid3D_def.hpp"

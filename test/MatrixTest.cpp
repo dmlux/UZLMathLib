@@ -55,10 +55,10 @@ TEST(MatrixTest, M_N_init_Constructor)
     size_t m = 5;
     size_t n = 4;
     
-    typedef double eT;
+    typedef double T;
     
-    eT initial = 3.14;
-    matrix< eT > A(m, n, initial);
+    T initial = 3.14;
+    matrix< T > A(m, n, initial);
     
     // check bounds
     ASSERT_EQ(A.rows, m);

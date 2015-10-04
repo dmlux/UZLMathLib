@@ -30,7 +30,7 @@ UZLMATH_NAMESPACE(FourierTransforms)
  *                  input sequence \f$X\f$ of size \f$n\f$.
  *                  signal.
  *
- * @tparam          eT An element type which represents a number that provides all common
+ * @tparam          T An element type which represents a number that provides all common
  *                  mathmatical operations.
  *
  * @param[in, out]  vec The complex vector that is supposed to be transformed.
@@ -51,9 +51,9 @@ UZLMATH_NAMESPACE(FourierTransforms)
  * @date            23.06.15
  * 
  */
-template< typename eT >
+template< typename T >
 inline
-auto DFT(vector< eT >& vec, eT scale = eT(1, 0)) -> typename uzl_void_cx_num_only< eT >::result
+auto DFT(vector< T >& vec, T scale = T(1, 0)) -> typename uzl_void_cx_num_only< T >::result
 {
     if (vec.size == 0)
     {
@@ -66,7 +66,7 @@ auto DFT(vector< eT >& vec, eT scale = eT(1, 0)) -> typename uzl_void_cx_num_onl
     
     // create array of given real data
     size_t i;
-    if (is_double< eT >::value == true)
+    if ( same_type< T, double >::value )
     {
         // If the POD type is double we can just cast the
         // complex array to an double because memory layout
@@ -90,7 +90,7 @@ auto DFT(vector< eT >& vec, eT scale = eT(1, 0)) -> typename uzl_void_cx_num_onl
     uzl_fftw_DFT(vec.size, inOut);
     
     // copy transformed values into given vector
-    if (is_double< eT >::value == false)
+    if ( different_type< T, double >::value )
     {
         for (i = 0; i < vec.size; ++i)
         {
@@ -124,7 +124,7 @@ auto DFT(vector< eT >& vec, eT scale = eT(1, 0)) -> typename uzl_void_cx_num_onl
  *                  input sequence \f$X\f$ of size \f$n\f$.
  *                  signal.
  *
- * @tparam          eT An element type which represents a number that provides all common
+ * @tparam          T An element type which represents a number that provides all common
  *                  mathmatical operations.
  *
  * @param[in, out]  vec The complex vector that is supposed to be transformed.
@@ -145,9 +145,9 @@ auto DFT(vector< eT >& vec, eT scale = eT(1, 0)) -> typename uzl_void_cx_num_onl
  * @date            23.06.15
  *
  */
-template< typename eT >
+template< typename T >
 inline
-auto DFT(vector< eT >& vec, complex< double > scale = complex< double >(1, 0)) -> typename uzl_vec_cx_dbl_real_num_only< eT >::result
+auto DFT(vector< T >& vec, complex< double > scale = complex< double >(1, 0)) -> typename uzl_vec_cx_dbl_real_num_only< T >::result
 {
     if (vec.size == 0)
     {
@@ -195,7 +195,7 @@ auto DFT(vector< eT >& vec, complex< double > scale = complex< double >(1, 0)) -
  *                  where \f$X(k)\f$ is the Fourier transformed sequence and \f$x(j)\f$
  *                  the input sequence of size \f$N\f$
  *
- * @tparam          eT An element type which represents a number that provides all common
+ * @tparam          T An element type which represents a number that provides all common
  *                  mathmatical operations.
  * @param[in, out]  mat The matrix that is supposed to be fourier transformed.
  * @param[in]       scale The scaling factor for the matrix elements. Each element of
@@ -216,9 +216,9 @@ auto DFT(vector< eT >& vec, complex< double > scale = complex< double >(1, 0)) -
  *
  * @todo            Direct cast complex matrix memory into double pointer
  */
-template< typename eT >
+template< typename T >
 inline
-auto DFT2(matrix< complex< eT > >& mat, complex< eT > scale = complex< eT >(1, 0)) -> typename uzl_void_real_num_only< eT >::result
+auto DFT2(matrix< complex< T > >& mat, complex< T > scale = complex< T >(1, 0)) -> typename uzl_void_real_num_only< T >::result
 {
     // make fft array
     double* fftInOut = new double[mat.rows * mat.cols * 2];
@@ -236,7 +236,7 @@ auto DFT2(matrix< complex< eT > >& mat, complex< eT > scale = complex< eT >(1, 0
     // translate back into complex matrix
     for (i = 0; i < mat.rows * mat.cols; ++i)
     {
-        complex< eT > comp(fftInOut[i * 2], fftInOut[i * 2 + 1]);
+        complex< T > comp(fftInOut[i * 2], fftInOut[i * 2 + 1]);
         mat.mem[i] = scale * comp;
     }
     
@@ -254,7 +254,7 @@ auto DFT2(matrix< complex< eT > >& mat, complex< eT > scale = complex< eT >(1, 0
  *                  where \f$x(k)\f$ is the input sequence and \f$X(j)\f$
  *                  the Fourier transformed sequence of size \f$N\f$
  *
- * @tparam          eT An element type which represents a number that provides all common
+ * @tparam          T An element type which represents a number that provides all common
  *                  mathmatical operations.
  * @param[in, out]  mat The matrix that is supposed to be inverse fourier transformed.
  * @param[in]       scale The scaling factor for the matrix elements. Each element of
@@ -275,9 +275,9 @@ auto DFT2(matrix< complex< eT > >& mat, complex< eT > scale = complex< eT >(1, 0
  *
  * @todo            Direct cast complex matrix memory into double pointer
  */
-template< typename eT >
+template< typename T >
 inline
-auto IDFT2(matrix< complex< eT > >& mat, complex< eT > scale = complex< eT >(1,0)) -> typename uzl_void_real_num_only< eT >::result
+auto IDFT2(matrix< complex< T > >& mat, complex< T > scale = complex< T >(1,0)) -> typename uzl_void_real_num_only< T >::result
 {
     // make fft array
     double fftInOut[mat.rows * mat.cols * 2];
@@ -295,8 +295,8 @@ auto IDFT2(matrix< complex< eT > >& mat, complex< eT > scale = complex< eT >(1,0
     // translate back into complex matrix
     for (i = 0; i < mat.rows * mat.cols; ++i)
     {
-        complex< eT > comp(fftInOut[i * 2], fftInOut[i * 2 + 1]);
-        mat.mem[i] = scale * complex< eT >(1.0 / (mat.rows * mat.cols), 0) * comp;
+        complex< T > comp(fftInOut[i * 2], fftInOut[i * 2 + 1]);
+        mat.mem[i] = scale * complex< T >(1.0 / (mat.rows * mat.cols), 0) * comp;
     }
 }
 
