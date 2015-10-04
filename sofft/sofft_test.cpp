@@ -297,7 +297,7 @@ int main(int argc, const char ** argv)
     }
     
     int B = atoi(*(argv + 1));
-//    for_back(B, false);
+    for_back(B, false);
 //
 //    matrix< double > wig = DWT::wigner_d_matrix(5, 1, 2);
 //    
@@ -325,21 +325,21 @@ int main(int argc, const char ** argv)
 //    
 //    rand(fc, urd);
     
-    matrix< complex< double > > matA(128, 256);
-    vector< complex< double > > vecA(256, vec_type::COLUMN);
-    
-    rand(matA, -1, 1);
-    rand(vecA, -1, 1);
-    
-    stopwatch sw = sw.tic();
-    matA *= vecA;
-    double time1 = sw.toc_seconds();
-
-    std::cout << "Multiplication time für A(128, 256) * B(256, 1): " << time1 << "s" << std::endl;
-    
-#pragma omp parallel for num_threads(4)
-    for (int i = 0; i < 100; ++i);
-    
+//    matrix< complex< double > > matA(1024, 2048);
+//    vector< complex< double > > vecA(2048, vec_type::COLUMN);
+//    
+//    rand(matA, -1, 1);
+//    rand(vecA, -1, 1);
+//    
+//    stopwatch sw = sw.tic();
+//    matA *= vecA;
+//    double time1 = sw.toc_seconds();
+//
+//    std::cout << "Multiplication time für A(1024, 2048) * B(2048, 1): " << time1 << "s" << std::endl;
+//    
+//#pragma omp parallel for num_threads(4)
+//    for (int i = 0; i < 100; ++i);
+//    
     
     
     return 0;

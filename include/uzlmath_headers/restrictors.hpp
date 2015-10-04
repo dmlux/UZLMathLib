@@ -42,16 +42,6 @@ template<>             struct uzl_void_real_num_only< float >                   
 template<>             struct uzl_void_real_num_only< double >                  { typedef void result;                          };
 template<>             struct uzl_void_real_num_only< long double >             { typedef void result;                          };
 
-// Real integral for return type void
-template< typename T > struct uzl_void_real_int_only                            {                                               };
-template<>             struct uzl_void_real_int_only< short >                   { typedef void result;                          };
-template<>             struct uzl_void_real_int_only< int >                     { typedef void result;                          };
-template<>             struct uzl_void_real_int_only< long >                    { typedef void result;                          };
-template<>             struct uzl_void_real_int_only< long long >               { typedef void result;                          };
-template<>             struct uzl_void_real_int_only< unsigned short >          { typedef void result;                          };
-template<>             struct uzl_void_real_int_only< unsigned int >            { typedef void result;                          };
-template<>             struct uzl_void_real_int_only< unsigned long >           { typedef void result;                          };
-
 // Complex numbers for return type void
 template< typename T > struct uzl_void_cx_num_only                              {                                               };
 template<>             struct uzl_void_cx_num_only< complex< short > >          { typedef void result;                          };
@@ -91,19 +81,6 @@ template<>             struct uzl_int_rand_dist_type< float >                   
 template<>             struct uzl_int_rand_dist_type< double >                  { typedef long result;                          };
 template<>             struct uzl_int_rand_dist_type< long double >             { typedef long long result;                     };
 
-// Real random dist types
-template< typename T > struct uzl_real_rand_dist_type                           { typedef float result;                         };
-template<>             struct uzl_real_rand_dist_type< short >                  { typedef float result;                         };
-template<>             struct uzl_real_rand_dist_type< int >                    { typedef float result;                         };
-template<>             struct uzl_real_rand_dist_type< long >                   { typedef double result;                        };
-template<>             struct uzl_real_rand_dist_type< long long >              { typedef long double result;                   };
-template<>             struct uzl_real_rand_dist_type< unsigned short >         { typedef float result;                         };
-template<>             struct uzl_real_rand_dist_type< unsigned int >           { typedef float result;                         };
-template<>             struct uzl_real_rand_dist_type< unsigned long >          { typedef double result;                        };
-template<>             struct uzl_real_rand_dist_type< float >                  { typedef float result;                         };
-template<>             struct uzl_real_rand_dist_type< double >                 { typedef double result;                        };
-template<>             struct uzl_real_rand_dist_type< long double >            { typedef long double result;                   };
-
 // Integral type restrictors returning boolean values
 template< typename T > struct dist_is_integral                                  { static const bool value = false;              };
 template<>             struct dist_is_integral< short >                         { static const bool value = true;               };
@@ -114,21 +91,9 @@ template<>             struct dist_is_integral< unsigned short >                
 template<>             struct dist_is_integral< unsigned int >                  { static const bool value = true;               };
 template<>             struct dist_is_integral< unsigned long >                 { static const bool value = true;               };
 
-// Real type restrictors returning boolean values
-template< typename T > struct dist_is_real                                      { static const bool value = false;              };
-template<>             struct dist_is_real< float >                             { static const bool value = true;               };
-template<>             struct dist_is_real< double >                            { static const bool value = true;               };
-template<>             struct dist_is_real< long double >                       { static const bool value = true;               };
-
 // Normal distribution
 template< typename T > struct is_normal_distribution                             { static const bool value = false;             };
 template< typename T > struct is_normal_distribution< normal_distribution< T > > { static const bool value = true;              };
-
-template< typename T > struct is_uniform_int_distribution                                   { static const bool value = false;  };
-template< typename T > struct is_uniform_int_distribution< uniform_int_distribution< T > >  { static const bool value = true;   };
-
-template< typename T > struct is_uniform_real_distribution                                   { static const bool value = false; };
-template< typename T > struct is_uniform_real_distribution< uniform_real_distribution< T > > { static const bool value = true;  };
 
 /*!
  * @}

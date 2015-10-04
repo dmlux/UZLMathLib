@@ -195,7 +195,7 @@ std::ostream& operator<<(std::ostream& o, const grid3D< S >& c)
     auto format = std::fixed;
     
     // reduce size for integers
-    if ( !same_type< S, float >::value && !same_type< S, double >::value && !same_type< S, long double >::value )
+    if ( different_type< S, float >::value && different_type< S, double >::value && different_type< S, long double >::value )
     {
         width = 5;
     }
@@ -214,7 +214,7 @@ std::ostream& operator<<(std::ostream& o, const grid3D< S >& c)
                     width   = 11;
                     format  = std::fixed;
                     
-                    if ( !same_type< S, float >::value && !same_type< S, double >::value && !same_type< S, long double >::value )
+                    if ( different_type< S, float >::value && different_type< S, double >::value && different_type< S, long double >::value )
                     {
                         width = 6;
                     }
@@ -225,7 +225,7 @@ std::ostream& operator<<(std::ostream& o, const grid3D< S >& c)
                     width   = 12;
                     format  = std::fixed;
                     
-                    if ( !same_type< S, float >::value && !same_type< S, double >::value && !same_type< S, long double >::value )
+                    if ( different_type< S, float >::value && different_type< S, double >::value && different_type< S, long double >::value )
                     {
                         width = 7;
                     }
@@ -236,7 +236,7 @@ std::ostream& operator<<(std::ostream& o, const grid3D< S >& c)
                     width   = 14;
                     format  = std::scientific;
                     
-                    if ( !same_type< S, float >::value && !same_type< S, double >::value && !same_type< S, long double >::value )
+                    if ( different_type< S, float >::value && different_type< S, double >::value && different_type< S, long double >::value )
                     {
                         width = 10;
                     }

@@ -49,8 +49,8 @@ grid3D< complex< T > >::grid3D(const size_t& rows, const size_t& cols, const siz
     , cols(cols)
     , lays(lays)
 {
-    size_t cap  = rows * cols * lays;
-    mem         = new complex< T >[cap];
+    size_t cap = rows * cols * lays;
+    mem        = new complex< T >[cap];
     
     if (cap > 0)
     {
@@ -115,8 +115,8 @@ grid3D< complex< T > >::grid3D(const grid3D< T >& c)
     , cols(c.cols)
     , lays(c.lays)
 {
-    size_t i, cap   = rows * cols * lays;
-    mem             = new complex< T >[cap];
+    size_t i, cap = rows * cols * lays;
+    mem           = new complex< T >[cap];
     
     if (cap > 0)
     {
@@ -134,8 +134,8 @@ grid3D< complex< T > >::grid3D(const grid3D< complex< T > >& c)
     , cols(c.cols)
     , lays(c.lays)
 {
-    size_t cap  = rows * cols * lays;
-    mem         = new complex< T >[cap];
+    size_t cap = rows * cols * lays;
+    mem        = new complex< T >[cap];
     
     if (cap > 0)
     {
@@ -151,8 +151,8 @@ grid3D< complex< T > >::grid3D(grid3D< complex< T > >&& c)
     , lays(c.lays)
 {
     complex< T >* tmp = mem;
-    mem                = c.mem;
-    c.mem              = tmp;
+    mem               = c.mem;
+    c.mem             = tmp;
 }
 
 template< typename T >
@@ -213,8 +213,8 @@ const grid3D< complex< T > >& grid3D< complex< T > >::operator=(grid3D< complex<
     lays = c.lays;
     
     complex< T >* tmp = mem;
-    mem                = c.mem;
-    c.mem              = tmp;
+    mem               = c.mem;
+    c.mem             = tmp;
 }
 
 template< typename T >
@@ -288,7 +288,7 @@ void grid3D< complex< T > >::layer_wise_DFT2(const complex< double >& scale)
     }
     
     // free allocated memory
-    if ( !same_type< T, double >::value )
+    if ( different_type< T, double >::value )
     {
         delete [] data;
     }
