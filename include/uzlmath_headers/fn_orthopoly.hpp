@@ -14,7 +14,7 @@
 UZLMATH_NAMESPACE(orthoPoly)
 
 // Legendre polynome for x of degree n
-auto legendre(const int& n, const double& x) -> const double;
+double legendre(const int& n, const double& x);
 
 UZLMATH_NAMESPACE_END
 

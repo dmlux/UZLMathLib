@@ -81,19 +81,11 @@ template<>             struct uzl_int_rand_dist_type< float >                   
 template<>             struct uzl_int_rand_dist_type< double >                  { typedef long result;                          };
 template<>             struct uzl_int_rand_dist_type< long double >             { typedef long long result;                     };
 
-// Integral type restrictors returning boolean values
-template< typename T > struct dist_is_integral                                  { static const bool value = false;              };
-template<>             struct dist_is_integral< short >                         { static const bool value = true;               };
-template<>             struct dist_is_integral< int >                           { static const bool value = true;               };
-template<>             struct dist_is_integral< long >                          { static const bool value = true;               };
-template<>             struct dist_is_integral< long long >                     { static const bool value = true;               };
-template<>             struct dist_is_integral< unsigned short >                { static const bool value = true;               };
-template<>             struct dist_is_integral< unsigned int >                  { static const bool value = true;               };
-template<>             struct dist_is_integral< unsigned long >                 { static const bool value = true;               };
-
-// Normal distribution
-template< typename T > struct is_normal_distribution                             { static const bool value = false;             };
-template< typename T > struct is_normal_distribution< normal_distribution< T > > { static const bool value = true;              };
+// Uniform real dist types
+template< typename T > struct uzl_uniform_real_dist_only                                                {                       };
+template<>             struct uzl_uniform_real_dist_only< uniform_real_distribution< float > >          { typedef void result;  };
+template<>             struct uzl_uniform_real_dist_only< uniform_real_distribution< double > >         { typedef void result;  };
+template<>             struct uzl_uniform_real_dist_only< uniform_real_distribution< long double > >    { typedef void result;  };
 
 /*!
  * @}

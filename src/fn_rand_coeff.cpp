@@ -29,11 +29,11 @@ UZLMATH_BEGIN
  *
  * @since           0.1.1
  */
-auto rand(SOFTFourierCoefficients& fc, const double& min, const double& max) -> void
+void rand(DSOFTFourierCoefficients& fc, const double& min, const double& max)
 {
     if (min > max)
     {
-        uzlmath_warning("%s", "min value is greater than max value in rand function for SOFTFourierCoefficients.");
+        uzlmath_warning("%s", "min value is greater than max value in rand function for DSOFTFourierCoefficients.");
         return;
     }
     

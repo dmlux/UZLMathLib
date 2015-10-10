@@ -53,7 +53,7 @@ UZLMATH_NAMESPACE(FourierTransforms)
  */
 template< typename T >
 inline
-auto DFT(vector< T >& vec, T scale = T(1, 0)) -> typename uzl_void_cx_num_only< T >::result
+typename uzl_void_cx_num_only< T >::result DFT(vector< T >& vec, T scale = T(1, 0))
 {
     if (vec.size == 0)
     {
@@ -147,7 +147,7 @@ auto DFT(vector< T >& vec, T scale = T(1, 0)) -> typename uzl_void_cx_num_only< 
  */
 template< typename T >
 inline
-auto DFT(vector< T >& vec, complex< double > scale = complex< double >(1, 0)) -> typename uzl_vec_cx_dbl_real_num_only< T >::result
+typename uzl_vec_cx_dbl_real_num_only< T >::result DFT(vector< T >& vec, complex< double > scale = complex< double >(1, 0))
 {
     if (vec.size == 0)
     {
@@ -218,7 +218,7 @@ auto DFT(vector< T >& vec, complex< double > scale = complex< double >(1, 0)) ->
  */
 template< typename T >
 inline
-auto DFT2(matrix< complex< T > >& mat, complex< T > scale = complex< T >(1, 0)) -> typename uzl_void_real_num_only< T >::result
+typename uzl_void_real_num_only< T >::result DFT2(matrix< complex< T > >& mat, complex< T > scale = complex< T >(1, 0))
 {
     // make fft array
     double* fftInOut = new double[mat.rows * mat.cols * 2];
@@ -277,7 +277,7 @@ auto DFT2(matrix< complex< T > >& mat, complex< T > scale = complex< T >(1, 0)) 
  */
 template< typename T >
 inline
-auto IDFT2(matrix< complex< T > >& mat, complex< T > scale = complex< T >(1,0)) -> typename uzl_void_real_num_only< T >::result
+typename uzl_void_real_num_only< T >::result IDFT2(matrix< complex< T > >& mat, complex< T > scale = complex< T >(1,0))
 {
     // make fft array
     double fftInOut[mat.rows * mat.cols * 2];
@@ -301,10 +301,10 @@ auto IDFT2(matrix< complex< T > >& mat, complex< T > scale = complex< T >(1,0)) 
 }
 
 // Forward fast Fourier transform on SO(3)
-auto DSOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int threads = UZL_MAX_THREADS) -> void;
+void DSOFT(grid3D< complex< double > > sample, DSOFTFourierCoefficients& fc, int threads = UZL_MAX_THREADS);
 
 // Inverse fast Fourier transform on SO(3)
-auto IDSOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis, int threads = UZL_MAX_THREADS) -> void;
+void IDSOFT(const DSOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis, int threads = UZL_MAX_THREADS);
 
 UZLMATH_NAMESPACE_END
 

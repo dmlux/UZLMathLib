@@ -47,7 +47,7 @@ UZLMATH_NAMESPACE(DWT)
  * @author      Denis-Michael Lux <denis.lux@icloud.com>
  * @date        03.05.15
  */
-auto quadrature_weights(const int& bandwidth) -> vector< double >
+vector< double > quadrature_weights(const int& bandwidth)
 {
     vector< double > w(2 * bandwidth);
     
@@ -89,7 +89,7 @@ auto quadrature_weights(const int& bandwidth) -> vector< double >
  * @author      Denis-Michael Lux <denis.lux@icloud.com>
  * @date        03.05.15
  */
-auto weighted_wigner_d_matrix(const int& bandwidth, const int& M, const int& Mp, const vector< double >& weights) -> matrix< double >
+matrix< double > weighted_wigner_d_matrix(const int& bandwidth, const int& M, const int& Mp, const vector< double >& weights)
 {
     // Definition of used indices and the matrix that will be returned
     int i, j;
@@ -221,7 +221,7 @@ auto weighted_wigner_d_matrix(const int& bandwidth, const int& M, const int& Mp,
  * @see         wigner::wigner_d
  * @see         wigner::wigner_d_l2normalized
  */
-auto wigner_d_matrix(const int& bandwidth, const int& M, const int& Mp) -> matrix< double >
+matrix< double > wigner_d_matrix(const int& bandwidth, const int& M, const int& Mp)
 {
     // Definition of used indices and the matrix that will be returned
     int i, j;

@@ -72,7 +72,7 @@ UZLMATH_NAMESPACE(wigner)
  * @author      Denis-Michael Lux <denis.lux@icloud.com>
  * @date        12.01.15
  */
-auto wigner_d(const int& J, const int& M, const int& Mp, const double& beta) -> double
+double wigner_d(const int& J, const int& M, const int& Mp, const double& beta)
 {
     // undefined values
     if (M == 0 && Mp == 0)
@@ -167,7 +167,7 @@ auto wigner_d(const int& J, const int& M, const int& Mp, const double& beta) -> 
  * @author      Denis-Michael Lux <denis.lux@icloud.com>
  * @date        12.01.15
  */
-auto wigner_d_l2normalized(const int& J, const int& M, const int& Mp, const double& beta) -> double
+double wigner_d_l2normalized(const int& J, const int& M, const int& Mp, const double& beta)
 {
     if ( !(-J <= abs(M) && abs(Mp) <= J) )
     {
@@ -212,7 +212,7 @@ auto wigner_d_l2normalized(const int& J, const int& M, const int& Mp, const doub
  * @author      Denis-Michael Lux <denis.lux@icloud.com>
  * @date        12.01.15
  */
-auto wigner_D(const int& J, const int& M, const int& Mp, const double& alpha, const double& beta, const double& gamma) -> const complex< double >
+const complex< double > wigner_D(const int& J, const int& M, const int& Mp, const double& alpha, const double& beta, const double& gamma)
 {
     if ( !(-J <= abs(M) && abs(Mp) <= J) )
     {
@@ -263,7 +263,7 @@ auto wigner_D(const int& J, const int& M, const int& Mp, const double& alpha, co
  * @author      Denis-Michael Lux <denis.lux@icloud.com>
  * @date        15.05.15
  */
-auto wigner_D_l2normalized(const int& J, const int& M, const int& Mp, const double& alpha, const double& beta, const double& gamma) -> const complex< double >
+const complex< double > wigner_D_l2normalized(const int& J, const int& M, const int& Mp, const double& alpha, const double& beta, const double& gamma)
 {
     if ( !(-J <= abs(M) && abs(Mp) <= J) )
     {

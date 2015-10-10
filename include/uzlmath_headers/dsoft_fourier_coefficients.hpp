@@ -8,15 +8,15 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef UZLMathLib_soft_fourier_coefficients_hpp
-#define UZLMathLib_soft_fourier_coefficients_hpp
+#ifndef UZLMathLib_dsoft_fourier_coefficients_hpp
+#define UZLMathLib_dsoft_fourier_coefficients_hpp
 
 UZLMATH_BEGIN
 
 /*!
  * @brief       Collection of functions and classes for SOFT Fourier coefficients
  *              container
- * @defgroup    SOFTFourierCoefficients SOFT Fourier coefficients container
+ * @defgroup    DSOFTFourierCoefficients SOFT Fourier coefficients container
  * @{
  */
 
@@ -35,7 +35,7 @@ UZLMATH_BEGIN
  * @author      Denis-Michael Lux <denis.lux@icloud.com>
  * @date        05.05.15
  */
-struct SOFTFourierCoefficients
+struct DSOFTFourierCoefficients
 {
 private:
     matrix< complex< double > >* mem; //!< Coefficients storage
@@ -45,21 +45,21 @@ public:
     const int bandwidth;              //!< Bandwidth of function
     
     // constructors
-    SOFTFourierCoefficients();
-    SOFTFourierCoefficients(int bandlimit);
+    DSOFTFourierCoefficients();
+    DSOFTFourierCoefficients(int bandlimit);
     
     // destructor
-    ~SOFTFourierCoefficients();
+    ~DSOFTFourierCoefficients();
     
     // methods
           complex< double >&            operator()(const int& l, const int& M, const int& Mp);
     const complex< double >&            operator()(const int& l, const int& M, const int& Mp) const;
     
-    friend std::ostream& operator<<(std::ostream& o, const SOFTFourierCoefficients& fc);
+    friend std::ostream& operator<<(std::ostream& o, const DSOFTFourierCoefficients& fc);
 };
 
 // prototype for the overloaded stream operator
-std::ostream& operator<<(std::ostream& o, const SOFTFourierCoefficients& fc);
+std::ostream& operator<<(std::ostream& o, const DSOFTFourierCoefficients& fc);
 
 /*!
  * @}

@@ -13,8 +13,8 @@
 
 UZLMATH_BEGIN
 
-// Saves a SOFTFourierCoefficients container on disk
-auto obj2file(const SOFTFourierCoefficients& coef, const std::string& fileName) -> void;
+// Saves a DSOFTFourierCoefficients container on disk
+void obj2file(const DSOFTFourierCoefficients& coef, const std::string& fileName);
 
 UZLMATH_END
 

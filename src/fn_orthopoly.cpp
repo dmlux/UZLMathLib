@@ -46,7 +46,7 @@ UZLMATH_NAMESPACE(orthoPoly)
  *
  * @since       0.0.1
  */
-auto legendre(const int& n, const double& x) -> const double
+double legendre(const int& n, const double& x)
 {
     // illegal values
     if (n < 0)

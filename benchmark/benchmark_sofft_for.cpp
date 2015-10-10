@@ -36,6 +36,7 @@ int main(int argc, const char** argv)
     // write to file
     FILE* fp  = fopen("benchmark_DSOFT_for.txt", "w");
     FILE* fp2 = fopen("DSOFT_forward.dat", "w");
+    FILE* fp3 = fopen("DSOFT_runtimes.dat", "w");
     
 #ifdef _OPENMP
     // print some information
@@ -75,13 +76,28 @@ int main(int argc, const char** argv)
     fprintf(fp, "+=====+===========+===================================+===================================+\n");
     fprintf(fp, "|  B  | average   | fastest run (dif. to avg / %%dif)  | slowest run (dif. to avg / %%dif)  |\n");
     fprintf(fp, "+=====+===========+===================================+===================================+\n");
+#endif
     
     fprintf(fp2, "bandwidth\truntime\n");
-#endif
+    fprintf(fp3, "bandwidth\t");
+    
+    for (unsigned int i = 0; i < LOOP_R; ++i)
+    {
+        fprintf(fp3, "serial%i\t", i+1);
+    }
+    
+    for (unsigned int i = 0; i < LOOP_R; ++i)
+    {
+        fprintf(fp3, "parallel%i\t", i+1);
+    }
+    
+    fprintf(fp3, "\n");
     
     // loop over all bandwidth up to MAX_BW
     for (unsigned int bandwidth = START_BW; bandwidth <= MAX_BW; ++bandwidth)
     {
+        
+        fprintf(fp3, "%i\t", bandwidth);
         
         // create a grid to fill with values
         grid3D< complex< double > > sample(2 * bandwidth);
@@ -90,8 +106,8 @@ int main(int argc, const char** argv)
         unsigned int i;
         
         // creating fourier coefficients container
-        SOFTFourierCoefficients coef(bandwidth);
-        SOFTFourierCoefficients rec_coef(bandwidth);
+        DSOFTFourierCoefficients coef(bandwidth);
+        DSOFTFourierCoefficients rec_coef(bandwidth);
         
         // generate random coefficients between -1 and 1
         rand(coef, -1, 1);
@@ -109,9 +125,12 @@ int main(int argc, const char** argv)
         double serial_ref = 0;
         for (int i = 0; i < LOOP_R; ++i)
         {
+            double serial_before = serial_ref;
             stopwatch sw = stopwatch::tic();
             DSOFT(sample, rec_coef, 1);  // setting threads explicitly to 1
             serial_ref += sw.toc();
+            
+            fprintf(fp3, "%.6f\t", serial_ref - serial_before);
         }
         serial_ref /= LOOP_R;
 #endif
@@ -143,7 +162,11 @@ int main(int argc, const char** argv)
                 min = (time < min ? time : min);
                 max = (time > max ? time : max);
             }
+            
+            fprintf(fp3, "%.6f\t", time);
         }
+        
+        fprintf(fp3, "\n");
         
         // get average execution time
         double avg = times / LOOP_R;
@@ -178,7 +201,7 @@ int main(int argc, const char** argv)
         fprintf(fp, "   %2.2f   |", (serial_ref / max));
         fprintf(fp, "    %2.2f    |\n", (serial_ref / (omp_get_max_threads() * max)));
         
-        fprintf(fp2, "%d\t\t%15f\t\t%15f\t\t%15f\t\t%15f\n", bandwidth, avg, serial_ref, (serial_ref / max), (serial_ref / (omp_get_max_threads() * max)));
+        fprintf(fp2, "%d\t\t%15f\t\t%15f\t\t%15f\t\t%15f\n", bandwidth, avg, serial_ref, (serial_ref / avg), (serial_ref / (omp_get_max_threads() * avg)));
 #else
         printf("\n");
         fprintf(fp, "\n");
@@ -199,5 +222,6 @@ int main(int argc, const char** argv)
     // close files
     fclose(fp);
     fclose(fp2);
+    fclose(fp3);
 }
 

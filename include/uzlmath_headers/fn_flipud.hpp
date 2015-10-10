@@ -31,7 +31,7 @@ UZLMATH_BEGIN
  */
 template< typename T >
 inline
-auto flipud(matrix< T >& mat) -> typename uzl_void_real_num_only< T >::result
+typename uzl_void_real_num_only< T >::result flipud(matrix< T >& mat)
 {
     // define indices
     size_t j, k;
@@ -72,7 +72,7 @@ auto flipud(matrix< T >& mat) -> typename uzl_void_real_num_only< T >::result
  */
 template< typename T >
 inline
-auto flipud_ne2ndecol(matrix< T >& mat) -> typename uzl_void_real_num_only< T >::result
+typename uzl_void_real_num_only< T >::result flipud_ne2ndecol(matrix< T >& mat)
 {
     // define indices
     size_t j, k;
@@ -122,7 +122,7 @@ auto flipud_ne2ndecol(matrix< T >& mat) -> typename uzl_void_real_num_only< T >:
  */
 template< typename T >
 inline
-auto flipud_ne2ndocol(matrix< T >& mat) -> typename uzl_void_real_num_only< T >::result
+typename uzl_void_real_num_only< T >::result flipud_ne2ndocol(matrix< T >& mat)
 {
     // define indices
     size_t j, k;
@@ -170,7 +170,7 @@ auto flipud_ne2ndocol(matrix< T >& mat) -> typename uzl_void_real_num_only< T >:
  */
 template< typename T >
 inline
-auto flipud(matrix< complex< T > >& mat) -> typename uzl_void_real_num_only< T >::result
+typename uzl_void_real_num_only< T >::result flipud(matrix< complex< T > >& mat)
 {
     // define indices
     size_t j, k;

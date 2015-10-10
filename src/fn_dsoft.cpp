@@ -52,7 +52,7 @@ UZLMATH_NAMESPACE(FourierTransforms)
  *
  * @sa              DWT::quadrature_weights
  * @sa              DWT::wigner_d_matrix
- * @sa              SOFTFourierCoefficients
+ * @sa              DSOFTFourierCoefficients
  * @sa              complex
  * @sa              matrix
  * @sa              grid3D
@@ -64,7 +64,7 @@ UZLMATH_NAMESPACE(FourierTransforms)
  *
  * @since           0.0.1
  */
-auto DSOFT(grid3D< complex< double > > sample, SOFTFourierCoefficients& fc, int threads) -> void
+void DSOFT(grid3D< complex< double > > sample, DSOFTFourierCoefficients& fc, int threads)
 {
     /*****************************************************************
      ** Check parameters                                            **

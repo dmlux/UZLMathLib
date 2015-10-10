@@ -34,7 +34,7 @@ template< typename T >                  class  array;
                                         class  factorial;
                                         class  stopwatch;
 
-                                        struct SOFTFourierCoefficients;
+                                        struct DSOFTFourierCoefficients;
 
 template< typename pod_type, typename derived > struct randctx;
 template< typename T, typename A = void >       struct uniform_int_distribution;

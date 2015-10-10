@@ -34,7 +34,7 @@ UZLMATH_BEGIN
  */
 template< typename T >
 inline
-auto randi(matrix< T >& mat, const int& min, const int& max) -> typename uzl_void_real_num_only< T >::result
+typename uzl_void_real_num_only< T >::result randi(matrix< T >& mat, const int& min, const int& max)
 {
     if (min > max)
     {
@@ -87,7 +87,7 @@ auto randi(matrix< T >& mat, const int& min, const int& max) -> typename uzl_voi
  */
 template< typename T >
 inline
-auto randi(matrix< complex< T > >& mat, const int& min, const int& max) -> typename uzl_void_real_num_only< T >::result
+typename uzl_void_real_num_only< T >::result randi(matrix< complex< T > >& mat, const int& min, const int& max)
 {
     if (min > max)
     {
@@ -143,7 +143,7 @@ auto randi(matrix< complex< T > >& mat, const int& min, const int& max) -> typen
  */
 template< typename T >
 inline
-auto rand(matrix< T >& mat, const double& min, const double& max) -> typename uzl_void_real_only< T >::result
+typename uzl_void_real_only< T >::result rand(matrix< T >& mat, const double& min, const double& max)
 {
     if (min > max)
     {
@@ -198,7 +198,7 @@ auto rand(matrix< T >& mat, const double& min, const double& max) -> typename uz
  */
 template< typename T >
 inline
-auto rand(matrix< complex< T > >& mat, const double& min, const double& max) -> typename uzl_void_real_only< T >::result
+typename uzl_void_real_only< T >::result rand(matrix< complex< T > >& mat, const double& min, const double& max)
 {
     if (min > max)
     {

@@ -42,6 +42,27 @@ template<>             struct is_complex< complex< float > >            { static
 template<>             struct is_complex< complex< double > >           { static const bool value = true;   };
 template<>             struct is_complex< complex< long double > >      { static const bool value = true;   };
 
+// check if template is true
+template< bool T, typename U = void > struct is_true                    {                                   };
+template< typename U >                struct is_true< true, U >         { typedef U type;                   };
+
+// check if type is real
+template< typename T > struct is_real_type                              { static const bool value = false;  };
+template<>             struct is_real_type< float >                     { static const bool value = true;   };
+template<>             struct is_real_type< double >                    { static const bool value = true;   };
+template<>             struct is_real_type< long double >               { static const bool value = true;   };
+
+// check if type is integral
+template< typename T > struct is_integral_type                          { static const bool value = false;  };
+template<>             struct is_integral_type< short >                 { static const bool value = true;   };
+template<>             struct is_integral_type< int >                   { static const bool value = true;   };
+template<>             struct is_integral_type< long >                  { static const bool value = true;   };
+template<>             struct is_integral_type< long long >             { static const bool value = true;   };
+template<>             struct is_integral_type< unsigned short >        { static const bool value = true;   };
+template<>             struct is_integral_type< unsigned int >          { static const bool value = true;   };
+template<>             struct is_integral_type< unsigned long >         { static const bool value = true;   };
+template<>             struct is_integral_type< unsigned long long >    { static const bool value = true;   };
+
 /*!
  * @}
  */

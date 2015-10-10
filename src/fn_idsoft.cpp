@@ -47,7 +47,7 @@ UZLMATH_NAMESPACE(FourierTransforms)
  * @param[out]      synthesis The synthesized sample for the given Fourier coefficients.
  *
  * @sa              DWT::wigner_d_matrix
- * @sa              SOFTFourierCoefficients
+ * @sa              DSOFTFourierCoefficients
  * @sa              FourierTransforms::SOFT
  * @sa              complex
  * @sa              matrix
@@ -60,7 +60,7 @@ UZLMATH_NAMESPACE(FourierTransforms)
  * @author          Denis-Michael Lux <denis.lux@icloud.com>
  * @date            23.05.2015
  */
-auto IDSOFT(const SOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis, int threads) -> void
+void IDSOFT(const DSOFTFourierCoefficients& fc, grid3D< complex< double > >& synthesis, int threads)
 {
     /*****************************************************************
      ** Check parameters                                            **

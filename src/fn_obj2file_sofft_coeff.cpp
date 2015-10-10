@@ -25,9 +25,9 @@ UZLMATH_BEGIN
  * @param[in]       fileName The file name where the coefficients are getting written
  *                  to.
  *
- * @ingroup         SOFTFourierCoefficients
+ * @ingroup         DSOFTFourierCoefficients
  */
-auto obj2file(const SOFTFourierCoefficients& coef, const std::string& fileName) -> void
+void obj2file(const DSOFTFourierCoefficients& coef, const std::string& fileName)
 {
     // create file and open it with write flag
     FILE* fp = fopen(fileName.c_str(), "w");

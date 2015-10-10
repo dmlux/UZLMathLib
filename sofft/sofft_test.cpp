@@ -23,7 +23,7 @@ complex< double > f(const double& alpha, const double& beta, const double& gamma
         + complex< double >(1, -9.731)      * wigner::wigner_D_l2normalized(1,  0,  0, -alpha, -beta, -gamma)
         + complex< double >(13, 0)          * wigner::wigner_D_l2normalized(2,  1,  0, -alpha, -beta, -gamma)
         + complex< double >(8.423, 0)       * wigner::wigner_D_l2normalized(2,  0,  2, -alpha, -beta, -gamma)
-        + complex<double>(1.8312, -9.8372)  * wigner::wigner_D_l2normalized(2,  0,  0, -alpha, -beta, -gamma);
+        + complex< double >(1.8312, -9.8372)* wigner::wigner_D_l2normalized(2,  0,  0, -alpha, -beta, -gamma);
 }
 
 void createGridSOFT(unsigned int B)
@@ -113,7 +113,7 @@ void for_back_file(const char* fileName, unsigned int bandwidth, bool show_coefs
     double time = sw.toc();
     
     // creating fourier coefficients container
-    SOFTFourierCoefficients coef(bandwidth);
+    DSOFTFourierCoefficients coef(bandwidth);
     
     // perform forward SOFT transform
     sw = stopwatch::tic();
@@ -168,8 +168,8 @@ void for_back(unsigned int bandwidth, bool show_coefs)
     grid3D< complex< double > > sample(2 * bandwidth);
     
     // creating fourier coefficients container
-    SOFTFourierCoefficients coef(bandwidth);
-    SOFTFourierCoefficients rec_coef(bandwidth);
+    DSOFTFourierCoefficients coef(bandwidth);
+    DSOFTFourierCoefficients rec_coef(bandwidth);
     
     rand(coef, -1, 1);
     
@@ -240,14 +240,14 @@ void for_back(unsigned int bandwidth, bool show_coefs)
 void test_sofft_for_bandwidth(int B)
 {
     grid3D< complex< double > > grid(2 * B, 0);
-    SOFTFourierCoefficients fc(B);
+    DSOFTFourierCoefficients fc(B);
     
     // filling grid with custom wigners given in f
-    for (int k = 0; k < 2 * B; ++k)
+    for (int i = 0; i < 2 * B; ++i)
     {
-        for (int i = 0; i < 2 * B; ++i)
+        for (int j = 0; j < 2 * B; ++j)
         {
-            for (int j = 0; j < 2 * B; ++j)
+            for (int k = 0; k < 2 * B; ++k)
             {
                 grid(i, j, k) = f((2*M_PI*j)/(2*B), (M_PI * (2.0 * k + 1.0)) / (4.0 * B), (2*M_PI*i)/(2*B));
             }
@@ -258,35 +258,31 @@ void test_sofft_for_bandwidth(int B)
     
     printf("Spatial to spectral (DSOFT) for Bandwidth %d.\n\n", B);
     
+    int cnt = 0;
+    
     for (int i = 0; i < B; ++i)
     {
+        if (cnt == 1000)
+            break;
+        
         for (int j = -i; j <= i; ++j)
         {
+            if (cnt == 1000)
+                break;
+            
             for (int k = -i; k <= i; ++k)
             {
+                if (cnt == 1000)
+                    break;
+                
                 // Here the coefficients are printed out on the console
                 printf("l=%4d, M=%4d, M'=%4d:    %s%.4f%s%.4f\n", i,  j, k, (fc(i,j,k).re < 0 ? "-" : " "), std::abs(fc(i,j,k).re), (fc(i,j,k).im < 0 ? " - " : " + "), std::abs(fc(i,j,k).im));
+                
+                cnt++;
             }
         }
     }
 }
-
-//template< typename pod_type, typename T >
-//void test_randctx(const randctx< pod_type, T > ctx)
-//{
-//    if (is_normal_distribution< T >::value == true)
-//    {
-//        printf("\nOK war ne Normalverteilung...\n");
-//    }
-//    else if (is_uniform_distribution< T >::value == true)
-//    {
-//        printf("\nOK war ne diskrete Gleichverteilung...\n");
-//    }
-//    else
-//    {
-//        printf("\nHmmm... war keine bekannte Verteilung...\n");
-//    }
-//}
 
 int main(int argc, const char ** argv)
 {
@@ -315,32 +311,20 @@ int main(int argc, const char ** argv)
 //    uid.engine = random_engine::MERSENNE_TWISTER;
 //    uid.min = 1;
 //    uid.max = 4;
-//    
-//    uniform_real_distribution< double > urd;
-//    urd.engine = random_engine::MERSENNE_TWISTER64;
-//    urd.min = -2;
-//    urd.max = 2.342;
-//    
-//    SOFTFourierCoefficients fc(3);
-//    
-//    rand(fc, urd);
     
-//    matrix< complex< double > > matA(1024, 2048);
-//    vector< complex< double > > vecA(2048, vec_type::COLUMN);
-//    
-//    rand(matA, -1, 1);
-//    rand(vecA, -1, 1);
-//    
-//    stopwatch sw = sw.tic();
-//    matA *= vecA;
-//    double time1 = sw.toc_seconds();
-//
-//    std::cout << "Multiplication time für A(1024, 2048) * B(2048, 1): " << time1 << "s" << std::endl;
-//    
-//#pragma omp parallel for num_threads(4)
-//    for (int i = 0; i < 100; ++i);
-//    
+    uniform_real_distribution< double > urd;
+    urd.engine = random_engine::MERSENNE_TWISTER64;
+    urd.min = -2;
+    urd.max = 2.342;
     
+    uniform_int_distribution< int > uid;
+    uid.engine = random_engine::MERSENNE_TWISTER64;
+    uid.min = -1;
+    uid.max = +4;
+    
+    DSOFTFourierCoefficients fc(3);
+    
+    rand(fc, urd);
     
     return 0;
 }

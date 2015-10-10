@@ -14,16 +14,16 @@
 UZLMATH_NAMESPACE(wigner)
 
 // Wigner-d function
-auto wigner_d(const int& J, const int& M, const int& Mp, const double& beta) -> double;
+double wigner_d(const int& J, const int& M, const int& Mp, const double& beta);
 
 // L^2 normalized Wiger-d function
-auto wigner_d_l2normalized(const int& J, const int& M, const int& Mp, const double& beta) -> double;
+double wigner_d_l2normalized(const int& J, const int& M, const int& Mp, const double& beta);
 
 // Wigner-D function
-auto wigner_D(const int& J, const int& M, const int& Mp, const double& alpha, const double& beta, const double& gamma) -> const complex< double >;
+const complex< double > wigner_D(const int& J, const int& M, const int& Mp, const double& alpha, const double& beta, const double& gamma);
 
 // L^2 normalized Wigner-D function
-auto wigner_D_l2normalized(const int& J, const int& M, const int& Mp, const double& alpha, const double& beta, const double& gamma) -> const complex< double >;
+const complex< double > wigner_D_l2normalized(const int& J, const int& M, const int& Mp, const double& alpha, const double& beta, const double& gamma);
 
 UZLMATH_NAMESPACE_END
 

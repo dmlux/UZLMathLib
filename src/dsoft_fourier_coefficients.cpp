@@ -1,5 +1,5 @@
 //
-//  soft_fourier_coefficients.cpp
+//  dsoft_fourier_coefficients.cpp
 //  UZLMathLib
 //
 //  Created by Denis-Michael Lux on 18.06.15.
@@ -8,8 +8,8 @@
 //  of the BSD license. See the LICENSE file for details.
 //
 
-#ifndef UZLMathLib_SOFTFourierCoefficients_cpp
-#define UZLMathLib_SOFTFourierCoefficients_cpp
+#ifndef UZLMathLib_dsoft_fourier_coefficients_cpp
+#define UZLMathLib_dsoft_fourier_coefficients_cpp
 
 #include <uzlmath>
 
@@ -20,14 +20,14 @@ UZLMATH_BEGIN
  * @details         Constructs a Fourier coefficients container that is
  *                  empty
  */
-SOFTFourierCoefficients::SOFTFourierCoefficients()
+DSOFTFourierCoefficients::DSOFTFourierCoefficients()
     : mem(nullptr)
     , bandwidth(0)
 {}
 
 
 /*!
- * @brief           Constructor for a SOFTFourierCoefficients container
+ * @brief           Constructor for a DSOFTFourierCoefficients container
  * @details         Creating and allocating memory for Fourier coefficents
  *                  for a SOFT which is described in the paper "FFT's on
  *                  the rotation group". This container is memory manager
@@ -36,7 +36,7 @@ SOFTFourierCoefficients::SOFTFourierCoefficients()
  * @param[in]       bandlimit The bandlimit of the function which coefficients
  *                  are supposed to be stored in this coefficient container.
  */
-SOFTFourierCoefficients::SOFTFourierCoefficients(int bandlimit)
+DSOFTFourierCoefficients::DSOFTFourierCoefficients(int bandlimit)
     : bandwidth(bandlimit)
 {
     mem  = new matrix< complex< double > >[bandlimit];
@@ -48,16 +48,16 @@ SOFTFourierCoefficients::SOFTFourierCoefficients(int bandlimit)
 }
 
 /*!
- * @brief           Destructor for the SOFTFourierCoefficients manager
+ * @brief           Destructor for the DSOFTFourierCoefficients manager
  * @details         Frees the memory that is allocated for the coefficents.
  */
-SOFTFourierCoefficients::~SOFTFourierCoefficients()
+DSOFTFourierCoefficients::~DSOFTFourierCoefficients()
 {
     delete [] mem;
 }
 
 /*!
- * @brief           Accessor operator for the SOFTFourierCoefficients manager
+ * @brief           Accessor operator for the DSOFTFourierCoefficients manager
  * @details         Makes the memory for the coefficents accessable by using
  *                  degree and orders.
  *
@@ -68,11 +68,11 @@ SOFTFourierCoefficients::~SOFTFourierCoefficients()
  * @return          Pointer to memory of fourier coefficient with degree \f$l\f$
  *                  and orders \f$M\f$ and \f$M'\f$
  */
-complex< double >& SOFTFourierCoefficients::operator()(const int& l, const int& M, const int& Mp)
+complex< double >& DSOFTFourierCoefficients::operator()(const int& l, const int& M, const int& Mp)
 {
     if (M > l || Mp > l || M < -l || Mp < -l)
     {
-        uzlmath_error("%s", "illegal parameter configuration for SOFTFourierCoefficients access. M > l, M < -l, Mp < -l or Mp > l.");
+        uzlmath_error("%s", "illegal parameter configuration for DSOFTFourierCoefficients access. M > l, M < -l, Mp < -l or Mp > l.");
     }
     
     // if M or Mp are negative count from behind
@@ -83,7 +83,7 @@ complex< double >& SOFTFourierCoefficients::operator()(const int& l, const int& 
 }
 
 /*!
- * @brief           Accessor operator for the SOFTFourierCoefficients manager
+ * @brief           Accessor operator for the DSOFTFourierCoefficients manager
  * @details         Makes the memory for the coefficents readable by using
  *                  degree and orders.
  *
@@ -94,11 +94,11 @@ complex< double >& SOFTFourierCoefficients::operator()(const int& l, const int& 
  * @return          The value of fourier coefficient with degree \f$l\f$
  *                  and orders \f$M\f$ and \f$M'\f$
  */
-const complex< double >& SOFTFourierCoefficients::operator()(const int& l, const int& M, const int& Mp) const
+const complex< double >& DSOFTFourierCoefficients::operator()(const int& l, const int& M, const int& Mp) const
 {
     if (M > l || Mp > l || M < -l || Mp < -l)
     {
-        uzlmath_error("%s", "illegal parameter configuration for SOFTFourierCoefficients access. M > l, M < -l, Mp < -l or Mp > l.");
+        uzlmath_error("%s", "illegal parameter configuration for DSOFTFourierCoefficients access. M > l, M < -l, Mp < -l or Mp > l.");
     }
     
     // if M or Mp are negative count from behind
@@ -109,16 +109,16 @@ const complex< double >& SOFTFourierCoefficients::operator()(const int& l, const
 }
 
 /*!
- * @brief           Outstream operator overload for SOFTFourierCoefficients.
+ * @brief           Outstream operator overload for DSOFTFourierCoefficients.
  * @details         The out-steam operator is used to print the coefficents in
  *                  a nice form over the std::cout stream.
  * 
  * @param[in,out]   o The stream object
- * @param[in]       fc The SOFTFourierCoefficients manager
+ * @param[in]       fc The DSOFTFourierCoefficients manager
  *
  * @return          The reference to the given out-stream.
  */
-std::ostream& operator<<(std::ostream& o, const SOFTFourierCoefficients& fc)
+std::ostream& operator<<(std::ostream& o, const DSOFTFourierCoefficients& fc)
 {
     std::ios::fmtflags f( std::cout.flags() );
     o << std::endl << std::setprecision(4);

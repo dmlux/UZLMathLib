@@ -31,7 +31,7 @@ UZLMATH_BEGIN
  */
 template< typename T >
 inline
-auto fliplr(matrix< T >& mat) -> typename uzl_void_real_num_only< T >::result
+typename uzl_void_real_num_only< T >::result fliplr(matrix< T >& mat)
 {
     // define indices
     size_t j, k;
@@ -73,7 +73,7 @@ auto fliplr(matrix< T >& mat) -> typename uzl_void_real_num_only< T >::result
  */
 template< typename T >
 inline
-auto fliplr_ne2nderow(matrix< T >& mat) -> typename uzl_void_real_num_only< T >::result
+typename uzl_void_real_num_only< T >::result fliplr_ne2nderow(matrix< T >& mat)
 {
     // define indices
     size_t j, k;
@@ -123,7 +123,7 @@ auto fliplr_ne2nderow(matrix< T >& mat) -> typename uzl_void_real_num_only< T >:
  */
 template< typename T >
 inline
-auto fliplr_ne2ndorow(matrix< T >& mat) -> typename uzl_void_real_num_only< T >::result
+typename uzl_void_real_num_only< T >::result fliplr_ne2ndorow(matrix< T >& mat)
 {
     // define indices
     size_t j, k;
@@ -171,7 +171,7 @@ auto fliplr_ne2ndorow(matrix< T >& mat) -> typename uzl_void_real_num_only< T >:
  */
 template< typename T >
 inline
-auto fliplr(matrix< complex< T > >& mat) -> typename uzl_void_real_num_only< T >::result
+typename uzl_void_real_num_only< T >::result fliplr(matrix< complex< T > >& mat)
 {
     // define indices
     size_t j, k;

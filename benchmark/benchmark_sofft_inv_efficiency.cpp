@@ -94,7 +94,7 @@ int main(int argc, const char** argv)
         unsigned int i, threads;
         
         // creating fourier coefficients container
-        SOFTFourierCoefficients coef(bandwidth);
+        DSOFTFourierCoefficients coef(bandwidth);
         
         // generate random coefficients between -1 and 1
         rand(coef, -1, 1);
