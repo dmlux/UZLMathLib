@@ -75,6 +75,120 @@ double legendre(const int& n, const double& x)
     return prev;
 }
 
+/*!
+ * @brief       Calculates the associated legendre polynomials needed
+ *              To calculate the spherical harmonics
+ */
+double assoc_legendre(const int& l, const int& m, const double& x)
+{
+    if ( l < m || l < abs(m) )
+    {
+        uzlmath_warning("%s", "Order l of associated legendre polynomial is greater degree |m|!");
+        return 0.0;
+    }
+    
+    // indices
+    int i, pos_m = abs(m);
+    
+    // get signs of polyonmial
+    double sign = 1;
+    
+    // correct sign for negative m. If m is negative
+    // The aboslute value of m is taken for the poly-
+    // nomial calculation and a scalar is muliplied
+    // with the polyonmial. The factor is given by
+    //
+    //  (-1)^m * (l - m)!/(l + m)!
+    //
+    if ( m < 0 )
+    {
+        // calculate factorials
+        double lmm = 1;
+        for (i = 1; i <= l - pos_m; ++i)
+        {
+            lmm *= i;
+        }
+        
+        double lpm = 1;
+        for (i = 1; i <= l + pos_m; ++i)
+        {
+            lpm *= i;
+        }
+        
+        // update sign variable
+        sign *= (pos_m & 1 ? -1.0 : 1.0) * lmm / lpm;
+    }
+    
+    // *** Calculate PREPREV ***
+    //
+    // first get double factorial of (2m - 1). Then
+    // calculate the last scaling factor which is
+    // given by (1 - x^2)^(l / 2). At last multiply
+    // the scaling factor on the preprev variable
+    // which contains the product of the other terms.
+    // The initial PREPREV is defined as
+    //
+    //  (-1)^l * (2l - 1)!!(1 - x^2) ^ (l / 2)
+    //
+    double preprev = pos_m & 1 ? -1.0 : 1.0, scale = 1;
+    
+    for (i = 1; i <= 2 * pos_m - 1; i += 2)
+    {
+        preprev *= i;
+    }
+    
+    for (i = 0; i < pos_m; ++i)
+    {
+        scale *= 1.0 - x * x;
+    }
+    
+    preprev *= sqrt( scale );
+    
+    // *** Calculate PREV ***
+    //
+    // Calculate the previous recurrence value
+    // which is defined as
+    //
+    //  PREV = x * (2l + 1) * PREPREV
+    //
+    double prev = x * (2.0 * pos_m + 1.0) * preprev;
+    
+    
+    // *** Return values ***
+    //
+    // if pos_m == l we already have calculated the value in preprev
+    if ( pos_m == l )
+    {
+        return sign * preprev;
+    }
+    
+    // if pos_m == l + 1 we already have caculated the value in prev
+    else if ( pos_m == l + 1 )
+    {
+        return sign * prev;
+    }
+    
+    // *** Calculate three-term-recurrence ***
+    //
+    // now iterate until from m+2 until l is reaced
+    else
+    {
+        // start three-term-recurrence
+        for (i = pos_m + 2; i <= l; ++i)
+        {
+            // store current previous value
+            double tmp = prev;
+            
+            // shift values
+            prev = x * (2.0 * i - 1.0) / (i - pos_m) * prev - (i + pos_m - 1.0) / (i - pos_m) * preprev;
+            preprev = tmp;
+        }
+        
+        // return recurrence value
+        return sign * prev;
+    }
+}
+
 UZLMATH_NAMESPACE_END
 
 #endif

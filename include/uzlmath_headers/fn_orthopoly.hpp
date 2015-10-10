@@ -13,8 +13,11 @@
 
 UZLMATH_NAMESPACE(orthoPoly)
 
-// Legendre polynome for x of degree n
+// Legendre polynomial for x of degree n
 double legendre(const int& n, const double& x);
+
+// Associated Legendre polynomial
+double assoc_legendre(const int& l, const int& m, const double& x);
 
 UZLMATH_NAMESPACE_END
 

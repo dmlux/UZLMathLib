@@ -292,8 +292,8 @@ int main(int argc, const char ** argv)
         return 1;
     }
     
-    int B = atoi(*(argv + 1));
-    for_back(B, false);
+//    int B = atoi(*(argv + 1));
+//    for_back(B, false);
 //
 //    matrix< double > wig = DWT::wigner_d_matrix(5, 1, 2);
 //    
@@ -312,19 +312,30 @@ int main(int argc, const char ** argv)
 //    uid.min = 1;
 //    uid.max = 4;
     
-    uniform_real_distribution< double > urd;
-    urd.engine = random_engine::MERSENNE_TWISTER64;
-    urd.min = -2;
-    urd.max = 2.342;
+//    uniform_real_distribution< double > urd;
+//    urd.engine = random_engine::MERSENNE_TWISTER64;
+//    urd.min = -2;
+//    urd.max = 2.342;
+//    
+//    uniform_int_distribution< int > uid;
+//    uid.engine = random_engine::MERSENNE_TWISTER64;
+//    uid.min = -1;
+//    uid.max = +4;
+//    
+//    DSOFTFourierCoefficients fc(3);
+//    
+//    rand(fc, urd);
     
-    uniform_int_distribution< int > uid;
-    uid.engine = random_engine::MERSENNE_TWISTER64;
-    uid.min = -1;
-    uid.max = +4;
+    int l = 6, m = -5;
+    double x = constants< double >::pi / 6;
     
-    DSOFTFourierCoefficients fc(3);
+//    std::cout << spharmonics::Ylm(l, m, constants< double >::pi / 6, 0.25) << std::endl;
     
-    rand(fc, urd);
+    stopwatch sw = stopwatch::tic();
+    double result = orthoPoly::assoc_legendre(l, m, x);
+    double time = sw.toc_micros();
+    
+    std::cout << result << " in " << time << "micros" << std::endl;
     
     return 0;
 }

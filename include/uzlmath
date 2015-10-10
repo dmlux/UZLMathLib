@@ -84,5 +84,6 @@
 #include "uzlmath_headers/fn_rand_vector.hpp"
 #include "uzlmath_headers/fn_obj2file_grid3D.hpp"
 #include "uzlmath_headers/fn_obj2file_soft_coeff.hpp"
+#include "uzlmath_headers/fn_spherical_harmonics.hpp"
 
 #endif
