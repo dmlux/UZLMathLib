@@ -156,13 +156,13 @@ double assoc_legendre(const int& l, const int& m, const double& x)
     
     // *** Return values ***
     //
-    // if pos_m == l we already have calculated the value in preprev
+    // if l == pos_m we already have calculated the value in preprev
     if ( pos_m == l )
     {
         return sign * preprev;
     }
     
-    // if pos_m == l + 1 we already have caculated the value in prev
+    // if l == pos_m + 1 we already have caculated the value in prev
     else if ( pos_m == l + 1 )
     {
         return sign * prev;
@@ -170,7 +170,7 @@ double assoc_legendre(const int& l, const int& m, const double& x)
     
     // *** Calculate three-term-recurrence ***
     //
-    // now iterate until from m+2 until l is reaced
+    // now iterate from m+2 to l until l is reached
     else
     {
         // start three-term-recurrence
@@ -180,7 +180,7 @@ double assoc_legendre(const int& l, const int& m, const double& x)
             double tmp = prev;
             
             // shift values
-            prev = x * (2.0 * i - 1.0) / (i - pos_m) * prev - (i + pos_m - 1.0) / (i - pos_m) * preprev;
+            prev    = x * (2.0 * i - 1.0) / (i - pos_m) * prev - (i + pos_m - 1.0) / (i - pos_m) * preprev;
             preprev = tmp;
         }
         
