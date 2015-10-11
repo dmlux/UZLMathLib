@@ -326,13 +326,12 @@ int main(int argc, const char ** argv)
 //    
 //    rand(fc, urd);
     
-    int l = 6, m = -5;
+    int l = 100, m = -50;
     double x = constants< double >::pi / 6;
-    
-//    std::cout << spharmonics::Ylm(l, m, constants< double >::pi / 6, 0.25) << std::endl;
+    double y = constants< double >::pi / 3;
     
     stopwatch sw = stopwatch::tic();
-    double result = orthoPoly::assoc_legendre(l, m, x);
+    complex< double > result = spharmonics::Ylm(l, m, x, y);
     double time = sw.toc_micros();
     
     std::cout << result << " in " << time << "micros" << std::endl;

@@ -41,6 +41,8 @@ UZLMATH_NAMESPACE(orthoPoly)
  * @param[in]   n Degree \f$n\f$ of the polynome
  * @param[in]   x Value \f$x\f$ of the polynome
  *
+ * @return      The value of the legendre polynomial for n and x
+ *
  * @author      Denis-Michael Lux <denis.lux@icloud.com>
  * @date        12.01.15
  *
@@ -78,6 +80,39 @@ double legendre(const int& n, const double& x)
 /*!
  * @brief       Calculates the associated legendre polynomials needed
  *              To calculate the spherical harmonics
+ * @details     The associated legendre polynomials are defined by the
+ *              three-term-recurrence for \f$m\in\mathbb{Z}\f$,
+ *              \f$l\in\mathbb{N}_0\f$ and \f$l\geq m\f$ as followed
+ *              \f{eqnarray*}{
+ *                  P^m_l(x) := \frac{x(2l - 1)}{l-m}\cdot P^m_{l-1}(x) - \frac{l+m-1}{l-m}\cdot P^m_{l-2}(x).
+ *              \f}
+ *              where the recurrence is initialized by the following 
+ *              terms
+ *              \f{eqnarray*}{
+ *                  P^l_l(x) &:=& (-1)^l(2l - 1)!!(1-x^2)^{l/2}\\
+ *                  P^l_{l+1}(x) &:=& x(2l+1)\cdot P^l_l(x).
+ *              \f}
+ *              For negative m the associated legendre polynomials ared
+ *              defined as
+ *              \f{eqnarray*}{
+ *                  P^{-m}_l(x) &=& (-1)^m\frac{(l-m)!}{(l+m)!}P^m_l(x).
+ *              \f}
+ *              There are two notation conventions for the legendre
+ *              polynomial. 
+ *              \f{eqnarray*}{
+ *                  P_{lm}(x) = (-1)^mP^m_l(x).
+ *              \f}
+ *
+ * @param[in]   m Degree of associated legendre polynomial
+ * @param[in]   l Order of associated legendre polynomial
+ * @param[in]   x Value of associated legendre polynomial
+ *
+ * @return      The associated legendre for m, l and x
+ *
+ * @author      Denis-Michael Lux <denis.lux@icloud.com>
+ * @date        11.10.15
+ *
+ * @since       0.1.1
  */
 double assoc_legendre(const int& l, const int& m, const double& x)
 {
@@ -96,27 +131,25 @@ double assoc_legendre(const int& l, const int& m, const double& x)
     // correct sign for negative m. If m is negative
     // The aboslute value of m is taken for the poly-
     // nomial calculation and a scalar is muliplied
-    // with the polyonmial. The factor is given by
+    // with the polyonmial. The scalar is given by
     //
     //  (-1)^m * (l - m)!/(l + m)!
     //
     if ( m < 0 )
     {
         // calculate factorials
-        double lmm = 1;
-        for (i = 1; i <= l - pos_m; ++i)
-        {
-            lmm *= i;
-        }
-        
-        double lpm = 1;
         for (i = 1; i <= l + pos_m; ++i)
         {
-            lpm *= i;
+            sign /= i;
+        }
+        
+        for (i = 1; i <= l - pos_m; ++i)
+        {
+            sign *= i;
         }
         
         // update sign variable
-        sign *= (pos_m & 1 ? -1.0 : 1.0) * lmm / lpm;
+        sign *= (pos_m & 1 ? -1.0 : 1.0);
     }
     
     // *** Calculate PREPREV ***
@@ -128,7 +161,7 @@ double assoc_legendre(const int& l, const int& m, const double& x)
     // which contains the product of the other terms.
     // The initial PREPREV is defined as
     //
-    //  (-1)^l * (2l - 1)!!(1 - x^2) ^ (l / 2)
+    //  (-1)^l * (2l - 1)!! * (1 - x^2) ^ (l / 2)
     //
     double preprev = pos_m & 1 ? -1.0 : 1.0, scale = 1;
     
@@ -180,7 +213,7 @@ double assoc_legendre(const int& l, const int& m, const double& x)
             double tmp = prev;
             
             // shift values
-            prev    = x * (2.0 * i - 1.0) / (i - pos_m) * prev - (i + pos_m - 1.0) / (i - pos_m) * preprev;
+            prev    = x / (i - pos_m) * (2.0 * i - 1.0) * prev - (i + pos_m - 1.0) / (i - pos_m) * preprev;
             preprev = tmp;
         }
         
