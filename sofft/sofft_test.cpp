@@ -19,7 +19,8 @@ using namespace uzlmath;
 //uzlmath_deprecated
 complex< double > f(const double& alpha, const double& beta, const double& gamma)
 {
-    return complex< double >(-7.31, 0)      * wigner::wigner_D_l2normalized(2,  0,  -1, -alpha, -beta, -gamma)
+    return
+          complex< double >(-7.31, 0)       * wigner::wigner_D_l2normalized(2,  0, -1, -alpha, -beta, -gamma)
         + complex< double >(1, -9.731)      * wigner::wigner_D_l2normalized(1,  0,  0, -alpha, -beta, -gamma)
         + complex< double >(13, 0)          * wigner::wigner_D_l2normalized(2,  1,  0, -alpha, -beta, -gamma)
         + complex< double >(8.423, 0)       * wigner::wigner_D_l2normalized(2,  0,  2, -alpha, -beta, -gamma)
@@ -326,7 +327,7 @@ int main(int argc, const char ** argv)
 //    
 //    rand(fc, urd);
     
-    int l = 100, m = -50;
+    int l = 3, m = 0;
     double x = constants< double >::pi / 6;
     double y = constants< double >::pi / 3;
     
@@ -334,7 +335,7 @@ int main(int argc, const char ** argv)
     complex< double > result = spharmonics::Ylm(l, m, x, y);
     double time = sw.toc_micros();
     
-    std::cout << result << " in " << time << "micros" << std::endl;
+    std::cout << std::fixed << result.re << (result.im < 0 ? " - " : " + ") << std::abs(result.im) << " in " << time << "micros" << std::endl;
     
     return 0;
 }

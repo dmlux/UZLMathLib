@@ -210,11 +210,11 @@ double assoc_legendre(const int& l, const int& m, const double& x)
         for (i = pos_m + 2; i <= l; ++i)
         {
             // store current previous value
-            double tmp = prev;
+            double tmp  = prev;
             
             // shift values
-            prev    = x / (i - pos_m) * (2.0 * i - 1.0) * prev - (i + pos_m - 1.0) / (i - pos_m) * preprev;
-            preprev = tmp;
+            prev        = x / (i - pos_m) * (2.0 * i - 1.0) * prev - (i + pos_m - 1.0) / (i - pos_m) * preprev;
+            preprev     = tmp;
         }
         
         // return recurrence value
