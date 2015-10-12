@@ -293,8 +293,8 @@ int main(int argc, const char ** argv)
         return 1;
     }
     
-//    int B = atoi(*(argv + 1));
-//    for_back(B, false);
+    int B = atoi(*(argv + 1));
+    for_back(B, false);
 //
 //    matrix< double > wig = DWT::wigner_d_matrix(5, 1, 2);
 //    
@@ -327,15 +327,15 @@ int main(int argc, const char ** argv)
 //    
 //    rand(fc, urd);
     
-    int l = 3, m = 0;
-    double x = constants< double >::pi / 6;
-    double y = constants< double >::pi / 3;
-    
-    stopwatch sw = stopwatch::tic();
-    complex< double > result = spharmonics::Ylm(l, m, x, y);
-    double time = sw.toc_micros();
-    
-    std::cout << std::fixed << result.re << (result.im < 0 ? " - " : " + ") << std::abs(result.im) << " in " << time << "micros" << std::endl;
+//    int l = 3, m = 0;
+//    double x = constants< double >::pi / 6;
+//    double y = constants< double >::pi / 3;
+//    
+//    stopwatch sw = stopwatch::tic();
+//    complex< double > result = spharmonics::Ylm(l, m, x, y);
+//    double time = sw.toc_micros();
+//    
+//    std::cout << std::fixed << result.re << (result.im < 0 ? " - " : " + ") << std::abs(result.im) << " in " << time << "micros" << std::endl;
     
     return 0;
 }
