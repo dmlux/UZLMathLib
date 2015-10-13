@@ -88,7 +88,7 @@ int main(int argc, const char** argv)
     fprintf(fp3, "bandwidth\tserial\tthreads\t");
     for (int i = 0; i < LOOP_R; ++i)
     {
-        fprintf(fp3, "c%i\t", i);
+        fprintf(fp3, "c%i\t", i+1);
     }
     fprintf(fp3, "\n");
     
@@ -148,7 +148,7 @@ int main(int argc, const char** argv)
             fprintf(fp3, "\n");
         }
         
-        fprintf(fp2, "%3d\t%2.6fs\t", bandwidth, serial_ref);
+        fprintf(fp2, "%3d\t%2.6f\t", bandwidth, serial_ref);
         for (int i = 0; i < omp_get_max_threads() - 1; ++i)
         {
             fprintf(fp2, "%2.2f\t%2.6f\t", (serial_ref / (runtimes[i] / LOOP_R)), (runtimes[i] / LOOP_R));
@@ -183,6 +183,7 @@ int main(int argc, const char** argv)
     // close files
     fclose( fp  );
     fclose( fp2 );
+    fclose( fp3 );
     
     return 0;
 #else

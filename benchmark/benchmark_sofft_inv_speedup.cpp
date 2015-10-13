@@ -39,6 +39,7 @@ int main(int argc, const char** argv)
     // write to file
     FILE* fp  = fopen("benchmark_DSOFT_inv_speedup.txt", "w");
     FILE* fp2 = fopen("DSOFT_inverse_speedup.dat", "w");
+    FILE* fp3 = fopen("DSOFT_inverse_speedup_runtimes.dat", "w");
     
     // Print to console
     printf("+--------------------------------------------------------------------------------------+\n");
@@ -83,6 +84,13 @@ int main(int argc, const char** argv)
     for (int i = 0; i < omp_get_max_threads() - 1; ++i) { fprintf(fp2, "c%d\ttc%d\t", i + 2, i + 2); }
     fprintf(fp2, "\n");
     
+    fprintf(fp3, "bandwidth\tserial\tthreads\t");
+    for (int i = 0; i < LOOP_R; ++i)
+    {
+        fprintf(fp3, "c%i\t", i+1);
+    }
+    fprintf(fp3, "\n");
+    
     // run benchmark up to MAX_BW times
     for (int bandwidth = START_BW; bandwidth <= MAX_BW; ++bandwidth)
     {
@@ -119,6 +127,7 @@ int main(int argc, const char** argv)
         // run loop run for all number of available threads
         for (threads = 2; threads <= omp_get_max_threads(); ++threads)
         {
+            fprintf(fp3, "%i\t%3.6f\t%i\t", bandwidth, serial_ref, threads);
             // run the needed amount of loopruns
             for (i = 0; i < LOOP_R; ++i)
             {
@@ -128,11 +137,14 @@ int main(int argc, const char** argv)
                 IDSOFT(coef, sample, threads);
                 double time  = sw.toc();
                 
+                fprintf(fp3, "%3.6f\t", time);
+                
                 runtimes[threads - 2] += time;
             }
+            fprintf(fp3, "\n");
         }
         
-        fprintf(fp2, "%3d\t%2.6fs\t", bandwidth, serial_ref);
+        fprintf(fp2, "%3d\t%2.6f\t", bandwidth, serial_ref);
         for (int i = 0; i < omp_get_max_threads() - 1; ++i)
         {
             fprintf(fp2, "%2.2f\t%2.6f\t", (serial_ref / (runtimes[i] / LOOP_R)), (runtimes[i] / LOOP_R));
@@ -167,6 +179,7 @@ int main(int argc, const char** argv)
     // close files
     fclose( fp  );
     fclose( fp2 );
+    fclose( fp3 );
     
     return 0;
 #else
