@@ -57,7 +57,7 @@ UZLMATH_NAMESPACE(FourierTransforms)
  * @sa              matrix
  * @sa              grid3D
  *
- * @ingroup         fourierTransforms
+ * @ingroup         FourierTransforms
  *
  * @author          Denis-Michael Lux <denis.lux@icloud.com>
  * @date            14.05.2015
@@ -112,8 +112,13 @@ void DSOFT(grid3D< complex< double > > sample, DSOFTFourierCoefficients& fc, int
     /*****************************************************************
      ** M = 0, M' = 0                                               **
      *****************************************************************/
-    vector< double > weights = DWT::quadrature_weights(bandwidth);
-    matrix< double >      dw = DWT::weighted_wigner_d_matrix(bandwidth, 0, 0, weights) * -1;
+    vector< double > weights(2 * bandwidth);
+    DWT::quadrature_weights< double >(weights);
+    
+    matrix< double > dw(bandwidth, 2 * bandwidth);
+    DWT::weighted_wigner_d_matrix(dw, bandwidth, 0, 0, weights);
+    dw *= -1;
+    
     vector< complex< double > > s(bw2, vec_type::COLUMN);
     
     // defining norm factor
@@ -139,7 +144,9 @@ void DSOFT(grid3D< complex< double > > sample, DSOFTFourierCoefficients& fc, int
         #pragma omp for private(M, dw, sh) firstprivate(s) schedule(dynamic) nowait
         for (M = 1; M < bandwidth; ++M)
         {
-            dw = DWT::weighted_wigner_d_matrix(bandwidth, M, 0, weights) * -1;
+            dw = matrix< double >(bandwidth - M, 2 * bandwidth);
+            DWT::weighted_wigner_d_matrix(dw, bandwidth, M, 0, weights);
+            dw *= -1;
             
             /*****************************************************************
              ** Make use of symmetries                                      **
@@ -159,11 +166,11 @@ void DSOFT(grid3D< complex< double > > sample, DSOFTFourierCoefficients& fc, int
             fliplr(dw);
             for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(0, bw2 - M, e - s.mem);                 }
             sh = dw * s;
-            if (M & 1)
+            if (M & 1)  // if M is odd
             {
                 for (cx_it e = sh.mem; e < sh.mem + sh.size; e += 2)     { access::rw(*e) *= -1;                                     }
             }
-            else
+            else        // if M is even
             {
                 for (cx_it e = sh.mem + 1; e < sh.mem + sh.size; e += 2) { access::rw(*e) *= -1;                                     }
             }
@@ -176,7 +183,9 @@ void DSOFT(grid3D< complex< double > > sample, DSOFTFourierCoefficients& fc, int
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), 0, -M) = norm * (*e);    }
             
             // get new wigner matrix
-            dw = DWT::weighted_wigner_d_matrix(bandwidth, M, M, weights) * -1;
+            dw = matrix< double >(bandwidth - M, 2 * bandwidth);
+            DWT::weighted_wigner_d_matrix(dw, bandwidth, M, M, weights);
+            dw *= -1;
             
             // case f_{M, M}
             for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(M, M, e - s.mem);                       }
@@ -222,7 +231,8 @@ void DSOFT(grid3D< complex< double > > sample, DSOFTFourierCoefficients& fc, int
             Mp = j > i ? bandwidth - j : j    ;
             
             // get new wigner d-matrix
-            dw = DWT::weighted_wigner_d_matrix(bandwidth, M, Mp, weights);
+            dw = matrix< double >(bandwidth - std::max(abs(M), abs(Mp)), 2 * bandwidth);
+            DWT::weighted_wigner_d_matrix(dw, bandwidth, M, Mp, weights);
             
             // case f_{M, Mp}
             for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(Mp, M, e - s.mem);                      }

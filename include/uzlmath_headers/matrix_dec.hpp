@@ -51,7 +51,7 @@ public:
     const size_t rows;  //!< Number of matrix rows
     const size_t cols;  //!< Number of matrix columns
     
-    const T* mem;      //!< Matrix memory
+    const T* mem;       //!< Matrix memory
     
     // methods
     inline                                         ~matrix();

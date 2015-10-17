@@ -11,7 +11,7 @@
 #ifndef UZLMathLib_fn_wigner_d_hpp
 #define UZLMathLib_fn_wigner_d_hpp
 
-UZLMATH_NAMESPACE(wigner)
+UZLMATH_NAMESPACE(Wigner)
 
 // Wigner-d function
 double wigner_d(const int& J, const int& M, const int& Mp, const double& beta);

@@ -20,11 +20,11 @@ using namespace uzlmath;
 complex< double > f(const double& alpha, const double& beta, const double& gamma)
 {
     return
-          complex< double >(-7.31, 0)       * wigner::wigner_D_l2normalized(2,  0, -1, -alpha, -beta, -gamma)
-        + complex< double >(1, -9.731)      * wigner::wigner_D_l2normalized(1,  0,  0, -alpha, -beta, -gamma)
-        + complex< double >(13, 0)          * wigner::wigner_D_l2normalized(2,  1,  0, -alpha, -beta, -gamma)
-        + complex< double >(8.423, 0)       * wigner::wigner_D_l2normalized(2,  0,  2, -alpha, -beta, -gamma)
-        + complex< double >(1.8312, -9.8372)* wigner::wigner_D_l2normalized(2,  0,  0, -alpha, -beta, -gamma);
+          complex< double >(-7.31, 0)       * Wigner::wigner_D_l2normalized(2,  0, -1, -alpha, -beta, -gamma)
+        + complex< double >(1, -9.731)      * Wigner::wigner_D_l2normalized(1,  0,  0, -alpha, -beta, -gamma)
+        + complex< double >(13, 0)          * Wigner::wigner_D_l2normalized(2,  1,  0, -alpha, -beta, -gamma)
+        + complex< double >(8.423, 0)       * Wigner::wigner_D_l2normalized(2,  0,  2, -alpha, -beta, -gamma)
+        + complex< double >(1.8312, -9.8372)* Wigner::wigner_D_l2normalized(2,  0,  0, -alpha, -beta, -gamma);
 }
 
 void createGridSOFT(unsigned int B)
@@ -50,7 +50,7 @@ void createGridSOFT(unsigned int B)
                     {
                         for (Mp = -l; Mp <= l; ++Mp)
                         {
-                            grid(i, j, k) += complex< double >(cnt, cnt+1) * wigner::wigner_D_l2normalized(l, M, Mp, -(2*M_PI*j)/(2*B), -(M_PI * (2.0 * k + 1.0)) / (4.0 * B), -(2*M_PI*i)/(2*B));
+                            grid(i, j, k) += complex< double >(cnt, cnt+1) * Wigner::wigner_D_l2normalized(l, M, Mp, -(2*M_PI*j)/(2*B), -(M_PI * (2.0 * k + 1.0)) / (4.0 * B), -(2*M_PI*i)/(2*B));
                             cnt += 2;
                         }
                     }
@@ -172,7 +172,11 @@ void for_back(unsigned int bandwidth, bool show_coefs)
     DSOFTFourierCoefficients coef(bandwidth);
     DSOFTFourierCoefficients rec_coef(bandwidth);
     
-    rand(coef, -1, 1);
+    uniform_real_distribution< double > ctx;
+    ctx.min = -1;
+    ctx.max = +1;
+    
+    rand(coef, ctx);
     
     stopwatch sw = stopwatch::tic();
     FourierTransforms::IDSOFT(coef, sample);
@@ -295,7 +299,7 @@ int main(int argc, const char ** argv)
     
     int B = atoi(*(argv + 1));
     for_back(B, false);
-//
+    
 //    matrix< double > wig = DWT::wigner_d_matrix(5, 1, 2);
 //    
 //    std::cout << "wig = " << wig << std::endl;
@@ -332,7 +336,7 @@ int main(int argc, const char ** argv)
 //    double y = constants< double >::pi / 3;
 //    
 //    stopwatch sw = stopwatch::tic();
-//    complex< double > result = spharmonics::Ylm(l, m, x, y);
+//    complex< double > result = SphericalHarmonics::Ylm(l, m, x, y);
 //    double time = sw.toc_micros();
 //    
 //    std::cout << std::fixed << result.re << (result.im < 0 ? " - " : " + ") << std::abs(result.im) << " in " << time << "micros" << std::endl;

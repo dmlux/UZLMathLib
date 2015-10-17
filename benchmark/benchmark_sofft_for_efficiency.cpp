@@ -98,7 +98,12 @@ int main(int argc, const char** argv)
         DSOFTFourierCoefficients rec_coef(bandwidth);
         
         // generate random coefficients between -1 and 1
-        rand(coef, -1, 1);
+        uniform_real_distribution< double > ctx;
+        ctx.engine = random_engine::MERSENNE_TWISTER64;
+        ctx.min = -1;
+        ctx.max = +1;
+        
+        rand(coef, ctx);
         
         // create sample
         IDSOFT(coef, sample);

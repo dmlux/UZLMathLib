@@ -35,11 +35,15 @@ int main(int argc, const char** argv)
     {
         
         // create weights for the given bandwidth
-        vector< double > weights = DWT::quadrature_weights(bw);
+        vector< double > weights(2 * bw);
+        DWT::quadrature_weights(weights);
     
         // create weigthed wigner matrix and wigner matrix
-        matrix< double > dw = DWT::weighted_wigner_d_matrix(bw, 0, 0, weights);
-        matrix< double > dt = DWT::wigner_d_matrix(bw, 0, 0);
+        matrix< double > dw(bw, 2 * bw);
+        DWT::weighted_wigner_d_matrix(dw, bw, 0, 0, weights);
+        
+        matrix< double > dt(bw, 2 * bw);
+        DWT::wigner_d_matrix(dw, bw, 0, 0);
         dt.transpose();
         
         // relative and absolute errors
@@ -84,8 +88,11 @@ int main(int argc, const char** argv)
             absolute[0] += sqrt(abs);
         }
         
-        dw = DWT::weighted_wigner_d_matrix(bw, bw/2, 0, weights);
-        dt = DWT::wigner_d_matrix(bw, bw/2, 0);
+        dw = matrix< double >(bw/2, 2 * bw);
+        DWT::weighted_wigner_d_matrix(dw, bw, bw/2, 0, weights);
+        
+        dt = matrix< double >(bw/2, 2 * bw);
+        DWT::wigner_d_matrix(dt, bw, bw/2, 0);
         dt.transpose();
         
         // run several runs and take average values
@@ -118,8 +125,11 @@ int main(int argc, const char** argv)
             absolute[1] += sqrt(abs);
         }
         
-        dw = DWT::weighted_wigner_d_matrix(bw, bw/2, bw/2, weights);
-        dt = DWT::wigner_d_matrix(bw, bw/2, bw/2);
+        dw = matrix< double >(bw/2, 2 * bw);
+        DWT::weighted_wigner_d_matrix(dw, bw, bw/2, bw/2, weights);
+        
+        dt = matrix< double >(bw/2, 2 * bw);
+        DWT::wigner_d_matrix(dt, bw, bw/2, bw/2);
         dt.transpose();
         
         // run several runs and take average values

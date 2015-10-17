@@ -30,17 +30,32 @@ template< typename T > struct uzl_double_only                                   
 template<>             struct uzl_double_only< double >                         { typedef void result;                          };
 
 // Real numbers for return type void
-template< typename T > struct uzl_void_real_num_only                            {                                               };
-template<>             struct uzl_void_real_num_only< short >                   { typedef void result;                          };
-template<>             struct uzl_void_real_num_only< int >                     { typedef void result;                          };
-template<>             struct uzl_void_real_num_only< long >                    { typedef void result;                          };
-template<>             struct uzl_void_real_num_only< long long >               { typedef void result;                          };
-template<>             struct uzl_void_real_num_only< unsigned short >          { typedef void result;                          };
-template<>             struct uzl_void_real_num_only< unsigned int >            { typedef void result;                          };
-template<>             struct uzl_void_real_num_only< unsigned long >           { typedef void result;                          };
-template<>             struct uzl_void_real_num_only< float >                   { typedef void result;                          };
-template<>             struct uzl_void_real_num_only< double >                  { typedef void result;                          };
-template<>             struct uzl_void_real_num_only< long double >             { typedef void result;                          };
+template< typename T > struct uzl_num_only                                      {                                               };
+template<>             struct uzl_num_only< short >                             { typedef short result;                         };
+template<>             struct uzl_num_only< int >                               { typedef int result;                           };
+template<>             struct uzl_num_only< long >                              { typedef long result;                          };
+template<>             struct uzl_num_only< long long >                         { typedef long long result;                     };
+template<>             struct uzl_num_only< unsigned short >                    { typedef unsigned short result;                };
+template<>             struct uzl_num_only< unsigned int >                      { typedef unsigned int result;                  };
+template<>             struct uzl_num_only< unsigned long >                     { typedef unsigned long result;                 };
+template<>             struct uzl_num_only< unsigned long long >                { typedef unsigned long long result;            };
+template<>             struct uzl_num_only< float >                             { typedef float result;                         };
+template<>             struct uzl_num_only< double >                            { typedef double result;                        };
+template<>             struct uzl_num_only< long double >                       { typedef long double result;                   };
+
+// Real numbers for return type void
+template< typename T > struct uzl_void_num_only                                 {                                               };
+template<>             struct uzl_void_num_only< short >                        { typedef void result;                          };
+template<>             struct uzl_void_num_only< int >                          { typedef void result;                          };
+template<>             struct uzl_void_num_only< long >                         { typedef void result;                          };
+template<>             struct uzl_void_num_only< long long >                    { typedef void result;                          };
+template<>             struct uzl_void_num_only< unsigned short >               { typedef void result;                          };
+template<>             struct uzl_void_num_only< unsigned int >                 { typedef void result;                          };
+template<>             struct uzl_void_num_only< unsigned long >                { typedef void result;                          };
+template<>             struct uzl_void_num_only< unsigned long long >           { typedef void result;                          };
+template<>             struct uzl_void_num_only< float >                        { typedef void result;                          };
+template<>             struct uzl_void_num_only< double >                       { typedef void result;                          };
+template<>             struct uzl_void_num_only< long double >                  { typedef void result;                          };
 
 // Complex numbers for return type void
 template< typename T > struct uzl_void_cx_num_only                              {                                               };

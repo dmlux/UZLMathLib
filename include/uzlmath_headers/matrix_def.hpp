@@ -984,7 +984,7 @@ matrix< T > matrix< T >::operator-()
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
     {
-        C.mem[i] = - mem[i];
+        access::rw(C.mem[i]) = - mem[i];
     }
     
     return C;

@@ -55,7 +55,7 @@ UZLMATH_NAMESPACE(FourierTransforms)
  *
  * @since           0.0.1
  *
- * @ingroup         fourierTransforms
+ * @ingroup         FourierTransforms
  *
  * @author          Denis-Michael Lux <denis.lux@icloud.com>
  * @date            23.05.2015
@@ -103,10 +103,13 @@ void IDSOFT(const DSOFTFourierCoefficients& fc, grid3D< complex< double > >& syn
     /*****************************************************************
      ** M = 0, M' = 0                                               **
      *****************************************************************/
-    matrix< double > d = DWT::wigner_d_matrix(bandwidth, 0, 0) * -1;
-    vector< complex< double > > sh(d.rows, vec_type::COLUMN);
+    matrix< double > d(bandwidth, 2 * bandwidth);
+    DWT::wigner_d_matrix< double >(d, bandwidth, 0, 0);
     
+    d *= -1;
     d.transpose();
+    
+    vector< complex< double > > sh(d.cols, vec_type::COLUMN);
     
     // defining norm factor
     complex< double > norm((bandwidth * bw2) / constants< double >::pi, 0);
@@ -131,9 +134,13 @@ void IDSOFT(const DSOFTFourierCoefficients& fc, grid3D< complex< double > >& syn
         #pragma omp for private(M, d, s, sh) schedule(dynamic) nowait
         for (M = 1; M < bandwidth; ++M)
         {
-            d  = DWT::wigner_d_matrix(bandwidth, M, 0) * -1;
-            sh = vector< complex< double > >(d.rows, vec_type::COLUMN);
+            d  = matrix< double >(bandwidth - M, 2 * bandwidth);
+            DWT::wigner_d_matrix< double >(d, bandwidth, M, 0);
+            
+            d *= -1;
             d.transpose();
+            
+            sh = vector< complex< double > >(d.cols, vec_type::COLUMN);
             
             /*****************************************************************
              ** Make use of symmetries                                      **
@@ -170,7 +177,10 @@ void IDSOFT(const DSOFTFourierCoefficients& fc, grid3D< complex< double > >& syn
             for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(bw2 - M, 0, e - s.mem) = *e;                                     }
             
             // get new wigner matrix
-            d = DWT::wigner_d_matrix(bandwidth, M, M) * -1;
+            d  = matrix< double >(bandwidth - M, 2 * bandwidth);
+            DWT::wigner_d_matrix< double >(d, bandwidth, M, M);
+            
+            d *= -1;
             d.transpose();
             
             // case f_{M,M}
@@ -217,8 +227,10 @@ void IDSOFT(const DSOFTFourierCoefficients& fc, grid3D< complex< double > >& syn
             Mp = j > i ? bandwidth - j : j    ;
             
             // get new wigner d-matrix
-            d  = DWT::wigner_d_matrix(bandwidth, M, Mp);
+            d  = matrix< double >(bandwidth - std::max(abs(M), abs(Mp)), 2 * bandwidth);
+            DWT::wigner_d_matrix< double >(d, bandwidth, M, Mp);
             d.transpose();
+            
             sh = vector< complex< double > >(d.cols, vec_type::COLUMN);
             
             // case f_{M,Mp}

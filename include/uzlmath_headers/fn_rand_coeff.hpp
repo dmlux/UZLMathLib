@@ -13,9 +13,20 @@
 
 UZLMATH_BEGIN
 
-// filling DSOFTFourierCoefficients container with randoms in range
-void rand(DSOFTFourierCoefficients& fc, const double& min, const double& max);
-
+/*!
+ * @brief           filling Fourier coefficients container with random values
+ * @details         Fills the fourier coefficients container with random values
+ *                  in the given range.
+ *
+ * @param[in, out]  fc The fourier coefficients container
+ * @param[in]       min The minimum value of the random number range
+ * @param[in]       max The maximum value of the random number range
+ *
+ * @author          Denis-Michael Lux <denis.lux@icloud.com>
+ * @date            18.06.15
+ *
+ * @since           0.1.1
+ */
 template< typename pod_type, typename distribution >
 inline
 typename uzl_uniform_real_dist_only< distribution >::result rand(DSOFTFourierCoefficients& fc, const randctx< pod_type, distribution >& ctx)
@@ -37,7 +48,7 @@ typename uzl_uniform_real_dist_only< distribution >::result rand(DSOFTFourierCoe
     unsigned long seed = 1000000L * tv.tv_sec + tv.tv_usec;
     
     // C++11 random numbers uniformly distributed
-    if ( dist.engine == random_engine::DEFAULT )
+    if ( dist.engine == random_engine::DEFAULT || dist.engine == random_engine::MERSENNE_TWISTER64 )
     {
         std::mt19937_64 e(seed);
         std::uniform_real_distribution< pod_type > d(min, max);

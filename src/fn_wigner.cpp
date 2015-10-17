@@ -13,7 +13,7 @@
 
 #include <uzlmath>
 
-UZLMATH_NAMESPACE(wigner)
+UZLMATH_NAMESPACE(Wigner)
         
 /*!
  * @brief       Calculates the Wigner d-function of degree \f$J\f$ and orders \f$M\f$ and \f$M'\f$
@@ -52,7 +52,7 @@ UZLMATH_NAMESPACE(wigner)
  *                      \left(-\sin\frac{\beta}{2}\right)^{J+M}
  *              \f}
  *              Where \f$P_n(x)\f$ denotes the Legendre polynomial which is implemented in the
- *              polynomials namespace as the orthopoly::legendre function. The implementation
+ *              polynomials namespace as the OrthoPoly::legendre function. The implementation
  *              uses a dynamic programming approach to evaluate the Wigner d-function in \f$\mathcal{O}(J)\f$
  *              time.
  *
@@ -67,7 +67,7 @@ UZLMATH_NAMESPACE(wigner)
  *
  * @since       0.0.1
  *
- * @see         orthopoly::legendre
+ * @see         OrthoPoly::legendre
  *
  * @author      Denis-Michael Lux <denis.lux@icloud.com>
  * @date        12.01.15
@@ -77,7 +77,7 @@ double wigner_d(const int& J, const int& M, const int& Mp, const double& beta)
     // undefined values
     if (M == 0 && Mp == 0)
     {
-        return orthoPoly::legendre(J, cos(beta));
+        return OrthoPoly::legendre(J, cos(beta));
     }
     
     // memorization

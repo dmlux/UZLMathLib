@@ -14,7 +14,7 @@
 UZLMATH_NAMESPACE(FourierTransforms)
 
 /*!
- * @defgroup        fourierTransforms Fourier Transforms
+ * @defgroup        FourierTransforms Fourier Transforms
  * @{
  * @}
  */
@@ -45,7 +45,7 @@ UZLMATH_NAMESPACE(FourierTransforms)
  *
  * @since           0.1.1
  *
- * @ingroup         fourierTransforms
+ * @ingroup         FourierTransforms
  *
  * @author          Denis-Michael Lux <denis.lux@icloud.com>
  * @date            23.06.15
@@ -139,7 +139,7 @@ typename uzl_void_cx_num_only< T >::result DFT(vector< T >& vec, T scale = T(1, 
  *
  * @since           0.1.1
  *
- * @ingroup         fourierTransforms
+ * @ingroup         FourierTransforms
  *
  * @author          Denis-Michael Lux <denis.lux@icloud.com>
  * @date            23.06.15
@@ -209,7 +209,7 @@ typename uzl_vec_cx_dbl_real_num_only< T >::result DFT(vector< T >& vec, complex
  *
  * @since           0.0.1
  *
- * @ingroup         fourierTransforms
+ * @ingroup         FourierTransforms
  *
  * @author          Denis-Michael Lux <denis.lux@icloud.com>
  * @date            21.04.15
@@ -218,7 +218,7 @@ typename uzl_vec_cx_dbl_real_num_only< T >::result DFT(vector< T >& vec, complex
  */
 template< typename T >
 inline
-typename uzl_void_real_num_only< T >::result DFT2(matrix< complex< T > >& mat, complex< T > scale = complex< T >(1, 0))
+typename uzl_void_num_only< T >::result DFT2(matrix< complex< T > >& mat, complex< T > scale = complex< T >(1, 0))
 {
     // make fft array
     double* fftInOut = new double[mat.rows * mat.cols * 2];
@@ -268,7 +268,7 @@ typename uzl_void_real_num_only< T >::result DFT2(matrix< complex< T > >& mat, c
  *
  * @since           0.0.1
  *
- * @ingroup         fourierTransforms
+ * @ingroup         FourierTransforms
  *
  * @author          Denis-Michael Lux <denis.lux@icloud.com>
  * @date            21.04.15
@@ -277,7 +277,7 @@ typename uzl_void_real_num_only< T >::result DFT2(matrix< complex< T > >& mat, c
  */
 template< typename T >
 inline
-typename uzl_void_real_num_only< T >::result IDFT2(matrix< complex< T > >& mat, complex< T > scale = complex< T >(1,0))
+typename uzl_void_num_only< T >::result IDFT2(matrix< complex< T > >& mat, complex< T > scale = complex< T >(1,0))
 {
     // make fft array
     double fftInOut[mat.rows * mat.cols * 2];

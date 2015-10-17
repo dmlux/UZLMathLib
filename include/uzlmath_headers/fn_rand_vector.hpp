@@ -27,7 +27,7 @@ UZLMATH_BEGIN
  */
 template< typename T >
 inline
-typename uzl_void_real_num_only< T >::result randi(vector< T >& vec, const int& min, const int& max)
+typename uzl_void_num_only< T >::result randi(vector< T >& vec, const int& min, const int& max)
 {
     if (min > max)
     {
@@ -58,7 +58,7 @@ typename uzl_void_real_num_only< T >::result randi(vector< T >& vec, const int& 
 
 template< typename T >
 inline
-typename uzl_void_real_num_only< T >::result randi(vector< complex< T > >& vec, const int& min, const int& max)
+typename uzl_void_num_only< T >::result randi(vector< complex< T > >& vec, const int& min, const int& max)
 {
     if (min > max)
     {
