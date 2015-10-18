@@ -38,7 +38,7 @@ UZLMATH_BEGIN
  */
 template< typename T >
 class
-vector< T, typename if_true< is_num_type< T >::value >::type >
+vector< T, if_pod_type< T > >
 {
     size_t   inj;                       //!< Index for injection
     

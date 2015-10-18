@@ -52,8 +52,8 @@ public:
     ~DSOFTFourierCoefficients();
     
     // methods
-          complex< double >&            operator()(const int& l, const int& M, const int& Mp);
-    const complex< double >&            operator()(const int& l, const int& M, const int& Mp) const;
+          complex< double >& operator()(const int& l, const int& M, const int& Mp);
+    const complex< double >& operator()(const int& l, const int& M, const int& Mp) const;
     
     friend std::ostream& operator<<(std::ostream& o, const DSOFTFourierCoefficients& fc);
 };

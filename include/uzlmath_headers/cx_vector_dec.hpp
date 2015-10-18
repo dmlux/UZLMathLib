@@ -36,7 +36,7 @@ UZLMATH_BEGIN
  */
 template< typename T >
 class
-vector< complex< T >, typename if_true< is_num_type< T >::value >::type >
+vector< complex< T >, if_pod_type< T > >
 {
     size_t   inj;                       //!< Index for injection
     
@@ -127,6 +127,9 @@ public:
     inline       void                     transpose();
     inline       void                     fill(const T& s);
     
+    // iterator methods
+    inline       iterator                 begin();
+    inline       iterator                 end();
 };
 
 template< typename S > std::ostream& operator<<(std::ostream& o, const vector< complex< S > >& v);

@@ -39,7 +39,7 @@ DSOFTFourierCoefficients::DSOFTFourierCoefficients()
 DSOFTFourierCoefficients::DSOFTFourierCoefficients(int bandlimit)
     : bandwidth(bandlimit)
 {
-    mem  = new matrix< complex< double > >[bandlimit];
+    mem = new matrix< complex< double > >[bandlimit];
     
     for (int i = 0; i < bandlimit; ++i)
     {

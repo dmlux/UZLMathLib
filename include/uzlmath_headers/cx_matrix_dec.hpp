@@ -36,7 +36,7 @@ UZLMATH_BEGIN
  */
 template< typename T >
 class
-matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >
+matrix< complex< T >, if_pod_type< T > >
 {
     size_t r_inj;                   //!< Row injection index
     size_t c_inj;                   //!< Column injection index
@@ -141,6 +141,15 @@ public:
     inline       void                           diag(const vector< complex< pod_type > >& vec);
     
     inline const complex< double >              determinant();
+    
+    // iterators
+    class row_iterator
+    {
+        const pod_type* position;   //!< current position
+        
+    public:
+        
+    };
 };
 
 template<typename T> std::ostream& operator<<(std::ostream& o, const matrix< complex< T > >& A);

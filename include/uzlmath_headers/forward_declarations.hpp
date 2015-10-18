@@ -31,26 +31,27 @@ template<>             struct is_num_type< long double >                { static
 template< bool T, typename U = void > struct if_true                    {                                   };
 template< typename U >                struct if_true< true, U >         { typedef U type;                   };
 
+// template alias
+template< typename pod > using if_pod_type = typename if_true< is_num_type< pod >::value >::type;
+
 // forward declarations
-template< typename derived >                struct base;
-template< typename T1, typename T2 >        class  glue;
-template< typename T >                      class  complex;
+template< typename >                        struct base;
+template< typename, typename >              class  glue;
+template< typename >                        class  complex;
 
 // matrix
 template< typename, typename = void >       class  matrix;
-template< typename T >                      class  matrix< T,            typename if_true< is_num_type< T >::value >::type >;
-template< typename T >                      class  matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >;
+template< typename T >                      class  matrix< T,            if_pod_type< T > >;
+template< typename T >                      class  matrix< complex< T >, if_pod_type< T > >;
 
 // vector
 template< typename, typename = void >       class  vector;
-template< typename T >                      class  vector< T,            typename if_true< is_num_type< T >::value >::type >;
-template< typename T >                      class  vector< complex< T >, typename if_true< is_num_type< T >::value >::type >;
+template< typename T >                      class  vector< T,            if_pod_type< T > >;
+template< typename T >                      class  vector< complex< T >, if_pod_type< T > >;
 
-template< typename T >                      struct grid3D;
-
-template< typename T >                      class  memory;
-
-template< typename T >                      class  array;
+template< typename, typename = void >       struct grid3D;
+template< typename T >                      struct grid3D< T,            if_pod_type< T > >;
+template< typename T >                      struct grid3D< complex< T >, if_pod_type< T > >;
 
                                             class  access;
 
@@ -59,10 +60,10 @@ template< typename T >                      class  array;
 
                                             struct DSOFTFourierCoefficients;
 
-template< typename pod_type, typename derived > struct randctx;
-template< typename T, typename A = void >       struct uniform_int_distribution;
-template< typename T, typename A = void >       struct uniform_real_distribution;
-template< typename T, typename A = void >       struct normal_distribution;
+template< typename, typename >              struct randctx;
+template< typename, typename = void >       struct uniform_int_distribution;
+template< typename, typename = void >       struct uniform_real_distribution;
+template< typename, typename = void >       struct normal_distribution;
 
 /*!
  * @brief       Specifing the type a vector can have

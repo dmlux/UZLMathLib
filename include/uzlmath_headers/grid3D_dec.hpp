@@ -35,28 +35,33 @@ UZLMATH_BEGIN
  *
  */
 template< typename T >
-struct grid3D
+struct
+grid3D< T, typename if_true< is_num_type< T >::value >::type >
 {
-    const size_t rows;         //!< number of rows in each layer
-    const size_t cols;         //!< number of cols in each layer
-    const size_t lays;         //!< number of layers
+    // typedefs
+    typedef T pod_type;     //!< POD type of grid elements
     
-    const T* mem;             //!< storage of the 3D grid
+    // ivars
+    const size_t rows;      //!< number of rows in each layer
+    const size_t cols;      //!< number of cols in each layer
+    const size_t lays;      //!< number of layers
     
-    inline                     grid3D();
-    inline                     grid3D(const size_t& rcl);
-    inline                     grid3D(const size_t& rcl, const T& initial);
-    inline                     grid3D(const size_t& rows, const size_t& cols, const size_t& lays);
-    inline                     grid3D(const size_t& rows, const size_t& cols, const size_t& lays, const T& initial);
-    inline                     grid3D(const grid3D< T >& c);
-    inline                     grid3D(grid3D< T >&& c);
-    inline                    ~grid3D();
+    const pod_type* mem;    //!< storage of the 3D grid
     
-    inline const grid3D< T >&  operator=(const grid3D< T >& c);
-    inline const grid3D< T >&  operator=(grid3D< T >&& c);
+    inline                              grid3D();
+    inline                              grid3D(const size_t& rcl);
+    inline                              grid3D(const size_t& rcl, const pod_type& initial);
+    inline                              grid3D(const size_t& rows, const size_t& cols, const size_t& lays);
+    inline                              grid3D(const size_t& rows, const size_t& cols, const size_t& lays, const pod_type& initial);
+    inline                              grid3D(const grid3D< pod_type >& c);
+    inline                              grid3D(grid3D< pod_type >&& c);
+    inline                             ~grid3D();
     
-    inline       T&            operator()(const size_t& row, const size_t& col, const size_t& lay);
-    inline const T&            operator()(const size_t& row, const size_t& col, const size_t& lay) const;
+    inline const grid3D< pod_type >&    operator=(const grid3D< pod_type >& c);
+    inline const grid3D< pod_type >&    operator=(grid3D< pod_type >&& c);
+    
+    inline       pod_type&              operator()(const size_t& row, const size_t& col, const size_t& lay);
+    inline const pod_type&              operator()(const size_t& row, const size_t& col, const size_t& lay) const;
 };
 
 template< typename S > std::ostream& operator<<(std::ostream& o, const grid3D< S >& c);

@@ -107,14 +107,14 @@ typename uzl_void_num_only< T >::result weighted_wigner_d_matrix(matrix< T >& wi
     }
     
     // Compute root coefficient for the base case
-    T normFactor  = sqrt((2. * minJ + 1.)/2.);
+    T normFactor  = sqrt((2.0 * minJ + 1.0)/2.0);
     for (i = 0 ; i < minJ - std::min(abs(M), abs(Mp)) ; ++i)
     {
-        normFactor *= sqrt((2. * minJ - i) / (i + 1.));
+        normFactor *= sqrt((2.0 * minJ - i) / (i + 1.0));
     }
     
     // Sin sign for the recurrence base case
-    T sinSign = (minJ == abs(M) && M >= 0 && (minJ - Mp) & 1 ? 1 : -1      );
+    T sinSign = (minJ == abs(M) && M >= 0 && (minJ - Mp) & 1 ? 1       : -1);
     sinSign   = (minJ != abs(M) && Mp < 0 && (minJ - Mp) & 1 ? sinSign : -1);
     
     // Powers
@@ -142,14 +142,14 @@ typename uzl_void_num_only< T >::result weighted_wigner_d_matrix(matrix< T >& wi
     
     // Base cases and filling matrix with values
     T cosBeta[2 * bandwidth];
-    for (i = 0 ; i < 2*bandwidth; ++i)
+    for (i = 0 ; i < 2 * bandwidth; ++i)
     {
         // Getting sin and cos values for the power operator
-        T sinHalfBeta = sin(0.5 * ((2. * i + 1.) * constants< T >::pi) / (4.0 * bandwidth));
-        T cosHalfBeta = cos(0.5 * ((2. * i + 1.) * constants< T >::pi) / (4.0 * bandwidth));
+        T sinHalfBeta = sin(0.5 * ((2.0 * i + 1.0) * constants< T >::pi) / (4.0 * bandwidth));
+        T cosHalfBeta = cos(0.5 * ((2.0 * i + 1.0) * constants< T >::pi) / (4.0 * bandwidth));
         
         // Store cosine values for reuse in recurrence loop
-        cosBeta[i] = cos(((2. * i + 1.) * constants< T >::pi) / (4.0 * bandwidth));
+        cosBeta[i] = cos(((2.0 * i + 1.0) * constants< T >::pi) / (4.0 * bandwidth));
         
         // Computing base wigners. filling the first row in matrix with those values
         wig(0, i)  = normFactor * sinSign * pow(sinHalfBeta, sinPower) * pow(cosHalfBeta, cosPower) * weights[i];
@@ -166,9 +166,9 @@ typename uzl_void_num_only< T >::result weighted_wigner_d_matrix(matrix< T >& wi
         T idx  = minJ + i;
         
         // Terms in recurrence
-        T norm = sqrt((2. * idx + 3.) / (2. * idx + 1.));
-        T nom  = (idx + 1.) * (2. * idx + 1.);
-        T den  = 1. / sqrt(((idx + 1) * (idx + 1) - M*M) * ((idx + 1) * (idx + 1) - Mp*Mp));
+        T norm = sqrt((2.0 * idx + 3.0) / (2.0 * idx + 1.0));
+        T nom  = (idx + 1.0) * (2. * idx + 1.0);
+        T den  = 1.0 / sqrt(((idx + 1) * (idx + 1) - M*M) * ((idx + 1) * (idx + 1) - Mp*Mp));
         
         // Fractions
         T f1   = norm * nom * den;
@@ -177,7 +177,7 @@ typename uzl_void_num_only< T >::result weighted_wigner_d_matrix(matrix< T >& wi
         // Correcting undefined values from division by zero
         if (minJ + i != 0)
         {
-            T t1 = sqrt((2. * idx + 3.)/(2. * idx - 1.) ) * (idx + 1.)/idx ;
+            T t1 = sqrt((2.0 * idx + 3.0)/(2.0 * idx - 1.0) ) * (idx + 1.0)/idx ;
             T t2 = sqrt((idx*idx - M*M) * (idx*idx - Mp*Mp));
             
             c1   = -t1 * t2 * den;
@@ -241,10 +241,10 @@ typename uzl_void_num_only< T >::result wigner_d_matrix(matrix< T >& wig, const 
     }
     
     // Compute root coefficient for the base case
-    T normFactor  = sqrt((2. * minJ + 1.)/2.);
+    T normFactor  = sqrt((2.0 * minJ + 1.0)/2.0);
     for (i = 0 ; i < minJ - std::min(abs(M), abs(Mp)) ; ++i)
     {
-        normFactor *= sqrt((2. * minJ - i) / (i + 1.));
+        normFactor *= sqrt((2.0 * minJ - i) / (i + 1.0));
     }
     
     // Sin sign for the recurrence base case
@@ -276,14 +276,14 @@ typename uzl_void_num_only< T >::result wigner_d_matrix(matrix< T >& wig, const 
     
     // Base cases and filling matrix with values
     T cosBeta[2 * bandwidth];
-    for (i = 0 ; i < 2*bandwidth; ++i)
+    for (i = 0 ; i < 2 * bandwidth; ++i)
     {
         // Getting sin and cos values for the power operator
-        T sinHalfBeta = sin(0.5 * ((2. * i + 1.) * constants< T >::pi) / (4.0 * bandwidth));
-        T cosHalfBeta = cos(0.5 * ((2. * i + 1.) * constants< T >::pi) / (4.0 * bandwidth));
+        T sinHalfBeta = sin(0.5 * ((2.0 * i + 1.0) * constants< T >::pi) / (4.0 * bandwidth));
+        T cosHalfBeta = cos(0.5 * ((2.0 * i + 1.0) * constants< T >::pi) / (4.0 * bandwidth));
         
         // Store cosine values for reuse in recurrence loop
-        cosBeta[i] = cos(((2. * i + 1.) * constants< T >::pi) / (4.0 * bandwidth));
+        cosBeta[i] = cos(((2.0 * i + 1.0) * constants< T >::pi) / (4.0 * bandwidth));
         
         // Computing base wigners
         wig(0, i)  = normFactor * sinSign * pow(sinHalfBeta, sinPower) * pow(cosHalfBeta, cosPower);
@@ -300,9 +300,9 @@ typename uzl_void_num_only< T >::result wigner_d_matrix(matrix< T >& wig, const 
         T idx  = minJ + i;
         
         // Terms in recurrence
-        T norm = sqrt((2. * idx + 3.) / (2. * idx + 1.));
-        T nom  = (idx + 1.) * (2. * idx + 1.);
-        T den  = 1. / sqrt(((idx + 1) * (idx + 1) - M*M) * ((idx + 1) * (idx + 1) - Mp*Mp));
+        T norm = sqrt((2.0 * idx + 3.0) / (2.0 * idx + 1.0));
+        T nom  = (idx + 1.0) * (2.0 * idx + 1.0);
+        T den  = 1.0 / sqrt(((idx + 1) * (idx + 1) - M*M) * ((idx + 1) * (idx + 1) - Mp*Mp));
         
         // Fractions
         T f1   = norm * nom * den;
@@ -311,11 +311,11 @@ typename uzl_void_num_only< T >::result wigner_d_matrix(matrix< T >& wig, const 
         // Correcting undefined values from division by zero
         if (minJ + i != 0)
         {
-            T t1 = sqrt((2. * idx + 3.)/(2. * idx - 1.) ) * (idx + 1.)/idx ;
+            T t1 = sqrt((2.0 * idx + 3.0)/(2.0 * idx - 1.0) ) * (idx + 1.0)/idx ;
             T t2 = sqrt((idx*idx - M*M) * (idx*idx - Mp*Mp));
             
             c1   = -t1 * t2 * den;
-            f2   = -M*Mp / (idx * (idx + 1.));
+            f2   = -M*Mp / (idx * (idx + 1.0));
         }
         
         //  Filling matrix with next recurrence step value

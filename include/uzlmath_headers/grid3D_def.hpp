@@ -15,7 +15,7 @@ UZLMATH_BEGIN
 
 template< typename T >
 inline
-grid3D< T >::grid3D()
+grid3D< T, typename if_true< is_num_type< T >::value >::type >::grid3D()
     : rows(0)
     , cols(0)
     , lays(0)
@@ -24,7 +24,7 @@ grid3D< T >::grid3D()
 
 template< typename T >
 inline
-grid3D< T >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays)
+grid3D< T, typename if_true< is_num_type< T >::value >::type >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays)
     : rows(rows)
     , cols(cols)
     , lays(lays)
@@ -34,7 +34,7 @@ grid3D< T >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays)
 
 template< typename T >
 inline
-grid3D< T >::grid3D(const size_t& rcl)
+grid3D< T, typename if_true< is_num_type< T >::value >::type >::grid3D(const size_t& rcl)
     : rows(rcl)
     , cols(rcl)
     , lays(rcl)
@@ -44,7 +44,7 @@ grid3D< T >::grid3D(const size_t& rcl)
 
 template< typename T >
 inline
-grid3D< T >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays, const T& initial)
+grid3D< T, typename if_true< is_num_type< T >::value >::type >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays, const T& initial)
     : rows(rows)
     , cols(cols)
     , lays(lays)
@@ -67,7 +67,7 @@ grid3D< T >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays, 
 
 template< typename T >
 inline
-grid3D< T >::grid3D(const size_t& rcl, const T& initial)
+grid3D< T, typename if_true< is_num_type< T >::value >::type >::grid3D(const size_t& rcl, const T& initial)
     : rows(rcl)
     , cols(rcl)
     , lays(rcl)
@@ -90,7 +90,7 @@ grid3D< T >::grid3D(const size_t& rcl, const T& initial)
 
 template< typename T >
 inline
-grid3D< T >::grid3D(const grid3D< T >& c)
+grid3D< T, typename if_true< is_num_type< T >::value >::type >::grid3D(const grid3D< T >& c)
     : rows(c.rows)
     , cols(c.cols)
     , lays(c.lays)
@@ -106,7 +106,7 @@ grid3D< T >::grid3D(const grid3D< T >& c)
 
 template< typename T >
 inline
-grid3D< T >::grid3D(grid3D< T >&& c)
+grid3D< T, typename if_true< is_num_type< T >::value >::type >::grid3D(grid3D< T >&& c)
     : rows(c.rows)
     , cols(c.cols)
     , lays(c.lays)
@@ -118,14 +118,14 @@ grid3D< T >::grid3D(grid3D< T >&& c)
 
 template< typename T >
 inline
-grid3D< T >::~grid3D()
+grid3D< T, typename if_true< is_num_type< T >::value >::type >::~grid3D()
 {
     delete [] mem;
 }
 
 template< typename T >
 inline
-const grid3D< T >& grid3D< T >::operator=(const grid3D< T >& c)
+const grid3D< T >& grid3D< T, typename if_true< is_num_type< T >::value >::type >::operator=(const grid3D< T >& c)
 {
     if ( *this == &c )
     {
@@ -151,7 +151,7 @@ const grid3D< T >& grid3D< T >::operator=(const grid3D< T >& c)
 
 template< typename T >
 inline
-const grid3D< T >& grid3D< T >::operator=(grid3D< T >&& c)
+const grid3D< T >& grid3D< T, typename if_true< is_num_type< T >::value >::type >::operator=(grid3D< T >&& c)
 {
     if ( *this == &c )
     {
@@ -171,14 +171,14 @@ const grid3D< T >& grid3D< T >::operator=(grid3D< T >&& c)
 
 template< typename T >
 inline
-T& grid3D< T >::operator()(const size_t& r, const size_t& c, const size_t& l)
+T& grid3D< T, typename if_true< is_num_type< T >::value >::type >::operator()(const size_t& r, const size_t& c, const size_t& l)
 {
     return mem[rows * cols * l + cols * c + r];
 }
 
 template< typename T >
 inline
-const T& grid3D< T >::operator()(const size_t& r, const size_t& c, const size_t& l) const
+const T& grid3D< T, typename if_true< is_num_type< T >::value >::type >::operator()(const size_t& r, const size_t& c, const size_t& l) const
 {
     return mem[rows * cols * l + cols * c + r];
 }

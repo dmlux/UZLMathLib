@@ -42,7 +42,7 @@ UZLMATH_BEGIN
  */
 template< typename T >
 class
-matrix< T, typename if_true< is_num_type< T >::value >::type > : public base< matrix< T > > // use static polymorphism
+matrix< T, if_pod_type< T > > : public base< matrix< T > > // use static polymorphism
 {
     size_t r_inj;           //!< Row injection index
     size_t c_inj;           //!< Column injection index

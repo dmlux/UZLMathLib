@@ -33,37 +33,41 @@ UZLMATH_BEGIN
  *
  */
 template< typename T >
-struct grid3D< complex< T > >
+struct
+grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >
 {
-    // ivars
-    const size_t rows;                    //!< number of rows in each layer
-    const size_t cols;                    //!< number of cols in each layer
-    const size_t lays;                    //!< number of layers
+    // typedefs
+    typedef T pod_type;             //!< POD type of the elements
     
-    const complex< T >* mem;             //!< storage of the 3D grid
+    // ivars
+    const size_t rows;              //!< number of rows in each layer
+    const size_t cols;              //!< number of cols in each layer
+    const size_t lays;              //!< number of layers
+    
+    const complex< pod_type >* mem; //!< storage of the 3D grid
     
     // methods
-    inline                                grid3D();
-    inline                                grid3D(const size_t& rcl);
-    inline                                grid3D(const size_t& rcl, const complex< T >& initial);
-    inline                                grid3D(const size_t& rcl, const T& initial);
-    inline                                grid3D(const size_t& rows, const size_t& cols, const size_t& lays);
-    inline                                grid3D(const size_t& rows, const size_t& cols, const size_t& lays, const complex< T >& initial);
-    inline                                grid3D(const size_t& rows, const size_t& cols, const size_t& lays, const T& initial);
-    inline                                grid3D(const grid3D< T >& c);
-    inline                                grid3D(const grid3D< complex< T > >& c);
-    inline                                grid3D(grid3D< complex< T > >&& c);
-    inline                               ~grid3D();
+    inline                                      grid3D();
+    inline                                      grid3D(const size_t& rcl);
+    inline                                      grid3D(const size_t& rcl, const complex< pod_type >& initial);
+    inline                                      grid3D(const size_t& rcl, const pod_type& initial);
+    inline                                      grid3D(const size_t& rows, const size_t& cols, const size_t& lays);
+    inline                                      grid3D(const size_t& rows, const size_t& cols, const size_t& lays, const complex< pod_type >& initial);
+    inline                                      grid3D(const size_t& rows, const size_t& cols, const size_t& lays, const pod_type& initial);
+    inline                                      grid3D(const grid3D< pod_type >& c);
+    inline                                      grid3D(const grid3D< complex< pod_type > >& c);
+    inline                                      grid3D(grid3D< complex< pod_type > >&& c);
+    inline                                     ~grid3D();
     
-    inline const grid3D< complex< T > >&  operator=(const grid3D< T >& c);
-    inline const grid3D< complex< T > >&  operator=(const grid3D< complex< T > >& c);
-    inline const grid3D< complex< T > >&  operator=(grid3D< complex< T > >&& c);
+    inline const grid3D< complex< pod_type > >& operator=(const grid3D< pod_type >& c);
+    inline const grid3D< complex< pod_type > >& operator=(const grid3D< complex< pod_type > >& c);
+    inline const grid3D< complex< pod_type > >& operator=(grid3D< complex< pod_type > >&& c);
     
-    inline       complex< T >&            operator()(const size_t& row, const size_t& col, const size_t& lay);
-    inline const complex< T >&            operator()(const size_t& row, const size_t& col, const size_t& lay) const;
+    inline       complex< pod_type >&           operator()(const size_t& row, const size_t& col, const size_t& lay);
+    inline const complex< pod_type >&           operator()(const size_t& row, const size_t& col, const size_t& lay) const;
     
-    inline       void                     layer_wise_DFT2(const complex< double >& scale = complex< T >(1, 0));
-    inline       void                     layer_wise_IDFT2(const complex< double >& scale = complex< T >(1, 0));
+    inline       void                           layer_wise_DFT2(const complex< double >& scale = complex< pod_type >(1, 0));
+    inline       void                           layer_wise_IDFT2(const complex< double >& scale = complex< pod_type >(1, 0));
 };
 
 template< typename S > std::ostream& operator<<(std::ostream& o, const grid3D< complex< S > >& c);

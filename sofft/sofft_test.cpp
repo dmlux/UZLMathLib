@@ -182,10 +182,14 @@ void for_back(unsigned int bandwidth, bool show_coefs)
     FourierTransforms::IDSOFT(coef, sample);
     double time2 = sw.toc();
     
+//    std::cout << coef << std::endl;
+    
     // perform forward SOFT transform
     sw = stopwatch::tic();
     FourierTransforms::DSOFT(sample, rec_coef);
     double time = sw.toc();
+    
+//    std::cout << coef << std::endl;
     
     // print Fourier coefficients
     // save outstream flags
@@ -321,8 +325,6 @@ int main(int argc, const char ** argv)
 //    B *= -1;
 //    
 //    std::cout << "B *= -1 = " << B << std::endl;
-    
-    matrix< complex< int > > A(5, 5);
     
     int B = atoi(*(argv + 1));
     for_back(B, false);

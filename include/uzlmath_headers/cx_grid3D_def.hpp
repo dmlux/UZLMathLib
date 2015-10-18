@@ -15,7 +15,7 @@ UZLMATH_BEGIN
 
 template< typename T >
 inline
-grid3D< complex< T > >::grid3D()
+grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >::grid3D()
     : rows(0)
     , cols(0)
     , lays(0)
@@ -24,7 +24,7 @@ grid3D< complex< T > >::grid3D()
 
 template< typename T >
 inline
-grid3D< complex< T > >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays)
+grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays)
     : rows(rows)
     , cols(cols)
     , lays(lays)
@@ -34,7 +34,7 @@ grid3D< complex< T > >::grid3D(const size_t& rows, const size_t& cols, const siz
 
 template< typename T >
 inline
-grid3D< complex< T > >::grid3D(const size_t& rcl)
+grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >::grid3D(const size_t& rcl)
     : rows(rcl)
     , cols(rcl)
     , lays(rcl)
@@ -44,7 +44,7 @@ grid3D< complex< T > >::grid3D(const size_t& rcl)
 
 template< typename T >
 inline
-grid3D< complex< T > >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays, const complex< T >& initial)
+grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays, const complex< T >& initial)
     : rows(rows)
     , cols(cols)
     , lays(lays)
@@ -60,7 +60,7 @@ grid3D< complex< T > >::grid3D(const size_t& rows, const size_t& cols, const siz
 
 template< typename T >
 inline
-grid3D< complex< T > >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays, const T& initial)
+grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >::grid3D(const size_t& rows, const size_t& cols, const size_t& lays, const T& initial)
     : rows(rows)
     , cols(cols)
     , lays(lays)
@@ -77,7 +77,7 @@ grid3D< complex< T > >::grid3D(const size_t& rows, const size_t& cols, const siz
 
 template< typename T >
 inline
-grid3D< complex< T > >::grid3D(const size_t& rcl, const complex< T >& initial)
+grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >::grid3D(const size_t& rcl, const complex< T >& initial)
     : rows(rcl)
     , cols(rcl)
     , lays(rcl)
@@ -93,7 +93,7 @@ grid3D< complex< T > >::grid3D(const size_t& rcl, const complex< T >& initial)
 
 template< typename T >
 inline
-grid3D< complex< T > >::grid3D(const size_t& rcl, const T& initial)
+grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >::grid3D(const size_t& rcl, const T& initial)
     : rows(rcl)
     , cols(rcl)
     , lays(rcl)
@@ -110,7 +110,7 @@ grid3D< complex< T > >::grid3D(const size_t& rcl, const T& initial)
 
 template< typename T >
 inline
-grid3D< complex< T > >::grid3D(const grid3D< T >& c)
+grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >::grid3D(const grid3D< T >& c)
     : rows(c.rows)
     , cols(c.cols)
     , lays(c.lays)
@@ -129,7 +129,7 @@ grid3D< complex< T > >::grid3D(const grid3D< T >& c)
 
 template< typename T >
 inline
-grid3D< complex< T > >::grid3D(const grid3D< complex< T > >& c)
+grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >::grid3D(const grid3D< complex< T > >& c)
     : rows(c.rows)
     , cols(c.cols)
     , lays(c.lays)
@@ -145,7 +145,7 @@ grid3D< complex< T > >::grid3D(const grid3D< complex< T > >& c)
 
 template< typename T >
 inline
-grid3D< complex< T > >::grid3D(grid3D< complex< T > >&& c)
+grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >::grid3D(grid3D< complex< T > >&& c)
     : rows(c.rows)
     , cols(c.cols)
     , lays(c.lays)
@@ -157,14 +157,14 @@ grid3D< complex< T > >::grid3D(grid3D< complex< T > >&& c)
 
 template< typename T >
 inline
-grid3D< complex< T > >::~grid3D()
+grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >::~grid3D()
 {
     delete [] mem;
 }
 
 template< typename T >
 inline
-const grid3D< complex< T > >& grid3D< complex< T > >::operator=(const grid3D< T >& c)
+const grid3D< complex< T > >& grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator=(const grid3D< T >& c)
 {
     rows = c.rows;
     cols = c.cols;
@@ -187,7 +187,7 @@ const grid3D< complex< T > >& grid3D< complex< T > >::operator=(const grid3D< T 
 
 template< typename T >
 inline
-const grid3D< complex< T > >& grid3D< complex< T > >::operator=(const grid3D< complex< T > >& c)
+const grid3D< complex< T > >& grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator=(const grid3D< complex< T > >& c)
 {
     rows = c.rows;
     cols = c.cols;
@@ -206,7 +206,7 @@ const grid3D< complex< T > >& grid3D< complex< T > >::operator=(const grid3D< co
 
 template< typename T >
 inline
-const grid3D< complex< T > >& grid3D< complex< T > >::operator=(grid3D< complex< T > >&& c)
+const grid3D< complex< T > >& grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator=(grid3D< complex< T > >&& c)
 {
     rows = c.rows;
     cols = c.cols;
@@ -219,14 +219,14 @@ const grid3D< complex< T > >& grid3D< complex< T > >::operator=(grid3D< complex<
 
 template< typename T >
 inline
-complex< T >& grid3D< complex< T > >::operator()(const size_t& row, const size_t& col, const size_t& lay)
+complex< T >& grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator()(const size_t& row, const size_t& col, const size_t& lay)
 {
     return access::rw(mem[rows * cols * lay + cols * col + row]);
 }
 
 template< typename T >
 inline
-const complex< T >& grid3D< complex< T > >::operator()(const size_t& row, const size_t& col, const size_t& lay) const
+const complex< T >& grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator()(const size_t& row, const size_t& col, const size_t& lay) const
 {
     return mem[rows * cols * lay + cols * col + row];
 }
@@ -235,7 +235,7 @@ const complex< T >& grid3D< complex< T > >::operator()(const size_t& row, const 
 
 template< typename T >
 inline
-void grid3D< complex< T > >::layer_wise_DFT2(const complex< double >& scale)
+void grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >::layer_wise_DFT2(const complex< double >& scale)
 {
     // declare variables
     size_t i;
@@ -296,7 +296,7 @@ void grid3D< complex< T > >::layer_wise_DFT2(const complex< double >& scale)
 
 template< typename T >
 inline
-void grid3D< complex< T > >::layer_wise_IDFT2(const complex< double >& scale)
+void grid3D< complex< T >, typename if_true< is_num_type< T >::value >::type >::layer_wise_IDFT2(const complex< double >& scale)
 {
     // declare variables
     size_t i;

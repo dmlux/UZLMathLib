@@ -49,7 +49,7 @@ complex< typename uzl_num_only< T >::result > Ylm(const int& l, const int& m, co
     int i;
     
     // evaluate factorials. First divide the sign in
-    // each iteration and the multiply each factorial
+    // each iteration and then multiply each factorial
     // step to the norm factor to prevent bitoverflow.
     // At last compute square root.
     for (i = 1; i <= l + m; ++i)
@@ -68,7 +68,7 @@ complex< typename uzl_num_only< T >::result > Ylm(const int& l, const int& m, co
     complex< T > e;
     e.polar(1, m * phi);
     
-    // return value by multiplying the norm with the legendre
+    // return value by multiplying the norm with the associated legendre
     // polynomial and the complex term
     return complex< T >(norm * OrthoPoly::assoc_legendre(l, m, cos(theta)), 0) * e;
 }

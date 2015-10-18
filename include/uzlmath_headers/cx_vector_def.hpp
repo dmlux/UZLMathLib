@@ -15,7 +15,7 @@ UZLMATH_BEGIN
 
 template< typename T >
 inline
-vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::vector()
+vector< complex< T >, if_pod_type< T > >::vector()
     : size(0)
     , type(vec_type::ROW)
     , inj(0)
@@ -24,7 +24,7 @@ vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::vecto
 
 template< typename T >
 inline
-vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::vector(const size_t& s, const vec_type& type)
+vector< complex< T >, if_pod_type< T > >::vector(const size_t& s, const vec_type& type)
     : inj(0)
     , size(s)
     , type(type)
@@ -34,7 +34,7 @@ vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::vecto
 
 template< typename T >
 inline
-vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::vector(const size_t& s, const T& initial, const vec_type& type)
+vector< complex< T >, if_pod_type< T > >::vector(const size_t& s, const T& initial, const vec_type& type)
     : inj(0)
     , size(s)
     , type(type)
@@ -50,7 +50,7 @@ vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::vecto
 
 template< typename T >
 inline
-vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::vector(const size_t& s, const complex< T >& initial, const vec_type& type)
+vector< complex< T >, if_pod_type< T > >::vector(const size_t& s, const complex< T >& initial, const vec_type& type)
     : size(s)
     , type(type)
     , inj(0)
@@ -66,7 +66,7 @@ vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::vecto
 
 template< typename T >
 inline
-vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::vector(const vector< T >& vec)
+vector< complex< T >, if_pod_type< T > >::vector(const vector< T >& vec)
     : size(vec.size)
     , type(vec.type)
     , inj(vec.inj)
@@ -82,7 +82,7 @@ vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::vecto
 
 template< typename T >
 inline
-vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::vector(const vector< complex< T > >& vec)
+vector< complex< T >, if_pod_type< T > >::vector(const vector< complex< T > >& vec)
     : inj(vec.inj)
     , size(vec.size)
     , type(vec.type)
@@ -93,7 +93,7 @@ vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::vecto
 
 template< typename T >
 inline
-vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::vector(const vector< T >& vec, const vec_type& type)
+vector< complex< T >, if_pod_type< T > >::vector(const vector< T >& vec, const vec_type& type)
     : size(vec.size)
     , type(type)
     , inj(vec.inj)
@@ -109,7 +109,7 @@ vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::vecto
 
 template< typename T >
 inline
-vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::vector(const vector< complex< T > >& vec, const vec_type& t)
+vector< complex< T >, if_pod_type< T > >::vector(const vector< complex< T > >& vec, const vec_type& t)
     : size(vec.size)
     , type(type)
     , inj(vec.inj)
@@ -124,7 +124,7 @@ vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::vecto
 
 template< typename T >
 inline
-vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::vector(vector< complex< T > >&& vec)
+vector< complex< T >, if_pod_type< T > >::vector(vector< complex< T > >&& vec)
     : inj(vec.inj)
     , size(vec.size)
     , type(vec.type)
@@ -136,14 +136,14 @@ vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::vecto
 
 template< typename T >
 inline
-vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::~vector()
+vector< complex< T >, if_pod_type< T > >::~vector()
 {
     delete [] mem;
 }
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator+(const vector< T >& v)
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator+(const vector< T >& v)
 {
     if ( size != v.size || type != v.type)
     {
@@ -163,7 +163,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator-(const vector< T >& v)
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator-(const vector< T >& v)
 {
     if ( size != v.size || type != v.type)
     {
@@ -183,7 +183,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-matrix< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator*(const vector< T >& v)
+matrix< complex< T > > vector< complex< T >, if_pod_type< T > >::operator*(const vector< T >& v)
 {
     if (type == v.type || (type == vec_type::ROW && size != v.size))
     {
@@ -274,7 +274,7 @@ matrix< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator/(const vector< T >& v)
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator/(const vector< T >& v)
 {
     if (type != v.type || size != size)
     {
@@ -299,7 +299,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator%(const vector< T >& v)
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator%(const vector< T >& v)
 {
     if (type != v.type || size != size)
     {
@@ -319,7 +319,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator+(const vector< complex< T > >& v)
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator+(const vector< complex< T > >& v)
 {
     if ( size != v.size || type != v.t)
     {
@@ -339,7 +339,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator-(const vector< complex< T > >& v)
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator-(const vector< complex< T > >& v)
 {
     if ( size != v.size || type != v.type)
     {
@@ -359,7 +359,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-matrix< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator*(const vector< complex< T > >& v)
+matrix< complex< T > > vector< complex< T >, if_pod_type< T > >::operator*(const vector< complex< T > >& v)
 {
     if (type == v.type || (type == vec_type::ROW && size != v.size))
     {
@@ -473,7 +473,7 @@ matrix< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator/(const vector< complex< T > >& v)
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator/(const vector< complex< T > >& v)
 {
     if (type != v.type || size != size)
     {
@@ -498,7 +498,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator%(const vector< complex< T > >& v)
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator%(const vector< complex< T > >& v)
 {
     if (type != v.type || size != size)
     {
@@ -518,7 +518,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator+(const T& s)
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator+(const T& s)
 {
     vector< complex< T > > result(size, type);
     
@@ -533,7 +533,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator-(const T& s)
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator-(const T& s)
 {
     vector< complex< T > > result(size, type);
     
@@ -548,7 +548,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator*(const T& s)
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator*(const T& s)
 {
     vector< complex< T >>  result(size, type);
     
@@ -563,7 +563,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator/(const T& s)
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator/(const T& s)
 {
     if (s == 0)
     {
@@ -583,7 +583,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator+(const complex< T >& s)
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator+(const complex< T >& s)
 {
     vector< complex< T > > result(size, type);
     
@@ -598,7 +598,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator-(const complex< T >& s)
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator-(const complex< T >& s)
 {
     vector< complex< T > > result(size, type);
     
@@ -613,7 +613,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator*(const complex< T >& s)
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator*(const complex< T >& s)
 {
     vector< complex< T > > result(size, type);
     
@@ -628,7 +628,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator/(const complex< T >& s)
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator/(const complex< T >& s)
 {
     if (s.re == 0 && s.im == 0)
     {
@@ -648,7 +648,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator+()
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator+()
 {
     vector< complex< T > > result(size, type);
     memcpy(access::rw(mem), access::rw(result.mem), size * sizeof(complex< T >));
@@ -658,7 +658,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator-()
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator-()
 {
     vector< complex< T > > result(size, type);
     
@@ -674,7 +674,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator*(const matrix< T >& mat)
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator*(const matrix< T >& mat)
 {
     if ((type == vec_type::ROW && size != mat.rows) || (type == vec_type::COLUMN && mat.rows != 1))
     {
@@ -766,7 +766,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator*(const matrix< complex< T > >& mat)
+vector< complex< T > > vector< complex< T >, if_pod_type< T > >::operator*(const matrix< complex< T > >& mat)
 {
     if ((type == vec_type::ROW && size != mat.rows) || (type == vec_type::COLUMN && mat.rows != 1))
     {
@@ -858,7 +858,7 @@ vector< complex< T > > vector< complex< T >, typename if_true< is_num_type< T >:
 
 template< typename T >
 inline
-const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator=(const vector< T >& v)
+const vector< complex< T > >& vector< complex< T >, if_pod_type< T > >::operator=(const vector< T >& v)
 {
     size = v.size;
     type = v.type;
@@ -880,7 +880,7 @@ const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_typ
 
 template< typename T >
 inline
-const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator=(const vector< complex< T > >& v)
+const vector< complex< T > >& vector< complex< T >, if_pod_type< T > >::operator=(const vector< complex< T > >& v)
 {
     if ( this == &v )
     {
@@ -903,7 +903,7 @@ const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_typ
 
 template< typename T >
 inline
-const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator=(vector< complex< T > >&& v)
+const vector< complex< T > >& vector< complex< T >, if_pod_type< T > >::operator=(vector< complex< T > >&& v)
 {
     if ( this == &v )
     {
@@ -923,7 +923,7 @@ const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_typ
 
 template< typename T >
 inline
-const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator+=(const vector< T >& v)
+const vector< complex< T > >& vector< complex< T >, if_pod_type< T > >::operator+=(const vector< T >& v)
 {
     if (size != size || type != v.type)
     {
@@ -941,7 +941,7 @@ const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_typ
 
 template< typename T >
 inline
-const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator+=(const vector< complex< T > >& v)
+const vector< complex< T > >& vector< complex< T >, if_pod_type< T > >::operator+=(const vector< complex< T > >& v)
 {
     if (size != size || type != v.type)
     {
@@ -959,7 +959,7 @@ const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_typ
 
 template< typename T >
 inline
-const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator-=(const vector< T >& v)
+const vector< complex< T > >& vector< complex< T >, if_pod_type< T > >::operator-=(const vector< T >& v)
 {
     if (size != size || type != v.type)
     {
@@ -977,7 +977,7 @@ const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_typ
 
 template< typename T >
 inline
-const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator-=(const vector< complex< T > >& v)
+const vector< complex< T > >& vector< complex< T >, if_pod_type< T > >::operator-=(const vector< complex< T > >& v)
 {
     if (size != size || type != v.type)
     {
@@ -995,7 +995,7 @@ const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_typ
 
 template< typename T >
 inline
-const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator/=(const vector< T >& v)
+const vector< complex< T > >& vector< complex< T >, if_pod_type< T > >::operator/=(const vector< T >& v)
 {
     if (type != v.type || size != size)
     {
@@ -1018,7 +1018,7 @@ const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_typ
 
 template< typename T >
 inline
-const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator/=(const vector< complex< T > >& v)
+const vector< complex< T > >& vector< complex< T >, if_pod_type< T > >::operator/=(const vector< complex< T > >& v)
 {
     if (type != v.type || size != size)
     {
@@ -1041,7 +1041,7 @@ const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_typ
 
 template< typename T >
 inline
-const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator%=(const vector< T >& v)
+const vector< complex< T > >& vector< complex< T >, if_pod_type< T > >::operator%=(const vector< T >& v)
 {
     if (type != v.type || size != size)
     {
@@ -1059,7 +1059,7 @@ const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_typ
 
 template< typename T >
 inline
-const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator%=(const vector< complex< T > >& v)
+const vector< complex< T > >& vector< complex< T >, if_pod_type< T > >::operator%=(const vector< complex< T > >& v)
 {
     if (type != v.type || size != size)
     {
@@ -1077,7 +1077,7 @@ const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_typ
 
 template< typename T >
 inline
-const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator*=(const vector< T >& v)
+const vector< complex< T > >& vector< complex< T >, if_pod_type< T > >::operator*=(const vector< T >& v)
 {
     if (type == v.type || type == vec_type::COLUMN || (type == vec_type::ROW && size != v.size))
     {
@@ -1100,7 +1100,7 @@ const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_typ
 
 template< typename T >
 inline
-const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator*=(const vector< complex< T > >& v)
+const vector< complex< T > >& vector< complex< T >, if_pod_type< T > >::operator*=(const vector< complex< T > >& v)
 {
     if (type == v.type || type == vec_type::COLUMN || (type == vec_type::ROW && size != v.size))
     {
@@ -1123,7 +1123,7 @@ const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_typ
 
 template< typename T >
 inline
-const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator+=(const T& s)
+const vector< complex< T > >& vector< complex< T >, if_pod_type< T > >::operator+=(const T& s)
 {
     size_t i;
     for (i = 0; i < size; ++i)
@@ -1136,7 +1136,7 @@ const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_typ
 
 template< typename T >
 inline
-const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator-=(const T& s)
+const vector< complex< T > >& vector< complex< T >, if_pod_type< T > >::operator-=(const T& s)
 {
     size_t i;
     for (i = 0; i < size; ++i)
@@ -1149,7 +1149,7 @@ const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_typ
 
 template< typename T >
 inline
-const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator*=(const T& s)
+const vector< complex< T > >& vector< complex< T >, if_pod_type< T > >::operator*=(const T& s)
 {
     
     for (const complex< T >* e = mem; e != mem + size; ++e)
@@ -1162,7 +1162,7 @@ const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_typ
 
 template< typename T >
 inline
-const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator/=(const T& s)
+const vector< complex< T > >& vector< complex< T >, if_pod_type< T > >::operator/=(const T& s)
 {
     if (s == 0)
     {
@@ -1180,7 +1180,7 @@ const vector< complex< T > >& vector< complex< T >, typename if_true< is_num_typ
 
 template< typename T >
 inline
-bool vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator==(const vector< T >& v)
+bool vector< complex< T >, if_pod_type< T > >::operator==(const vector< T >& v)
 {
     bool equal = true;
     
@@ -1199,14 +1199,14 @@ bool vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::
 
 template< typename T >
 inline
-bool vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator!=(const vector< T >& v)
+bool vector< complex< T >, if_pod_type< T > >::operator!=(const vector< T >& v)
 {
     return !(*this == v);
 }
 
 template< typename T >
 inline
-bool vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator==(const vector< complex< T > >& v)
+bool vector< complex< T >, if_pod_type< T > >::operator==(const vector< complex< T > >& v)
 {
     bool equal = true;
     
@@ -1225,42 +1225,42 @@ bool vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::
 
 template< typename T >
 inline
-bool vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator!=(const vector< complex< T > >& v)
+bool vector< complex< T >, if_pod_type< T > >::operator!=(const vector< complex< T > >& v)
 {
     return !(*this == v);
 }
 
 template< typename T >
 inline
-complex< T >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator[](const size_t& idx)
+complex< T >& vector< complex< T >, if_pod_type< T > >::operator[](const size_t& idx)
 {
     return access::rw(mem[idx]);
 }
 
 template< typename T >
 inline
-constexpr complex< T >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator[](const size_t& idx) const
+constexpr complex< T >& vector< complex< T >, if_pod_type< T > >::operator[](const size_t& idx) const
 {
     return access::rw(mem[idx]);
 }
 
 template< typename T >
 inline
-complex< T >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator()(const size_t& idx)
+complex< T >& vector< complex< T >, if_pod_type< T > >::operator()(const size_t& idx)
 {
     return mem[idx];
 }
 
 template< typename T >
 inline
-constexpr complex< T >& vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator()(const size_t& idx) const
+constexpr complex< T >& vector< complex< T >, if_pod_type< T > >::operator()(const size_t& idx) const
 {
     return mem[idx];
 }
 
 template< typename T >
 inline
-void vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::ones()
+void vector< complex< T >, if_pod_type< T > >::ones()
 {
     complex< T >* fill_mem = const_cast< complex< T >* >(mem);
     std::fill(fill_mem, fill_mem + size, complex< T >(1, 0));
@@ -1268,7 +1268,7 @@ void vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::
 
 template< typename T >
 inline
-void vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::zeros()
+void vector< complex< T >, if_pod_type< T > >::zeros()
 {
     complex< T >* fill_mem = const_cast< complex< T >* >(mem);
     std::fill(fill_mem, fill_mem + size, complex< T >(0, 0));
@@ -1276,14 +1276,14 @@ void vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::
 
 template< typename T >
 inline
-void vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::transpose()
+void vector< complex< T >, if_pod_type< T > >::transpose()
 {
     type = (type == vec_type::ROW ? vec_type::COLUMN : vec_type::ROW);
 }
 
 template< typename T >
 inline
-void vector< complex< T >, typename if_true< is_num_type< T >::value >::type >::fill(const T& s)
+void vector< complex< T >, if_pod_type< T > >::fill(const T& s)
 {
     complex< T >* fill_mem = const_cast< complex< T >* >(mem);
     std::fill(fill_mem, fill_mem + size, complex< T >(s, 0));
