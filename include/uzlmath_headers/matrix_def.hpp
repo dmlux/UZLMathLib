@@ -20,7 +20,7 @@ UZLMATH_BEGIN
  */
 template< typename T >
 inline
-matrix< T >::matrix()
+matrix< T, typename if_true< is_num_type< T >::value >::type >::matrix()
     : r_inj(0)
     , c_inj(0)
     , rows(0)
@@ -35,7 +35,7 @@ matrix< T >::matrix()
  */
 template< typename T >
 inline
-matrix< T >::~matrix()
+matrix< T, typename if_true< is_num_type< T >::value >::type >::~matrix()
 {
     delete [] mem;
 }
@@ -51,7 +51,7 @@ matrix< T >::~matrix()
  */
 template< typename T >
 inline
-matrix< T >::matrix(const size_t& m, const size_t& n)
+matrix< T, typename if_true< is_num_type< T >::value >::type >::matrix(const size_t& m, const size_t& n)
     : r_inj(0)
     , c_inj(0)
     , rows(m)
@@ -71,7 +71,7 @@ matrix< T >::matrix(const size_t& m, const size_t& n)
  */
 template< typename T >
 inline
-matrix< T >::matrix(const size_t& mn)
+matrix< T, typename if_true< is_num_type< T >::value >::type >::matrix(const size_t& mn)
     : rows(mn)
     , cols(mn)
     , r_inj(0)
@@ -92,7 +92,7 @@ matrix< T >::matrix(const size_t& mn)
  */
 template< typename T >
 inline
-matrix< T >::matrix(const size_t& m, const size_t& n, const T& initial)
+matrix< T, typename if_true< is_num_type< T >::value >::type >::matrix(const size_t& m, const size_t& n, const T& initial)
     : r_inj(0)
     , c_inj(0)
     , rows(m)
@@ -127,7 +127,7 @@ matrix< T >::matrix(const size_t& m, const size_t& n, const T& initial)
 template< typename T >
 template< typename T1, typename T2 >
 inline
-matrix< T >::matrix(const glue< T1, T2 >& X)
+matrix< T, typename if_true< is_num_type< T >::value >::type >::matrix(const glue< T1, T2 >& X)
     : r_inj(0)
     , c_inj(0)
     , rows(0)
@@ -180,7 +180,7 @@ matrix< T >::matrix(const glue< T1, T2 >& X)
  */
 template< typename T >
 inline
-matrix< T >::matrix(const matrix< T >& A)
+matrix< T, typename if_true< is_num_type< T >::value >::type >::matrix(const matrix< T >& A)
     : r_inj(A.r_inj)
     , c_inj(A.c_inj)
     , rows(A.rows)
@@ -207,7 +207,7 @@ matrix< T >::matrix(const matrix< T >& A)
  */
 template< typename T >
 inline
-matrix< T >::matrix(matrix< T >&& A)
+matrix< T, typename if_true< is_num_type< T >::value >::type >::matrix(matrix< T >&& A)
     : r_inj(A.r_inj)
     , c_inj(A.c_inj)
     , rows(A.rows)
@@ -231,7 +231,7 @@ matrix< T >::matrix(matrix< T >&& A)
  */
 template< typename T >
 inline
-glue< matrix< T >, matrix< T > > matrix< T >::operator+(const matrix< T >& A)
+glue< matrix< T >, matrix< T > > matrix< T, typename if_true< is_num_type< T >::value >::type >::operator+(const matrix< T >& A)
 {
     return glue< matrix< T >, matrix< T > >(*this, A);
 }
@@ -248,7 +248,7 @@ glue< matrix< T >, matrix< T > > matrix< T >::operator+(const matrix< T >& A)
  */
 template< typename T >
 inline
-matrix< T > matrix< T >::operator-(const matrix< T >& A)
+matrix< T > matrix< T, typename if_true< is_num_type< T >::value >::type >::operator-(const matrix< T >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -287,7 +287,7 @@ matrix< T > matrix< T >::operator-(const matrix< T >& A)
  */
 template< typename T >
 inline
-matrix< T > matrix< T >::operator*(const matrix< T >& A)
+matrix< T > matrix< T, typename if_true< is_num_type< T >::value >::type >::operator*(const matrix< T >& A)
 {
     if ( cols != A.rows )
     {
@@ -317,8 +317,7 @@ matrix< T > matrix< T >::operator*(const matrix< T >& A)
         }
         
         float* C       = new float[n_rows * n_cols];
-        uzl_blas_sgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, 1.0,
-                      tmp_mem, rows, tmp_A, A.rows, 0.0, C, n_rows);
+        uzl_blas_sgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, 1.0, tmp_mem, rows, tmp_A, A.rows, 0.0, C, n_rows);
         
         size_t cap_c   = n_rows * n_cols;
         
@@ -338,8 +337,7 @@ matrix< T > matrix< T >::operator*(const matrix< T >& A)
         float* B_mem_ptr = reinterpret_cast< float* >(access::rwp(A.mem));
         float* C_mem_ptr = reinterpret_cast< float* >(access::rwp(result.mem));
         
-        uzl_blas_sgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, 1.0,
-                      A_mem_ptr, rows, B_mem_ptr, A.rows, 0.0, C_mem_ptr, n_rows);
+        uzl_blas_sgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, 1.0, A_mem_ptr, rows, B_mem_ptr, A.rows, 0.0, C_mem_ptr, n_rows);
     }
     else if (same_type< T, double >::value )
     {
@@ -348,8 +346,7 @@ matrix< T > matrix< T >::operator*(const matrix< T >& A)
         double* B_mem_ptr = reinterpret_cast< double* >(access::rwp(A.mem));
         double* C_mem_ptr = reinterpret_cast< double* >(access::rwp(result.mem));
         
-        uzl_blas_dgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, 1.0,
-                      A_mem_ptr, rows, B_mem_ptr, A.rows, 0.0, C_mem_ptr, n_rows);
+        uzl_blas_dgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, 1.0, A_mem_ptr, rows, B_mem_ptr, A.rows, 0.0, C_mem_ptr, n_rows);
     }
     else
     {
@@ -398,7 +395,7 @@ matrix< T > matrix< T >::operator*(const matrix< T >& A)
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< T >::operator+(const matrix< complex< T > >& A)
+matrix< complex< T > > matrix< T, typename if_true< is_num_type< T >::value >::type >::operator+(const matrix< complex< T > >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -431,7 +428,7 @@ matrix< complex< T > > matrix< T >::operator+(const matrix< complex< T > >& A)
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< T >::operator-(const matrix< complex< T > >& A)
+matrix< complex< T > > matrix< T, typename if_true< is_num_type< T >::value >::type >::operator-(const matrix< complex< T > >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -470,7 +467,7 @@ matrix< complex< T > > matrix< T >::operator-(const matrix< complex< T > >& A)
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< T >::operator*(const matrix< complex< T > >& A)
+matrix< complex< T > > matrix< T, typename if_true< is_num_type< T >::value >::type >::operator*(const matrix< complex< T > >& A)
 {
     if ( cols != A.rows )
     {
@@ -607,7 +604,7 @@ matrix< complex< T > > matrix< T >::operator*(const matrix< complex< T > >& A)
  */
 template< typename T >
 inline
-const matrix< T >&  matrix< T >::operator=(const matrix< T >& A)
+const matrix< T >&  matrix< T, typename if_true< is_num_type< T >::value >::type >::operator=(const matrix< T >& A)
 {
     if ( this == &A )
     {
@@ -641,7 +638,7 @@ const matrix< T >&  matrix< T >::operator=(const matrix< T >& A)
  */
 template< typename T >
 inline
-const matrix< T >&  matrix< T >::operator=(matrix< T >&& A)
+const matrix< T >&  matrix< T, typename if_true< is_num_type< T >::value >::type >::operator=(matrix< T >&& A)
 {
     if ( this == &A )
     {
@@ -673,7 +670,7 @@ const matrix< T >&  matrix< T >::operator=(matrix< T >&& A)
  */
 template< typename T >
 template< typename T1, typename T2 >
-const matrix< T >& matrix< T >::operator=(const glue< T1, T2 >& X)
+const matrix< T >& matrix< T, typename if_true< is_num_type< T >::value >::type >::operator=(const glue< T1, T2 >& X)
 {
     // get number of matrices in the BET
     int N = 1 + depth_lhs< glue< T1, T2 > >::num;
@@ -732,7 +729,7 @@ const matrix< T >& matrix< T >::operator=(const glue< T1, T2 >& X)
  */
 template< typename T >
 inline
-bool matrix< T >::operator==(const matrix< T >& A)
+bool matrix< T, typename if_true< is_num_type< T >::value >::type >::operator==(const matrix< T >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -763,7 +760,7 @@ bool matrix< T >::operator==(const matrix< T >& A)
  */
 template< typename T >
 inline
-bool matrix< T >::operator!=(const matrix< T >& A)
+bool matrix< T, typename if_true< is_num_type< T >::value >::type >::operator!=(const matrix< T >& A)
 {
     return !(*this == A);
 }
@@ -779,7 +776,7 @@ bool matrix< T >::operator!=(const matrix< T >& A)
  */
 template< typename T >
 inline
-const matrix< T >& matrix< T >::operator+=(const matrix< T >& A)
+const matrix< T >& matrix< T, typename if_true< is_num_type< T >::value >::type >::operator+=(const matrix< T >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -806,7 +803,7 @@ const matrix< T >& matrix< T >::operator+=(const matrix< T >& A)
  */
 template< typename T >
 inline
-const matrix< T >& matrix< T >::operator-=(const matrix< T >& A)
+const matrix< T >& matrix< T, typename if_true< is_num_type< T >::value >::type >::operator-=(const matrix< T >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -833,7 +830,7 @@ const matrix< T >& matrix< T >::operator-=(const matrix< T >& A)
  */
 template< typename T >
 inline
-const matrix< T >& matrix< T >::operator*=(const matrix< T >& A)
+const matrix< T >& matrix< T, typename if_true< is_num_type< T >::value >::type >::operator*=(const matrix< T >& A)
 {
     if ( cols != A.rows )
     {
@@ -958,7 +955,7 @@ const matrix< T >& matrix< T >::operator*=(const matrix< T >& A)
  */
 template< typename T >
 inline
-matrix< T > matrix< T >::operator+()
+matrix< T > matrix< T, typename if_true< is_num_type< T >::value >::type >::operator+()
 {
     matrix< T > C(rows, cols);
     memcpy(C.mem, mem, rows * cols * sizeof(T));
@@ -977,7 +974,7 @@ matrix< T > matrix< T >::operator+()
  */
 template< typename T >
 inline
-matrix< T > matrix< T >::operator-()
+matrix< T > matrix< T, typename if_true< is_num_type< T >::value >::type >::operator-()
 {
     matrix< T > C(rows, cols);
     
@@ -1010,7 +1007,7 @@ matrix< T > matrix< T >::operator-()
  */
 template< typename T >
 inline
-matrix< T > matrix< T >::operator+(const T& rhs)
+matrix< T > matrix< T, typename if_true< is_num_type< T >::value >::type >::operator+(const T& rhs)
 {
     matrix< T > C(rows, cols);
     
@@ -1043,7 +1040,7 @@ matrix< T > matrix< T >::operator+(const T& rhs)
  */
 template< typename T >
 inline
-matrix< T > matrix< T >::operator-(const T& rhs)
+matrix< T > matrix< T, typename if_true< is_num_type< T >::value >::type >::operator-(const T& rhs)
 {
     matrix< T > C(rows, cols);
     
@@ -1081,7 +1078,7 @@ matrix< T > matrix< T >::operator-(const T& rhs)
  */
 template< typename T >
 inline
-matrix< T > matrix< T >::operator*(const T& rhs)
+matrix< T > matrix< T, typename if_true< is_num_type< T >::value >::type >::operator*(const T& rhs)
 {
     // result matrix
     matrix< T > C(rows, cols);
@@ -1124,7 +1121,7 @@ matrix< T > matrix< T >::operator*(const T& rhs)
  */
 template< typename T >
 inline
-matrix< T > matrix< T >::operator/(const T& rhs)
+matrix< T > matrix< T, typename if_true< is_num_type< T >::value >::type >::operator/(const T& rhs)
 {
     if ( rhs == 0 )
     {
@@ -1175,7 +1172,7 @@ matrix< T > matrix< T >::operator/(const T& rhs)
  */
 template< typename T >
 inline
-matrix< T > matrix< T >::operator^(const unsigned int& exp)
+matrix< T > matrix< T, typename if_true< is_num_type< T >::value >::type >::operator^(const unsigned int& exp)
 {
     if ( rows != cols )
     {
@@ -1212,7 +1209,7 @@ matrix< T > matrix< T >::operator^(const unsigned int& exp)
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< T >::operator+(const complex< T >& rhs)
+matrix< complex< T > > matrix< T, typename if_true< is_num_type< T >::value >::type >::operator+(const complex< T >& rhs)
 {
     matrix< complex< T > > C(rows, cols);
     
@@ -1245,7 +1242,7 @@ matrix< complex< T > > matrix< T >::operator+(const complex< T >& rhs)
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< T >::operator-(const complex< T >& rhs)
+matrix< complex< T > > matrix< T, typename if_true< is_num_type< T >::value >::type >::operator-(const complex< T >& rhs)
 {
     matrix< complex< T > > C(rows, cols);
     
@@ -1283,7 +1280,7 @@ matrix< complex< T > > matrix< T >::operator-(const complex< T >& rhs)
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< T >::operator*(const complex< T >& rhs)
+matrix< complex< T > > matrix< T, typename if_true< is_num_type< T >::value >::type >::operator*(const complex< T >& rhs)
 {
     matrix< complex< T > > C(rows, cols);
     
@@ -1321,7 +1318,7 @@ matrix< complex< T > > matrix< T >::operator*(const complex< T >& rhs)
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< T >::operator/(const complex< T >& rhs)
+matrix< complex< T > > matrix< T, typename if_true< is_num_type< T >::value >::type >::operator/(const complex< T >& rhs)
 {
     if ( rhs == 0 )
     {
@@ -1350,7 +1347,7 @@ matrix< complex< T > > matrix< T >::operator/(const complex< T >& rhs)
  */
 template< typename T >
 inline
-vector< complex< T > > matrix< T >::operator*(const vector< complex< T > >& v)
+vector< complex< T > > matrix< T, typename if_true< is_num_type< T >::value >::type >::operator*(const vector< complex< T > >& v)
 {
     if (cols != v.size || v.type == vec_type::ROW)
     {
@@ -1381,7 +1378,7 @@ vector< complex< T > > matrix< T >::operator*(const vector< complex< T > >& v)
  */
 template< typename T >
 inline
-matrix< T >& matrix< T >::operator+=(const T& rhs)
+matrix< T >& matrix< T, typename if_true< is_num_type< T >::value >::type >::operator+=(const T& rhs)
 {
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1401,7 +1398,7 @@ matrix< T >& matrix< T >::operator+=(const T& rhs)
  */
 template< typename T >
 inline
-matrix< T >& matrix< T >::operator-=(const T& rhs)
+matrix< T >& matrix< T, typename if_true< is_num_type< T >::value >::type >::operator-=(const T& rhs)
 {
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1421,7 +1418,7 @@ matrix< T >& matrix< T >::operator-=(const T& rhs)
  */
 template< typename T >
 inline
-matrix< T >& matrix< T >::operator*=(const T& rhs)
+matrix< T >& matrix< T, typename if_true< is_num_type< T >::value >::type >::operator*=(const T& rhs)
 {
     size_t cap = rows * cols;
     for (const T* e = mem; e != mem + cap; ++e)
@@ -1442,7 +1439,7 @@ matrix< T >& matrix< T >::operator*=(const T& rhs)
  */
 template< typename T >
 inline
-matrix< T >& matrix< T >::operator/=(const T& rhs)
+matrix< T >& matrix< T, typename if_true< is_num_type< T >::value >::type >::operator/=(const T& rhs)
 {
     if ( rhs == 0 )
     {
@@ -1468,7 +1465,7 @@ matrix< T >& matrix< T >::operator/=(const T& rhs)
  */
 template< typename T >
 inline
-matrix< T >& matrix< T >::operator^=(const unsigned int& exp)
+matrix< T >& matrix< T, typename if_true< is_num_type< T >::value >::type >::operator^=(const unsigned int& exp)
 {
     if ( rows != cols )
     {
@@ -1489,7 +1486,7 @@ matrix< T >& matrix< T >::operator^=(const unsigned int& exp)
 
 template< typename T >
 inline
-matrix< T >& matrix< T >::operator<<(const T& val)
+matrix< T >& matrix< T, typename if_true< is_num_type< T >::value >::type >::operator<<(const T& val)
 {
     // fill matrix with value
     access::rw(mem[c_inj * rows + r_inj]) = val;
@@ -1514,7 +1511,7 @@ matrix< T >& matrix< T >::operator<<(const T& val)
 
 template< typename T >
 inline
-matrix< T >& matrix< T >::operator<<(const mat& token)
+matrix< T >& matrix< T, typename if_true< is_num_type< T >::value >::type >::operator<<(const mat& token)
 {
     // start position of next col
     c_inj = 0;
@@ -1541,7 +1538,7 @@ matrix< T >& matrix< T >::operator<<(const mat& token)
  */
 template< typename T >
 inline
-T& matrix< T >::operator()(const size_t& i, const size_t& j)
+T& matrix< T, typename if_true< is_num_type< T >::value >::type >::operator()(const size_t& i, const size_t& j)
 {
     return access::rw(mem[j * rows + i]);
 }
@@ -1558,7 +1555,7 @@ T& matrix< T >::operator()(const size_t& i, const size_t& j)
  */
 template< typename T >
 inline
-const T& matrix< T >::operator()(const size_t& i, const size_t& j) const
+const T& matrix< T, typename if_true< is_num_type< T >::value >::type >::operator()(const size_t& i, const size_t& j) const
 {
     return mem[j * rows + i];
 }
@@ -1573,7 +1570,7 @@ const T& matrix< T >::operator()(const size_t& i, const size_t& j) const
  */
 template< typename T >
 inline
-void matrix< T >::zeros()
+void matrix< T, typename if_true< is_num_type< T >::value >::type >::zeros()
 {
     memset(mem, 0, rows * cols * sizeof(T));
 }
@@ -1588,7 +1585,7 @@ void matrix< T >::zeros()
  */
 template< typename T >
 inline
-void matrix< T >::ones()
+void matrix< T, typename if_true< is_num_type< T >::value >::type >::ones()
 {
     std::fill(mem, mem + rows * cols, 1);
 }
@@ -1615,7 +1612,7 @@ void matrix< T >::ones()
  */
 template< typename T >
 inline
-void matrix< T >::eye()
+void matrix< T, typename if_true< is_num_type< T >::value >::type >::eye()
 {
     memset(mem, 0, rows * cols * sizeof(T));
     
@@ -1636,7 +1633,7 @@ void matrix< T >::eye()
  */
 template< typename T >
 inline
-void matrix< T >::transpose()
+void matrix< T, typename if_true< is_num_type< T >::value >::type >::transpose()
 {
     T *tmp_mem  = new T[rows * cols];
     size_t tmp_r = cols;
@@ -1664,7 +1661,7 @@ void matrix< T >::transpose()
  */
 template< typename T >
 inline
-void matrix< T >::fill(const T& value)
+void matrix< T, typename if_true< is_num_type< T >::value >::type >::fill(const T& value)
 {
     if (value == 0 || value == -1)
     {
@@ -1697,7 +1694,7 @@ void matrix< T >::fill(const T& value)
  */
 template< typename T >
 inline
-const double matrix< T >::determinant()
+double matrix< T, typename if_true< is_num_type< T >::value >::type >::determinant()
 {
     if (rows != cols)
     {

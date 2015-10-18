@@ -41,100 +41,104 @@ UZLMATH_BEGIN
  * @date        12.01.15
  */
 template< typename T >
-class matrix : public base< matrix< T > > // use static polymorphism
+class
+matrix< T, typename if_true< is_num_type< T >::value >::type > : public base< matrix< T > > // use static polymorphism
 {
-    size_t r_inj;       //!< Row injection index
-    size_t c_inj;       //!< Column injection index
+    size_t r_inj;           //!< Row injection index
+    size_t c_inj;           //!< Column injection index
     
 public:
-    // ivars
-    const size_t rows;  //!< Number of matrix rows
-    const size_t cols;  //!< Number of matrix columns
+    // type declarations
+    typedef T pod_type;     //!< The POD type of matrix elements
     
-    const T* mem;       //!< Matrix memory
+    // ivars
+    const size_t rows;      //!< Number of matrix rows
+    const size_t cols;      //!< Number of matrix columns
+    
+    const pod_type* mem;    //!< Matrix memory
     
     // methods
-    inline                                         ~matrix();
-    inline                                          matrix();
+    inline                                                     ~matrix();
+    inline                                                      matrix();
     
-    inline                                          matrix(const size_t& m, const size_t& n);
-    inline                                          matrix(const size_t& mn);
-    inline                                          matrix(const size_t& m, const size_t& n, const T& initial);
-    
-    template< typename T1, typename T2 >
-    inline                                          matrix(const glue< T1, T2 >& X);
-    inline                                          matrix(const matrix< T >& A);
-    inline                                          matrix(matrix< T >&& A);
-    
-    inline                                          matrix(const vector< T >& v);
-    
-    inline       glue< matrix< T >, matrix< T > >   operator+(const matrix< T >& A);
-    inline       matrix< T >                        operator-(const matrix< T >& A);
-    inline       matrix< T >                        operator*(const matrix< T >& A);
-    inline       matrix< T >                        operator%(const matrix< T >& A);
-    inline       matrix< T >                        operator/(const matrix< T >& A);
-    inline       matrix< complex< T > >             operator+(const matrix< complex< T > >& A);
-    inline       matrix< complex< T > >             operator-(const matrix< complex< T > >& A);
-    inline       matrix< complex< T > >             operator*(const matrix< complex< T > >& A);
-    inline       matrix< complex< T > >             operator%(const matrix< complex< T > >& A);
-    inline       matrix< complex< T > >             operator/(const matrix< complex< T > >& A);
-    
-    inline       vector< T >                        operator*(const vector< T >& v);
-    inline       vector< complex< T > >             operator*(const vector< complex< T > >& v);
-    
-    inline const matrix< T >&                       operator=(const matrix< T >& A);
-    inline const matrix< T >&                       operator=(matrix< T >&& A);
+    inline                                                      matrix(const size_t& m, const size_t& n);
+    inline                                                      matrix(const size_t& mn);
+    inline                                                      matrix(const size_t& m, const size_t& n, const pod_type& initial);
     
     template< typename T1, typename T2 >
-    inline const matrix< T >&                       operator=(const glue< T1, T2 >& X);
+    inline                                                      matrix(const glue< T1, T2 >& X);
+    inline                                                      matrix(const matrix< pod_type >& A);
+    inline                                                      matrix(matrix< pod_type >&& A);
     
-    inline       bool                               operator==(const matrix< T >& A);
-    inline       bool                               operator!=(const matrix< T >& A);
+    inline                                                      matrix(const vector< pod_type >& v);
     
-    inline const matrix< T >&                       operator+=(const matrix< T >& A);
-    inline const matrix< T >&                       operator-=(const matrix< T >& A);
-    inline const matrix< T >&                       operator*=(const matrix< T >& A);
-    inline const matrix< T >&                       operator%=(const matrix< T >& A);
-    inline const matrix< T >&                       operator/=(const matrix< T >& A);
+    inline       glue< matrix< pod_type >, matrix< pod_type > > operator+(const matrix< pod_type >& A);
+    inline       matrix< pod_type >                             operator-(const matrix< pod_type >& A);
+    inline       matrix< pod_type >                             operator*(const matrix< pod_type >& A);
+    inline       matrix< pod_type >                             operator%(const matrix< pod_type >& A);
+    inline       matrix< pod_type >                             operator/(const matrix< pod_type >& A);
+    inline       matrix< complex< pod_type > >                  operator+(const matrix< complex< pod_type > >& A);
+    inline       matrix< complex< pod_type > >                  operator-(const matrix< complex< pod_type > >& A);
+    inline       matrix< complex< pod_type > >                  operator*(const matrix< complex< pod_type > >& A);
+    inline       matrix< complex< pod_type > >                  operator%(const matrix< complex< pod_type > >& A);
+    inline       matrix< complex< pod_type > >                  operator/(const matrix< complex< pod_type > >& A);
     
-    inline const matrix< T >&                       operator*=(const vector< T >& v);
+    inline       vector< pod_type >                             operator*(const vector< pod_type >& v);
+    inline       vector< complex< pod_type > >                  operator*(const vector< complex< pod_type > >& v);
     
-    inline       matrix< T >                        operator+();
-    inline       matrix< T >                        operator-();
+    inline const matrix< pod_type >&                            operator=(const matrix< pod_type >& A);
+    inline const matrix< pod_type >&                            operator=(matrix< pod_type >&& A);
     
-    inline       matrix< T >                        operator+(const T& rhs);
-    inline       matrix< T >                        operator-(const T& rhs);
-    inline       matrix< T >                        operator*(const T& rhs);
-    inline       matrix< T >                        operator/(const T& rhs);
-    inline       matrix< T >                        operator^(const unsigned int& exp);
+    template< typename T1, typename T2 >
+    inline const matrix< pod_type >&                            operator=(const glue< T1, T2 >& X);
     
-    inline       matrix< complex< T > >             operator+(const complex< T >& rhs);
-    inline       matrix< complex< T > >             operator-(const complex< T >& rhs);
-    inline       matrix< complex< T > >             operator*(const complex< T >& rhs);
-    inline       matrix< complex< T > >             operator/(const complex< T >& rhs);
+    inline       bool                                           operator==(const matrix< pod_type >& A);
+    inline       bool                                           operator!=(const matrix< pod_type >& A);
     
-    inline       matrix< T >&                       operator+=(const T& rhs);
-    inline       matrix< T >&                       operator-=(const T& rhs);
-    inline       matrix< T >&                       operator*=(const T& rhs);
-    inline       matrix< T >&                       operator/=(const T& rhs);
-    inline       matrix< T >&                       operator^=(const unsigned int& exp);
+    inline const matrix< pod_type >&                            operator+=(const matrix< pod_type >& A);
+    inline const matrix< pod_type >&                            operator-=(const matrix< pod_type >& A);
+    inline const matrix< pod_type >&                            operator*=(const matrix< pod_type >& A);
+    inline const matrix< pod_type >&                            operator%=(const matrix< pod_type >& A);
+    inline const matrix< pod_type >&                            operator/=(const matrix< pod_type >& A);
     
-    inline       matrix< T >&                       operator<<(const T& val);
-    inline       matrix< T >&                       operator<<(const mat& token);
+    inline const matrix< pod_type >&                            operator*=(const vector< pod_type >& v);
     
-    inline       T&                                 operator()(const size_t& i, const size_t& j);
-    inline const T&                                 operator()(const size_t& i, const size_t& j) const;
+    inline       matrix< pod_type >                             operator+();
+    inline       matrix< pod_type >                             operator-();
     
-    inline       void                               zeros();
-    inline       void                               ones();
-    inline       void                               eye();
-    inline       void                               transpose();
-    inline       void                               fill(const T& value);
-    inline       void                               diag(const T& val);
-    inline       void                               diag(const vector< T >& vec);
-    inline       void                               reshape(const size_t& new_rows, const size_t& new_cols);
+    inline       matrix< pod_type >                             operator+(const pod_type& rhs);
+    inline       matrix< pod_type >                             operator-(const pod_type& rhs);
+    inline       matrix< pod_type >                             operator*(const pod_type& rhs);
+    inline       matrix< pod_type >                             operator/(const pod_type& rhs);
+    inline       matrix< pod_type >                             operator^(const unsigned int& exp);
     
-    inline const double                             determinant();
+    inline       matrix< complex< pod_type > >                  operator+(const complex< pod_type >& rhs);
+    inline       matrix< complex< pod_type > >                  operator-(const complex< pod_type >& rhs);
+    inline       matrix< complex< pod_type > >                  operator*(const complex< pod_type >& rhs);
+    inline       matrix< complex< pod_type > >                  operator/(const complex< pod_type >& rhs);
+    
+    inline       matrix< pod_type >&                            operator+=(const pod_type& rhs);
+    inline       matrix< pod_type >&                            operator-=(const pod_type& rhs);
+    inline       matrix< pod_type >&                            operator*=(const pod_type& rhs);
+    inline       matrix< pod_type >&                            operator/=(const pod_type& rhs);
+    inline       matrix< pod_type >&                            operator^=(const unsigned int& exp);
+    
+    inline       matrix< pod_type >&                            operator<<(const pod_type& val);
+    inline       matrix< pod_type >&                            operator<<(const mat& token);
+    
+    inline       pod_type&                                      operator()(const size_t& i, const size_t& j);
+    inline const pod_type&                                      operator()(const size_t& i, const size_t& j) const;
+    
+    inline       void                                           zeros();
+    inline       void                                           ones();
+    inline       void                                           eye();
+    inline       void                                           transpose();
+    inline       void                                           fill(const pod_type& value);
+    inline       void                                           diag(const pod_type& val);
+    inline       void                                           diag(const vector< pod_type >& vec);
+    inline       void                                           reshape(const size_t& new_rows, const size_t& new_cols);
+    
+    inline       double                                         determinant();
 };
 
 template< typename S > std::ostream& operator<<(std::ostream& o, const matrix< S >& A);

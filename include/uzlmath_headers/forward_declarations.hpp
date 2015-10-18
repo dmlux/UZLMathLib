@@ -13,28 +13,51 @@
 
 UZLMATH_BEGIN
 
-template< typename derived >            struct base;
-template< typename T1, typename T2 >    class  glue;
-template< typename T >                  class  complex;
+// check if type is num type
+template< typename T > struct is_num_type                               { static const bool value = false;  };
+template<>             struct is_num_type< short >                      { static const bool value = true;   };
+template<>             struct is_num_type< int >                        { static const bool value = true;   };
+template<>             struct is_num_type< long >                       { static const bool value = true;   };
+template<>             struct is_num_type< long long >                  { static const bool value = true;   };
+template<>             struct is_num_type< unsigned short >             { static const bool value = true;   };
+template<>             struct is_num_type< unsigned int >               { static const bool value = true;   };
+template<>             struct is_num_type< unsigned long >              { static const bool value = true;   };
+template<>             struct is_num_type< unsigned long long >         { static const bool value = true;   };
+template<>             struct is_num_type< float >                      { static const bool value = true;   };
+template<>             struct is_num_type< double >                     { static const bool value = true;   };
+template<>             struct is_num_type< long double >                { static const bool value = true;   };
 
-template< typename T >                  class  matrix;
-template< typename T >                  class  matrix< complex< T > >;
+// check if template is true
+template< bool T, typename U = void > struct if_true                    {                                   };
+template< typename U >                struct if_true< true, U >         { typedef U type;                   };
 
-template< typename T >                  class  vector;
-template< typename T >                  class  vector< complex< T > >;
+// forward declarations
+template< typename derived >                struct base;
+template< typename T1, typename T2 >        class  glue;
+template< typename T >                      class  complex;
 
-template< typename T >                  struct grid3D;
+// matrix
+template< typename, typename = void >       class  matrix;
+template< typename T >                      class  matrix< T,            typename if_true< is_num_type< T >::value >::type >;
+template< typename T >                      class  matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >;
 
-template< typename T >                  class  memory;
+// vector
+template< typename, typename = void >       class  vector;
+template< typename T >                      class  vector< T,            typename if_true< is_num_type< T >::value >::type >;
+template< typename T >                      class  vector< complex< T >, typename if_true< is_num_type< T >::value >::type >;
 
-template< typename T >                  class  array;
+template< typename T >                      struct grid3D;
 
-                                        class  access;
+template< typename T >                      class  memory;
 
-                                        class  factorial;
-                                        class  stopwatch;
+template< typename T >                      class  array;
 
-                                        struct DSOFTFourierCoefficients;
+                                            class  access;
+
+                                            class  factorial;
+                                            class  stopwatch;
+
+                                            struct DSOFTFourierCoefficients;
 
 template< typename pod_type, typename derived > struct randctx;
 template< typename T, typename A = void >       struct uniform_int_distribution;

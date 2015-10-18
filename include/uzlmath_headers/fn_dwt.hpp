@@ -248,8 +248,8 @@ typename uzl_void_num_only< T >::result wigner_d_matrix(matrix< T >& wig, const 
     }
     
     // Sin sign for the recurrence base case
-    T sinSign  = (minJ == abs(M) && M >= 0 && (minJ - Mp) & 1 ? 1 : -1      );
-    sinSign         = (minJ != abs(M) && Mp < 0 && (minJ - Mp) & 1 ? sinSign : -1);
+    T sinSign = (minJ == abs(M) && M >= 0 && (minJ - Mp) & 1 ? 1 : -1      );
+    sinSign   = (minJ != abs(M) && Mp < 0 && (minJ - Mp) & 1 ? sinSign : -1);
     
     // Powers
     T cosPower, sinPower;

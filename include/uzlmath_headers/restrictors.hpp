@@ -29,7 +29,7 @@ template<>             struct uzl_void_real_only< long double >                 
 template< typename T > struct uzl_double_only                                   {                                               };
 template<>             struct uzl_double_only< double >                         { typedef void result;                          };
 
-// Real numbers for return type void
+// Numbers only
 template< typename T > struct uzl_num_only                                      {                                               };
 template<>             struct uzl_num_only< short >                             { typedef short result;                         };
 template<>             struct uzl_num_only< int >                               { typedef int result;                           };
@@ -56,6 +56,20 @@ template<>             struct uzl_void_num_only< unsigned long long >           
 template<>             struct uzl_void_num_only< float >                        { typedef void result;                          };
 template<>             struct uzl_void_num_only< double >                       { typedef void result;                          };
 template<>             struct uzl_void_num_only< long double >                  { typedef void result;                          };
+
+// Complex numbers only
+template< typename T > struct uzl_cx_num_only                                   {                                               };
+template<>             struct uzl_cx_num_only< complex< short > >               { typedef complex< short > result;              };
+template<>             struct uzl_cx_num_only< complex< int > >                 { typedef complex< int > result;                };
+template<>             struct uzl_cx_num_only< complex< long > >                { typedef complex< long > result;               };
+template<>             struct uzl_cx_num_only< complex< long long > >           { typedef complex< long long > result;          };
+template<>             struct uzl_cx_num_only< complex< unsigned short > >      { typedef complex< unsigned short > result;     };
+template<>             struct uzl_cx_num_only< complex< unsigned int > >        { typedef complex< unsigned int > result;       };
+template<>             struct uzl_cx_num_only< complex< unsigned long > >       { typedef complex< unsigned long > result;      };
+template<>             struct uzl_cx_num_only< complex< unsigned long long > >  { typedef complex< unsigned long long > result; };
+template<>             struct uzl_cx_num_only< complex< float > >               { typedef complex< float > result;              };
+template<>             struct uzl_cx_num_only< complex< double > >              { typedef complex< double > result;             };
+template<>             struct uzl_cx_num_only< complex< long double > >         { typedef complex< long double > result;        };
 
 // Complex numbers for return type void
 template< typename T > struct uzl_void_cx_num_only                              {                                               };

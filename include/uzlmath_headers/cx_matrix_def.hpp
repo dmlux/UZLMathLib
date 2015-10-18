@@ -20,7 +20,7 @@ UZLMATH_BEGIN
  */
 template< typename T >
 inline
-matrix< complex< T > >::~matrix()
+matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::~matrix()
 {
     delete [] mem;
 }
@@ -32,7 +32,7 @@ matrix< complex< T > >::~matrix()
  */
 template< typename T >
 inline
-matrix< complex< T > >::matrix()
+matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::matrix()
     : r_inj(0)
     , c_inj(0)
     , rows(0)
@@ -50,7 +50,7 @@ matrix< complex< T > >::matrix()
  */
 template< typename T >
 inline
-matrix< complex< T > >::matrix(const size_t& m, const size_t& n)
+matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::matrix(const size_t& m, const size_t& n)
     : r_inj(0)
     , c_inj(0)
     , rows(m)
@@ -69,7 +69,7 @@ matrix< complex< T > >::matrix(const size_t& m, const size_t& n)
  */
 template< typename T >
 inline
-matrix< complex< T > >::matrix(const size_t& mn)
+matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::matrix(const size_t& mn)
     : rows(mn)
     , cols(mn)
     , r_inj(0)
@@ -90,7 +90,7 @@ matrix< complex< T > >::matrix(const size_t& mn)
  */
 template< typename T >
 inline
-matrix< complex< T > >::matrix(const size_t& m, const size_t& n, const complex< T >& initial)
+matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::matrix(const size_t& m, const size_t& n, const complex< T >& initial)
     : rows(m)
     , cols(n)
     , r_inj(0)
@@ -117,7 +117,7 @@ matrix< complex< T > >::matrix(const size_t& m, const size_t& n, const complex< 
  */
 template< typename T >
 inline
-matrix< complex< T > >::matrix(const matrix< complex< T > >& A)
+matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::matrix(const matrix< complex< T > >& A)
     : rows(A.rows)
     , cols(A.cols)
     , r_inj(A.r_inj)
@@ -141,7 +141,7 @@ matrix< complex< T > >::matrix(const matrix< complex< T > >& A)
  */
 template< typename T >
 inline
-matrix< complex< T > >::matrix(const matrix< T >& A)
+matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::matrix(const matrix< T >& A)
     : rows(A.rows)
     , cols(A.cols)
     , r_inj(A.r_inj)
@@ -168,7 +168,7 @@ matrix< complex< T > >::matrix(const matrix< T >& A)
  */
 template< typename T >
 inline
-matrix< complex< T > >::matrix(matrix< complex< T > >&& A)
+matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::matrix(matrix< complex< T > >&& A)
     : rows(A.rows)
     , cols(A.cols)
     , r_inj(A.r_inj)
@@ -193,7 +193,7 @@ matrix< complex< T > >::matrix(matrix< complex< T > >&& A)
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< complex< T > >::operator+(const matrix< complex< T > >& A)
+matrix< complex< T > > matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator+(const matrix< complex< T > >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -226,7 +226,7 @@ matrix< complex< T > > matrix< complex< T > >::operator+(const matrix< complex< 
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< complex< T > >::operator+(const matrix< T >& A)
+matrix< complex< T > > matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator+(const matrix< T >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -259,7 +259,7 @@ matrix< complex< T > > matrix< complex< T > >::operator+(const matrix< T >& A)
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< complex< T > >::operator-(const matrix< complex< T > >& A)
+matrix< complex< T > > matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator-(const matrix< complex< T > >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -292,7 +292,7 @@ matrix< complex< T > > matrix< complex< T > >::operator-(const matrix< complex< 
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< complex< T > >::operator-(const matrix< T >& A)
+matrix< complex< T > > matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator-(const matrix< T >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -331,7 +331,7 @@ matrix< complex< T > > matrix< complex< T > >::operator-(const matrix< T >& A)
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< complex< T > >::operator*(const matrix< complex< T > >& A)
+matrix< complex< T > > matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator*(const matrix< complex< T > >& A)
 {
     if ( cols != A.rows )
     {
@@ -458,7 +458,7 @@ matrix< complex< T > > matrix< complex< T > >::operator*(const matrix< complex< 
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< complex< T > >::operator*(const matrix< T >& A)
+matrix< complex< T > > matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator*(const matrix< T >& A)
 {
     if ( cols != A.rows )
     {
@@ -592,7 +592,7 @@ matrix< complex< T > > matrix< complex< T > >::operator*(const matrix< T >& A)
  */
 template< typename T >
 inline
-const matrix< complex< T > >& matrix< complex< T > >::operator=(const matrix< T >& A)
+const matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator=(const matrix< T >& A)
 {
     rows = A.rows;
     cols = A.cols;
@@ -623,7 +623,7 @@ const matrix< complex< T > >& matrix< complex< T > >::operator=(const matrix< T 
  */
 template< typename T >
 inline
-const matrix< complex< T > >& matrix< complex< T > >::operator=(const matrix< complex< T > >& A)
+const matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator=(const matrix< complex< T > >& A)
 {
     if ( this == &A )
     {
@@ -656,7 +656,7 @@ const matrix< complex< T > >& matrix< complex< T > >::operator=(const matrix< co
  */
 template< typename T >
 inline
-const matrix< complex< T > >& matrix< complex< T > >::operator=(matrix< complex< T > >&& A)
+const matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator=(matrix< complex< T > >&& A)
 {
     if ( this == &A )
     {
@@ -687,7 +687,7 @@ const matrix< complex< T > >& matrix< complex< T > >::operator=(matrix< complex<
  */
 template< typename T >
 inline
-bool matrix< complex< T > >::operator==(const matrix< complex< T > >& A)
+bool matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator==(const matrix< complex< T > >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -718,7 +718,7 @@ bool matrix< complex< T > >::operator==(const matrix< complex< T > >& A)
  */
 template< typename T >
 inline
-bool matrix< complex< T > >::operator!=(const matrix< complex< T > >& A)
+bool matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator!=(const matrix< complex< T > >& A)
 {
     return !(*this == A);
 }
@@ -736,7 +736,7 @@ bool matrix< complex< T > >::operator!=(const matrix< complex< T > >& A)
  */
 template< typename T >
 inline
-const matrix< complex< T > >& matrix< complex< T > >::operator+=(const matrix< T >& A)
+const matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator+=(const matrix< T >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -763,7 +763,7 @@ const matrix< complex< T > >& matrix< complex< T > >::operator+=(const matrix< T
  */
 template< typename T >
 inline
-const matrix< complex< T > >& matrix< complex< T > >::operator+=(const matrix< complex< T > >& A)
+const matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator+=(const matrix< complex< T > >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -790,7 +790,7 @@ const matrix< complex< T > >& matrix< complex< T > >::operator+=(const matrix< c
  */
 template< typename T >
 inline
-const matrix< complex< T > >& matrix< complex< T > >::operator-=(const matrix< T >& A)
+const matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator-=(const matrix< T >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -817,7 +817,7 @@ const matrix< complex< T > >& matrix< complex< T > >::operator-=(const matrix< T
  */
 template< typename T >
 inline
-const matrix< complex< T > >& matrix< complex< T > >::operator-=(const matrix< complex< T > >& A)
+const matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator-=(const matrix< complex< T > >& A)
 {
     if ( rows != A.rows || cols != A.cols )
     {
@@ -844,7 +844,7 @@ const matrix< complex< T > >& matrix< complex< T > >::operator-=(const matrix< c
  */
 template< typename T >
 inline
-const matrix< complex< T > >& matrix< complex< T > >::operator*=(const matrix< T >& A)
+const matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator*=(const matrix< T >& A)
 {
     if ( cols != A.rows )
     {
@@ -993,7 +993,7 @@ const matrix< complex< T > >& matrix< complex< T > >::operator*=(const matrix< T
  */
 template< typename T >
 inline
-const matrix< complex< T > >& matrix< complex< T > >::operator*=(const matrix< complex< T > >& A)
+const matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator*=(const matrix< complex< T > >& A)
 {
     if ( cols != A.rows )
     {
@@ -1128,7 +1128,7 @@ const matrix< complex< T > >& matrix< complex< T > >::operator*=(const matrix< c
  */
 template< typename T >
 inline
-const matrix< complex< T > >& matrix< complex< T > >::operator*=(const vector< complex< T > >& v)
+const matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator*=(const vector< complex< T > >& v)
 {
     if ( v.type == vec_type::ROW || cols != v.size )
     {
@@ -1173,7 +1173,7 @@ const matrix< complex< T > >& matrix< complex< T > >::operator*=(const vector< c
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< complex< T > >::operator+()
+matrix< complex< T > > matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator+()
 {
     matrix< complex< T > > C(rows, cols);
     memcpy(C.mem, mem, rows * cols * sizeof(complex< T >));
@@ -1192,7 +1192,7 @@ matrix< complex< T > > matrix< complex< T > >::operator+()
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< complex< T > >::operator-()
+matrix< complex< T > > matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator-()
 {
     matrix< complex< T > > C(rows, cols);
     
@@ -1225,7 +1225,7 @@ matrix< complex< T > > matrix< complex< T > >::operator-()
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< complex< T > >::operator+(const T& rhs)
+matrix< complex< T > > matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator+(const T& rhs)
 {
     matrix< complex< T > > C(rows, cols);
     
@@ -1258,7 +1258,7 @@ matrix< complex< T > > matrix< complex< T > >::operator+(const T& rhs)
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< complex< T > >::operator+(const complex< T >& rhs)
+matrix< complex< T > > matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator+(const complex< T >& rhs)
 {
     matrix< complex< T > > C(rows, cols);
     
@@ -1291,7 +1291,7 @@ matrix< complex< T > > matrix< complex< T > >::operator+(const complex< T >& rhs
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< complex< T > >::operator-(const T& rhs)
+matrix< complex< T > > matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator-(const T& rhs)
 {
     matrix< complex< T > > C(rows, cols);
     
@@ -1324,7 +1324,7 @@ matrix< complex< T > > matrix< complex< T > >::operator-(const T& rhs)
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< complex< T > >::operator-(const complex< T >& rhs)
+matrix< complex< T > > matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator-(const complex< T >& rhs)
 {
     matrix< complex< T > > C(rows, cols);
     
@@ -1361,7 +1361,7 @@ matrix< complex< T > > matrix< complex< T > >::operator-(const complex< T >& rhs
  *                  \f}
  */
 template< typename T >
-inline matrix< complex< T > > matrix< complex< T > >::operator*(const T& rhs)
+inline matrix< complex< T > > matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator*(const T& rhs)
 {
     matrix< complex< T > > C(rows, cols);
     
@@ -1398,7 +1398,7 @@ inline matrix< complex< T > > matrix< complex< T > >::operator*(const T& rhs)
  *                  \f}
  */
 template< typename T >
-inline matrix< complex< T > > matrix< complex< T > >::operator*(const complex< T >& rhs)
+inline matrix< complex< T > > matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator*(const complex< T >& rhs)
 {
     matrix< complex< T > > C(rows, cols);
     
@@ -1435,7 +1435,7 @@ inline matrix< complex< T > > matrix< complex< T > >::operator*(const complex< T
  *                  \f}
  */
 template< typename T >
-inline matrix< complex< T > > matrix< complex< T > >::operator/(const T& rhs)
+inline matrix< complex< T > > matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator/(const T& rhs)
 {
     if ( rhs == 0 )
     {
@@ -1478,7 +1478,7 @@ inline matrix< complex< T > > matrix< complex< T > >::operator/(const T& rhs)
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< complex< T > >::operator/(const complex< T >& rhs)
+matrix< complex< T > > matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator/(const complex< T >& rhs)
 {
     if ( rhs == 0 )
     {
@@ -1529,7 +1529,7 @@ matrix< complex< T > > matrix< complex< T > >::operator/(const complex< T >& rhs
  */
 template< typename T >
 inline
-matrix< complex< T > > matrix< complex< T > >::operator^(const unsigned int& exp)
+matrix< complex< T > > matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator^(const unsigned int& exp)
 {
     if ( rows != cols )
     {
@@ -1558,7 +1558,7 @@ matrix< complex< T > > matrix< complex< T > >::operator^(const unsigned int& exp
  */
 template< typename T >
 inline
-matrix< complex< T > >& matrix< complex< T > >::operator+=(const T& rhs)
+matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator+=(const T& rhs)
 {
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1577,7 +1577,7 @@ matrix< complex< T > >& matrix< complex< T > >::operator+=(const T& rhs)
  * @return          The reference to the current matrix.
  */
 template< typename T >
-inline matrix< complex< T > >& matrix< complex< T > >::operator+=(const complex< T >& rhs)
+inline matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator+=(const complex< T >& rhs)
 {
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1597,7 +1597,7 @@ inline matrix< complex< T > >& matrix< complex< T > >::operator+=(const complex<
  */
 template< typename T >
 inline
-matrix< complex< T > >& matrix< complex< T > >::operator-=(const T& rhs)
+matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator-=(const T& rhs)
 {
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1616,7 +1616,7 @@ matrix< complex< T > >& matrix< complex< T > >::operator-=(const T& rhs)
  * @return          The reference to the current matrix.
  */
 template< typename T >
-inline matrix< complex< T > >& matrix< complex< T > >::operator-=(const complex< T >& rhs)
+inline matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator-=(const complex< T >& rhs)
 {
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1636,7 +1636,7 @@ inline matrix< complex< T > >& matrix< complex< T > >::operator-=(const complex<
  */
 template< typename T >
 inline
-matrix< complex< T > >& matrix< complex< T > >::operator*=(const T& rhs)
+matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator*=(const T& rhs)
 {
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1656,7 +1656,7 @@ matrix< complex< T > >& matrix< complex< T > >::operator*=(const T& rhs)
  */
 template< typename T >
 inline
-matrix< complex< T > >& matrix< complex< T > >::operator*=(const complex< T >& rhs)
+matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator*=(const complex< T >& rhs)
 {
     size_t i, cap = rows * cols;
     for (i = 0; i < cap; ++i)
@@ -1676,7 +1676,7 @@ matrix< complex< T > >& matrix< complex< T > >::operator*=(const complex< T >& r
  */
 template< typename T >
 inline
-matrix< complex< T > >& matrix< complex< T > >::operator/=(const T& rhs)
+matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator/=(const T& rhs)
 {
     if ( rhs == 0 )
     {
@@ -1701,7 +1701,7 @@ matrix< complex< T > >& matrix< complex< T > >::operator/=(const T& rhs)
  */
 template< typename T >
 inline
-matrix< complex< T > >& matrix< complex< T > >::operator/=(const complex< T >& rhs)
+matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator/=(const complex< T >& rhs)
 {
     if ( rhs == 0 )
     {
@@ -1727,7 +1727,7 @@ matrix< complex< T > >& matrix< complex< T > >::operator/=(const complex< T >& r
  */
 template< typename T >
 inline
-matrix< complex< T > >& matrix< complex< T > >::operator^=(const unsigned int& exp)
+matrix< complex< T > >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator^=(const unsigned int& exp)
 {
     if ( rows != cols )
     {
@@ -1760,7 +1760,7 @@ matrix< complex< T > >& matrix< complex< T > >::operator^=(const unsigned int& e
  */
 template< typename T >
 inline
-complex< T >& matrix< complex< T > >::operator()(const size_t& i, const size_t& j)
+complex< T >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator()(const size_t& i, const size_t& j)
 {
     return access::rw(mem[j * rows + i]);
 }
@@ -1777,7 +1777,7 @@ complex< T >& matrix< complex< T > >::operator()(const size_t& i, const size_t& 
  */
 template< typename T >
 inline
-const complex< T >& matrix< complex< T > >::operator()(const size_t& i, const size_t& j) const
+const complex< T >& matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::operator()(const size_t& i, const size_t& j) const
 {
     return mem[j * rows + i];
 }
@@ -1794,7 +1794,7 @@ const complex< T >& matrix< complex< T > >::operator()(const size_t& i, const si
  */
 template< typename T >
 inline
-void matrix< complex< T > >::zeros()
+void matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::zeros()
 {
     for (int i = 0; i < rows * cols; ++i)
     {
@@ -1812,7 +1812,7 @@ void matrix< complex< T > >::zeros()
  */
 template< typename T >
 inline
-void matrix< complex< T > >::ones()
+void matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::ones()
 {
     for (int i = 0; i < rows * cols; ++i)
     {
@@ -1842,7 +1842,7 @@ void matrix< complex< T > >::ones()
  */
 template< typename T >
 inline
-void matrix< complex< T > >::eye()
+void matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::eye()
 {
     zeros();
     
@@ -1863,7 +1863,7 @@ void matrix< complex< T > >::eye()
  */
 template< typename T >
 inline
-void matrix< complex< T > >::transpose()
+void matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::transpose()
 {
     complex< T >* tmp_mem = new complex< T >[rows * cols];
     size_t tmp_r = cols;
@@ -1891,7 +1891,7 @@ void matrix< complex< T > >::transpose()
  */
 template< typename T >
 inline
-void matrix< complex< T > >::fill(const T& value)
+void matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::fill(const T& value)
 {
     size_t i;
     for (i = 0; i < rows * cols; ++i)
@@ -1907,7 +1907,7 @@ void matrix< complex< T > >::fill(const T& value)
  */
 template< typename T >
 inline
-void matrix< complex< T > >::fill(const complex< T >& value)
+void matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::fill(const complex< T >& value)
 {
     std::fill(mem, mem + rows * cols, value);
 }
@@ -1935,7 +1935,7 @@ void matrix< complex< T > >::fill(const complex< T >& value)
  */
 template< typename T >
 inline
-const complex<double> matrix< complex< T > >::determinant()
+const complex<double> matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >::determinant()
 {
     if (rows != cols)
     {

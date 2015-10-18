@@ -297,6 +297,33 @@ int main(int argc, const char ** argv)
         return 1;
     }
     
+//    matrix< double > A(5, 5);
+//    
+//    A << 0.8147 << 0.0975 << 0.1576 << 0.1419 << 0.6557
+//      << 0.9058 << 0.2785 << 0.9706 << 0.4218 << 0.0357
+//      << 0.1270 << 0.5469 << 0.9572 << 0.9157 << 0.8491
+//      << 0.9134 << 0.9575 << 0.4854 << 0.7922 << 0.9340
+//      << 0.6324 << 0.9649 << 0.8003 << 0.9595 << 0.6787;
+//    
+//    vector< complex< double > > B(5, vec_type::COLUMN);
+//    
+//    B[0] = complex< double >(0.7577, 0.7060);
+//    B[1] = complex< double >(0.7431, 0.0318);
+//    B[2] = complex< double >(0.3922, 0.2769);
+//    B[3] = complex< double >(0.6555, 0.0462);
+//    B[4] = complex< double >(0.1712, 0.0971);
+//    
+//    std::cout << "A = " << A << std::endl;
+//    std::cout << "B = " << B << std::endl;
+//    std::cout << "-B = " << B * -1 << std::endl;
+//    std::cout << "A * B = " << A * B << std::endl;
+//    
+//    B *= -1;
+//    
+//    std::cout << "B *= -1 = " << B << std::endl;
+    
+    matrix< complex< int > > A(5, 5);
+    
     int B = atoi(*(argv + 1));
     for_back(B, false);
     

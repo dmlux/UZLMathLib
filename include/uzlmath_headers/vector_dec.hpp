@@ -37,86 +37,92 @@ UZLMATH_BEGIN
  * @date        30.05.15
  */
 template< typename T >
-class vector
+class
+vector< T, typename if_true< is_num_type< T >::value >::type >
 {
-    size_t   inj;         //!< Index for injection
+    size_t   inj;                       //!< Index for injection
     
 public:
-    // ivars
-    const size_t   size;  //!< size of vector
-    const vec_type type;  //!< type of vector
+    // type declarations
+    typedef T pod_type;                 //!< The POD type of matrix elements
     
-    const T* mem;        //!< vector data
+    // iterators
+    typedef const pod_type* iterator;   //!< Vector iterator
+    
+    // ivars
+    const size_t   size;                //!< size of vector
+    const vec_type type;                //!< type of vector
+    const pod_type* mem;                //!< vector data
     
     // methods
-    inline                               vector();
-    inline                               vector(const size_t& s, const vec_type& t = vec_type::ROW);
-    inline                               vector(const size_t& s, const T& initial, const vec_type& t = vec_type::ROW /*! default type */);
-    inline                               vector(const vector< T >& vec);
-    inline                               vector(const vector< T >& vec, const vec_type& t);
-    inline                               vector(vector< T >&& vec);
-    inline                              ~vector();
+    inline                                      vector();
+    inline                                      vector(const size_t& s, const vec_type& t = vec_type::ROW);
+    inline                                      vector(const size_t& s, const pod_type& initial, const vec_type& t = vec_type::ROW);
+    inline                                      vector(const vector< pod_type >& vec);
+    inline                                      vector(const vector< pod_type >& vec, const vec_type& t);
+    inline                                      vector(vector< pod_type >&& vec);
+    inline                                     ~vector();
     
-    inline       vector< T >             operator+(const vector< T >& v);
-    inline       vector< T >             operator-(const vector< T >& v);
-    inline       matrix< T >             operator*(const vector< T >& v);
-    inline       vector< T >             operator/(const vector< T >& v);
-    inline       vector< T >             operator%(const vector< T >& v);
+    inline       vector< pod_type >             operator+(const vector< pod_type >& v);
+    inline       vector< pod_type >             operator-(const vector< pod_type >& v);
+    inline       matrix< pod_type >             operator*(const vector< pod_type >& v);
+    inline       vector< pod_type >             operator/(const vector< pod_type >& v);
+    inline       vector< pod_type >             operator%(const vector< pod_type >& v);
     
-    inline       vector< complex< T > >  operator+(const vector< complex< T > >& v);
-    inline       vector< complex< T > >  operator-(const vector< complex< T > >& v);
-    inline       matrix< complex< T > >  operator*(const vector< complex< T > >& v);
-    inline       vector< complex< T > >  operator/(const vector< complex< T > >& v);
-    inline       vector< complex< T > >  operator%(const vector< complex< T > >& v);
+    inline       vector< complex< pod_type > >  operator+(const vector< complex< pod_type > >& v);
+    inline       vector< complex< pod_type > >  operator-(const vector< complex< pod_type > >& v);
+    inline       matrix< complex< pod_type > >  operator*(const vector< complex< pod_type > >& v);
+    inline       vector< complex< pod_type > >  operator/(const vector< complex< pod_type > >& v);
+    inline       vector< complex< pod_type > >  operator%(const vector< complex< pod_type > >& v);
     
-    inline       vector< T >             operator+(const T& s);
-    inline       vector< T >             operator-(const T& s);
-    inline       vector< T >             operator*(const T& s);
-    inline       vector< T >             operator/(const T& s);
+    inline       vector< pod_type >             operator+(const pod_type& s);
+    inline       vector< pod_type >             operator-(const pod_type& s);
+    inline       vector< pod_type >             operator*(const pod_type& s);
+    inline       vector< pod_type >             operator/(const pod_type& s);
     
-    inline       vector< complex< T > >  operator+(const complex< T >& s);
-    inline       vector< complex< T > >  operator-(const complex< T >& s);
-    inline       vector< complex< T > >  operator*(const complex< T >& s);
-    inline       vector< complex< T > >  operator/(const complex< T >& s);
+    inline       vector< complex< pod_type > >  operator+(const complex< pod_type >& s);
+    inline       vector< complex< pod_type > >  operator-(const complex< pod_type >& s);
+    inline       vector< complex< pod_type > >  operator*(const complex< pod_type >& s);
+    inline       vector< complex< pod_type > >  operator/(const complex< pod_type >& s);
     
-    inline       vector< T >             operator+();
-    inline       vector< T >             operator-();
+    inline       vector< pod_type >             operator+();
+    inline       vector< pod_type >             operator-();
     
-    inline       vector< T >             operator*(const matrix< T >& mat);
-    inline       vector< complex< T > >  operator*(const matrix< complex< T > >& mat);
+    inline       vector< pod_type >             operator*(const matrix< pod_type >& mat);
+    inline       vector< complex< pod_type > >  operator*(const matrix< complex< pod_type > >& mat);
     
-    inline       bool                    operator>(const vector< T >& v);
-    inline       bool                    operator<(const vector< T >& v);
+    inline       bool                           operator>(const vector< pod_type >& v);
+    inline       bool                           operator<(const vector< pod_type >& v);
     
-    inline const vector< T >&            operator=(const vector< T >& v);
-    inline const vector< T >&            operator=(vector< T >&& v);
+    inline const vector< pod_type >&            operator=(const vector< pod_type >& v);
+    inline const vector< pod_type >&            operator=(vector< pod_type >&& v);
     
-    inline const vector< T >&            operator+=(const vector< T >& v);
-    inline const vector< T >&            operator-=(const vector< T >& v);
-    inline const vector< T >&            operator/=(const vector< T >& v);
-    inline const vector< T >&            operator%=(const vector< T >& v);
-    inline const vector< T >&            operator*=(const vector< T >& v);
+    inline const vector< pod_type >&            operator+=(const vector< pod_type >& v);
+    inline const vector< pod_type >&            operator-=(const vector< pod_type >& v);
+    inline const vector< pod_type >&            operator/=(const vector< pod_type >& v);
+    inline const vector< pod_type >&            operator%=(const vector< pod_type >& v);
+    inline const vector< pod_type >&            operator*=(const vector< pod_type >& v);
     
-    inline const vector< T >&            operator+=(const T& s);
-    inline const vector< T >&            operator-=(const T& s);
-    inline const vector< T >&            operator*=(const T& s);
-    inline const vector< T >&            operator/=(const T& s);
+    inline const vector< pod_type >&            operator+=(const pod_type& s);
+    inline const vector< pod_type >&            operator-=(const pod_type& s);
+    inline const vector< pod_type >&            operator*=(const pod_type& s);
+    inline const vector< pod_type >&            operator/=(const pod_type& s);
     
-    inline       bool                    operator==(const vector< T >& v);
-    inline       bool                    operator!=(const vector< T >& v);
-    inline       bool                    operator>=(const vector< T >& v);
-    inline       bool                    operator<=(const vector< T >& v);
+    inline       bool                           operator==(const vector< pod_type >& v);
+    inline       bool                           operator!=(const vector< pod_type >& v);
+    inline       bool                           operator>=(const vector< pod_type >& v);
+    inline       bool                           operator<=(const vector< pod_type >& v);
     
-    inline       T&                      operator[](const size_t& idx);
-    inline const T&                      operator[](const size_t& idx) const;
+    inline       pod_type&                      operator[](const size_t& idx);
+    inline const pod_type&                      operator[](const size_t& idx) const;
     
-    inline       T&                      operator()(const size_t& idx);
-    inline const T&                      operator()(const size_t& idx) const;
+    inline       pod_type&                      operator()(const size_t& idx);
+    inline const pod_type&                      operator()(const size_t& idx) const;
     
-    inline       void                    ones();
-    inline       void                    zeros();
-    inline       void                    transpose();
-    inline       void                    fill(const T& s);
+    inline       void                           ones();
+    inline       void                           zeros();
+    inline       void                           transpose();
+    inline       void                           fill(const pod_type& s);
     
 };
 

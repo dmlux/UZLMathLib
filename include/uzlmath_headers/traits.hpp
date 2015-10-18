@@ -42,10 +42,6 @@ template<>             struct is_complex< complex< float > >            { static
 template<>             struct is_complex< complex< double > >           { static const bool value = true;   };
 template<>             struct is_complex< complex< long double > >      { static const bool value = true;   };
 
-// check if template is true
-template< bool T, typename U = void > struct is_true                    {                                   };
-template< typename U >                struct is_true< true, U >         { typedef U type;                   };
-
 // check if type is real
 template< typename T > struct is_real_type                              { static const bool value = false;  };
 template<>             struct is_real_type< float >                     { static const bool value = true;   };

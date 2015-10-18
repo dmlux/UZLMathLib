@@ -21,7 +21,7 @@ UZLMATH_BEGIN
  */
 template< typename T >
 inline
-vector< T >::vector()
+vector< T, typename if_true< is_num_type< T >::value >::type >::vector()
     : size(0)
     , type(vec_type::ROW)
     , inj(0)
@@ -40,7 +40,7 @@ vector< T >::vector()
  */
 template< typename T >
 inline
-vector< T >::vector(const size_t& s, const vec_type& type)
+vector< T, typename if_true< is_num_type< T >::value >::type >::vector(const size_t& s, const vec_type& type)
     : inj(0)
     , size(s)
     , type(type)
@@ -61,7 +61,7 @@ vector< T >::vector(const size_t& s, const vec_type& type)
  */
 template< typename T >
 inline
-vector< T >::vector(const size_t& s, const T& initial, const vec_type& type)
+vector< T, typename if_true< is_num_type< T >::value >::type >::vector(const size_t& s, const T& initial, const vec_type& type)
     : size(s)
     , type(type)
     , inj(0)
@@ -91,7 +91,7 @@ vector< T >::vector(const size_t& s, const T& initial, const vec_type& type)
  */
 template< typename T >
 inline
-vector< T >::vector(const vector< T >& vec)
+vector< T, typename if_true< is_num_type< T >::value >::type >::vector(const vector< T >& vec)
     : size(vec.size)
     , type(vec.type)
     , inj(vec.inj)
@@ -117,7 +117,7 @@ vector< T >::vector(const vector< T >& vec)
  */
 template< typename T >
 inline
-vector< T >::vector(const vector< T >& vec, const vec_type& type)
+vector< T, typename if_true< is_num_type< T >::value >::type >::vector(const vector< T >& vec, const vec_type& type)
     : size(vec.size)
     , type(type)
     , inj(vec.inj)
@@ -140,7 +140,7 @@ vector< T >::vector(const vector< T >& vec, const vec_type& type)
  */
 template< typename T >
 inline
-vector< T >::vector(vector< T >&& vec)
+vector< T, typename if_true< is_num_type< T >::value >::type >::vector(vector< T >&& vec)
     : inj(vec.inj)
     , size(vec.size)
     , type(vec.type)
@@ -157,7 +157,7 @@ vector< T >::vector(vector< T >&& vec)
  */
 template< typename T >
 inline
-vector< T >::~vector()
+vector< T, typename if_true< is_num_type< T >::value >::type >::~vector()
 {
     delete [] mem;
 }
@@ -178,7 +178,7 @@ vector< T >::~vector()
  */
 template< typename T >
 inline
-vector< T > vector< T >::operator+(const vector< T >& v)
+vector< T > vector< T, typename if_true< is_num_type< T >::value >::type >::operator+(const vector< T >& v)
 {
     if ( size != v.size || type != v.type)
     {
@@ -210,7 +210,7 @@ vector< T > vector< T >::operator+(const vector< T >& v)
  */
 template< typename T >
 inline
-vector< T > vector< T >::operator-(const vector< T >& v)
+vector< T > vector< T, typename if_true< is_num_type< T >::value >::type >::operator-(const vector< T >& v)
 {
     if ( size != v.size || type != v.type)
     {
@@ -241,7 +241,7 @@ vector< T > vector< T >::operator-(const vector< T >& v)
  */
 template< typename T >
 inline
-matrix< T > vector< T >::operator*(const vector< T >& v)
+matrix< T > vector< T, typename if_true< is_num_type< T >::value >::type >::operator*(const vector< T >& v)
 {
     if (type == v.type || (type == vec_type::ROW && size != v.size))
     {
@@ -350,7 +350,7 @@ matrix< T > vector< T >::operator*(const vector< T >& v)
  */
 template< typename T >
 inline
-vector< T > vector< T >::operator/(const vector< T >& v)
+vector< T > vector< T, typename if_true< is_num_type< T >::value >::type >::operator/(const vector< T >& v)
 {
     if (type != v.type || size != size)
     {
@@ -384,7 +384,7 @@ vector< T > vector< T >::operator/(const vector< T >& v)
  */
 template< typename T >
 inline
-vector< T > vector< T >::operator%(const vector< T >& v)
+vector< T > vector< T, typename if_true< is_num_type< T >::value >::type >::operator%(const vector< T >& v)
 {
     if (type != v.type || size != size)
     {
@@ -416,7 +416,7 @@ vector< T > vector< T >::operator%(const vector< T >& v)
  */
 template< typename T >
 inline
-vector< complex< T > > vector< T >::operator+(const vector< complex< T > >& v)
+vector< complex< T > > vector< T, typename if_true< is_num_type< T >::value >::type >::operator+(const vector< complex< T > >& v)
 {
     if ( size != v.size || type != v.t)
     {
@@ -448,7 +448,7 @@ vector< complex< T > > vector< T >::operator+(const vector< complex< T > >& v)
  */
 template< typename T >
 inline
-vector< complex< T > > vector< T >::operator-(const vector< complex< T > >& v)
+vector< complex< T > > vector< T, typename if_true< is_num_type< T >::value >::type >::operator-(const vector< complex< T > >& v)
 {
     if ( size != v.size || type != v.type)
     {
@@ -479,7 +479,7 @@ vector< complex< T > > vector< T >::operator-(const vector< complex< T > >& v)
  */
 template< typename T >
 inline
-matrix< complex< T > > vector< T >::operator*(const vector< complex< T > >& v)
+matrix< complex< T > > vector< T, typename if_true< is_num_type< T >::value >::type >::operator*(const vector< complex< T > >& v)
 {
     if (type == v.type || (type == vec_type::ROW && size != v.size))
     {
@@ -580,7 +580,7 @@ matrix< complex< T > > vector< T >::operator*(const vector< complex< T > >& v)
  */
 template< typename T >
 inline
-vector< complex< T > > vector< T >::operator/(const vector< complex< T > >& v)
+vector< complex< T > > vector< T, typename if_true< is_num_type< T >::value >::type >::operator/(const vector< complex< T > >& v)
 {
     if (type != v.type || size != size)
     {
@@ -614,7 +614,7 @@ vector< complex< T > > vector< T >::operator/(const vector< complex< T > >& v)
  */
 template< typename T >
 inline
-vector< complex< T > > vector< T >::operator%(const vector< complex< T > >& v)
+vector< complex< T > > vector< T, typename if_true< is_num_type< T >::value >::type >::operator%(const vector< complex< T > >& v)
 {
     if (type != v.type || size != size)
     {
@@ -645,7 +645,7 @@ vector< complex< T > > vector< T >::operator%(const vector< complex< T > >& v)
  */
 template< typename T >
 inline
-vector< T > vector< T >::operator+(const T& s)
+vector< T > vector< T, typename if_true< is_num_type< T >::value >::type >::operator+(const T& s)
 {
     vector< T > result(size, type);
     
@@ -670,7 +670,7 @@ vector< T > vector< T >::operator+(const T& s)
  */
 template< typename T >
 inline
-vector< T > vector< T >::operator-(const T& s)
+vector< T > vector< T, typename if_true< is_num_type< T >::value >::type >::operator-(const T& s)
 {
     vector< T > result(size, type);
     
@@ -695,7 +695,7 @@ vector< T > vector< T >::operator-(const T& s)
  */
 template< typename T >
 inline
-vector< T > vector< T >::operator*(const T& s)
+vector< T > vector< T, typename if_true< is_num_type< T >::value >::type >::operator*(const T& s)
 {
     vector< T > result(size, type);
     
@@ -720,7 +720,7 @@ vector< T > vector< T >::operator*(const T& s)
  */
 template< typename T >
 inline
-vector< T > vector< T >::operator/(const T& s)
+vector< T > vector< T, typename if_true< is_num_type< T >::value >::type >::operator/(const T& s)
 {
     if (s == 0)
     {
@@ -750,7 +750,7 @@ vector< T > vector< T >::operator/(const T& s)
  */
 template< typename T >
 inline
-vector< complex< T > > vector< T >::operator+(const complex< T >& s)
+vector< complex< T > > vector< T, typename if_true< is_num_type< T >::value >::type >::operator+(const complex< T >& s)
 {
     vector< complex< T > > result(size, type);
     
@@ -775,7 +775,7 @@ vector< complex< T > > vector< T >::operator+(const complex< T >& s)
  */
 template< typename T >
 inline
-vector< complex< T > > vector< T >::operator-(const complex< T >& s)
+vector< complex< T > > vector< T, typename if_true< is_num_type< T >::value >::type >::operator-(const complex< T >& s)
 {
     vector< complex< T > > result(size, type);
     
@@ -800,7 +800,7 @@ vector< complex< T > > vector< T >::operator-(const complex< T >& s)
  */
 template< typename T >
 inline
-vector< complex< T > > vector< T >::operator*(const complex< T >& s)
+vector< complex< T > > vector< T, typename if_true< is_num_type< T >::value >::type >::operator*(const complex< T >& s)
 {
     vector< complex< T > > result(size, type);
     
@@ -824,7 +824,7 @@ vector< complex< T > > vector< T >::operator*(const complex< T >& s)
  */
 template< typename T >
 inline
-vector< complex< T > > vector< T >::operator/(const complex< T >& s)
+vector< complex< T > > vector< T, typename if_true< is_num_type< T >::value >::type >::operator/(const complex< T >& s)
 {
     if (s == 0)
     {
@@ -852,7 +852,7 @@ vector< complex< T > > vector< T >::operator/(const complex< T >& s)
  */
 template< typename T >
 inline
-vector< T > vector< T >::operator+()
+vector< T > vector< T, typename if_true< is_num_type< T >::value >::type >::operator+()
 {
     vector< T > result;
     memcpy(result.mem, mem, size * sizeof(T));
@@ -868,7 +868,7 @@ vector< T > vector< T >::operator+()
  */
 template< typename T >
 inline
-vector< T > vector< T >::operator-()
+vector< T > vector< T, typename if_true< is_num_type< T >::value >::type >::operator-()
 {
     vector< T > result;
     
@@ -892,7 +892,7 @@ vector< T > vector< T >::operator-()
  */
 template< typename T >
 inline
-vector< T > vector< T >::operator*(const matrix< T >& mat)
+vector< T > vector< T, typename if_true< is_num_type< T >::value >::type >::operator*(const matrix< T >& mat)
 {
     if ((type == vec_type::ROW && size != mat.rows) || (type == vec_type::COLUMN && mat.rows != 1))
     {
@@ -1005,7 +1005,7 @@ vector< T > vector< T >::operator*(const matrix< T >& mat)
  */
 template< typename T >
 inline
-bool vector< T >::operator>(const vector< T >& v)
+bool vector< T, typename if_true< is_num_type< T >::value >::type >::operator>(const vector< T >& v)
 {
     if (size != size)
     {
@@ -1044,7 +1044,7 @@ bool vector< T >::operator>(const vector< T >& v)
  */
 template< typename T >
 inline
-bool vector< T >::operator<(const vector< T >& v)
+bool vector< T, typename if_true< is_num_type< T >::value >::type >::operator<(const vector< T >& v)
 {
     if (size != size)
     {
@@ -1080,7 +1080,7 @@ bool vector< T >::operator<(const vector< T >& v)
  */
 template< typename T >
 inline
-const vector< T >& vector< T >::operator=(const vector< T >& v)
+const vector< T >& vector< T, typename if_true< is_num_type< T >::value >::type >::operator=(const vector< T >& v)
 {
     if ( this == &v )
     {
@@ -1109,7 +1109,7 @@ const vector< T >& vector< T >::operator=(const vector< T >& v)
  */
 template< typename T >
 inline
-const vector< T >& vector< T >::operator=(vector< T >&& v)
+const vector< T >& vector< T, typename if_true< is_num_type< T >::value >::type >::operator=(vector< T >&& v)
 {
     if ( this == &v )
     {
@@ -1139,7 +1139,7 @@ const vector< T >& vector< T >::operator=(vector< T >&& v)
  */
 template< typename T >
 inline
-const vector< T >& vector< T >::operator+=(const vector< T >& v)
+const vector< T >& vector< T, typename if_true< is_num_type< T >::value >::type >::operator+=(const vector< T >& v)
 {
     if (size != size || type != v.type)
     {
@@ -1166,7 +1166,7 @@ const vector< T >& vector< T >::operator+=(const vector< T >& v)
  */
 template< typename T >
 inline
-const vector< T >& vector< T >::operator-=(const vector< T >& v)
+const vector< T >& vector< T, typename if_true< is_num_type< T >::value >::type >::operator-=(const vector< T >& v)
 {
     if (size != v.size || type != v.type)
     {
@@ -1193,7 +1193,7 @@ const vector< T >& vector< T >::operator-=(const vector< T >& v)
  */
 template< typename T >
 inline
-const vector< T >& vector< T >::operator/=(const vector< T >& v)
+const vector< T >& vector< T, typename if_true< is_num_type< T >::value >::type >::operator/=(const vector< T >& v)
 {
     if (type != v.type || size != size)
     {
@@ -1225,7 +1225,7 @@ const vector< T >& vector< T >::operator/=(const vector< T >& v)
  */
 template< typename T >
 inline
-const vector< T >& vector< T >::operator%=(const vector< T >& v)
+const vector< T >& vector< T, typename if_true< is_num_type< T >::value >::type >::operator%=(const vector< T >& v)
 {
     if (type != v.type || size != size)
     {
@@ -1254,7 +1254,7 @@ const vector< T >& vector< T >::operator%=(const vector< T >& v)
  */
 template< typename T >
 inline
-const vector< T >& vector< T >::operator+=(const T& s)
+const vector< T >& vector< T, typename if_true< is_num_type< T >::value >::type >::operator+=(const T& s)
 {
     size_t i;
     for (i = 0; i < size; ++i)
@@ -1277,7 +1277,7 @@ const vector< T >& vector< T >::operator+=(const T& s)
  */
 template< typename T >
 inline
-const vector< T >& vector< T >::operator-=(const T& s)
+const vector< T >& vector< T, typename if_true< is_num_type< T >::value >::type >::operator-=(const T& s)
 {
     size_t i;
     for (i = 0; i < size; ++i)
@@ -1299,7 +1299,7 @@ const vector< T >& vector< T >::operator-=(const T& s)
  */
 template< typename T >
 inline
-const vector< T >& vector< T >::operator*=(const T& s)
+const vector< T >& vector< T, typename if_true< is_num_type< T >::value >::type >::operator*=(const T& s)
 {
     size_t i;
     for (i = 0; i < size; ++i)
@@ -1321,7 +1321,7 @@ const vector< T >& vector< T >::operator*=(const T& s)
  */
 template< typename T >
 inline
-const vector< T >& vector< T >::operator/=(const T& s)
+const vector< T >& vector< T, typename if_true< is_num_type< T >::value >::type >::operator/=(const T& s)
 {
     if (s == 0)
     {
@@ -1349,7 +1349,7 @@ const vector< T >& vector< T >::operator/=(const T& s)
  */
 template< typename T >
 inline
-bool vector< T >::operator==(const vector< T >& v)
+bool vector< T, typename if_true< is_num_type< T >::value >::type >::operator==(const vector< T >& v)
 {
     bool equal = true;
     
@@ -1376,7 +1376,7 @@ bool vector< T >::operator==(const vector< T >& v)
  */
 template< typename T >
 inline
-bool vector< T >::operator!=(const vector< T >& v)
+bool vector< T, typename if_true< is_num_type< T >::value >::type >::operator!=(const vector< T >& v)
 {
     return !(*this == v);
 }
@@ -1398,7 +1398,7 @@ bool vector< T >::operator!=(const vector< T >& v)
  */
 template< typename T >
 inline
-bool vector< T >::operator>=(const vector< T >& v)
+bool vector< T, typename if_true< is_num_type< T >::value >::type >::operator>=(const vector< T >& v)
 {
     if (size != size)
     {
@@ -1437,7 +1437,7 @@ bool vector< T >::operator>=(const vector< T >& v)
  */
 template< typename T >
 inline
-bool vector< T >::operator<=(const vector< T >& v)
+bool vector< T, typename if_true< is_num_type< T >::value >::type >::operator<=(const vector< T >& v)
 {
     if (size != size)
     {
@@ -1484,7 +1484,7 @@ bool vector< T >::operator<=(const vector< T >& v)
  */
 template< typename T >
 inline
-T& vector< T >::operator[](const size_t& idx)
+T& vector< T, typename if_true< is_num_type< T >::value >::type >::operator[](const size_t& idx)
 {
     return access::rw(mem[idx]);
 }
@@ -1512,7 +1512,7 @@ T& vector< T >::operator[](const size_t& idx)
  */
 template< typename T >
 inline
-const T& vector< T >::operator[](const size_t& idx) const
+const T& vector< T, typename if_true< is_num_type< T >::value >::type >::operator[](const size_t& idx) const
 {
     return access::rw(mem[idx]);
 }
@@ -1542,7 +1542,7 @@ const T& vector< T >::operator[](const size_t& idx) const
  */
 template< typename T >
 inline
-T& vector< T >::operator()(const size_t& idx)
+T& vector< T, typename if_true< is_num_type< T >::value >::type >::operator()(const size_t& idx)
 {
     return mem[idx];
 }
@@ -1570,7 +1570,7 @@ T& vector< T >::operator()(const size_t& idx)
  */
 template< typename T >
 inline
-const T& vector< T >::operator()(const size_t& idx) const
+const T& vector< T, typename if_true< is_num_type< T >::value >::type >::operator()(const size_t& idx) const
 {
     return mem[idx];
 }
@@ -1583,7 +1583,7 @@ const T& vector< T >::operator()(const size_t& idx) const
  */
 template< typename T >
 inline
-void vector< T >::ones()
+void vector< T, typename if_true< is_num_type< T >::value >::type >::ones()
 {
     std::fill(mem, mem + size, 1);
 }
@@ -1594,7 +1594,7 @@ void vector< T >::ones()
  */
 template< typename T >
 inline
-void vector< T >::zeros()
+void vector< T, typename if_true< is_num_type< T >::value >::type >::zeros()
 {
     memset(mem, 0, size * sizeof(T));
 }
@@ -1606,7 +1606,7 @@ void vector< T >::zeros()
  */
 template< typename T >
 inline
-void vector< T >::transpose()
+void vector< T, typename if_true< is_num_type< T >::value >::type >::transpose()
 {
     if (type == vec_type::ROW)
     {
@@ -1625,7 +1625,7 @@ void vector< T >::transpose()
  */
 template< typename T >
 inline
-void vector< T >::fill(const T& s)
+void vector< T, typename if_true< is_num_type< T >::value >::type >::fill(const T& s)
 {
     if (s == 0 || s == -1)
     {

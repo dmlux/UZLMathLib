@@ -35,108 +35,112 @@ UZLMATH_BEGIN
  * @ingroup     matrix
  */
 template< typename T >
-class matrix< complex< T > >
+class
+matrix< complex< T >, typename if_true< is_num_type< T >::value >::type >
 {
-    size_t r_inj;               //!< Row injection index
-    size_t c_inj;               //!< Column injection index
+    size_t r_inj;                   //!< Row injection index
+    size_t c_inj;                   //!< Column injection index
     
 public:
-    // ivars
-    const size_t rows;          //!< Number of matrix rows
-    const size_t cols;          //!< Number of matrix columns
+    // type declarations
+    typedef T pod_type;             //!< The POD type of matrix elements
     
-    const complex< T >* mem;   //!< Matrix memory
+    // ivars
+    const size_t rows;              //!< Number of matrix rows
+    const size_t cols;              //!< Number of matrix columns
+    
+    const complex< pod_type >* mem; //!< Matrix memory
     
     // methods
-    inline                               ~matrix();
-    inline                                matrix();
+    inline                                     ~matrix();
+    inline                                      matrix();
     
-    inline                                matrix(const size_t& m, const size_t& n);
-    inline                                matrix(const size_t& mn);
-    inline                                matrix(const size_t& m, const size_t& n, const complex< T >& initial);
+    inline                                      matrix(const size_t& m, const size_t& n);
+    inline                                      matrix(const size_t& mn);
+    inline                                      matrix(const size_t& m, const size_t& n, const complex< pod_type >& initial);
     
-    inline                                matrix(const matrix< complex< T > >& A);
-    inline                                matrix(const matrix< T >& A);
-    inline                                matrix(matrix< complex< T > >&& A);
+    inline                                      matrix(const matrix< complex< pod_type > >& A);
+    inline                                      matrix(const matrix< pod_type >& A);
+    inline                                      matrix(matrix< complex< pod_type > >&& A);
     
-    inline                                matrix(const vector< T >& v);
-    inline                                matrix(const vector< complex< T > >& v);
+    inline                                      matrix(const vector< pod_type >& v);
+    inline                                      matrix(const vector< complex< pod_type > >& v);
     
-    inline       matrix< complex< T > >   operator+(const matrix< complex< T > >& A);
-    inline       matrix< complex< T > >   operator+(const matrix< T >& A);
-    inline       matrix< complex< T > >   operator-(const matrix< complex< T > >& A);
-    inline       matrix< complex< T > >   operator-(const matrix< T >& A);
-    inline       matrix< complex< T > >   operator*(const matrix< complex< T > >& A);
-    inline       matrix< complex< T > >   operator*(const matrix< T >& A);
-    inline       matrix< complex< T > >   operator%(const matrix< complex< T > >& A);
-    inline       matrix< complex< T > >   operator%(const matrix< T >& A);
-    inline       matrix< complex< T > >   operator/(const matrix< complex< T > >& A);
-    inline       matrix< complex< T > >   operator/(const matrix< T >& A);
+    inline       matrix< complex< pod_type > >  operator+(const matrix< complex< pod_type > >& A);
+    inline       matrix< complex< pod_type > >  operator+(const matrix< pod_type >& A);
+    inline       matrix< complex< pod_type > >  operator-(const matrix< complex< pod_type > >& A);
+    inline       matrix< complex< pod_type > >  operator-(const matrix< pod_type >& A);
+    inline       matrix< complex< pod_type > >  operator*(const matrix< complex< pod_type > >& A);
+    inline       matrix< complex< pod_type > >  operator*(const matrix< pod_type >& A);
+    inline       matrix< complex< pod_type > >  operator%(const matrix< complex< pod_type > >& A);
+    inline       matrix< complex< pod_type > >  operator%(const matrix< pod_type >& A);
+    inline       matrix< complex< pod_type > >  operator/(const matrix< complex< pod_type > >& A);
+    inline       matrix< complex< pod_type > >  operator/(const matrix< pod_type >& A);
     
-    inline const matrix< complex< T > >&  operator=(const matrix< T >& A);
-    inline const matrix< complex< T > >&  operator=(const matrix< complex< T > >& A);
-    inline const matrix< complex< T > >&  operator=(matrix< complex< T > >&& A);
+    inline const matrix< complex< pod_type > >& operator=(const matrix< pod_type >& A);
+    inline const matrix< complex< pod_type > >& operator=(const matrix< complex< pod_type > >& A);
+    inline const matrix< complex< pod_type > >& operator=(matrix< complex< pod_type > >&& A);
     
-    inline       bool                     operator==(const matrix< complex< T > >& A);
-    inline       bool                     operator!=(const matrix< complex< T > >& A);
+    inline       bool                           operator==(const matrix< complex< pod_type > >& A);
+    inline       bool                           operator!=(const matrix< complex< pod_type > >& A);
     
-    inline const matrix< complex< T > >&  operator+=(const matrix< T >& A);
-    inline const matrix< complex< T > >&  operator+=(const matrix< complex< T > >& A);
-    inline const matrix< complex< T > >&  operator-=(const matrix< T >& A);
-    inline const matrix< complex< T > >&  operator-=(const matrix< complex< T > >& A);
-    inline const matrix< complex< T > >&  operator*=(const matrix< T >& A);
-    inline const matrix< complex< T > >&  operator*=(const matrix< complex< T > >& A);
-    inline const matrix< complex< T > >&  operator%=(const matrix< T >& A);
-    inline const matrix< complex< T > >&  operator%=(const matrix< complex< T > >& A);
-    inline const matrix< complex< T > >&  operator/=(const matrix< T >& A);
-    inline const matrix< complex< T > >&  operator/=(const matrix< complex< T > >& A);
+    inline const matrix< complex< pod_type > >& operator+=(const matrix< pod_type >& A);
+    inline const matrix< complex< pod_type > >& operator+=(const matrix< complex< pod_type > >& A);
+    inline const matrix< complex< pod_type > >& operator-=(const matrix< pod_type >& A);
+    inline const matrix< complex< pod_type > >& operator-=(const matrix< complex< pod_type > >& A);
+    inline const matrix< complex< pod_type > >& operator*=(const matrix< pod_type >& A);
+    inline const matrix< complex< pod_type > >& operator*=(const matrix< complex< pod_type > >& A);
+    inline const matrix< complex< pod_type > >& operator%=(const matrix< pod_type >& A);
+    inline const matrix< complex< pod_type > >& operator%=(const matrix< complex< pod_type > >& A);
+    inline const matrix< complex< pod_type > >& operator/=(const matrix< pod_type >& A);
+    inline const matrix< complex< pod_type > >& operator/=(const matrix< complex< pod_type > >& A);
     
-    inline const matrix< complex< T > >&  operator*=(const vector< T >& v);
-    inline const matrix< complex< T > >&  operator*=(const vector< complex< T > >& v);
+    inline const matrix< complex< pod_type > >& operator*=(const vector< pod_type >& v);
+    inline const matrix< complex< pod_type > >& operator*=(const vector< complex< pod_type > >& v);
     
-    inline       matrix< complex< T > >   operator+();
-    inline       matrix< complex< T > >   operator-();
+    inline       matrix< complex< pod_type > >  operator+();
+    inline       matrix< complex< pod_type > >  operator-();
     
-    inline       matrix< complex< T > >   operator+(const T& rhs);
-    inline       matrix< complex< T > >   operator+(const complex< T >& rhs);
-    inline       matrix< complex< T > >   operator-(const T& rhs);
-    inline       matrix< complex< T > >   operator-(const complex< T >& rhs);
-    inline       matrix< complex< T > >   operator*(const T& rhs);
-    inline       matrix< complex< T > >   operator*(const complex< T >& rhs);
-    inline       matrix< complex< T > >   operator/(const T& rhs);
-    inline       matrix< complex< T > >   operator/(const complex< T >& rhs);
-    inline       matrix< complex< T > >   operator^(const unsigned int& exp);
+    inline       matrix< complex< pod_type > >  operator+(const pod_type& rhs);
+    inline       matrix< complex< pod_type > >  operator+(const complex< pod_type >& rhs);
+    inline       matrix< complex< pod_type > >  operator-(const pod_type& rhs);
+    inline       matrix< complex< pod_type > >  operator-(const complex< pod_type >& rhs);
+    inline       matrix< complex< pod_type > >  operator*(const pod_type& rhs);
+    inline       matrix< complex< pod_type > >  operator*(const complex< pod_type >& rhs);
+    inline       matrix< complex< pod_type > >  operator/(const pod_type& rhs);
+    inline       matrix< complex< pod_type > >  operator/(const complex< pod_type >& rhs);
+    inline       matrix< complex< pod_type > >  operator^(const unsigned int& exp);
     
-    inline       vector< complex< T > >   operator*(const vector< T >& v);
-    inline       vector< complex< T > >   operator*(const vector< complex< T > >& v);
+    inline       vector< complex< pod_type > >  operator*(const vector< pod_type >& v);
+    inline       vector< complex< pod_type > >  operator*(const vector< complex< pod_type > >& v);
     
-    inline       matrix< complex< T > >&  operator+=(const T& rhs);
-    inline       matrix< complex< T > >&  operator+=(const complex< T >& rhs);
-    inline       matrix< complex< T > >&  operator-=(const T& rhs);
-    inline       matrix< complex< T > >&  operator-=(const complex< T >& rhs);
-    inline       matrix< complex< T > >&  operator*=(const T& rhs);
-    inline       matrix< complex< T > >&  operator*=(const complex< T >& rhs);
-    inline       matrix< complex< T > >&  operator/=(const T& rhs);
-    inline       matrix< complex< T > >&  operator/=(const complex< T >& rhs);
-    inline       matrix< complex< T > >&  operator^=(const unsigned int& exp);
+    inline       matrix< complex< pod_type > >& operator+=(const pod_type& rhs);
+    inline       matrix< complex< pod_type > >& operator+=(const complex< pod_type >& rhs);
+    inline       matrix< complex< pod_type > >& operator-=(const pod_type& rhs);
+    inline       matrix< complex< pod_type > >& operator-=(const complex< pod_type >& rhs);
+    inline       matrix< complex< pod_type > >& operator*=(const pod_type& rhs);
+    inline       matrix< complex< pod_type > >& operator*=(const complex< pod_type >& rhs);
+    inline       matrix< complex< pod_type > >& operator/=(const pod_type& rhs);
+    inline       matrix< complex< pod_type > >& operator/=(const complex< pod_type >& rhs);
+    inline       matrix< complex< pod_type > >& operator^=(const unsigned int& exp);
     
-    inline       matrix< complex< T > >&  operator<<(const T& val);
-    inline       matrix< complex< T > >&  operator<<(const complex< T >& val);
+    inline       matrix< complex< pod_type > >& operator<<(const pod_type& val);
+    inline       matrix< complex< pod_type > >& operator<<(const complex< pod_type >& val);
     //inline matrix< T >& operator<<(const tok& T);
     
-    inline       complex< T >&            operator()(const size_t& i, const size_t& j);
-    inline const complex< T >&            operator()(const size_t& i, const size_t& j) const;
+    inline       complex< pod_type >&           operator()(const size_t& i, const size_t& j);
+    inline const complex< pod_type >&           operator()(const size_t& i, const size_t& j) const;
     
-    inline       void                     zeros();
-    inline       void                     ones();
-    inline       void                     eye();
-    inline       void                     transpose();
-    inline       void                     fill(const T& value);
-    inline       void                     fill(const complex< T >& value);
-    inline       void                     diag(const complex< T >& value);
-    inline       void                     diag(const vector< complex< T > >& vec);
+    inline       void                           zeros();
+    inline       void                           ones();
+    inline       void                           eye();
+    inline       void                           transpose();
+    inline       void                           fill(const pod_type& value);
+    inline       void                           fill(const complex< pod_type >& value);
+    inline       void                           diag(const complex< pod_type >& value);
+    inline       void                           diag(const vector< complex< pod_type > >& vec);
     
-    inline const complex< double >        determinant();
+    inline const complex< double >              determinant();
 };
 
 template<typename T> std::ostream& operator<<(std::ostream& o, const matrix< complex< T > >& A);

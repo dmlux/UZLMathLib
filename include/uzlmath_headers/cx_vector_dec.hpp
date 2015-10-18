@@ -35,15 +35,22 @@ UZLMATH_BEGIN
  * @date        30.05.15
  */
 template< typename T >
-class vector< complex< T > >
+class
+vector< complex< T >, typename if_true< is_num_type< T >::value >::type >
 {
-    size_t   inj;             //!< Index for injection
+    size_t   inj;                       //!< Index for injection
     
 public:
-    const size_t   size;      //!< size of vector
-    const vec_type type;      //!< type of vector
+    // type declarations
+    typedef T pod_type;                 //!< The POD type of matrix elements
     
-    const complex< T >* mem; //!< vector data
+    // iterators
+    typedef const pod_type* iterator;   //!< Vector iterator
+    
+    // ivars
+    const size_t   size;                //!< size of vector
+    const vec_type type;                //!< type of vector
+    const complex< T >* mem;            //!< vector data
     
     inline                                vector();
     inline                                vector(const size_t& s, const vec_type& type = vec_type::ROW);
