@@ -48,7 +48,7 @@ UZLMATH_NAMESPACE(OrthoPoly)
  */
 template< typename T >
 inline
-typename uzl_num_only< T >::result legendre(const int& n, const T& x)
+number_type< T > legendre(const int& n, const T& x)
 {
     // illegal values
     if (n < 0)
@@ -116,7 +116,7 @@ typename uzl_num_only< T >::result legendre(const int& n, const T& x)
  */
 template< typename T >
 inline
-typename uzl_num_only< T >::result assoc_legendre(const int& l, const int& m, const T& x)
+number_type< T > assoc_legendre(const int& l, const int& m, const T& x)
 {
     if ( l < m || l < abs(m) )
     {

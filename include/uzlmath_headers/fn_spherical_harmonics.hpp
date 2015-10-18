@@ -40,7 +40,7 @@ UZLMATH_NAMESPACE(SphericalHarmonics)
  */
 template< typename T >
 inline
-complex< typename uzl_num_only< T >::result > Ylm(const int& l, const int& m, const T& theta, const T& phi)
+complex< number_type< T > > Ylm(const int& l, const int& m, const T& theta, const T& phi)
 {
     // norm factor
     T norm = (2.0 * l + 1.0) / (4.0 * constants< T >::pi);

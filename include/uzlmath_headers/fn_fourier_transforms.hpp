@@ -53,7 +53,7 @@ UZLMATH_NAMESPACE(FourierTransforms)
  */
 template< typename T >
 inline
-typename uzl_void_cx_num_only< T >::result DFT(vector< T >& vec, T scale = T(1, 0))
+void_cx_number_type< T > DFT(vector< T >& vec, T scale = T(1, 0))
 {
     if (vec.size == 0)
     {
@@ -147,7 +147,7 @@ typename uzl_void_cx_num_only< T >::result DFT(vector< T >& vec, T scale = T(1, 
  */
 template< typename T >
 inline
-typename uzl_vec_cx_dbl_real_num_only< T >::result DFT(vector< T >& vec, complex< double > scale = complex< double >(1, 0))
+cx_dblvec_number_type< T > DFT(vector< T >& vec, complex< double > scale = complex< double >(1, 0))
 {
     if (vec.size == 0)
     {
@@ -218,7 +218,7 @@ typename uzl_vec_cx_dbl_real_num_only< T >::result DFT(vector< T >& vec, complex
  */
 template< typename T >
 inline
-typename uzl_void_num_only< T >::result DFT2(matrix< complex< T > >& mat, complex< T > scale = complex< T >(1, 0))
+void_number_type< T > DFT2(matrix< complex< T > >& mat, complex< T > scale = complex< T >(1, 0))
 {
     // make fft array
     double* fftInOut = new double[mat.rows * mat.cols * 2];
@@ -277,7 +277,7 @@ typename uzl_void_num_only< T >::result DFT2(matrix< complex< T > >& mat, comple
  */
 template< typename T >
 inline
-typename uzl_void_num_only< T >::result IDFT2(matrix< complex< T > >& mat, complex< T > scale = complex< T >(1,0))
+void_number_type< T > IDFT2(matrix< complex< T > >& mat, complex< T > scale = complex< T >(1,0))
 {
     // make fft array
     double fftInOut[mat.rows * mat.cols * 2];

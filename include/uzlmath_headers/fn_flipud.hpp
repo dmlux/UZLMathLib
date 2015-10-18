@@ -31,7 +31,7 @@ UZLMATH_BEGIN
  */
 template< typename T >
 inline
-typename uzl_void_num_only< T >::result flipud(matrix< T >& mat)
+void_number_type< T > flipud(matrix< T >& mat)
 {
     // define indices
     size_t j, k;
@@ -72,7 +72,7 @@ typename uzl_void_num_only< T >::result flipud(matrix< T >& mat)
  */
 template< typename T >
 inline
-typename uzl_void_num_only< T >::result flipud_ne2ndecol(matrix< T >& mat)
+void_number_type< T > flipud_ne2ndecol(matrix< T >& mat)
 {
     // define indices
     size_t j, k;
@@ -122,7 +122,7 @@ typename uzl_void_num_only< T >::result flipud_ne2ndecol(matrix< T >& mat)
  */
 template< typename T >
 inline
-typename uzl_void_num_only< T >::result flipud_ne2ndocol(matrix< T >& mat)
+void_number_type< T > flipud_ne2ndocol(matrix< T >& mat)
 {
     // define indices
     size_t j, k;
@@ -170,7 +170,7 @@ typename uzl_void_num_only< T >::result flipud_ne2ndocol(matrix< T >& mat)
  */
 template< typename T >
 inline
-typename uzl_void_num_only< T >::result flipud(matrix< complex< T > >& mat)
+void_number_type< T > flipud(matrix< complex< T > >& mat)
 {
     // define indices
     size_t j, k;

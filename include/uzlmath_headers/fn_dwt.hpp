@@ -49,7 +49,7 @@ UZLMATH_NAMESPACE(DWT)
  */
 template< typename T >
 inline
-typename uzl_void_num_only< T >::result quadrature_weights(vector< T >& vec)
+void_number_type< T > quadrature_weights(vector< T >& vec)
 {
     if (vec.size & 1)
     {
@@ -95,7 +95,7 @@ typename uzl_void_num_only< T >::result quadrature_weights(vector< T >& vec)
  */
 template< typename T >
 inline
-typename uzl_void_num_only< T >::result weighted_wigner_d_matrix(matrix< T >& wig, const int& bandwidth, const int& M, const int& Mp, const vector< T >& weights)
+void_number_type< T > weighted_wigner_d_matrix(matrix< T >& wig, const int& bandwidth, const int& M, const int& Mp, const vector< T >& weights)
 {
     // Definition of used indices and the matrix that will be returned
     int i, j, minJ = std::max(abs(M), abs(Mp));
@@ -229,7 +229,7 @@ typename uzl_void_num_only< T >::result weighted_wigner_d_matrix(matrix< T >& wi
  */
 template< typename T >
 inline
-typename uzl_void_num_only< T >::result wigner_d_matrix(matrix< T >& wig, const int& bandwidth, const int& M, const int& Mp)
+void_number_type< T > wigner_d_matrix(matrix< T >& wig, const int& bandwidth, const int& M, const int& Mp)
 {
     // Definition of used indices and the matrix that will be returned
     int i, j, minJ = std::max(abs(M), abs(Mp));

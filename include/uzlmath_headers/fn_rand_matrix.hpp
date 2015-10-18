@@ -34,7 +34,7 @@ UZLMATH_BEGIN
  */
 template< typename T >
 inline
-typename uzl_void_num_only< T >::result randi(matrix< T >& mat, const int& min, const int& max)
+void_number_type< T > randi(matrix< T >& mat, const int& min, const int& max)
 {
     if (min > max)
     {
@@ -53,7 +53,7 @@ typename uzl_void_num_only< T >::result randi(matrix< T >& mat, const int& min, 
     
     // C++11 random numbers uniformly distributed
     std::mt19937_64 e(seed);
-    std::uniform_int_distribution< typename uzl_int_rand_dist_type< T >::result > d(min, max);
+    std::uniform_int_distribution< rand_int_dist_type< T > > d(min, max);
     
     // fill vector with random integers
     size_t i, j;
@@ -87,7 +87,7 @@ typename uzl_void_num_only< T >::result randi(matrix< T >& mat, const int& min, 
  */
 template< typename T >
 inline
-typename uzl_void_num_only< T >::result randi(matrix< complex< T > >& mat, const int& min, const int& max)
+void_number_type< T > randi(matrix< complex< T > >& mat, const int& min, const int& max)
 {
     if (min > max)
     {
@@ -106,7 +106,7 @@ typename uzl_void_num_only< T >::result randi(matrix< complex< T > >& mat, const
 
     // C++11 random numbers uniformly distributed
     std::mt19937_64 e(seed);
-    std::uniform_int_distribution< typename uzl_int_rand_dist_type< T >::result > d(min, max);
+    std::uniform_int_distribution< rand_int_dist_type< T > > d(min, max);
     
     // fill vector with random complex integers
     size_t i, j;
@@ -143,7 +143,7 @@ typename uzl_void_num_only< T >::result randi(matrix< complex< T > >& mat, const
  */
 template< typename T >
 inline
-typename uzl_void_real_only< T >::result rand(matrix< T >& mat, const double& min, const double& max)
+void_real_type< T > rand(matrix< T >& mat, const double& min, const double& max)
 {
     if (min > max)
     {
@@ -198,7 +198,7 @@ typename uzl_void_real_only< T >::result rand(matrix< T >& mat, const double& mi
  */
 template< typename T >
 inline
-typename uzl_void_real_only< T >::result rand(matrix< complex< T > >& mat, const double& min, const double& max)
+void_real_type< T > rand(matrix< complex< T > >& mat, const double& min, const double& max)
 {
     if (min > max)
     {

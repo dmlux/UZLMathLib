@@ -31,7 +31,7 @@ UZLMATH_BEGIN
  */
 template< typename T >
 inline
-typename uzl_void_num_only< T >::result fliplr(matrix< T >& mat)
+void_number_type< T > fliplr(matrix< T >& mat)
 {
     // define indices
     size_t j, k;
@@ -73,7 +73,7 @@ typename uzl_void_num_only< T >::result fliplr(matrix< T >& mat)
  */
 template< typename T >
 inline
-typename uzl_void_num_only< T >::result fliplr_ne2nderow(matrix< T >& mat)
+void_number_type< T > fliplr_ne2nderow(matrix< T >& mat)
 {
     // define indices
     size_t j, k;
@@ -123,7 +123,7 @@ typename uzl_void_num_only< T >::result fliplr_ne2nderow(matrix< T >& mat)
  */
 template< typename T >
 inline
-typename uzl_void_num_only< T >::result fliplr_ne2ndorow(matrix< T >& mat)
+void_number_type< T > fliplr_ne2ndorow(matrix< T >& mat)
 {
     // define indices
     size_t j, k;
@@ -171,7 +171,7 @@ typename uzl_void_num_only< T >::result fliplr_ne2ndorow(matrix< T >& mat)
  */
 template< typename T >
 inline
-typename uzl_void_num_only< T >::result fliplr(matrix< complex< T > >& mat)
+void_number_type< T > fliplr(matrix< complex< T > >& mat)
 {
     // define indices
     size_t j, k;

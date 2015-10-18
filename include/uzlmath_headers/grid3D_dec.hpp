@@ -36,7 +36,7 @@ UZLMATH_BEGIN
  */
 template< typename T >
 struct
-grid3D< T, typename if_true< is_num_type< T >::value >::type >
+grid3D< T, if_pod_type< T > >
 {
     // typedefs
     typedef T pod_type;     //!< POD type of grid elements

@@ -27,7 +27,7 @@ UZLMATH_BEGIN
  */
 template< typename T >
 inline
-typename uzl_void_num_only< T >::result randi(vector< T >& vec, const int& min, const int& max)
+void_number_type< T > randi(vector< T >& vec, const int& min, const int& max)
 {
     if (min > max)
     {
@@ -46,7 +46,7 @@ typename uzl_void_num_only< T >::result randi(vector< T >& vec, const int& min, 
     
     // C++11 random numbers uniformly distributed
     std::default_random_engine e(seed);
-    std::uniform_int_distribution< typename uzl_int_rand_dist_type< T >::result > d(min, max);
+    std::uniform_int_distribution< rand_int_dist_type< T > > d(min, max);
     
     // fill vector with randoms
     size_t i;
@@ -58,7 +58,7 @@ typename uzl_void_num_only< T >::result randi(vector< T >& vec, const int& min, 
 
 template< typename T >
 inline
-typename uzl_void_num_only< T >::result randi(vector< complex< T > >& vec, const int& min, const int& max)
+void_number_type< T > randi(vector< complex< T > >& vec, const int& min, const int& max)
 {
     if (min > max)
     {
@@ -77,7 +77,7 @@ typename uzl_void_num_only< T >::result randi(vector< complex< T > >& vec, const
     
     // C++11 random numbers uniformly distributed
     std::default_random_engine e(seed);
-    std::uniform_int_distribution< typename uzl_int_rand_dist_type< T >::result > d(min, max);
+    std::uniform_int_distribution< rand_int_dist_type< T > > d(min, max);
     
     // fill vector with randoms
     size_t i;
@@ -106,7 +106,7 @@ typename uzl_void_num_only< T >::result randi(vector< complex< T > >& vec, const
  * @ingroup         vector
  */
 template< typename T >
-typename uzl_void_real_only< T >::result rand(vector< T >& vec, const double& min, const double& max)
+typename void_real_only< T >::result rand(vector< T >& vec, const double& min, const double& max)
 {
     if (min > max)
     {
@@ -152,7 +152,7 @@ typename uzl_void_real_only< T >::result rand(vector< T >& vec, const double& mi
  * @ingroup         vector
  */
 template< typename T >
-typename uzl_void_real_only< T >::result rand(vector< complex< T > >& vec, const double& min, const double& max)
+typename void_real_only< T >::result rand(vector< complex< T > >& vec, const double& min, const double& max)
 {
     if (min > max)
     {
