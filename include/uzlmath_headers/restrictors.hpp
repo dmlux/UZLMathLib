@@ -126,7 +126,7 @@ template<>             struct uniform_real_dist_only< uniform_real_distribution<
 template<>             struct uniform_real_dist_only< uniform_real_distribution< double > >         { typedef void result;      };
 template<>             struct uniform_real_dist_only< uniform_real_distribution< long double > >    { typedef void result;      };
 
-template< typename T > using uniform_real_dist_type = typename uniform_real_distribution< T >::result;
+template< typename T > using uniform_real_dist_type = typename uniform_real_dist_only< T >::result;
 
 /*!
  * @}
@@ -134,4 +134,4 @@ template< typename T > using uniform_real_dist_type = typename uniform_real_dist
 
 UZLMATH_END
 
-#endif
+#endif /* restrictors.hpp */

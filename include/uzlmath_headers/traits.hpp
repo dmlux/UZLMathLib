@@ -65,4 +65,4 @@ template<>             struct is_integral_type< unsigned long long >    { static
 
 UZLMATH_END
 
-#endif
+#endif /* traits.hpp */

@@ -14,6 +14,10 @@
 #include <chrono>
 #include <thread>
 
+#include "math.h"
+
+#define PI constants< double >::pi
+
 using namespace uzlmath;
 
 //uzlmath_deprecated
@@ -116,7 +120,7 @@ void for_back_file(const char* fileName, unsigned int bandwidth, bool show_coefs
     // creating fourier coefficients container
     DSOFTFourierCoefficients coef(bandwidth);
     
-    // perform forward SOFT transform
+    // perform forward DSOFT transform
     sw = stopwatch::tic();
     FourierTransforms::DSOFT(sample, coef);
     time = sw.toc();
@@ -155,9 +159,9 @@ void for_back_file(const char* fileName, unsigned int bandwidth, bool show_coefs
     FourierTransforms::IDSOFT(coef, grid_rec);
     double time2 = sw.toc();
     
-    printf("Bandbreite:   %d\n", bandwidth);
-    printf("SOFT:         %.6fs\n", time);
-    printf("ISOFT:        %.6fs\n", time2);
+    printf("Bandbreite:    %d\n", bandwidth);
+    printf("DSOFT:         %.6fs\n", time);
+    printf("IDSOFT:        %.6fs\n", time2);
     
     std::cout << "sample = " << sample << std::endl;
     std::cout << "reconstructed sample = " << grid_rec << std::endl;
@@ -184,7 +188,7 @@ void for_back(unsigned int bandwidth, bool show_coefs)
     
 //    std::cout << coef << std::endl;
     
-    // perform forward SOFT transform
+    // perform forward DSOFT transform
     sw = stopwatch::tic();
     FourierTransforms::DSOFT(sample, rec_coef);
     double time = sw.toc();
@@ -235,15 +239,14 @@ void for_back(unsigned int bandwidth, bool show_coefs)
         printf("\n");
     }
     
-    printf("#coefficients:  %d\n", cnt_fc);
-    
     // store coefficients on disk
 //    obj2file(rec_coef, "fc.txt");
     
-    printf("Bandbreite:     %d\n", bandwidth);
-    printf("SOFT:           %.6fs\n", time);
-    printf("ISOFT:          %.6fs\n", time2);
-    printf("Correct result: %s\n", (equal ? "Yes" : "No"));
+    printf("#coefficients:   %d\n", cnt_fc);
+    printf("Bandbreite:      %d\n", bandwidth);
+    printf("DSOFT:           %.6fs\n", time);
+    printf("IDSOFT:          %.6fs\n", time2);
+    printf("Correct result:  %s\n", (equal ? "Yes" : "No"));
 }
 
 void test_sofft_for_bandwidth(int B)
@@ -285,7 +288,7 @@ void test_sofft_for_bandwidth(int B)
                     break;
                 
                 // Here the coefficients are printed out on the console
-                printf("l=%4d, M=%4d, M'=%4d:    %s%.4f%s%.4f\n", i,  j, k, (fc(i,j,k).re < 0 ? "-" : " "), std::abs(fc(i,j,k).re), (fc(i,j,k).im < 0 ? " - " : " + "), std::abs(fc(i,j,k).im));
+                printf("l=%4d, M=%4d, M'=%4d:    %s%.4f%s%.4fi\n", i,  j, k, (fc(i,j,k).re < 0 ? "-" : " "), std::abs(fc(i,j,k).re), (fc(i,j,k).im < 0 ? " - " : " + "), std::abs(fc(i,j,k).im));
                 
                 cnt++;
             }
@@ -301,74 +304,8 @@ int main(int argc, const char ** argv)
         return 1;
     }
     
-//    matrix< double > A(5, 5);
-//    
-//    A << 0.8147 << 0.0975 << 0.1576 << 0.1419 << 0.6557
-//      << 0.9058 << 0.2785 << 0.9706 << 0.4218 << 0.0357
-//      << 0.1270 << 0.5469 << 0.9572 << 0.9157 << 0.8491
-//      << 0.9134 << 0.9575 << 0.4854 << 0.7922 << 0.9340
-//      << 0.6324 << 0.9649 << 0.8003 << 0.9595 << 0.6787;
-//    
-//    vector< complex< double > > B(5, vec_type::COLUMN);
-//    
-//    B[0] = complex< double >(0.7577, 0.7060);
-//    B[1] = complex< double >(0.7431, 0.0318);
-//    B[2] = complex< double >(0.3922, 0.2769);
-//    B[3] = complex< double >(0.6555, 0.0462);
-//    B[4] = complex< double >(0.1712, 0.0971);
-//    
-//    std::cout << "A = " << A << std::endl;
-//    std::cout << "B = " << B << std::endl;
-//    std::cout << "-B = " << B * -1 << std::endl;
-//    std::cout << "A * B = " << A * B << std::endl;
-//    
-//    B *= -1;
-//    
-//    std::cout << "B *= -1 = " << B << std::endl;
-    
     int B = atoi(*(argv + 1));
     for_back(B, false);
-    
-//    matrix< double > wig = DWT::wigner_d_matrix(5, 1, 2);
-//    
-//    std::cout << "wig = " << wig << std::endl;
-    
-    // create grid
-//    test_sofft_for_bandwidth(B);
-    
-//    normal_distribution< double > nd;
-//    nd.engine = random_engine::MERSENNE_TWISTER;
-//    nd.mean = 0;
-//    nd.standard_deviation = 1;
-//    
-//    uniform_int_distribution< int > uid;
-//    uid.engine = random_engine::MERSENNE_TWISTER;
-//    uid.min = 1;
-//    uid.max = 4;
-    
-//    uniform_real_distribution< double > urd;
-//    urd.engine = random_engine::MERSENNE_TWISTER64;
-//    urd.min = -2;
-//    urd.max = 2.342;
-//    
-//    uniform_int_distribution< int > uid;
-//    uid.engine = random_engine::MERSENNE_TWISTER64;
-//    uid.min = -1;
-//    uid.max = +4;
-//    
-//    DSOFTFourierCoefficients fc(3);
-//    
-//    rand(fc, urd);
-    
-//    int l = 3, m = 0;
-//    double x = constants< double >::pi / 6;
-//    double y = constants< double >::pi / 3;
-//    
-//    stopwatch sw = stopwatch::tic();
-//    complex< double > result = SphericalHarmonics::Ylm(l, m, x, y);
-//    double time = sw.toc_micros();
-//    
-//    std::cout << std::fixed << result.re << (result.im < 0 ? " - " : " + ") << std::abs(result.im) << " in " << time << "micros" << std::endl;
     
     return 0;
 }

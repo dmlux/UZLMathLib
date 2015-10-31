@@ -62,4 +62,4 @@ void mat_ptrs< glue< T1, T2 >, T >::get_ptrs(const matrix< T >**in_ptrs, const g
 
 UZLMATH_END
 
-#endif
+#endif /* glue_def.hpp */

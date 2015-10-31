@@ -16,9 +16,9 @@
 UZLMATH_NAMESPACE(FourierTransforms)
 
 /*!
- * @brief           The SOFT (<b>S0</b>(3) <b>F</b>ourier <b>T</b>ransform)
+ * @brief           The DSOFT (<b>S0</b>(3) <b>F</b>ourier <b>T</b>ransform)
  *                  describes the FFT on the rotation group \f$\mathcal{SO}(3)\f$
- * @details         The method to compute the SOFT on the rotation group is described in
+ * @details         The method to compute the DSOFT on the rotation group is described in
  *                  detail in the paper 'FFTs on the Rotation Group' written by Peter J.
  *                  Kostelec and Daniel N. Rockmore. The implementation that is underneath
  *                  this function is
@@ -72,14 +72,14 @@ void DSOFT(grid3D< complex< double > > sample, DSOFTFourierCoefficients& fc, int
     // Check if the grid has same size in each dimension
     if (sample.rows != sample.cols || sample.rows != sample.lays)
     {
-        uzlmath_warning("%s", "all SOFT sample grid dimensions should be equal.");
+        uzlmath_warning("%s", "all DSOFT sample grid dimensions should be equal.");
         return;
     }
     
     // Check if grid has odd dimensions
     if (sample.rows & 1)
     {
-        uzlmath_warning("%s", "SOFT sample grid dimensions are not even.");
+        uzlmath_warning("%s", "DSOFT sample grid dimensions are not even.");
         return;
     }
     
@@ -92,7 +92,7 @@ void DSOFT(grid3D< complex< double > > sample, DSOFTFourierCoefficients& fc, int
     // Check if Fourier coefficients container dimension matches sample dimension
     if (bandwidth != fc.bandwidth)
     {
-        uzlmath_warning("%s", "SOFT Fourier coefficients container bandwidth does not match to sample grid bandwidth.");
+        uzlmath_warning("%s", "DSOFT Fourier coefficients container bandwidth does not match to sample grid bandwidth.");
         return;
     }
     
@@ -131,7 +131,7 @@ void DSOFT(grid3D< complex< double > > sample, DSOFTFourierCoefficients& fc, int
     typedef const complex< double >* cx_it;
     
     // DWT for M = 0, M' = 0
-    for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(0, 0, e - s.mem);                   }
+    for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { access::rw(*e) = sample(0, 0, e - s.mem);                   }
     vector< complex< double > > sh = dw * s;
     for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), 0, 0) = norm * (*e); }
     
@@ -152,19 +152,19 @@ void DSOFT(grid3D< complex< double > > sample, DSOFTFourierCoefficients& fc, int
              ** Make use of symmetries                                      **
              *****************************************************************/
             // case f_{M,0}
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(0, M, e - s.mem);                       }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { access::rw(*e) = sample(0, M, e - s.mem);                       }
             sh = dw * s;
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), M, 0) = norm * (*e);     }
             
             // case f_{0,M}
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(M, 0, e - s.mem);                       }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { access::rw(*e) = sample(M, 0, e - s.mem);                       }
             sh = dw * s;
             if  (M & 1)                                            { sh *= -1;                                                       }
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), 0, M) = norm * (*e);     }
             
             // case f_{-M,0}
             fliplr(dw);
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(0, bw2 - M, e - s.mem);                 }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { access::rw(*e) = sample(0, bw2 - M, e - s.mem);                 }
             sh = dw * s;
             if (M & 1)  // if M is odd
             {
@@ -177,7 +177,7 @@ void DSOFT(grid3D< complex< double > > sample, DSOFTFourierCoefficients& fc, int
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), -M, 0) = norm * (*e);    }
             
             // case f_{0,-M}
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(bw2 - M, 0, e - s.mem);                 }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { access::rw(*e) = sample(bw2 - M, 0, e - s.mem);                 }
             sh = dw * s;
             for (cx_it e = sh.mem + 1; e < sh.mem + sh.size; e+=2) { access::rw(*e) *= -1;                                           }
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), 0, -M) = norm * (*e);    }
@@ -188,12 +188,12 @@ void DSOFT(grid3D< complex< double > > sample, DSOFTFourierCoefficients& fc, int
             dw *= -1;
             
             // case f_{M, M}
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(M, M, e - s.mem);                       }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { access::rw(*e) = sample(M, M, e - s.mem);                       }
             sh = dw * s;
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), M, M) = norm * (*e);     }
             
             // case f_{-M, -M}
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(bw2 - M, bw2 - M, e - s.mem);           }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { access::rw(*e) = sample(bw2 - M, bw2 - M, e - s.mem);           }
             sh = dw * s;
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), -M, -M) = norm * (*e);   }
             
@@ -203,12 +203,12 @@ void DSOFT(grid3D< complex< double > > sample, DSOFTFourierCoefficients& fc, int
             
             // A little arithmetic error is occuring in the following calculation... I do not exactly know why
             // case f_{M, -M}
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(bw2 - M, M, e - s.mem);                 }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { access::rw(*e) = sample(bw2 - M, M, e - s.mem);                 }
             sh = dw * s;
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), M, -M) = norm * (*e);    }
             
             // case f_{-M, M}
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(M, bw2 - M, e - s.mem);                 }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { access::rw(*e) = sample(M, bw2 - M, e - s.mem);                 }
             sh = dw * s;
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), -M, M) = norm * (*e);    }
         }
@@ -235,25 +235,25 @@ void DSOFT(grid3D< complex< double > > sample, DSOFTFourierCoefficients& fc, int
             DWT::weighted_wigner_d_matrix(dw, bandwidth, M, Mp, weights);
             
             // case f_{M, Mp}
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(Mp, M, e - s.mem);                      }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { access::rw(*e) = sample(Mp, M, e - s.mem);                      }
             sh  = dw * s;
             for (cx_it e = sh.mem; e < sh.mem + sh.size; ++e)      { access::rw(*e) *= -1;                                           }
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), M, Mp) = norm * (*e);    }
             
             // case f_{Mp, M}
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(M, Mp, e - s.mem);                      }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { access::rw(*e) = sample(M, Mp, e - s.mem);                      }
             sh = dw * s;
             if  (!((M - Mp) & 1))                                  { sh *= -1;                                                       }
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), Mp, M) = norm * (*e);    }
             
             // case f_{-M, -Mp}
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(bw2 - Mp, bw2 - M, e - s.mem);          }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { access::rw(*e) = sample(bw2 - Mp, bw2 - M, e - s.mem);          }
             sh = dw * s;
             if  (!((M - Mp) & 1))                                  { sh *= -1;                                                       }
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), -M, -Mp) = norm * (*e);  }
             
             // case f_{-Mp, -M}
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(bw2 - M, bw2 - Mp, e - s.mem);          }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { access::rw(*e) = sample(bw2 - M, bw2 - Mp, e - s.mem);          }
             sh  = dw * s;
             for (cx_it e = sh.mem; e < sh.mem + sh.size; ++e)      { access::rw(*e) *= -1;                                           }
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), -Mp, -M) = norm * (*e);  }
@@ -264,12 +264,12 @@ void DSOFT(grid3D< complex< double > > sample, DSOFTFourierCoefficients& fc, int
             fliplr_ne2nderow(dw);
             
             // case f_{Mp, -M}
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(bw2 - M, Mp, e - s.mem);                }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { access::rw(*e) = sample(bw2 - M, Mp, e - s.mem);                }
             sh = dw * s;
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), Mp, -M) = norm * (*e);   }
             
             // case f_{M, -Mp}
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(bw2 - Mp, M, e - s.mem);                }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { access::rw(*e) = sample(bw2 - Mp, M, e - s.mem);                }
             sh = dw * s;
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), M, -Mp) = norm * (*e);   }
             
@@ -280,12 +280,12 @@ void DSOFT(grid3D< complex< double > > sample, DSOFTFourierCoefficients& fc, int
             }
             
             // case f_{-Mp, M}
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(M, bw2 - Mp, e - s.mem);                }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { access::rw(*e) = sample(M, bw2 - Mp, e - s.mem);                }
             sh = dw * s;
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), -Mp, M) = norm * (*e);   }
             
             // case f_{-M, Mp}
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { access::rw(*e) = sample(Mp, bw2 - M, e - s.mem);                }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { access::rw(*e) = sample(Mp, bw2 - M, e - s.mem);                }
             sh = dw * s;
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { fc(bandwidth - (sh.mem + sh.size - e), -M, Mp) = norm * (*e);   }
         }

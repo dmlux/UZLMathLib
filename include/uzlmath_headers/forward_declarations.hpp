@@ -108,4 +108,4 @@ enum class random_engine
 
 UZLMATH_END
 
-#endif
+#endif /* forward_declarations.hpp */

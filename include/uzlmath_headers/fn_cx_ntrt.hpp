@@ -70,4 +70,4 @@ complex< T > cx_ntrt(const complex< T >& c, const int n)
 
 UZLMATH_END
 
-#endif
+#endif /* fn_cx_ntrt.hpp */

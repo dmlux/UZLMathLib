@@ -21,9 +21,9 @@ public:
      * @brief           Removes the constantness of given element
      */
     template< typename T > uzlmath_inline static T&  rw (const T& x)        { return const_cast< T& >(x);  }
-    template< typename T > uzlmath_inline static T*& rwp(const T* const& x) { return const_cast< T*& >(x); };
+    template< typename T > uzlmath_inline static T*& rwp(const T* const& x) { return const_cast< T*& >(x); }
 };
 
 UZLMATH_END
 
-#endif
+#endif /* access.hpp */

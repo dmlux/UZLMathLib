@@ -134,4 +134,4 @@ template< typename S > std::ostream& operator<<(std::ostream& o, const vector< S
 
 UZLMATH_END
 
-#endif
+#endif /* vector_dec.hpp */

@@ -108,4 +108,4 @@ struct mat_ptrs< glue< T1, T2 >, T >
 
 UZLMATH_END
 
-#endif
+#endif /* glue_dec.hpp */

@@ -29,4 +29,4 @@ const T constants< T >::e = static_cast< T >(2.718281828459045235360287471352662
 
 UZLMATH_END
 
-#endif
+#endif /* constants.hpp */

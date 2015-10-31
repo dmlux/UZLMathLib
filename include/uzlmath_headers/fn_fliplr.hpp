@@ -194,4 +194,4 @@ void_number_type< T > fliplr(matrix< complex< T > >& mat)
 
 UZLMATH_END
 
-#endif
+#endif /* fn_fliplr.hpp */

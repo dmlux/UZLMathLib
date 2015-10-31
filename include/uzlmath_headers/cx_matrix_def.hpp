@@ -387,8 +387,7 @@ matrix< complex< T > > matrix< complex< T >, if_pod_type< T > >::operator*(const
         
         double alpha[2]   = {1, 0};
         double beta[2]    = {0, 0};
-        uzlblas_zgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, alpha,
-                      A_mem_ptr, rows, B_mem_ptr, A.rows, beta, C_mem_ptr, n_rows);
+        uzlblas_zgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, alpha, A_mem_ptr, rows, B_mem_ptr, A.rows, beta, C_mem_ptr, n_rows);
     }
     else if ( same_type< T, float >::value )
     {
@@ -399,8 +398,7 @@ matrix< complex< T > > matrix< complex< T >, if_pod_type< T > >::operator*(const
         
         float alpha[2]   = {1, 0};
         float beta[2]    = {0, 0};
-        uzlblas_cgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, alpha,
-                      A_mem_ptr, rows, B_mem_ptr, A.rows, beta, C_mem_ptr, n_rows);
+        uzlblas_cgemm(UZLblasNoTrans, UZLblasNoTrans, n_rows, n_cols, cols, alpha, A_mem_ptr, rows, B_mem_ptr, A.rows, beta, C_mem_ptr, n_rows);
     }
     else
     {
@@ -2086,4 +2084,4 @@ std::ostream& operator<<(std::ostream& o, const matrix< complex< T > >& A)
 
 UZLMATH_END
 
-#endif
+#endif /* cx_matrix_def.hpp */

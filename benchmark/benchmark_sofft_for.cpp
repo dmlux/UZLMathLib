@@ -142,7 +142,7 @@ int main(int argc, const char** argv)
         
         for (i = 0; i < LOOP_R; ++i)
         {
-            // perform forward SOFT transform
+            // perform forward DSOFT transform
             // and stop time
             stopwatch sw = stopwatch::tic();
             DSOFT(sample, rec_coef);

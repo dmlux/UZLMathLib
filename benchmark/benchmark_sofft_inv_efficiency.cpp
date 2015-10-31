@@ -127,7 +127,7 @@ int main(int argc, const char** argv)
             // run the needed amount of loopruns
             for (i = 0; i < LOOP_R; ++i)
             {
-                // perform forward SOFT transform
+                // perform forward DSOFT transform
                 // and stop time
                 stopwatch sw = stopwatch::tic();
                 IDSOFT(coef, sample, threads);

@@ -72,4 +72,4 @@ template< typename S > std::ostream& operator<<(std::ostream& o, const grid3D< S
 
 UZLMATH_END
 
-#endif
+#endif /* grid3D_dec.hpp */

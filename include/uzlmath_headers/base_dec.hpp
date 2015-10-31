@@ -44,4 +44,4 @@ template< typename T1, typename T2 > inline glue< T1, T2 > operator+(const base<
 
 UZLMATH_END
 
-#endif
+#endif /* base_dec.hpp */

@@ -71,4 +71,4 @@ typedef complex< float >              cx;
 
 UZLMATH_END
 
-#endif
+#endif /* typedefs.hpp */

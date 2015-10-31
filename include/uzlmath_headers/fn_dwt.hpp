@@ -328,4 +328,4 @@ void_number_type< T > wigner_d_matrix(matrix< T >& wig, const int& bandwidth, co
 
 UZLMATH_NAMESPACE_END
 
-#endif
+#endif /* fn_dwt.hpp */

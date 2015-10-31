@@ -21,7 +21,7 @@ UZLMATH_BEGIN
  *                  to a file with the given name. 
  *
  * @param[in]       coef The Fourier coefficients container containing the Fourier
- *                  coefficients of the SOFT for the given bandwidth.
+ *                  coefficients of the DSOFT for the given bandwidth.
  * @param[in]       fileName The file name where the coefficients are getting written
  *                  to.
  *

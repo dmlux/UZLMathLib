@@ -33,4 +33,4 @@ public:
 
 UZLMATH_END
 
-#endif
+#endif /* rand_dist.hpp */

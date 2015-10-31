@@ -1738,4 +1738,4 @@ std::ostream& operator<<(std::ostream& o, const vector< S >& v)
 
 UZLMATH_END
 
-#endif
+#endif /* vector_def.hpp */

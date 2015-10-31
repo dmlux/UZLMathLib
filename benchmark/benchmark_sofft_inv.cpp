@@ -119,7 +119,7 @@ int main(int argc, const char** argv)
         
         for (i = 0; i < LOOP_R; ++i)
         {
-            // perform inverse SOFT transform
+            // perform inverse DSOFT transform
             // and stop time
             stopwatch sw = stopwatch::tic();
             IDSOFT(coef, sample);

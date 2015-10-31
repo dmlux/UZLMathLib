@@ -16,9 +16,9 @@
 UZLMATH_NAMESPACE(FourierTransforms)
 
 /*!
- * @brief           The inverse SOFT (<b>S0</b>(3) <b>F</b>ourier <b>T</b>ransform)
+ * @brief           The inverse DSOFT (<b>S0</b>(3) <b>F</b>ourier <b>T</b>ransform)
  *                  describes the inverse FFT on the rotation group \f$\mathcal{SO}(3)\f$
- * @details         The method to compute the inverse SOFT on the rotation group is described
+ * @details         The method to compute the inverse DSOFT on the rotation group is described
  *                  in detail in the paper 'FFTs on the Rotation Group' written by Peter J.
  *                  Kostelec and Daniel N. Rockmore. The implementation that is underneath
  *                  this function is
@@ -28,7 +28,7 @@ UZLMATH_NAMESPACE(FourierTransforms)
  *                  \f]
  *                  where \f$\hat{f}^J_{MM'}\f$ is the Fourier coefficient of degree
  *                  \f$J\f$ and orders \f$M,\;M'\f$. For more detailed information about the
- *                  Fourier coefficients read the documentation of spherical_harmonics::SOFT.
+ *                  Fourier coefficients read the documentation of FourierTransforms::DSOFT.
  *                  The implementation itself uses the symmetry properties of the wigner
  *                  d-function to reduce the number of wigner d-function evaluations. The
  *                  symmetries that are used are
@@ -43,12 +43,12 @@ UZLMATH_NAMESPACE(FourierTransforms)
  *                  \f}
  *
  * @param[in]       fc A Fourier coefficent managment container with all Fourier coefficients
- *                  of the SOFT.
+ *                  of the DSOFT.
  * @param[out]      synthesis The synthesized sample for the given Fourier coefficients.
  *
  * @sa              DWT::wigner_d_matrix
  * @sa              DSOFTFourierCoefficients
- * @sa              FourierTransforms::SOFT
+ * @sa              FourierTransforms::DSOFT
  * @sa              complex
  * @sa              matrix
  * @sa              grid3D
@@ -123,7 +123,7 @@ void IDSOFT(const DSOFTFourierCoefficients& fc, grid3D< complex< double > >& syn
     // inverse DWT for M = 0, M' = 0
     for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), 0, 0);  }
     vector< complex< double > > s = d * sh;
-    for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(0, 0, e - s.mem) = *e;                                       }
+    for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { synthesis(0, 0, e - s.mem) = *e;                                       }
     
     /*****************************************************************
      ** Iterate over all combinations of M and M'                   **
@@ -148,12 +148,12 @@ void IDSOFT(const DSOFTFourierCoefficients& fc, grid3D< complex< double > >& syn
             // case f_{M,0}
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), M, 0);      }
             s = d * sh;
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(0, M, e - s.mem) = *e;                                           }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { synthesis(0, M, e - s.mem) = *e;                                           }
             
             // case f_{0,M}
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), 0, M);      }
             if  (M & 1) { s = d * (sh * -1); } else                { s = d * sh;                                                                }
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(M, 0, e - s.mem) = *e;                                           }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { synthesis(M, 0, e - s.mem) = *e;                                           }
             
             flipud(d);
             
@@ -168,13 +168,13 @@ void IDSOFT(const DSOFTFourierCoefficients& fc, grid3D< complex< double > >& syn
                 for (cx_it e = sh.mem + 1; e < sh.mem + sh.size; e+=2) { access::rw(*e) *= -1;                                                  }
             }
             s = d * sh;
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(0, bw2 - M, e - s.mem) = *e;                                     }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { synthesis(0, bw2 - M, e - s.mem) = *e;                                     }
             
             // case f_{0,-M}
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), 0, -M);     }
             for (cx_it e = sh.mem + 1; e < sh.mem + sh.size; e+=2) { access::rw(*e) *= -1;                                                      }
             s = d * sh;
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(bw2 - M, 0, e - s.mem) = *e;                                     }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { synthesis(bw2 - M, 0, e - s.mem) = *e;                                     }
             
             // get new wigner matrix
             d  = matrix< double >(bandwidth - M, 2 * bandwidth);
@@ -186,12 +186,12 @@ void IDSOFT(const DSOFTFourierCoefficients& fc, grid3D< complex< double > >& syn
             // case f_{M,M}
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), M, M);      }
             s = d * sh;
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(M, M, e - s.mem) = *e;                                           }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { synthesis(M, M, e - s.mem) = *e;                                           }
             
             // case f_{-M,-M}
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), -M, -M);    }
             s = d * sh;
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(bw2 - M, bw2 - M, e - s.mem) = *e;                               }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { synthesis(bw2 - M, bw2 - M, e - s.mem) = *e;                               }
             
             // Modify dw for the last two cases. flip matrix from left to right and negate every
             // second row with odd row indices.
@@ -201,12 +201,12 @@ void IDSOFT(const DSOFTFourierCoefficients& fc, grid3D< complex< double > >& syn
             // case f_{M,-M}
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), M, -M);     }
             s = d * sh;
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(bw2 - M, M, e - s.mem) = *e;                                     }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { synthesis(bw2 - M, M, e - s.mem) = *e;                                     }
             
             // case f_{-M,M}
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), -M, M);     }
             s = d * sh;
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(M, bw2 - M, e - s.mem) = *e;                                     }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { synthesis(M, bw2 - M, e - s.mem) = *e;                                     }
         }
         
         // Fused two loops per hand
@@ -237,25 +237,25 @@ void IDSOFT(const DSOFTFourierCoefficients& fc, grid3D< complex< double > >& syn
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), M, Mp);     }
             for (cx_it e = sh.mem; e < sh.mem + sh.size; ++e)      { access::rw(*e) *= -1;                                                      }
             s  = d * sh;
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(Mp, M, e - s.mem) = *e;                                          }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { synthesis(Mp, M, e - s.mem) = *e;                                          }
             
             // case f_{Mp,M}
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), Mp, M);     }
             if  (!((M - Mp) & 1))                                  { sh *= -1;                                                                  }
             s = d * sh;
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(M, Mp, e - s.mem) = *e;                                          }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { synthesis(M, Mp, e - s.mem) = *e;                                          }
             
             // case f_{-M,-Mp}
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), -M, -Mp);   }
             if  (!((M - Mp) & 1))                                  { sh *= -1;                                                                  }
             s = d * sh;
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(bw2 - Mp, bw2 - M, e - s.mem) = *e;                              }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { synthesis(bw2 - Mp, bw2 - M, e - s.mem) = *e;                              }
             
             // case f_{-Mp,-M}
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), -Mp, -M);   }
             for (cx_it e = sh.mem; e < sh.mem + sh.size; ++e)      { access::rw(*e) *= -1;                                                      }
             s  = d * sh;
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(bw2 - M, bw2 - Mp, e - s.mem) = *e;                              }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { synthesis(bw2 - M, bw2 - Mp, e - s.mem) = *e;                              }
             
             // modify wigner d-matrix for next four cases. This just works because the weight
             // function is also symmetric like the wigner-d matrix. flip up-dow the d
@@ -265,12 +265,12 @@ void IDSOFT(const DSOFTFourierCoefficients& fc, grid3D< complex< double > >& syn
             // case f_{Mp,-M}
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), Mp, -M);    }
             s = d * sh;
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(bw2 - M, Mp, e - s.mem) = *e;                                    }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { synthesis(bw2 - M, Mp, e - s.mem) = *e;                                    }
             
             // case f_{M,-Mp}
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), M, -Mp);    }
             s = d * sh;
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(bw2 - Mp, M, e - s.mem) = *e;                                    }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { synthesis(bw2 - Mp, M, e - s.mem) = *e;                                    }
             
             // alter signs
             if ((M - Mp) & 1)
@@ -281,12 +281,12 @@ void IDSOFT(const DSOFTFourierCoefficients& fc, grid3D< complex< double > >& syn
             // case f_{-Mp,M}
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), -Mp, M);    }
             s = d * sh;
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(M, bw2 - Mp, e - s.mem) = *e;                                    }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { synthesis(M, bw2 - Mp, e - s.mem) = *e;                                    }
             
             // case f_{-M,Mp}
             for (cx_it e = sh.mem + sh.size - 1; e >= sh.mem; --e) { access::rw(*e) = norm * fc(bandwidth - (sh.mem + sh.size - e), -M, Mp);    }
             s = d * sh;
-            for (cx_it e = s.mem; e < s.mem + bw2; ++e)            { synthesis(Mp, bw2 - M, e - s.mem) = *e;                                    }
+            for (cx_it e = s.mem + bw2 - 1; e >= s.mem; --e)       { synthesis(Mp, bw2 - M, e - s.mem) = *e;                                    }
         }
     }
     

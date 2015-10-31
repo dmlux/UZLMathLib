@@ -18,4 +18,4 @@ void obj2file(const DSOFTFourierCoefficients& coef, const std::string& fileName)
 
 UZLMATH_END
 
-#endif
+#endif /* fn_obj2file_soft_coeff.hpp */

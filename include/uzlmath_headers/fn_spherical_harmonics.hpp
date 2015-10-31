@@ -75,4 +75,4 @@ complex< number_type< T > > Ylm(const int& l, const int& m, const T& theta, cons
 
 UZLMATH_NAMESPACE_END
 
-#endif
+#endif /* fn_spherical_harmonics.hpp */

@@ -193,4 +193,4 @@ void_number_type< T > flipud(matrix< complex< T > >& mat)
 
 UZLMATH_END
 
-#endif
+#endif /* fn_flipud.hpp */

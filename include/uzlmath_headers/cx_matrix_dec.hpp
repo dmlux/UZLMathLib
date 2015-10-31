@@ -156,4 +156,4 @@ template<typename T> std::ostream& operator<<(std::ostream& o, const matrix< com
 
 UZLMATH_END
 
-#endif
+#endif /* cx_matrix_dec.hpp */

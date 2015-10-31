@@ -134,4 +134,4 @@ complex< T > cx_sqrt(const complex< T >& c)
 
 UZLMATH_END
 
-#endif
+#endif /* fn_cx_sqrt.hpp */

@@ -29,4 +29,4 @@ glue< T1, T2 > operator+(const base< T1 >& A, const base< T2 >& B)
 
 UZLMATH_END
 
-#endif
+#endif /* base_def.hpp */

@@ -308,4 +308,4 @@ void IDSOFT(const DSOFTFourierCoefficients& fc, grid3D< complex< double > >& syn
 
 UZLMATH_NAMESPACE_END
 
-#endif
+#endif /* fn_fourier_transforms.hpp */

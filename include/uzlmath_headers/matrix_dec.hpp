@@ -149,4 +149,4 @@ template< typename S > std::ostream& operator<<(std::ostream& o, const matrix< S
 
 UZLMATH_END
 
-#endif
+#endif /* matrix_dec.hpp */

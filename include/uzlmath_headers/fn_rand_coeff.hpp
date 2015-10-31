@@ -29,7 +29,7 @@ UZLMATH_BEGIN
  */
 template< typename pod_type, typename distribution >
 inline
-typename uniform_real_dist_only< distribution >::result rand(DSOFTFourierCoefficients& fc, const randctx< pod_type, distribution >& ctx)
+uniform_real_dist_type< distribution > rand(DSOFTFourierCoefficients& fc, const randctx< pod_type, distribution >& ctx)
 {
     // cast to correct underlying type
     uniform_real_distribution< pod_type > dist = ctx.get_ref();
@@ -93,4 +93,4 @@ typename uniform_real_dist_only< distribution >::result rand(DSOFTFourierCoeffic
 
 UZLMATH_END
 
-#endif
+#endif /* fn_rand_coeff.hpp */

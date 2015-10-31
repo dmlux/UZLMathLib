@@ -106,7 +106,8 @@ void_number_type< T > randi(vector< complex< T > >& vec, const int& min, const i
  * @ingroup         vector
  */
 template< typename T >
-typename void_real_only< T >::result rand(vector< T >& vec, const double& min, const double& max)
+inline
+void_real_type< T > rand(vector< T >& vec, const double& min, const double& max)
 {
     if (min > max)
     {
@@ -152,7 +153,8 @@ typename void_real_only< T >::result rand(vector< T >& vec, const double& min, c
  * @ingroup         vector
  */
 template< typename T >
-typename void_real_only< T >::result rand(vector< complex< T > >& vec, const double& min, const double& max)
+inline
+void_real_type< T > rand(vector< complex< T > >& vec, const double& min, const double& max)
 {
     if (min > max)
     {
@@ -184,4 +186,4 @@ typename void_real_only< T >::result rand(vector< complex< T > >& vec, const dou
 
 UZLMATH_END
 
-#endif
+#endif /* fn_rand_vector.hpp */

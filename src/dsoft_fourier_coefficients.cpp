@@ -29,7 +29,7 @@ DSOFTFourierCoefficients::DSOFTFourierCoefficients()
 /*!
  * @brief           Constructor for a DSOFTFourierCoefficients container
  * @details         Creating and allocating memory for Fourier coefficents
- *                  for a SOFT which is described in the paper "FFT's on
+ *                  for a DSOFT which is described in the paper "FFT's on
  *                  the rotation group". This container is memory manager
  *                  for \f$\hat{f}^l_{M,M'}\f$.
  *
@@ -125,7 +125,7 @@ std::ostream& operator<<(std::ostream& o, const DSOFTFourierCoefficients& fc)
     
     for (int i = 0; i < fc.bandwidth; ++i)
     {
-        o << "SOFTFourierCoefficients[M_{0,1,2,...,-2,-1} x M'_{0,1,2,...,-2,-1}] ~> [l = " << i << "]" << std::endl;
+        o << "DSOFTFourierCoefficients[M_{0,1,2,...,-2,-1} x M'_{0,1,2,...,-2,-1}] ~> [l = " << i << "]" << std::endl;
         o << fc.mem[i] << std::endl;
     }
     

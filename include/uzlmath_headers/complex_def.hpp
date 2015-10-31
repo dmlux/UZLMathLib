@@ -876,4 +876,4 @@ std::ostream& operator<<(std::ostream& o, const complex< T >& c)
 
 UZLMATH_END
 
-#endif
+#endif /* complex_def.hpp */

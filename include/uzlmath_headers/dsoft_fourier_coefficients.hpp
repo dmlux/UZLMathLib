@@ -14,20 +14,20 @@
 UZLMATH_BEGIN
 
 /*!
- * @brief       Collection of functions and classes for SOFT Fourier coefficients
+ * @brief       Collection of functions and classes for DSOFT Fourier coefficients
  *              container
- * @defgroup    DSOFTFourierCoefficients SOFT Fourier coefficients container
+ * @defgroup    DSOFTFourierCoefficients DSOFT Fourier coefficients container
  * @{
  */
 
 /*!
  * @brief       A datastructure to manage fourier coefficients that
- *              where produced by the SOFT algorithm described by
+ *              where produced by the DSOFT algorithm described by
  *              P. J. Kostelec and D. N. Rockmore in the paper
  *              'FFTs on the Rotation Group'
  * @details     This class provides a manager class that organizes
  *              and stores the fourier coefficients that where produced
- *              by the SOFT algorithm. The fourier coefficients are
+ *              by the DSOFT algorithm. The fourier coefficients are
  *              indexed over three parameter.
  *
  * @since       0.0.1
@@ -67,4 +67,4 @@ std::ostream& operator<<(std::ostream& o, const DSOFTFourierCoefficients& fc);
 
 UZLMATH_END
 
-#endif
+#endif /* dsoft_fourier_coefficients.hpp */

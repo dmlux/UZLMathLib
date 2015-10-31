@@ -82,4 +82,4 @@ matrix< double > inv(const matrix< T >& A)
 
 UZLMATH_END
 
-#endif
+#endif /* fn_inv.hpp */

@@ -45,4 +45,4 @@ public:
 
 UZLMATH_END
 
-#endif
+#endif /* stopwatch.hpp */

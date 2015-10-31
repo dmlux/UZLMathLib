@@ -52,4 +52,4 @@ public:
 
 UZLMATH_END
 
-#endif
+#endif /* factorial.hpp */

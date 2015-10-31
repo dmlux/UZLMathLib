@@ -1397,4 +1397,4 @@ std::ostream& operator<<(std::ostream& o, const vector< complex< S > >& v)
 
 UZLMATH_END
 
-#endif
+#endif /* cx_vector_def.hpp */

@@ -108,4 +108,4 @@ template< typename T >             std::ostream&   operator<<(std::ostream& o, c
 
 UZLMATH_END
 
-#endif
+#endif /* complex_dec.hpp */

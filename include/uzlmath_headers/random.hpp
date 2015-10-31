@@ -31,4 +31,4 @@ const derived& randctx< pod_type, derived >::get_ref() const
 
 UZLMATH_END
 
-#endif
+#endif /* random.hpp */

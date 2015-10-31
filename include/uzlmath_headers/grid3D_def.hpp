@@ -272,4 +272,4 @@ std::ostream& operator<<(std::ostream& o, const grid3D< S >& c)
 
 UZLMATH_END
 
-#endif
+#endif /* grid3D_def.hpp */

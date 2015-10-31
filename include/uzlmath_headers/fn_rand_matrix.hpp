@@ -233,4 +233,4 @@ void_real_type< T > rand(matrix< complex< T > >& mat, const double& min, const d
 
 UZLMATH_END
 
-#endif
+#endif /* fn_rand_matrix.hpp */

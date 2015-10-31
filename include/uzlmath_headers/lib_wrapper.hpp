@@ -51,4 +51,4 @@ extern "C"
 
 UZLMATH_END
 
-#endif
+#endif /* lib_wrapper.hpp */

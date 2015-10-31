@@ -27,4 +27,4 @@ const complex< double > wigner_D_l2normalized(const int& J, const int& M, const 
 
 UZLMATH_NAMESPACE_END
 
-#endif
+#endif /* fn_wigner.hpp */

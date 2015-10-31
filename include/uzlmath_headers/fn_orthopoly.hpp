@@ -188,7 +188,6 @@ number_type< T > assoc_legendre(const int& l, const int& m, const T& x)
     //
     T prev = x * (2.0 * pos_m + 1.0) * preprev;
     
-    
     // *** Return values ***
     //
     // if l == pos_m we already have calculated the value in preprev
@@ -226,4 +225,4 @@ number_type< T > assoc_legendre(const int& l, const int& m, const T& x)
 
 UZLMATH_NAMESPACE_END
 
-#endif
+#endif /* fn_orthopoly.hpp */

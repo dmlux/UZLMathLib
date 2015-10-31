@@ -140,4 +140,4 @@ template< typename S > std::ostream& operator<<(std::ostream& o, const vector< c
 
 UZLMATH_END
 
-#endif
+#endif /* cx_vector_dec.hpp */

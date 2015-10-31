@@ -1844,4 +1844,4 @@ std::ostream& operator<<(std::ostream& o, const matrix< S >& A)
 
 UZLMATH_END
 
-#endif
+#endif /* matrix_def.hpp */

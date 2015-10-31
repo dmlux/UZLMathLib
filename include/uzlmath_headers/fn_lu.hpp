@@ -273,4 +273,4 @@ void lu(const matrix< T >& A, matrix< double >& L , matrix< double >& U, matrix<
 
 UZLMATH_END
 
-#endif
+#endif /* fn_lu.hpp */
